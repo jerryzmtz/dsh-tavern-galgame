@@ -1,0 +1,179 @@
+// Private fork: syntax only; author payload semantics remain with their existing owner.
+const s={type:'string'},b={type:'boolean'},i={type:'integer'},num={type:'number'},n={type:'null'},j={},o={type:'object',additionalProperties:true};
+const a=items=>({type:'array',items}),e=(...values)=>({type:typeof values[0],enum:values}),u=(...oneOf)=>({oneOf});
+export const WORKBENCH_ACTIONS = {
+  assets_read: [
+    ["list", {"query?":s,"offset?":i,"limit?":i}],
+    ["item", {"packId":s,"kind":e("figures","backgrounds","music","sfx","ambience","skins","looks","cg","items","directions","performances","widgets","sprites","voices","bundles"),"id?":s,"offset?":i,"limit?":i}],
+    ["resolve", {"refs":a(o)}],
+    ["bindings", {"path?":s}],
+    ["dependencies|pack", {"packId":s}],
+    ["settings|catalogue", {}],
+    ["schema", {"kind":e("figures","backgrounds","music","sfx","ambience","skins","looks","cg","items","directions","performances","widgets","sprites","voices","bundles")}],
+  ],
+  assets_patch: [
+    ["create-pack", {"name":s,"description?":s,"expectedRevision":n}],
+    ["patch-pack", {"packId":s,"expectedRevision":s,"patch":o}],
+    ["remove-pack", {"packId":s,"expectedRevision":s}],
+    ["item", {"packId":s,"expectedRevision":s,"item":o}],
+    ["remove-item", {"packId":s,"expectedRevision":s,"kind":e("backgrounds","music","sfx","ambience","skins","looks","cg","items","directions","performances","widgets"),"id":s}],
+    ["create-figure", {"packId":s,"expectedRevision":s,"figure":o}],
+    ["patch-figure", {"packId":s,"expectedRevision":s,"figureId":s,"patch":o}],
+    ["remove-figure", {"packId":s,"expectedRevision":s,"figureId":s}],
+    ["copy", {"sourcePackId":s,"itemRefs":a(o),"target":o}],
+    ["bind", {"path?":s,"expectedRevision":s,"boundPackIds":a(s)}],
+    ["global-packs", {"expectedRevision":s,"globalEnabledPackIds":a(s)}],
+    ["catalogue-settings", {"expectedRevision":s,"sources":a(o),"preferredDownloadId?":s,"mirrorPrefix?":s}],
+    ["avatar-crop", {"packId":s,"expectedRevision":s,"figureId":s,"outfitKey":s,"scope":e("outfit","state"),"stateId?":s,"crop":u(o,n)}],
+    ["emotion-fallback", {"packId":s,"expectedRevision":s,"figureId":s,"outfitKey":s,"emotionId":s,"enabled":b}],
+    ["remove-emotion", {"packId":s,"expectedRevision":s,"figureId":s,"emotionId":s}],
+    ["layered-sprite", {"packId":s,"expectedRevision":s,"figureId":s,"outfitKey":s,"spriteKey":s,"manifest":o,"assets":o,"files?":a(o)}],
+    ["layered-part", {"packId":s,"expectedRevision":s,"figureId":s,"outfitKey":s,"rigId":s,"partId":s,"part":o,"media":o}],
+    ["remove-layered-part", {"packId":s,"expectedRevision":s,"figureId":s,"outfitKey":s,"rigId":s,"partId":s}],
+  ],
+  media_upload: [
+    ["blob", {"packId":s,"expectedRevision":s,"file":s,"purpose":e("music","sound","ambience","voice-reference")}],
+    ["image", {"packId":s,"expectedRevision":s,"file":s,"target":o}],
+    ["bundle", {"packId":s,"expectedRevision":s,"directory":s,"bundleKey":s,"kind":e("live2d","widget","skin","performance"),"entry":s}],
+    ["mod-file", {"modId":s,"expectedRevision":s,"layer":e("global","card"),"file":s}],
+    ["mod-media", {"modId":s,"packId":s,"file":s}],
+  ],
+  assets_transfer: [
+    ["inspect", {"kind":e("pack","card"),"file":s,"path?":s}],
+    ["inspect-url", {"kind":e("card"),"url":s,"path?":s}],
+    ["preview-card", {"inspectionId":s,"decisions":o}],
+    ["apply-pack", {"inspectionId":s,"expectedRevision":u(s,n),"decision":e("install","update","keep-both","noop","cancel"),"acceptScriptRisk?":b,"acceptVoiceFallback?":b}],
+    ["apply-card", {"inspectionId":s,"expectedRevision":u(s,n),"decisions":o,"cancel?":b,"acceptScriptRisk?":b,"acceptVoiceFallback?":b}],
+    ["export-pack", {"packs":a(o),"output":s}],
+    ["export-card", {"path?":s,"expectedRevision":s,"packIds":a(s),"output":s}],
+    ["refresh", {"sourceId":s}],
+    ["updates", {"packIds":a(s)}],
+    ["download", {"selection":o,"useMirrorPrefix?":b}],
+    ["download", {"url":s,"useMirrorPrefix?":b}],
+    ["status", {"jobId":s}],
+    ["control", {"jobId":s,"actionId":e("pause","resume","cancel")}],
+  ],
+  stage_read: [
+    ["card", {"path?":s}],
+    ["engine|judge|bubbles", {}],
+    ["director-preview", {"playRef":s,"turn":i,"section?":s,"offset?":i,"limit?":i}],
+    ["bubble-preview", {"config":o}],
+    ["schema", {"section":e("openings","engine","judge")}],
+  ],
+  stage_patch: [
+    ["card", {"path?":s,"expectedRevision":s,"patch":o}],
+    ["engine", {"expectedRevision":s,"patch":o}],
+    ["judge", {"expectedRevision":s,"patch":o}],
+    ["judge-test", {}],
+  ],
+  mods_read: [
+    ["list|sources", {}],
+    ["mod|packs|config", {"modId":s}],
+    ["resolve", {"modId":s,"key":s}],
+    ["formula", {"formula":s}],
+  ],
+  mods_patch: [
+    ["authorize", {"modId":s,"expectedRevision":s,"allowed":b}],
+    ["scope", {"modId":s,"expectedRevision":s,"scope":e("global","off")}],
+    ["pack-scope", {"modId":s,"expectedRevision":s,"packId":s,"scope":e("global","off")}],
+    ["settings", {"modId":s,"expectedRevision":s,"values":o}],
+    ["pack", {"modId":s,"expectedRevision":s,"pack":o}],
+    ["entry", {"ref":o,"entry":o,"expectedRevision":s}],
+    ["remove-pack", {"modId":s,"expectedRevision":s,"packId":s}],
+    ["config", {"modId":s,"expectedRevision":s,"key":s,"layer":e("global","card"),"value":o}],
+    ["clear-config", {"modId":s,"expectedRevision":s,"key":s,"layer":e("global","card")}],
+  ],
+  voice_read: [
+    ["services|provider-kinds|presets|choices|templates|engine-services", {}],
+    ["voices|models", {"serviceId":s,"offset?":i,"limit?":i}],
+    ["readings", {"id?":s,"offset?":i,"limit?":i}],
+    ["figure", {"packId":s,"figureId":s}],
+  ],
+  voice_patch: [
+    ["engine-services", {"expectedRevision":s,"voiceServices":o}],
+    ["save-service", {"id":s,"kind":s,"label":s,"config":o,"expectedRevision":u(s,n)}],
+    ["remove-service", {"id":s,"expectedRevision":s}],
+    ["remove-service", {"id":s,"expectedRevision":s,"force":{type:"boolean",const:true},"reason":s}],
+    ["test-service", {"id":s}],
+    ["save-preset", {"preset":o,"expectedRevision":u(s,n)}],
+    ["remove-preset", {"id":s,"expectedRevision":s}],
+    ["reading-create", {"name":s,"from?":s}],
+    ["reading-rename", {"id":s,"name":s}],
+    ["reading-remove|reading-active", {"id":s}],
+    ["reading-edit", {"id":s,"expectedRevision":i,"op":e("add"),"entry":o}],
+    ["reading-edit", {"id":s,"expectedRevision":i,"op":e("set"),"index":i,"entry":o}],
+    ["reading-edit", {"id":s,"expectedRevision":i,"op":e("remove"),"index":i}],
+    ["assign-figure", {"packId":s,"expectedRevision":s,"figureId":s,"choice":o}],
+    ["binding", {"packId":s,"expectedRevision":s,"figureId":s,"binding":u(o,n)}],
+    ["pack-voice", {"packId":s,"expectedRevision":s,"voiceId":s,"voiceSpec":o,"figureId?":s}],
+    ["save-template", {"templateId":s,"expectedRevision":u(s,n),"packId":s,"packRevision":s,"voiceId":s,"binding":o}],
+    ["assign-template", {"templateId":s,"templateRevision":s,"packId":s,"expectedRevision":s,"figureId":s}],
+    ["remove-template", {"templateId":s,"expectedRevision":s}],
+  ],
+  script_manage: [
+    ["info", {"path?":s}],
+    ["import", {"file":s,"title?":s}],
+    ["bind", {"path":s}],
+    ["unbind|helpers", {}],
+    ["mute", {"id":s,"muted":b}],
+    ["browse", {"playRef":s,"position":i}],
+    ["chunk-size", {"playRef":s,"chunkSize":i,"revision":j,"cardPath":s,"scriptVersion":s}],
+    ["point", {"playRef":s,"position":i,"revision":j,"cardPath":s,"scriptVersion":s}],
+  ],
+  asset_generation: [
+    ["prepare", {"target":o,"expectedRevision":s,"userPrompt?":s,"references?":a(o),"quality?":e("low","medium","high","auto"),"count?":i,"redrawOf?":s,"note?":s,"useCandidateReference?":b}],
+    ["generate", {"planId":s,"consentToken":s,"confirmNewRequestIds?":a(s)}],
+    ["status|cancel|reject|retry-save", {"jobId":s}],
+    ["read", {"jobId":s,"emotionId?":s}],
+    ["list", {"packId":s}],
+  ],
+}
+export const WORKBENCH_SKILLS = {
+  "tavern-features": [],
+  "asset-library": [
+    "tavern_assets_read",
+    "tavern_assets_patch",
+    "tavern_media_upload",
+    "tavern_assets_transfer"
+  ],
+  "figure-assets": [
+    "tavern_assets_read",
+    "tavern_assets_patch",
+    "tavern_media_upload"
+  ],
+  "stage-setup": [
+    "tavern_assets_read",
+    "tavern_stage_read",
+    "tavern_stage_patch"
+  ],
+  "stage-directing": [
+    "tavern_assets_read",
+    "tavern_assets_patch",
+    "tavern_stage_read",
+    "tavern_stage_patch"
+  ],
+  "stage-mods": [
+    "tavern_mods_read",
+    "tavern_mods_patch",
+    "tavern_media_upload"
+  ],
+  "figure-voice": [
+    "tavern_assets_read",
+    "tavern_voice_read",
+    "tavern_voice_patch",
+    "tavern_media_upload"
+  ],
+  "script-play": [
+    "tavern_script_manage",
+    "tavern_read_script"
+  ],
+  "card-sharing": [
+    "tavern_assets_read",
+    "tavern_assets_transfer"
+  ],
+  "asset-generation": [
+    "tavern_assets_read",
+    "tavern_asset_generation"
+  ]
+}
+export const WORKBENCH_TOOL_NAMES=Object.keys(WORKBENCH_ACTIONS).map(name=>"tavern_"+name)

@@ -1,0 +1,22 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:dsh-assets:review-data:1",
+  "$comment":"private fork: review data v1. Coordinates are integer native-source pixels, not CSS pixels.",
+  "type":"object", "required":["schema_version","project","characters","scenes"],
+  "properties":{
+    "schema_version":{"const":1},
+    "scope":{"enum":["sprite"]},
+    "project":{"type":"object","required":["id","name","revision"],"properties":{"id":{"type":"string"},"name":{"type":"string"},"revision":{"type":"integer","minimum":0}}},
+    "characters":{"type":"array","items":{"type":"object","required":["id","key","name","identity_settei","outfits"],"properties":{"id":{"type":"string"},"key":{"type":"string"},"name":{"type":"string"},"identity_settei":{"$ref":"#/$defs/item"},"outfits":{"type":"array","items":{"$ref":"#/$defs/outfit"}}}}},
+    "scenes":{"type":"array","items":{"$ref":"#/$defs/item"}}
+  },
+  "$defs":{
+    "size":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"integer","minimum":1}},
+    "rect":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"integer","minimum":0}},
+    "image":{"type":"object","required":["path","native_size"],"properties":{"path":{"type":"string","pattern":"^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"},"native_size":{"$ref":"#/$defs/size"}}},
+    "warning":{"type":"object","required":["code","severity","symbol","message"],"properties":{"code":{"type":"string"},"severity":{"const":"warning"},"symbol":{"const":"\u26a0"},"message":{"type":"string"}}},
+    "item":{"type":"object","required":["slot_id","kind","status","warnings","blocked","provenance"],"properties":{"slot_id":{"type":"string"},"kind":{"type":"string"},"status":{"enum":["missing","blocked","refused","changed","approved","retry-pending"]},"image":{"$ref":"#/$defs/image"},"preview_image":{"$ref":"#/$defs/image"},"blend":{"enum":["replace"]},"rect_xywh":{"$ref":"#/$defs/rect"},"base_native_size":{"$ref":"#/$defs/size"},"frame":{"type":"string"},"parent_version":{"type":"string"},"palette":{"type":"array","items":{"type":"object","required":["role","hex","zone"],"properties":{"role":{"type":"string"},"hex":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"zone":{"type":"string"}}}},"warnings":{"type":"array","items":{"$ref":"#/$defs/warning"}},"blocked":{"type":"array","items":{"type":"string"}},"provenance":{"type":"object"},"settei":{"type":"object"},"refusal":{"type":"object"}}},
+    "outfit":{"type":"object","required":["key","label","settei","states"],"properties":{"key":{"type":"string"},"label":{"type":"string"},"settei":{"$ref":"#/$defs/item"},"states":{"type":"array","items":{"$ref":"#/$defs/state"}}}},
+    "state":{"type":"object","required":["id","sprite","avatar","mouth"],"properties":{"id":{"type":"string"},"sprite":{"$ref":"#/$defs/item"},"avatar":{"$ref":"#/$defs/item"},"blink":{"$ref":"#/$defs/item"},"mouth":{"type":"object","required":["semantics","frames"],"properties":{"semantics":{"enum":["opening-level","vowels","none"]},"composite":{"const":"source-over-native-then-scale"},"frames":{"type":"array","items":{"$ref":"#/$defs/item"}}}}}}
+  }
+}

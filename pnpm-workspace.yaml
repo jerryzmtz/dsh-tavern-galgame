@@ -1,0 +1,21 @@
+packages:
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false
+# 分阶段安装会把 node_modules 随目录改名，pnpm 据旧绝对路径判定需重建；安装器无人应答，不能询问。
+confirmModulesPurge: false
+# Desktop 2.0.13 自带 pnpm 11.8.0。经 Electron 加载时，缺失的默认 .pnpmfile.mjs 会让安装失败。
+ignorePnpmfile: true
+allowBuilds:
+  node-pty: false
+  # Use the locked @img prebuilt binaries; no local libvips/source build.
+  sharp: false
+minimumReleaseAgeExclude:
+  - dsh-better-sidebar@0.19.1
+  - dsh-mnemon-source-runtime@0.5.9
+  - dsh-mnemon-strategy-default-three-tier@0.5.6
+  - dsh-mnemon@0.5.15
+patchedDependencies:
+  dsh-better-sidebar@0.19.1: patches/dsh-better-sidebar@0.19.1.patch
+  dsh-web-mobile@2.4.1: patches/dsh-web-mobile@2.4.1.patch

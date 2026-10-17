@@ -1,0 +1,294 @@
+{
+  "format": "dsh-mod",
+  "schemaVersion": 2,
+  "id": "dsh.phone",
+  "name": "手机",
+  "summary": "将原文手机对白呈现为手机消息并保留所选壁纸",
+  "relevance": "角色之间用手机收发消息、来电",
+  "version": "1.2.0",
+  "apiVersion": 1,
+  "dependencies": {
+    "hostApi": 1,
+    "capabilities": [
+      "stage.place",
+      "stage.state"
+    ]
+  },
+  "permissions": {
+    "stage": [
+      "place",
+      "state"
+    ],
+    "source": [
+      "dialogue",
+      "avatar",
+      "voice-replay"
+    ]
+  },
+  "commands": [
+    {
+      "id": "mark",
+      "op": "mod.dsh.phone.mark",
+      "dsl": {
+        "verb": "phone-mark",
+        "syntax": "phone-mark mark contact=<联系人> side=in|out form=text|voice"
+      },
+      "paramsStyle": "flat",
+      "params": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "联系人句柄；in 指发送方，out 指接收方。at 引用 line 或 narration；line 的 in 须匹配说话人，out 须不同。"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "in",
+              "out"
+            ],
+            "description": "in 收信，out 发信。"
+          },
+          "form": {
+            "type": "string",
+            "enum": [
+              "text",
+              "voice"
+            ],
+            "description": "text 纯文字；voice 语音气泡，按需播放角色配音，可展开原文。由导演按剧情选择。"
+          }
+        },
+        "required": [
+          "contact",
+          "side",
+          "form"
+        ],
+        "additionalProperties": false
+      },
+      "persistence": "marker",
+      "handler": "command",
+      "promptId": "phone-rule",
+      "placement": {
+        "section": "director.commands.presentation",
+        "order": 30
+      },
+      "caps": {
+        "perTurn": 40,
+        "bytes": 2048
+      },
+      "mode": "adds"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "phone-rule",
+      "target": "director",
+      "path": "prompts/phone.txt",
+      "placement": {
+        "section": "director.rules.presentation",
+        "order": 30
+      }
+    }
+  ],
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "clockText",
+        "type": "text",
+        "label": "状态栏文字",
+        "default": "09:41",
+        "maxLength": 16,
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "statusBar",
+        "type": "toggle",
+        "label": "显示状态栏",
+        "default": true,
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "battery",
+        "type": "slider",
+        "label": "装饰电量",
+        "default": 80,
+        "min": 5,
+        "max": 100,
+        "step": 5,
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "cutout",
+        "type": "segmented",
+        "label": "顶部样式",
+        "default": "island",
+        "choices": [
+          {
+            "value": "island",
+            "label": "灵动岛"
+          },
+          {
+            "value": "notch",
+            "label": "刘海"
+          },
+          {
+            "value": "none",
+            "label": "无开孔"
+          }
+        ],
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "accentColor",
+        "label": "强调色",
+        "stageToken": "--gal-ui-accent",
+        "type": "colour",
+        "default": "auto",
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "surfaceColor",
+        "label": "内容底色",
+        "stageToken": "--gal-ui-surface",
+        "type": "colour",
+        "default": "auto",
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "bodyColor",
+        "label": "机身颜色",
+        "stageToken": "--gal-ui-line",
+        "type": "colour",
+        "default": "auto",
+        "scope": "global",
+        "bindable": false
+      },
+      {
+        "key": "sound",
+        "type": "toggle",
+        "label": "来信提示音",
+        "default": true,
+        "scope": "global",
+        "bindable": false
+      }
+    ],
+    "sections": [
+      {
+        "id": "appearance",
+        "title": "外观",
+        "fields": [
+          "clockText",
+          "statusBar",
+          "battery",
+          "cutout",
+          "accentColor",
+          "surfaceColor",
+          "bodyColor",
+          "sound"
+        ]
+      }
+    ]
+  },
+  "packSchema": {
+    "fields": []
+  },
+  "assetKinds": [],
+  "uiPages": [],
+  "runtime": {
+    "entry": "runtime.js"
+  },
+  "defaultPacks": [],
+  "files": [
+    {
+      "path": "runtime.js",
+      "size": 825
+    },
+    {
+      "path": "logic.js",
+      "size": 1058
+    },
+    {
+      "path": "package.json",
+      "size": 18
+    },
+    {
+      "path": "prompts/phone.txt",
+      "size": 498
+    },
+    {
+      "path": "builtin/device.json",
+      "size": 144
+    },
+    {
+      "path": "view/index.html",
+      "size": 2753
+    },
+    {
+      "path": "view/battery.js",
+      "size": 538
+    },
+    {
+      "path": "view/index.js",
+      "size": 17175
+    },
+    {
+      "path": "view/style.css",
+      "size": 15896
+    },
+    {
+      "path": "view/assets/message.wav",
+      "size": 13274
+    },
+    {
+      "path": "view/assets/chime.wav",
+      "size": 27386
+    },
+    {
+      "path": "view/assets/pop.wav",
+      "size": 7100
+    }
+  ],
+  "license": {
+    "privateUse": false,
+    "notes": [
+      "First-party phone presentation code: AGPL-3.0; owner-created notification sounds: CC BY-NC-SA 4.0, see LICENSE-ASSETS.md"
+    ]
+  },
+  "compatibility": {
+    "compatible": [],
+    "incompatible": []
+  },
+  "admission": {
+    "entryKinds": []
+  },
+  "builtinAssets": [
+    {
+      "id": "device",
+      "path": "builtin/device.json",
+      "type": "bundle"
+    },
+    {
+      "id": "message",
+      "path": "view/assets/message.wav",
+      "type": "audio"
+    },
+    {
+      "id": "chime",
+      "path": "view/assets/chime.wav",
+      "type": "audio"
+    },
+    {
+      "id": "pop",
+      "path": "view/assets/pop.wav",
+      "type": "audio"
+    }
+  ]
+}

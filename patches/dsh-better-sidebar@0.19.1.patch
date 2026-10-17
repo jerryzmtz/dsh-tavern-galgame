@@ -1,0 +1,36 @@
+diff --git a/lib/index.js b/lib/index.js
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -3985,7 +3985,7 @@
+ 		return {
+ 			header: handle.header,
+ 			events,
+-			inheritedEventCount: handle.inheritedEventCount ?? 0
++			inheritedEventCount: handle.inheritedEventCount ?? handle.header?.seedLength ?? 0
+ 		};
+ 	} finally {
+ 		await handle.close();
+@@ -4112,13 +4112,21 @@
+ * (`ctx.connection.api`) was removed in 0.1.2-alpha.1's Remote-gateway
+ * migration.
+ */
++// DSH 0.1.5 may append end-seed markers again on resume. Only the
++// creation boundary separates inherited context from this thread's history.
++function threadBoundaryEvents(events, inheritedEventCount) {
++	if (!Number.isSafeInteger(inheritedEventCount) || inheritedEventCount < 0
++		|| !events.some(event => event.type === "session/end-seed" && event.seq === inheritedEventCount)) return events;
++	return events.filter(event => event.type !== "session/end-seed" || event.seq === inheritedEventCount);
++}
+ async function threadLogEvents(ctx, childId) {
+ 	const agent = liveThreadAgent(ctx, childId);
+-	if (agent !== void 0) return agent.session.snapshotEvents();
++	if (agent !== void 0) return threadBoundaryEvents(agent.session.snapshotEvents(), agent.session.inheritedEventCount ?? agent.session.header?.seedLength);
+ 	const persistence = ctx.get("sessionPersistence");
+ 	if (persistence === void 0) throw new SidebarError("sidechat-error", "the session persistence service is unavailable", 503);
+ 	try {
+-		return (await readPersistedSession(persistence, childId)).events;
++		const inspected = await readPersistedSession(persistence, childId);
++		return threadBoundaryEvents(inspected.events, inspected.inheritedEventCount);
+ 	} catch (error) {
+ 		throw new SidebarError("not-found", `thread "${childId}" is not available: ${error instanceof Error ? error.message : String(error)}`, 404);
+ 	}

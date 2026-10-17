@@ -1,0 +1,906 @@
+{
+  "assets": [
+    {
+      "author": "RandomMind",
+      "category": "环境/自然/河岸波浪",
+      "directorNote": "维斯瓦河实录的河面波浪与岸边拍水。虽然源页面标题提到海，这段实际录于河流，只用于河岸、水边场景，不标作海滨录音。",
+      "durationMs": 30000,
+      "enabled": true,
+      "id": "amb-river-waves",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "43a9f5b4268a345d986e10e4e85a4d1042ed2bd73ca46f05bbff4bc8b88e4b94",
+      "name": "河岸拍水",
+      "recall": {
+        "keywords": [
+          "河岸",
+          "河面波浪",
+          "拍水",
+          "河边",
+          "水波"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "河岸": [
+            "河畔",
+            "河边"
+          ]
+        }
+      },
+      "tags": [
+        "河岸",
+        "河面波浪",
+        "拍水"
+      ]
+    },
+    {
+      "author": "KayleRustone",
+      "category": "环境/交通/列车车厢",
+      "directorNote": "Slow rhythmic rail-joint clatter from a trackside loop, gently filtered for an inside-carriage perspective; not a literal interior or specifically Japanese recording.",
+      "durationMs": 17621,
+      "enabled": true,
+      "id": "amb-train-clatter",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "6f81f7c368c191b914f43be46d7fb786bb1a6cd7f6f608d227ffb3bc3059e396",
+      "name": "电车哐当声",
+      "recall": {
+        "keywords": [
+          "电车",
+          "列车",
+          "火车",
+          "哐当",
+          "咣当",
+          "轨道",
+          "车厢摇晃",
+          "坐电车",
+          "ガタンゴトン"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "ガタンゴトン": [
+            "ガタンガタン"
+          ],
+          "咣当": [
+            "咣当咣当"
+          ],
+          "哐当": [
+            "哐当哐当",
+            "咔哒咔哒"
+          ],
+          "坐电车": [
+            "乘电车",
+            "乘坐列车"
+          ],
+          "轨道": [
+            "铁轨",
+            "钢轨接缝"
+          ]
+        }
+      },
+      "tags": [
+        "电车",
+        "列车",
+        "轨道",
+        "哐当"
+      ]
+    },
+    {
+      "author": "kurt",
+      "category": "环境/自然/溪流",
+      "directorNote": "作者露营途中录制的溪流水声，用于野外溪边、山涧或近水场景。保留原录音的水流变化，不添加音乐或合成人声。",
+      "durationMs": 28000,
+      "enabled": true,
+      "id": "amb-stream-flow",
+      "kind": "ambience",
+      "license": "CC-BY-3.0",
+      "loop": true,
+      "media": "9096ccf5f012e1e4ac29f38f503bd65fbc6b14b02a9f395e8c218309a78d7d8a",
+      "name": "野外溪水",
+      "recall": {
+        "keywords": [
+          "溪水",
+          "山涧",
+          "野外流水",
+          "溪流",
+          "潺潺流水"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "溪水": [
+            "溪流声",
+            "小溪水声"
+          ]
+        }
+      },
+      "tags": [
+        "溪水",
+        "山涧",
+        "野外流水"
+      ]
+    },
+    {
+      "author": "bart",
+      "category": "身体/心跳/连续",
+      "directorNote": "A sustained tense moment with repeated anxious heartbeats.",
+      "durationMs": 3600,
+      "enabled": true,
+      "id": "heartbeat-loop",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "4bbf3a4400b4067aa1b40f292f31fdb45db80e768ec08d460167db3db182af99",
+      "name": "连续心跳",
+      "recall": {
+        "keywords": [
+          "心跳",
+          "心跳声",
+          "心搏",
+          "怦怦"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "心跳": [
+            "心搏"
+          ],
+          "心跳声": [
+            "心音"
+          ],
+          "怦怦": [
+            "扑通"
+          ]
+        }
+      },
+      "tags": [
+        "心跳",
+        "紧张",
+        "心动",
+        "循环"
+      ]
+    },
+    {
+      "author": "Ylmir",
+      "category": "自然/天气/雨",
+      "directorNote": "Steady rain under an outdoor or rain-facing scene; continuous ambience.",
+      "durationMs": 20000,
+      "enabled": true,
+      "id": "amb-rain",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "28f52e9c1fdcce71fef1099b4414743f18760f3baf9842cc755aa0fe78f83783",
+      "name": "雨声",
+      "recall": {
+        "keywords": [
+          "下雨",
+          "雨滴",
+          "细雨",
+          "淅沥"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "下雨": [
+            "落雨"
+          ],
+          "细雨": [
+            "小雨"
+          ],
+          "雨滴": [
+            "雨点"
+          ]
+        }
+      },
+      "tags": [
+        "雨",
+        "下雨",
+        "雨天",
+        "环境",
+        "rain",
+        "open"
+      ]
+    },
+    {
+      "author": "Kresiek The Furry",
+      "category": "自然/天气/雨",
+      "directorNote": "Heavy downpour for a stormy, exposed, or rain-soaked setting; continuous ambience.",
+      "durationMs": 20000,
+      "enabled": true,
+      "id": "amb-heavy-rain",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "3acfd894723af1fd038fddd7de18048f4df295f750ce0f667445e6be9f680276",
+      "name": "大雨",
+      "recall": {
+        "keywords": [
+          "暴雨",
+          "骤雨",
+          "雨幕"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "雨幕": [
+            "雨帘"
+          ]
+        }
+      },
+      "tags": [
+        "大雨",
+        "暴雨",
+        "雨天",
+        "环境",
+        "rain",
+        "storm",
+        "open"
+      ]
+    },
+    {
+      "author": "Wolfgang_",
+      "category": "自然/动物/虫鸣",
+      "directorNote": "Night insects in a quiet park, garden, or countryside; continuous ambience.",
+      "durationMs": 20000,
+      "enabled": true,
+      "id": "amb-night-crickets",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "459d93ac669653f35c71eaf1ced877bbbf80f3fc835fe4f59b40aa8057e5a1cc",
+      "name": "夜间虫鸣",
+      "recall": {
+        "keywords": [
+          "虫鸣",
+          "蟋蟀",
+          "蟋蟀声",
+          "虫叫"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "虫叫": [
+            "虫叫声"
+          ],
+          "虫鸣": [
+            "虫声"
+          ],
+          "蟋蟀": [
+            "蛐蛐"
+          ],
+          "蟋蟀声": [
+            "蛐蛐声"
+          ]
+        }
+      },
+      "tags": [
+        "夜晚",
+        "蟋蟀",
+        "虫鸣",
+        "环境"
+      ]
+    },
+    {
+      "author": "Kresiek The Furry",
+      "category": "自然/动物/鸟鸣",
+      "directorNote": "Birdsong for a calm early morning outdoors; continuous ambience.",
+      "durationMs": 20000,
+      "enabled": true,
+      "id": "amb-morning-birds",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "bd9b2c09755893b1b45571454fd9d4480ee88f28283275004c8ec1d8410409c3",
+      "name": "清晨鸟鸣",
+      "recall": {
+        "keywords": [
+          "鸟鸣",
+          "鸟声",
+          "啾啾",
+          "麻雀"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "啾啾": [
+            "啾啾声"
+          ],
+          "鸟声": [
+            "鸟叫声"
+          ],
+          "鸟鸣": [
+            "鸟叫",
+            "鸟啼"
+          ],
+          "麻雀": [
+            "雀鸟"
+          ]
+        }
+      },
+      "tags": [
+        "清晨",
+        "鸟鸣",
+        "早晨",
+        "环境"
+      ]
+    },
+    {
+      "author": "IgnasD",
+      "category": "城镇/环境/街道",
+      "directorNote": "Distant traffic and street activity in an urban setting; continuous ambience.",
+      "durationMs": 20000,
+      "enabled": true,
+      "id": "amb-city-street",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "c8376385620ce45ed4ed1f10f7c9d7dc37b0e4034dc1ce7c9a1a2982cf908658",
+      "name": "城市街道",
+      "recall": {
+        "keywords": [
+          "车流声",
+          "车声",
+          "街头喧闹",
+          "人声嘈杂",
+          "汽车轰鸣"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "人声嘈杂": [
+            "喧闹声"
+          ],
+          "车声": [
+            "车流声"
+          ]
+        }
+      },
+      "tags": [
+        "城市",
+        "街道",
+        "车流",
+        "环境"
+      ]
+    },
+    {
+      "author": "Ylmir",
+      "category": "环境/室内/隔窗雨声",
+      "directorNote": "真实雨声经低通处理，设计为室内隔窗听雨的较闷视角；并非在窗内实录，也不含敲击玻璃的独立雨滴声。适合雨天室内对话底噪。",
+      "durationMs": 24000,
+      "enabled": true,
+      "id": "amb-rain-window",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "00ae1b2de47a08e2e8a7220587f94a179b90a5396fd29eb437f516b73d2438dc",
+      "name": "室内隔窗雨声（设计视角）",
+      "recall": {
+        "keywords": [
+          "窗外雨声",
+          "室内听雨",
+          "隔窗雨声",
+          "雨天房间",
+          "闷雨声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "隔窗雨声": [
+            "隔着窗听雨",
+            "窗边听雨"
+          ]
+        }
+      },
+      "tags": [
+        "窗外雨声",
+        "室内听雨",
+        "隔窗雨声",
+        "rain",
+        "storm",
+        "sheltered"
+      ]
+    },
+    {
+      "author": "Thimras",
+      "category": "环境/自然/公园鸟鸣",
+      "directorNote": "澳大利亚阿德莱德公园树丛附近的雨前鸟鸣实录，保留公共公园的环境感；适合公园和林边，不冒充远离城市的深林录音。",
+      "durationMs": 30000,
+      "enabled": true,
+      "id": "amb-park-birds",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "0207c471b478f547cd8807897e7e8c64118d312e9765bc7d394cd24a99680919",
+      "name": "公园林边鸟鸣",
+      "recall": {
+        "keywords": [
+          "公园",
+          "林边",
+          "树丛鸟鸣",
+          "雨前鸟鸣",
+          "户外休息"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "林边": [
+            "树林边",
+            "树丛旁"
+          ]
+        }
+      },
+      "tags": [
+        "公园",
+        "林边",
+        "树丛鸟鸣"
+      ]
+    },
+    {
+      "author": "Thimras",
+      "category": "环境/自然/公园溪流",
+      "directorNote": "阿德莱德公园小河越过低台阶的真实水声，源录音伴有鸟蛙等野生动物声。用于溪边散步或水边交谈，不是海浪。",
+      "durationMs": 30000,
+      "enabled": true,
+      "id": "amb-park-stream",
+      "kind": "ambience",
+      "license": "CC0-1.0",
+      "loop": true,
+      "media": "86ac7afa87ae6882e8ac58ea78a5461f03826c6469dd749d6de9b29d9358454f",
+      "name": "公园溪流与鸟鸣",
+      "recall": {
+        "keywords": [
+          "公园溪流",
+          "浅水跌落",
+          "溪边",
+          "流水鸟鸣",
+          "小河"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "公园溪流": [
+            "公园小河",
+            "园中流水"
+          ]
+        }
+      },
+      "tags": [
+        "公园溪流",
+        "浅水跌落",
+        "溪边"
+      ]
+    },
+    {
+      "author": "kurt",
+      "category": "环境/自然/瀑布",
+      "directorNote": "同一露营实录声包中的持续瀑布声，适合瀑布附近或较强落水场景。水声较密集，不应替代安静房间或细雨背景。",
+      "durationMs": 30000,
+      "enabled": true,
+      "id": "amb-waterfall",
+      "kind": "ambience",
+      "license": "CC-BY-3.0",
+      "loop": true,
+      "media": "961a04b18d07df22893ee15906692b6cdc856b5b14acf283ee69527dca2b2824",
+      "name": "瀑布水声",
+      "recall": {
+        "keywords": [
+          "瀑布",
+          "水瀑",
+          "落水轰鸣",
+          "瀑布附近",
+          "野外水声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "瀑布": [
+            "水瀑",
+            "飞瀑"
+          ]
+        }
+      },
+      "tags": [
+        "瀑布",
+        "水瀑",
+        "落水轰鸣"
+      ]
+    },
+    {
+      "id": "amb-wind",
+      "kind": "ambience",
+      "name": "公园风声",
+      "enabled": true,
+      "media": "de381340835b15e5f333906490a03d08486c5d697d486d6fe321efb11c43e2c0",
+      "author": "Thimras",
+      "license": "CC0-1.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "风声",
+          "强风",
+          "公园",
+          "大风"
+        ]
+      },
+      "directorNote": "公园里的完整风声实录；用于户外风起，不冒充纯净高山风。",
+      "description": "park_ambience_wind.wav | https://opengameart.org/content/park-ambiences | https://creativecommons.org/publicdomain/zero/1.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-42.99:measured_TP=-11.78:measured_LRA=11.90:measured_thresh=-52.99:offset=2.83:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 256803
+    },
+    {
+      "id": "amb-classroom",
+      "kind": "ambience",
+      "name": "教室课间交谈",
+      "enabled": true,
+      "media": "53a1f71ac90e468f496bba4abedb518b805cb4b81cfaba21cae2d96eacdb1fe4",
+      "author": "rcrossley",
+      "license": "Public domain (PD-author)",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "教室",
+          "课间",
+          "同学",
+          "课堂"
+        ]
+      },
+      "directorNote": "高中电脑教室的完整环境录音，很少有清晰词句；用于课间和教室活动，不用于安静考试。",
+      "description": "Ambient classroom mono.ogg | https://commons.wikimedia.org/wiki/File:Ambient_classroom_mono.ogg | https://commons.wikimedia.org/wiki/File:Ambient_classroom_mono.ogg | Full recording; no trim, repeat or pitch change. Static gain and latency-compensated look-ahead limiter for rare high peaks. ffmpeg -map_metadata -1 -af volume=8.010000dB,aresample=192000,alimiter=limit=0.707946:attack=5:release=50:level=false:latency=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 65463
+    },
+    {
+      "id": "amb-cafe",
+      "kind": "ambience",
+      "name": "咖啡馆交谈与奶泡机",
+      "enabled": true,
+      "media": "e7e4d5fb45603b28547c17e35238fec0dbf1430eae2bc1c4eae72d50f53bd3d1",
+      "author": "Marble Toast",
+      "license": "CC0-1.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "咖啡馆",
+          "咖啡厅",
+          "奶泡机",
+          "咖啡店"
+        ]
+      },
+      "directorNote": "咖啡馆内轻柔交谈的完整录音；低音量铺底，不把人声当作角色台词。",
+      "description": "Cafe ambiance.ogg | https://commons.wikimedia.org/wiki/File:Cafe_ambiance.ogg | https://creativecommons.org/publicdomain/zero/1.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-16.65:measured_TP=0.07:measured_LRA=2.50:measured_thresh=-26.65:offset=-0.28:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 1200001
+    },
+    {
+      "id": "amb-deep-forest",
+      "kind": "ambience",
+      "name": "夏日森林底声",
+      "enabled": true,
+      "media": "d0231be1b8819cb894490fa96c6f7e6f9f443bf741e32b9f0608445d62aa3306",
+      "author": "Gravity Sound",
+      "license": "CC-BY-4.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "森林",
+          "树林",
+          "林间",
+          "深林"
+        ]
+      },
+      "directorNote": "Gravity Sound 的完整森林环境音录音；用于树林深处，不暗示某个具体国家或季节。",
+      "description": "Forest ambience (Gravity Sound).wav | https://commons.wikimedia.org/wiki/File:Forest_ambience_(Gravity_Sound).wav | https://creativecommons.org/licenses/by/4.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-31.48:measured_TP=-22.34:measured_LRA=0.40:measured_thresh=-41.48:offset=-0.07:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 33000
+    },
+    {
+      "id": "amb-sea",
+      "kind": "ambience",
+      "name": "海边浪声",
+      "enabled": true,
+      "media": "3905865d14bc7e33360467b09cf8cef473d2f91e7607c559105e60374d0961ec",
+      "author": "J.D. Savanyu (uploaded by Jarrod stanley)",
+      "license": "CC0-1.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "海浪",
+          "海边",
+          "海岸",
+          "沙滩"
+        ]
+      },
+      "directorNote": "热带海滩潮汐溪流附近的完整海浪录音；用于海边休憩，不与内陆河岸混淆。",
+      "description": "Ocean Waves on a Tropical Beach.ogg | https://commons.wikimedia.org/wiki/File:Ocean_Waves_on_a_Tropical_Beach.ogg | https://creativecommons.org/publicdomain/zero/1.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-11.19:measured_TP=0.16:measured_LRA=3.20:measured_thresh=-21.19:offset=0.05:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 384268
+    },
+    {
+      "id": "amb-crowd",
+      "kind": "ambience",
+      "name": "商场稀疏人群",
+      "enabled": true,
+      "media": "78c0b613c70e102c87262476808a93d8e839a34f4b696693184417b3b83d88c1",
+      "author": "natalie",
+      "license": "Public domain (PD-author)",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "人群",
+          "低语",
+          "观众",
+          "窃窃私语"
+        ]
+      },
+      "directorNote": "较少人流的商场实录；用于室内公共空间低密度人群，不能替代拥挤集会欢呼。",
+      "description": "Shopping mall less crowded.ogg | https://commons.wikimedia.org/wiki/File:Shopping_mall_less_crowded.ogg | https://commons.wikimedia.org/wiki/File:Shopping_mall_less_crowded.ogg | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-31.71:measured_TP=-0.32:measured_LRA=6.10:measured_thresh=-41.71:offset=1.34:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 30119
+    },
+    {
+      "id": "amb-room-tone",
+      "kind": "ambience",
+      "name": "室内冰柜底噪",
+      "enabled": true,
+      "media": "c3c813cab92b3711001a1082fa7ce3d8f585d74bbf8cb2460ec2c5d16775cd51",
+      "author": "LEGIT Audio",
+      "license": "CC0-1.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "室内",
+          "空房间",
+          "底噪",
+          "安静房间"
+        ]
+      },
+      "directorNote": "便利店饮料冰柜的真实持续底噪；用于带制冷设备的室内房间，不用于无电器的卧室。",
+      "description": "TheShopCollection_convenience_store_drinks_fridge_drone_2.wav | https://opengameart.org/content/the-shop | https://creativecommons.org/publicdomain/zero/1.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -vn -sn -dn -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-15.76:measured_TP=-0.00:measured_LRA=0.80:measured_thresh=-25.76:offset=-0.02:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": true,
+      "durationMs": 13542
+    }
+  ],
+  "blobs": {
+    "00ae1b2de47a08e2e8a7220587f94a179b90a5396fd29eb437f516b73d2438dc": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 324389
+    },
+    "0207c471b478f547cd8807897e7e8c64118d312e9765bc7d394cd24a99680919": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 446587
+    },
+    "28f52e9c1fdcce71fef1099b4414743f18760f3baf9842cc755aa0fe78f83783": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 297856
+    },
+    "3acfd894723af1fd038fddd7de18048f4df295f750ce0f667445e6be9f680276": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 263850
+    },
+    "43a9f5b4268a345d986e10e4e85a4d1042ed2bd73ca46f05bbff4bc8b88e4b94": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 397450
+    },
+    "459d93ac669653f35c71eaf1ced877bbbf80f3fc835fe4f59b40aa8057e5a1cc": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 367274
+    },
+    "4bbf3a4400b4067aa1b40f292f31fdb45db80e768ec08d460167db3db182af99": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 16717
+    },
+    "6f81f7c368c191b914f43be46d7fb786bb1a6cd7f6f608d227ffb3bc3059e396": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 239298
+    },
+    "86ac7afa87ae6882e8ac58ea78a5461f03826c6469dd749d6de9b29d9358454f": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 417193
+    },
+    "9096ccf5f012e1e4ac29f38f503bd65fbc6b14b02a9f395e8c218309a78d7d8a": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 406377
+    },
+    "961a04b18d07df22893ee15906692b6cdc856b5b14acf283ee69527dca2b2824": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 441762
+    },
+    "bd9b2c09755893b1b45571454fd9d4480ee88f28283275004c8ec1d8410409c3": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 289573
+    },
+    "c8376385620ce45ed4ed1f10f7c9d7dc37b0e4034dc1ce7c9a1a2982cf908658": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 201000
+    },
+    "de381340835b15e5f333906490a03d08486c5d697d486d6fe321efb11c43e2c0": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 4778975
+    },
+    "53a1f71ac90e468f496bba4abedb518b805cb4b81cfaba21cae2d96eacdb1fe4": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 645178
+    },
+    "e7e4d5fb45603b28547c17e35238fec0dbf1430eae2bc1c4eae72d50f53bd3d1": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 18799604
+    },
+    "d0231be1b8819cb894490fa96c6f7e6f9f443bf741e32b9f0608445d62aa3306": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 411291
+    },
+    "3905865d14bc7e33360467b09cf8cef473d2f91e7607c559105e60374d0961ec": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 6006266
+    },
+    "78c0b613c70e102c87262476808a93d8e839a34f4b696693184417b3b83d88c1": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 511307
+    },
+    "c3c813cab92b3711001a1082fa7ce3d8f585d74bbf8cb2460ec2c5d16775cd51": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 236364
+    }
+  },
+  "bundles": {},
+  "contentHash": "7f6ce0a4e10afbe31fc9e83207b832bdda260eab4c199d071079749881ef0289",
+  "credits": [
+    "credits/CREDITS.md",
+    "credits/CC-BY-3.0.txt",
+    "credits/AMBIENCE-CREDITS.md",
+    "credits/ADDITIONS.md",
+    "credits/CC0-1.0.txt",
+    "credits/CC-BY-4.0.txt"
+  ],
+  "description": "独立通用一次音效。逐项混合许可与来源见 credits/CREDITS.md。",
+  "figures": [],
+  "files": [
+    {
+      "path": "credits/ADDITIONS.md",
+      "size": 5534,
+      "sha256": "332b1ead480284583f2d0af92f09cba32a202a83ff78fc10f1ce23053f661935"
+    },
+    {
+      "path": "credits/AMBIENCE-CREDITS.md",
+      "size": 4381,
+      "sha256": "225edbd2adc64d516d31a098870e61b9c6e2c6647a631486537184dd121ff0c4"
+    },
+    {
+      "path": "credits/CC-BY-3.0.txt",
+      "size": 483,
+      "sha256": "a3a3868ec7d2ce2dd75a817d0ebfc4739f304360028dab2f33e238bce8af9499"
+    },
+    {
+      "path": "credits/CC-BY-4.0.txt",
+      "size": 18657,
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411"
+    },
+    {
+      "path": "credits/CC0-1.0.txt",
+      "size": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "credits/CREDITS.md",
+      "size": 10514,
+      "sha256": "c63a004b84018cb171ae92a85099f4288fb41663e8775f9a70d500b35e9f65aa"
+    },
+    {
+      "path": "media/00ae1b2de47a08e2e8a7220587f94a179b90a5396fd29eb437f516b73d2438dc.ogg",
+      "size": 324389,
+      "sha256": "00ae1b2de47a08e2e8a7220587f94a179b90a5396fd29eb437f516b73d2438dc"
+    },
+    {
+      "path": "media/0207c471b478f547cd8807897e7e8c64118d312e9765bc7d394cd24a99680919.ogg",
+      "size": 446587,
+      "sha256": "0207c471b478f547cd8807897e7e8c64118d312e9765bc7d394cd24a99680919"
+    },
+    {
+      "path": "media/28f52e9c1fdcce71fef1099b4414743f18760f3baf9842cc755aa0fe78f83783.ogg",
+      "size": 297856,
+      "sha256": "28f52e9c1fdcce71fef1099b4414743f18760f3baf9842cc755aa0fe78f83783"
+    },
+    {
+      "path": "media/3905865d14bc7e33360467b09cf8cef473d2f91e7607c559105e60374d0961ec.ogg",
+      "size": 6006266,
+      "sha256": "3905865d14bc7e33360467b09cf8cef473d2f91e7607c559105e60374d0961ec"
+    },
+    {
+      "path": "media/3acfd894723af1fd038fddd7de18048f4df295f750ce0f667445e6be9f680276.ogg",
+      "size": 263850,
+      "sha256": "3acfd894723af1fd038fddd7de18048f4df295f750ce0f667445e6be9f680276"
+    },
+    {
+      "path": "media/43a9f5b4268a345d986e10e4e85a4d1042ed2bd73ca46f05bbff4bc8b88e4b94.ogg",
+      "size": 397450,
+      "sha256": "43a9f5b4268a345d986e10e4e85a4d1042ed2bd73ca46f05bbff4bc8b88e4b94"
+    },
+    {
+      "path": "media/459d93ac669653f35c71eaf1ced877bbbf80f3fc835fe4f59b40aa8057e5a1cc.ogg",
+      "size": 367274,
+      "sha256": "459d93ac669653f35c71eaf1ced877bbbf80f3fc835fe4f59b40aa8057e5a1cc"
+    },
+    {
+      "path": "media/4bbf3a4400b4067aa1b40f292f31fdb45db80e768ec08d460167db3db182af99.ogg",
+      "size": 16717,
+      "sha256": "4bbf3a4400b4067aa1b40f292f31fdb45db80e768ec08d460167db3db182af99"
+    },
+    {
+      "path": "media/53a1f71ac90e468f496bba4abedb518b805cb4b81cfaba21cae2d96eacdb1fe4.ogg",
+      "size": 645178,
+      "sha256": "53a1f71ac90e468f496bba4abedb518b805cb4b81cfaba21cae2d96eacdb1fe4"
+    },
+    {
+      "path": "media/6f81f7c368c191b914f43be46d7fb786bb1a6cd7f6f608d227ffb3bc3059e396.ogg",
+      "size": 239298,
+      "sha256": "6f81f7c368c191b914f43be46d7fb786bb1a6cd7f6f608d227ffb3bc3059e396"
+    },
+    {
+      "path": "media/78c0b613c70e102c87262476808a93d8e839a34f4b696693184417b3b83d88c1.ogg",
+      "size": 511307,
+      "sha256": "78c0b613c70e102c87262476808a93d8e839a34f4b696693184417b3b83d88c1"
+    },
+    {
+      "path": "media/86ac7afa87ae6882e8ac58ea78a5461f03826c6469dd749d6de9b29d9358454f.ogg",
+      "size": 417193,
+      "sha256": "86ac7afa87ae6882e8ac58ea78a5461f03826c6469dd749d6de9b29d9358454f"
+    },
+    {
+      "path": "media/9096ccf5f012e1e4ac29f38f503bd65fbc6b14b02a9f395e8c218309a78d7d8a.ogg",
+      "size": 406377,
+      "sha256": "9096ccf5f012e1e4ac29f38f503bd65fbc6b14b02a9f395e8c218309a78d7d8a"
+    },
+    {
+      "path": "media/961a04b18d07df22893ee15906692b6cdc856b5b14acf283ee69527dca2b2824.ogg",
+      "size": 441762,
+      "sha256": "961a04b18d07df22893ee15906692b6cdc856b5b14acf283ee69527dca2b2824"
+    },
+    {
+      "path": "media/bd9b2c09755893b1b45571454fd9d4480ee88f28283275004c8ec1d8410409c3.ogg",
+      "size": 289573,
+      "sha256": "bd9b2c09755893b1b45571454fd9d4480ee88f28283275004c8ec1d8410409c3"
+    },
+    {
+      "path": "media/c3c813cab92b3711001a1082fa7ce3d8f585d74bbf8cb2460ec2c5d16775cd51.ogg",
+      "size": 236364,
+      "sha256": "c3c813cab92b3711001a1082fa7ce3d8f585d74bbf8cb2460ec2c5d16775cd51"
+    },
+    {
+      "path": "media/c8376385620ce45ed4ed1f10f7c9d7dc37b0e4034dc1ce7c9a1a2982cf908658.ogg",
+      "size": 201000,
+      "sha256": "c8376385620ce45ed4ed1f10f7c9d7dc37b0e4034dc1ce7c9a1a2982cf908658"
+    },
+    {
+      "path": "media/d0231be1b8819cb894490fa96c6f7e6f9f443bf741e32b9f0608445d62aa3306.ogg",
+      "size": 411291,
+      "sha256": "d0231be1b8819cb894490fa96c6f7e6f9f443bf741e32b9f0608445d62aa3306"
+    },
+    {
+      "path": "media/de381340835b15e5f333906490a03d08486c5d697d486d6fe321efb11c43e2c0.ogg",
+      "size": 4778975,
+      "sha256": "de381340835b15e5f333906490a03d08486c5d697d486d6fe321efb11c43e2c0"
+    },
+    {
+      "path": "media/e7e4d5fb45603b28547c17e35238fec0dbf1430eae2bc1c4eae72d50f53bd3d1.ogg",
+      "size": 18799604,
+      "sha256": "e7e4d5fb45603b28547c17e35238fec0dbf1430eae2bc1c4eae72d50f53bd3d1"
+    }
+  ],
+  "format": "dsh-asset-pack",
+  "id": "9085f18e-e22a-4f43-9f0c-09fa6dc605fe",
+  "name": "通用环境音",
+  "schemaVersion": 1,
+  "sprites": {}
+}

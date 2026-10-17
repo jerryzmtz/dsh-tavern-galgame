@@ -1,0 +1,182 @@
+{
+  "format": "dsh.widget/2",
+  "namespace": "testphone",
+  "view": {
+    "entry": "index.html"
+  },
+  "commands": [
+    {
+      "name": "mark",
+      "summary": "Mark this source dialogue as a phone message; never supply text.",
+      "params": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "in",
+              "out"
+            ]
+          }
+        },
+        "required": [
+          "contact",
+          "side"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "contact": "contact"
+      },
+      "effect": "source.mark",
+      "help": {
+        "details": "Only mark explicit phone dialogue already present at beat.at. Incoming contact must be that line's speaker; outgoing contact must be different. Text, timestamps and message history belong to the reader, not command arguments."
+      }
+    }
+  ],
+  "assets": {
+    "message": {
+      "kind": "sfx",
+      "path": "assets/message.wav"
+    }
+  },
+  "caps": {
+    "bytes": 256,
+    "active": 1
+  },
+  "samples": [
+    {
+      "command": "mark",
+      "params": {
+        "contact": "friend",
+        "side": "in"
+      }
+    }
+  ],
+  "presentation": {
+    "open": {
+      "width": 280,
+      "height": 607,
+      "minWidth": 220,
+      "minHeight": 477,
+      "anchor": "center-card",
+      "aspectRatio": 0.4613733905579399
+    },
+    "compact": {
+      "width": 320,
+      "height": 104,
+      "minWidth": 220,
+      "minHeight": 88,
+      "anchor": "corner-right"
+    },
+    "notifications": "changes"
+  },
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "clockText",
+        "type": "text",
+        "label": "clock.label",
+        "help": "clock.help",
+        "maxLength": 16,
+        "default": "09:41",
+        "bindable": true
+      },
+      {
+        "key": "statusBar",
+        "type": "toggle",
+        "label": "status.label",
+        "default": true
+      },
+      {
+        "key": "battery",
+        "type": "range",
+        "label": "battery.label",
+        "min": 5,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 80
+      },
+      {
+        "key": "cutout",
+        "type": "choice",
+        "label": "cutout.label",
+        "choices": [
+          {
+            "value": "island",
+            "label": "cutout.island"
+          },
+          {
+            "value": "notch",
+            "label": "cutout.notch"
+          },
+          {
+            "value": "none",
+            "label": "cutout.none"
+          }
+        ],
+        "default": "island"
+      },
+      {
+        "key": "accentColor",
+        "type": "colour",
+        "label": "accent.label",
+        "stageToken": "accent",
+        "default": "stage"
+      },
+      {
+        "key": "surfaceColor",
+        "type": "colour",
+        "label": "surface.label",
+        "stageToken": "surface",
+        "default": "stage"
+      },
+      {
+        "key": "bodyColor",
+        "type": "colour",
+        "label": "body.label",
+        "stageToken": "border",
+        "default": "stage"
+      },
+      {
+        "key": "wallpaper",
+        "type": "pack-asset",
+        "label": "wallpaper.label",
+        "kind": "backgrounds",
+        "default": null
+      },
+      {
+        "key": "sound",
+        "type": "toggle",
+        "label": "sound.label",
+        "default": true
+      }
+    ]
+  },
+  "i18n": {
+    "defaultLocale": "zh-CN",
+    "messages": {
+      "zh-CN": {
+        "clock.label": "状态栏文字",
+        "clock.help": "装饰文字，不推进剧情时间。可以只读绑定卡变量。",
+        "status.label": "显示状态栏",
+        "battery.label": "装饰电量",
+        "cutout.label": "顶部样式",
+        "cutout.island": "灵动岛",
+        "cutout.notch": "刘海",
+        "cutout.none": "无开孔",
+        "accent.label": "强调色",
+        "surface.label": "内容底色",
+        "body.label": "机身颜色",
+        "wallpaper.label": "壁纸",
+        "sound.label": "来信提示音"
+      }
+    }
+  }
+}

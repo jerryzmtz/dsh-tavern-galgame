@@ -1,0 +1,214 @@
+/* private fork (mod settings, owner 2026-10): the generic UI of the two-layer mod settings — ForkScopeSwitch,
+   ForkOverrideDot, ForkValueEditor, ForkDataPicker, ForkFormulaInput, ForkPreviewHotspots (fork-mod-config-ui.js,
+   fork-data-picker.js). Design: output/mod-plan/config-proposal; spec: docs/fork/ui-design.md §三.25–28. Tokens only.
+   Buttons carry four :not([data-cfg-*]) so the quiet looks beat the panel's `.ap-ui button` hover / pill rules. */
+
+/* ---- shared bits ---- */
+.fork-cfg-meta { color: var(--fork-ink-3); font-size: var(--fork-fs-meta); font-variant-numeric: tabular-nums; }
+.fork-cfg-sep { padding: 0 2px; color: var(--fork-ink-3); font-style: normal; }
+.fork-cfg-pick mark, .fork-cfg-drop mark { border-radius: 2px; background: color-mix(in srgb, var(--fork-accent) 30%, transparent); color: inherit; }
+.fork-cfg-chip { display: inline-flex; align-items: baseline; gap: 4px; max-width: 100%; padding: 1px 8px; border-radius: 10px; background: var(--fork-accent-soft); color: var(--fork-ink); font-size: var(--fork-fs-meta); line-height: 1.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: baseline; }
+.fork-cfg-chip > b { color: var(--fork-accent); font-weight: 600; }
+button.fork-cfg-link:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; height: auto; margin: 0 0 0 -8px; padding: 0 8px; border: 0; border-radius: var(--fork-radius); background: none; box-shadow: none; color: var(--fork-accent); font: inherit; font-size: var(--fork-fs-body); white-space: nowrap; cursor: pointer; }
+button.fork-cfg-link:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):hover:not(:disabled) { background: var(--fork-hover); }
+button.fork-cfg-link:focus-visible, button.fork-cfg-icon:focus-visible, button.fork-cfg-crumb:focus-visible { outline: var(--fork-focus); outline-offset: 1px; }
+button.fork-cfg-icon:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { display: grid; flex: none; place-items: center; width: 30px; height: 30px; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: var(--fork-radius); background: none; color: var(--fork-ink-2); }
+button.fork-cfg-icon:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):hover { background: var(--fork-hover); color: var(--fork-ink); }
+
+/* ---- ForkOverrideDot: 7px, the R8 state colours ---- */
+.fork-cfg-dot { display: inline-block; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--fork-state-global); vertical-align: middle; }
+.fork-cfg-dot[data-layer=card] { background: var(--fork-state-card); }
+.fork-cfg-dot[data-layer=warn] { background: var(--fork-warn); }
+
+/* ---- ForkScopeSwitch ---- */
+.fork-cfg-scope { display: inline-flex; min-width: 0; max-width: 100%; }
+.fork-cfg-scope > .ap-segmented { min-width: 0; max-width: 100%; }
+.ap-ui .fork-cfg-scope > .ap-segmented button { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- ForkValueEditor: one opaque popover (fk-surface popover level); a bottom sheet on a narrow window ---- */
+.ap-ui.fork-cfg-layer { display: contents; }
+.fork-cfg-pop, .fork-cfg-pop.fk-surface.fk-surface { position: fixed; z-index: 10012; box-sizing: border-box; width: min(340px, calc(100vw - 16px)); max-height: calc(100vh - 16px); overflow: auto; padding: 12px 14px; border-radius: var(--fork-radius-lg); color: var(--fork-ink); font-family: var(--fork-font-ui, inherit); font-size: var(--fork-fs-body); line-height: 1.5; text-align: left; }
+/* private fork (mod-settings-simple): as specific as the rule above, so the sheet spans the window. */
+.fork-cfg-pop.fk-surface.fk-surface[data-sheet], .fork-cfg-pop[data-sheet] { left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 80vh; border-radius: var(--fork-radius-lg) var(--fork-radius-lg) 0 0; padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+/* A field popover (a preview part) is as wide as its control; with the picker / formula box open it takes the full width. */
+.fork-cfg-pop.is-field.fk-surface.fk-surface:not([data-sheet]):not(:has(.fork-cfg-below)) { width: max-content; min-width: 200px; max-width: min(340px, calc(100vw - 16px)); }
+.fork-cfg-pop-head { display: flex; align-items: center; gap: 8px; margin: -4px -6px 10px 0; }
+.fork-cfg-pop-title { flex: 1; min-width: 0; overflow: hidden; font-size: var(--fork-fs-body); font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.fork-cfg-pop-head > .fork-cfg-dot { margin-right: auto; }
+.fork-cfg-pop-head > .fork-cfg-pop-title:has(+ .fork-cfg-dot) { flex: 0 1 auto; }
+.fork-cfg-pop-body { display: grid; gap: 8px; min-width: 0; }
+.fork-cfg-pop-body > .fork-inline-field { --fork-inline-label-w: 0; min-height: 32px; }
+.fork-cfg-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; min-width: 0; }
+.fork-cfg-line > b { font-weight: 600; overflow-wrap: anywhere; }
+.fork-cfg-from { display: inline-flex; align-items: baseline; gap: 4px; min-width: 0; max-width: 100%; }
+.fork-cfg-cands { display: grid; gap: 2px; }
+.fork-cfg-cands > .fork-cfg-line { align-items: center; }
+.fork-cfg-cands button.fork-cfg-link:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { margin-left: auto; margin-right: -8px; }
+.fork-cfg-result { font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.fork-cfg-result > b { font-weight: 600; }
+.fork-cfg-result.is-warn { color: var(--fork-warn); }
+.fork-cfg-result.is-warn button.fork-cfg-at:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { min-height: 24px; margin: 0 0 0 2px; padding: 0 4px; color: var(--fork-warn); font-size: var(--fork-fs-meta); text-decoration: underline dotted; }
+.fork-cfg-pop-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--fork-hairline); }
+.fork-cfg-pop-foot button.fork-cfg-link:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { margin: 0 -8px 0 0; }
+/* 固定 · image: the picture and a quiet 「上传」. */
+.fork-cfg-image { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.fork-cfg-thumb { display: grid; flex: none; place-items: center; width: 64px; height: 96px; overflow: hidden; border-radius: var(--fork-radius); background: var(--fork-hover); }
+.fork-cfg-thumb.is-round { width: 48px; height: 48px; border-radius: 50%; }
+.fork-cfg-thumb > img { width: 100%; height: 100%; object-fit: cover; }
+.fork-cfg-image-side { display: grid; gap: 2px; min-width: 0; }
+.fork-cfg-file { overflow-wrap: anywhere; }
+
+/* ---- ForkDataPicker: one underlined combobox; the list floats (or flows, inside the editor) under it ---- */
+.fork-cfg-pick { position: relative; min-width: 0; }
+.fork-cfg-pick-field { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 32px; padding: 2px 0; border-bottom: 1px solid color-mix(in srgb, var(--fork-ink) 22%, transparent); }
+.fork-cfg-pick-field:hover { border-bottom-color: color-mix(in srgb, var(--fork-ink) 40%, transparent); }
+.fork-cfg-pick-field:focus-within { border-bottom-color: var(--fork-accent); }
+.fork-cfg-pick-field input.fork-cfg-pick-input:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):not([data-cfg-e]) { flex: 1; width: auto; min-width: 90px; height: 28px; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; outline: none; color: var(--fork-ink); font: inherit; font-size: var(--fork-fs-body); -webkit-appearance: none; appearance: none; }
+.fork-cfg-pick-field input.fork-cfg-pick-input:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):not([data-cfg-e]):focus { border: 0; box-shadow: none; outline: none; }
+.fork-cfg-pick-input::placeholder { color: var(--fork-ink-3); }
+.fork-cfg-pick-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.fork-cfg-drop, .fork-cfg-drop.fk-surface.fk-surface { position: absolute; z-index: 10013; left: -8px; right: -8px; top: calc(100% + 4px); min-width: 260px; padding: 4px; border-radius: var(--fork-radius-lg); }
+.fork-cfg-pick.is-inline .fork-cfg-drop { position: static; min-width: 0; margin-top: 4px; padding: 0; border-radius: 0; }
+.fork-cfg-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; min-height: 30px; padding: 2px 6px 4px; border-bottom: 1px solid var(--fork-hairline); color: var(--fork-ink-2); font-size: var(--fork-fs-meta); }
+button.fork-cfg-crumb:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { min-width: 0; height: 24px; min-height: 0; margin: 0; padding: 0 4px; border: 0; border-radius: 4px; background: none; color: var(--fork-ink-2); font: inherit; font-size: var(--fork-fs-meta); }
+button.fork-cfg-crumb:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):hover { background: var(--fork-hover); color: var(--fork-ink); }
+.fork-cfg-crumb.is-current { padding: 0 4px; color: var(--fork-ink); font-weight: 600; }
+.fork-cfg-need { margin-left: auto; color: var(--fork-ink-3); }
+.fork-cfg-list { position: relative; max-height: 288px; overflow: auto; overscroll-behavior: contain; padding-top: 2px; }
+.fork-cfg-rows { position: relative; }
+.fork-cfg-rows > * { position: absolute; left: 0; right: 0; box-sizing: border-box; }
+.fork-cfg-group { height: calc(var(--fork-fs-meta) * 2.4); padding: 8px 8px 0; color: var(--fork-ink-2); font-size: var(--fork-fs-meta); font-weight: 600; line-height: 1.3; }
+.fork-cfg-opt { display: flex; align-items: center; gap: 6px; height: calc(var(--fork-fs-body) * 3.1); padding: 0 6px; border-radius: 6px; cursor: pointer; }
+.fork-cfg-opt.is-active { background: var(--fork-hover); }
+.fork-cfg-opt[aria-disabled=true] { cursor: default; }
+.fork-cfg-opt[aria-disabled=true] :is(.fork-cfg-opt-label, .fork-cfg-opt-value) { color: var(--fork-ink-3); }
+.fork-cfg-check { flex: none; width: 12px; color: var(--fork-accent); }
+.fork-cfg-opt-name { display: flex; flex: 1; flex-direction: column; min-width: 0; line-height: 1.3; }
+.fork-cfg-opt-name > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fork-cfg-opt-pre, .fork-cfg-opt-hint { color: var(--fork-ink-3); font-size: var(--fork-fs-meta); }
+.fork-cfg-opt-value { display: inline-flex; align-items: center; gap: 4px; max-width: 34%; overflow: hidden; color: var(--fork-ink-2); font-size: var(--fork-fs-meta); font-variant-numeric: tabular-nums; text-overflow: ellipsis; white-space: nowrap; }
+.fork-cfg-opt-value > .fork-inline-swatch { width: 12px; height: 12px; }
+.fork-cfg-opt-type { flex: none; min-width: 28px; color: var(--fork-ink-3); font-size: var(--fork-fs-meta); text-align: right; }
+.fork-cfg-drill { display: grid; flex: none; place-items: center; width: 24px; height: 24px; border-radius: 5px; color: var(--fork-ink-2); font-size: var(--fork-fs-body); }
+.fork-cfg-drill:hover { background: color-mix(in srgb, var(--fork-ink) 10%, transparent); color: var(--fork-ink); }
+.fork-cfg-empty { display: flex; align-items: center; gap: 8px; padding: 10px 8px; color: var(--fork-ink-3); font-size: var(--fork-fs-meta); }
+
+/* ---- ForkFormulaInput: a one-line text with reference chips; the error position is a CSS highlight ---- */
+.fork-cfg-formula { display: grid; gap: 8px; min-width: 0; }
+.fork-cfg-formula-box { min-height: 34px; padding: 4px 0; border-bottom: 1px solid color-mix(in srgb, var(--fork-ink) 22%, transparent); outline: none; color: var(--fork-ink); font-family: var(--ap-mono, ui-monospace, monospace); font-size: var(--fork-fs-body); line-height: 1.9; overflow-wrap: anywhere; white-space: pre-wrap; cursor: text; }
+.fork-cfg-formula-box:hover { border-bottom-color: color-mix(in srgb, var(--fork-ink) 40%, transparent); }
+.fork-cfg-formula-box:focus { border-bottom-color: var(--fork-accent); }
+/* The underline is the focus mark (like ForkInlineField); no panel focus ring around the text. */
+.fork-cfg-formula .fork-cfg-formula-box:focus-visible { outline: none; }
+.fork-cfg-formula-box[aria-invalid=true] { border-bottom-color: var(--fork-warn); }
+.fork-cfg-formula-box:empty::before { content: attr(data-placeholder); color: var(--fork-ink-3); }
+.fork-cfg-formula-box > .fork-cfg-chip { margin: 0 1px; font-family: var(--fork-font-ui, inherit); cursor: default; user-select: all; }
+::highlight(fork-formula-error) { background-color: color-mix(in srgb, var(--fork-warn) 28%, transparent); text-decoration: underline wavy var(--fork-warn); }
+
+/* ---- ForkPreviewHotspots: the mod's preview with quiet clickable regions ---- */
+.fork-cfg-preview { position: relative; isolation: isolate; width: 100%; margin: 0 auto; }
+.fork-cfg-preview-art { position: absolute; inset: 0; z-index: 0; }
+.fork-cfg-hotspots { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+button.fork-cfg-hotspot:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { position: absolute; display: block; box-sizing: border-box; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 4px; background: none; box-shadow: none; pointer-events: auto; cursor: pointer; }
+/* private fork (settings-ux r2): the outline sits on the part's own box (the spot is measured onto it); a small part keeps
+   a few more pixels to press around it. */
+button.fork-cfg-hotspot::before { content: ""; position: absolute; inset: -4px; }
+button.fork-cfg-hotspot.is-round:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { border-radius: 50%; }
+button.fork-cfg-hotspot:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):is(:hover, [aria-expanded=true]) { background: none; outline: 1.5px dashed color-mix(in srgb, var(--fork-accent) 80%, transparent); outline-offset: 0; }
+button.fork-cfg-hotspot:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):focus-visible { outline: var(--fork-focus); outline-offset: 1px; }
+button.fork-cfg-hotspot:disabled { cursor: default; filter: none; }
+/* The override marker shows with the outline only — no permanent chrome on the preview. */
+.fork-cfg-hotspot[data-dot]:is(:hover, :focus-visible, [aria-expanded=true])::after { content: ""; position: absolute; top: -3px; right: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--fork-state-global); box-shadow: 0 0 0 2px var(--fork-surface); }
+/* private fork (settings-ux r2): as specific as the rule above, so a 本卡 / ⚠ dot is not painted 全局 blue. */
+.fork-cfg-hotspot[data-dot=card]:is(:hover, :focus-visible, [aria-expanded=true])::after { background: var(--fork-state-card); }
+.fork-cfg-hotspot[data-dot=warn]:is(:hover, :focus-visible, [aria-expanded=true])::after { background: var(--fork-warn); }
+.fork-cfg-preview-error { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 6px 10px; border-radius: var(--fork-radius); background: var(--fork-surface); color: var(--fork-warn); font-size: var(--fork-fs-meta); }
+@media (max-width: 720px) {
+  .fork-cfg-opt { height: calc(var(--fork-fs-body) * 3.4); }
+  .fork-cfg-pick.is-inline .fork-cfg-list { max-height: 40vh; }
+}
+
+/* ---- ForkCfgField: one setting as a compact row (label · dot · control · reset); the picker / formula box under it ---- */
+.fork-cfg-list > .fork-inline-field, .fork-cfg-list > .fork-cfg-below { --fork-inline-label-w: 7em; }
+.fork-cfg-field > .fork-inline-label .fork-cfg-dot { margin-left: 2px; }
+.fork-cfg-field .ap-slider.fork-cfg-slider, .fork-cfg-bare .ap-slider.fork-cfg-slider { flex: 0 1 220px; min-width: 120px; }
+.fork-cfg-field .fork-inline-field[data-bare] { min-height: 0; }
+.fork-cfg-shown { color: var(--fork-ink-2); font-size: var(--fork-fs-body); overflow-wrap: anywhere; }
+.fork-cfg-bare { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 32px; min-width: 0; }
+.fork-cfg-below { display: grid; gap: 6px; min-width: 0; padding: 0 0 8px; }
+.fork-cfg-list > .fork-cfg-below { padding-left: calc(var(--fork-inline-label-w) + 12px); }
+@container (max-width: 560px) { .fork-cfg-list > .fork-cfg-below { padding-left: 0; } }
+@media (max-width: 720px) { .fork-cfg-list > .fork-cfg-below { padding-left: 0; } }
+
+/* ---- first-party pages (fork-mod-config-pages.js): compact settings pages sized to their content ---- */
+/* private fork (mod-settings-simple, owner 2026-10): the scope switch on top, the list, then the phone (or the packs), all
+   left-aligned; a page without packs is a narrow popup like the other settings, its popovers overlay the page. */
+.fork-cfg-page { display: grid; gap: 8px; min-width: 0; }
+.fork-cfg-scope-row { display: flex; align-items: center; gap: 4px; min-width: 0; margin: 2px 0 4px; }
+.fork-cfg-list { margin-bottom: 4px; }
+.fork-cfg-previewbox { flex: none; width: 260px; max-width: 100%; margin-top: 4px; }
+.fork-cfg-hint { margin: 8px 0 0; text-align: center; color: var(--fork-ink-3); font-size: var(--fork-fs-meta); }
+.fork-phone-contacts .fork-cfg-pop-body { gap: 2px; }
+.fork-phone-contact { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.fork-phone-contact .fork-cfg-thumb.is-round { width: 32px; height: 32px; color: var(--fork-ink-2); font-size: var(--fork-fs-meta); }
+.fork-phone-contact > .fork-inline-field { flex: 1 1 auto; min-width: 0; }
+/* 壁纸: one row of phone-shaped thumbnails (scrolls sideways when full), each with ✕ and 「设为默认」; the add tile last. */
+.fork-phone-walls-row { display: flex; align-items: flex-start; gap: 8px; min-width: 0; padding: 4px 2px 2px; overflow-x: auto; overscroll-behavior-x: contain; }
+.fork-phone-wall-item { position: relative; display: grid; flex: none; justify-items: center; gap: 2px; width: 56px; }
+.fork-phone-wall-item[data-inherited] { opacity: .6; }
+.fork-phone-wall-thumb.fork-cfg-thumb { position: relative; width: 56px; height: 116px; }
+.fork-phone-wall-item[data-default] .fork-phone-wall-thumb { box-shadow: 0 0 0 2px var(--fork-accent); }
+.fork-phone-wall-badge { position: absolute; left: 4px; bottom: 4px; padding: 0 5px; border-radius: 8px; background: var(--fork-accent-fill); color: var(--fork-on-accent); font-size: var(--fork-fs-meta); font-weight: 600; line-height: 1.5; }
+button.fork-cfg-icon.fork-phone-wall-remove:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { position: absolute; top: -4px; right: -6px; width: 24px; height: 24px; border-radius: 50%; background: var(--fork-surface); box-shadow: 0 0 0 1px var(--fork-hairline); }
+button.fork-cfg-link.fork-phone-wall-default:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { min-height: 24px; margin: 0; padding: 0 4px; font-size: var(--fork-fs-meta); }
+button.fork-phone-wall-add:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]) { display: grid; flex: none; place-items: center; width: 56px; height: 116px; min-height: 0; margin: 0; padding: 0; border: 1px dashed color-mix(in srgb, var(--fork-ink) 30%, transparent); border-radius: var(--fork-radius); background: none; box-shadow: none; color: var(--fork-ink-2); font: inherit; font-size: var(--fork-fs-body); cursor: pointer; }
+button.fork-phone-wall-add:not([data-cfg-a]):not([data-cfg-b]):not([data-cfg-c]):not([data-cfg-d]):hover:not(:disabled) { background: var(--fork-hover); color: var(--fork-ink); }
+button.fork-phone-wall-add:focus-visible { outline: var(--fork-focus); outline-offset: 1px; }
+/* The phone preview is the mod's own art (its colours are the settings); it paints at 260 × 540, the hotspots' units. */
+/* ==== fork UI standard tokens ==== */
+/* The phone art's own fixed palette (status bar ink, notch, low battery), as in fork/mods/phone/view/style.css. */
+.fork-phone { --ink: #1f1d22; --fork-phone-white: #fff; --fork-phone-black: #000; --fork-phone-low: #ff453a; --fork-phone-warn: #ffd60a; --fork-phone-shade: rgb(0 0 0 / .45); --fork-phone-hair: rgb(0 0 0 / .14); }
+.fork-phone[data-ink=light] { --ink: #f4f2ee; --fork-phone-hair: rgb(255 255 255 / .16); }
+/* ==== end fork UI standard tokens ==== */
+.fork-phone {
+  --fork-phone-fs: 13px; --fork-phone-fs-status: 600 11px/1 system-ui, sans-serif; --fork-phone-fs-tiny: 9px; --fork-phone-fs-batt: 700 8px/1 system-ui, sans-serif; --fork-phone-fs-name: 14px; --fork-phone-fs-glyph: 22px; --fork-phone-fs-plus: 20px;
+  position: absolute; inset: 0; box-sizing: border-box; padding: 9px; border-radius: 36px; background: var(--fork-phone-body); }
+.fork-phone-screen { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 28px; background: var(--fork-phone-surface); color: var(--ink); font-family: var(--fork-font, system-ui, sans-serif); font-size: var(--fork-phone-fs); line-height: 1.35; }
+.fork-phone-wall { position: absolute; inset: 0; background: var(--fork-phone-surface); background-size: cover; background-position: center; }
+.fork-phone-cut { position: absolute; z-index: 3; left: 50%; top: 7px; width: 66px; height: 19px; margin-left: -33px; border-radius: 10px; background: var(--fork-phone-black); }
+.fork-phone[data-frame=notch] .fork-phone-cut { top: 0; width: 112px; margin-left: -56px; border-radius: 0 0 14px 14px; }
+.fork-phone[data-frame=none] .fork-phone-cut { display: none; }
+.fork-phone-status { position: relative; z-index: 4; display: flex; align-items: center; height: 34px; padding: 4px 12px 0 18px; box-sizing: border-box; font: var(--fork-phone-fs-status); color: var(--ink); }
+.fork-phone-wall[data-image] ~ .fork-phone-status { color: var(--fork-phone-white); text-shadow: 0 1px 2px var(--fork-phone-shade); }
+.fork-phone-clock { min-width: 46px; text-align: center; white-space: nowrap; }
+.fork-phone-sys { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.fork-phone-carrier { max-width: 50px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--fork-phone-fs-tiny); font-weight: 500; }
+.fork-phone-bars { display: inline-flex; align-items: flex-end; gap: 1px; height: 11px; }
+.fork-phone-bars > i { width: 3px; border-radius: 1px; background: currentColor; opacity: .28; }
+.fork-phone-bars > i[data-on] { opacity: 1; }
+.fork-phone-batt { position: relative; display: grid; place-items: center; width: 24px; height: 11px; overflow: hidden; border-radius: 3.5px; background: color-mix(in srgb, currentColor 30%, transparent); }
+.fork-phone-batt > i { position: absolute; left: 0; top: 0; bottom: 0; background: currentColor; }
+.fork-phone-batt[data-level=warn] > i { background: var(--fork-phone-warn); }
+.fork-phone-batt[data-level=low] > i { background: var(--fork-phone-low); }
+.fork-phone-batt > b { position: relative; font: var(--fork-phone-fs-batt); color: var(--fork-phone-surface); text-shadow: none; mix-blend-mode: difference; }
+.fork-phone-appbar { position: relative; z-index: 4; display: flex; align-items: center; gap: 8px; height: 54px; padding: 2px 10px 0 8px; background: color-mix(in srgb, var(--fork-phone-surface) 88%, transparent); box-shadow: 0 .5px 0 var(--fork-phone-hair); }
+.fork-phone-back { color: var(--fork-phone-accent); font-size: var(--fork-phone-fs-glyph); line-height: 1; }
+.fork-phone-avatar { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--fork-phone-accent); background-size: cover; background-position: 50% 15%; color: var(--fork-phone-white); font-weight: 600; }
+.fork-phone-peer { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.fork-phone-avatar[data-art], .fork-cfg-thumb[data-art] { overflow: hidden; background: none; }
+.fork-phone-avatar > .fork-phone-face, .fork-cfg-thumb > .fork-phone-face { display: block; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; }
+.fork-phone-face img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.fork-phone-avatar.is-small { width: 24px; height: 24px; font-size: var(--fork-phone-fs-tiny); }
+.fork-phone-row { display: flex; align-items: flex-end; gap: 6px; }
+.fork-phone-row[data-side=out] { justify-content: flex-end; }
+.fork-phone-peer > strong, .fork-phone-appbar > strong { min-width: 0; max-width: 140px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--fork-phone-fs-name); }
+.fork-phone-msgs { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 18px 10px; }
+.fork-phone-bubble { max-width: 76%; padding: 7px 11px; border-radius: 17px; }
+.fork-phone-bubble[data-side=in] { align-self: flex-start; background: color-mix(in srgb, var(--ink) 9%, var(--fork-phone-surface)); border-bottom-left-radius: 5px; }
+.fork-phone-bubble[data-side=out] { align-self: flex-end; background: var(--fork-phone-accent); color: var(--fork-phone-white); border-bottom-right-radius: 5px; }
+.fork-phone-bell { display: grid; flex: none; place-items: center; width: 18px; height: 18px; margin-left: auto; color: var(--fork-phone-accent); }
+.fork-phone-bell[data-off] { color: color-mix(in srgb, var(--ink) 45%, transparent); }
+.fork-phone-composer { position: relative; z-index: 4; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 10px 8px; background: color-mix(in srgb, var(--fork-phone-surface) 88%, transparent); }
+.fork-phone-composer > span { color: var(--fork-phone-accent); font-size: var(--fork-phone-fs-plus); }
+.fork-phone-composer > i { flex: 1; height: 28px; border-radius: 14px; box-shadow: inset 0 0 0 1px var(--fork-phone-hair); }
+

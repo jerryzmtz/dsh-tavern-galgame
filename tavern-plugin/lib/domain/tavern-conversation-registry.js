@@ -1,0 +1,234 @@
+import { projectSceneImageState, projectChatBackgroundConfig } from './chat-session-state.js'
+import { currentBackgroundSessionId, referencedBackgroundSessionIds } from './background-identity.js'
+function str(value) {
+  return typeof value === 'string' ? value : (value === undefined || value === null ? '' : String(value))
+}
+
+function normalizeLinks(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value) ? value : {}
+}
+
+function chatRows(index) {
+  return index && Array.isArray(index.chats) ? index.chats : []
+}
+
+// Chat ids are uid('chat'): the base36 segment is the creation time. Older index
+// rows predate the stored createdAt, so the id is their only record of it.
+function createdAtFromId(id) {
+  const match = /^chat-([0-9a-z]+)-/.exec(str(id))
+  const value = match ? parseInt(match[1], 36) : 0
+  return value > Date.UTC(2020, 0, 1) && value < Date.UTC(2100, 0, 1) ? value : 0
+}
+
+function chatSummary(chat, preservedLastOpenedAt = 0) {
+  const updatedAt = Math.max(0, Number(chat && (chat.updatedAt || chat.createdAt)) || 0)
+  const createdAt = Math.max(0, Number(chat && chat.createdAt) || 0) || createdAtFromId(chat && chat.id) || updatedAt
+  return {
+    id: str(chat && chat.id),
+    cardPath: str(chat && chat.cardPath),
+    cardName: str(chat && chat.cardName) || '未命名角色',
+    title: str(chat && chat.title),
+    mode: str(chat && chat.mode) || 'story',
+    requestMode: chat && chat.requestMode === 'sillytavern' ? 'sillytavern' : 'dsh',
+    ...(currentBackgroundSessionId(chat) === null ? {} : { backgroundSessionId: currentBackgroundSessionId(chat) }),
+    ...(Array.isArray(chat?.backgroundHistoryIds) ? { backgroundHistoryIds: chat.backgroundHistoryIds } : {}),
+    createdAt,
+    updatedAt,
+    // private fork: the sidebar labels unnamed play saves by their start time.
+    ...(Number(chat && chat.createdAt) > 0 ? { createdAt: Number(chat.createdAt) } : {}),
+    lastOpenedAt: Math.max(0, Number(chat && chat.lastOpenedAt) || 0, Number(preservedLastOpenedAt) || 0) || updatedAt
+  }
+}
+
+function sameSummary(left, right) {
+  return left && right && JSON.stringify(left.backgroundHistoryIds || []) === JSON.stringify(right.backgroundHistoryIds || []) && ['id', 'cardPath', 'cardName', 'title', 'mode', 'requestMode', 'createdAt', 'updatedAt', 'lastOpenedAt', 'backgroundSessionId'].every(function (key) { return left[key] === right[key] })
+}
+
+/**
+ * Owns the consistency protocol between Tavern chats, the published chat
+ * index, and DSH Session links. Ordinary chat updates remain in the chat store;
+ * creation, lookup recovery, and deletion cross only this interface.
+ */
+export function createTavernConversationRegistry(options = {}) {
+  const store = options.store || {}
+  for (const method of ['readLinks', 'updateLinks', 'readIndex', 'writeIndex', 'readChat', 'writeChat', 'removeChat']) {
+    if (typeof store[method] !== 'function') throw new Error('Tavern Conversation Registry 缺少 store.' + method)
+  }
+
+  async function links() {
+    return normalizeLinks(await store.readLinks())
+  }
+
+  async function resolve(sessionId) { return resolveUsing(sessionId, id => store.readChat(id)) }
+  // Same alias/recovery rules, with a detached read-only projection when supported.
+  async function resolveState(sessionId) {
+    return resolveUsing(sessionId, id => typeof store.readChatState === 'function' ? store.readChatState(id) : store.readChat(id))
+  }
+
+  async function resolveSceneImageState(sessionId, options) {
+    return resolveUsing(sessionId, async id => {
+      if (store.readSceneImageState) return store.readSceneImageState(id, options)
+      const chat = await store.readChat(id)
+      return chat ? projectSceneImageState(chat) : undefined
+    })
+  }
+
+  async function resolveBackgroundConfig(sessionId) {
+    return resolveUsing(sessionId, async id => {
+      if (typeof store.readBackgroundConfig === 'function') return store.readBackgroundConfig(id)
+      const chat = await store.readChat(id)
+      return chat ? projectChatBackgroundConfig(chat) : undefined
+    })
+  }
+
+  async function resolveUsing(sessionId, readChat) {
+    const id = str(sessionId)
+    if (id === '') return undefined
+    const links = normalizeLinks(await store.readLinks())
+    if (typeof links[id] === 'string') {
+      const mapped = await readChat(links[id])
+      if (mapped !== undefined) return mapped
+    }
+    let found
+    await store.updateLinks(async function (value) {
+      const current = Object.assign({}, normalizeLinks(value))
+      let changed = false
+      if (typeof current[id] === 'string') {
+        const mapped = await readChat(current[id])
+        if (mapped !== undefined) {
+          found = mapped
+          return undefined
+        }
+        delete current[id]
+        changed = true
+      }
+      const index = await store.readIndex()
+      // Published links already own these chats (including intentional aliases).
+      // Only unlinked records need recovery; a new Session must not materialize
+      // every historical game while holding the shared links write lock.
+      const linkedChatIds = new Set(Object.values(current).filter(value => typeof value === 'string'))
+      for (const item of chatRows(index)) {
+        if (linkedChatIds.has(item.id)) continue
+        const chat = await readChat(item.id)
+        if (chat !== undefined && str(chat.sessionId) === id) {
+          current[id] = chat.id
+          found = chat
+          return current
+        }
+      }
+      return changed ? current : undefined
+    })
+    return found
+  }
+
+  async function publish(chat) {
+    if (!chat || str(chat.id) === '') throw new Error('不能发布没有 id 的 Tavern Chat')
+    const sessionId = str(chat.sessionId)
+    let chatWritten = false
+    let linked = false
+    try {
+      await store.writeChat(chat, { source: 'chat.create' })
+      chatWritten = true
+      if (sessionId !== '') {
+        await store.updateLinks(function (value) {
+          const current = Object.assign({}, normalizeLinks(value))
+          if (current[sessionId] === chat.id) return undefined
+          current[sessionId] = chat.id
+          return current
+        })
+        linked = true
+      }
+      const index = await store.readIndex()
+      const rows = chatRows(index).filter(function (item) { return item.id !== chat.id })
+      rows.push(chatSummary(chat))
+      await store.writeIndex(Object.assign({}, index || {}, { chats: rows }))
+      return chat
+    } catch (error) {
+      if (linked) {
+        await store.updateLinks(function (value) {
+          const current = Object.assign({}, normalizeLinks(value))
+          if (current[sessionId] !== chat.id) return undefined
+          delete current[sessionId]
+          return current
+        }).catch(function () {})
+      }
+      if (chatWritten) await store.removeChat(chat.id).catch(function () {})
+      throw error
+    }
+  }
+
+  async function sync(chat) {
+    if (!chat || str(chat.id) === '') throw new Error('不能同步没有 id 的 Tavern Chat 摘要')
+    const index = await store.readIndex()
+    const rows = chatRows(index)
+    const current = rows.find(function (item) { return item && item.id === str(chat.id) })
+    const summary = chatSummary(chat, current && current.lastOpenedAt)
+    const previousIds = [...(current?.backgroundHistoryIds || []), current?.backgroundSessionId, ...referencedBackgroundSessionIds(chat)].filter(id => typeof id === 'string' && id && id !== summary.backgroundSessionId)
+    if (previousIds.length) summary.backgroundHistoryIds = [...new Set(previousIds)].slice(-200)
+    if (sameSummary(current, summary)) return summary
+    await store.writeIndex(Object.assign({}, index || {}, { chats: rows.filter(function (item) { return !item || item.id !== summary.id }).concat([summary]) }))
+    return summary
+  }
+
+  async function list() {
+    const currentLinks = await links()
+    const index = await store.readIndex()
+    const summaries = new Map(chatRows(index).map(function (item) { return [str(item && item.id), item] }))
+    const rows = []
+    for (const sessionId of Object.keys(currentLinks)) {
+      // API test identities are not ordinary sessions in the browser controller.
+      // Check ownership rather than hiding arbitrary user IDs with a test prefix.
+      if (/^test-[0-9a-f-]{36}$/i.test(sessionId) && typeof store.readAutomationOwner === 'function') {
+        const owner = await store.readAutomationOwner(sessionId)
+        if (owner?.sessionId === sessionId) continue
+      }
+      const chatId = str(currentLinks[sessionId])
+      const summary = summaries.get(chatId)
+      if (!summary) continue
+      const normalized = chatSummary(summary)
+      rows.push({ sessionId, chatId, ...(normalized.backgroundHistoryIds ? { backgroundHistoryIds: normalized.backgroundHistoryIds } : {}), ...(typeof normalized.backgroundSessionId === 'string' ? { backgroundSessionId: normalized.backgroundSessionId } : {}), cardPath: normalized.cardPath, cardName: normalized.cardName, title: normalized.title, mode: normalized.mode, requestMode: normalized.requestMode, createdAt: normalized.createdAt, updatedAt: normalized.updatedAt, lastOpenedAt: normalized.lastOpenedAt })
+    }
+    // Conversations keep a fixed place: opening or continuing one must not move it.
+    rows.sort(function (left, right) { return right.createdAt - left.createdAt || right.lastOpenedAt - left.lastOpenedAt })
+    return rows
+  }
+
+  async function touch(sessionId, openedAt = Date.now()) {
+    const id = str(sessionId)
+    if (id === '') throw new Error('不能记录空 Session 的打开时间')
+    const currentLinks = await links()
+    const chatId = str(currentLinks[id])
+    if (chatId === '') return { touched: false }
+    const index = await store.readIndex()
+    const rows = chatRows(index)
+    const position = rows.findIndex(function (item) { return item && str(item.id) === chatId })
+    if (position < 0) return { touched: false }
+    const stamp = Math.max(0, Number(openedAt) || 0)
+    const previous = Math.max(0, Number(rows[position].lastOpenedAt) || 0)
+    if (stamp <= previous) return { touched: false, lastOpenedAt: previous }
+    const nextRows = rows.slice()
+    nextRows[position] = Object.assign({}, rows[position], { lastOpenedAt: stamp })
+    await store.writeIndex(Object.assign({}, index || {}, { chats: nextRows }))
+    return { touched: true, lastOpenedAt: stamp }
+  }
+
+  async function remove(chatId) {
+    const id = str(chatId)
+    if (id === '') return { deleted: false }
+    const index = await store.readIndex()
+    const nextRows = chatRows(index).filter(function (item) { return item.id !== id })
+    if (nextRows.length !== chatRows(index).length) await store.writeIndex(Object.assign({}, index || {}, { chats: nextRows }))
+    await store.updateLinks(function (value) {
+      const current = Object.assign({}, normalizeLinks(value))
+      let changed = false
+      for (const sessionId of Object.keys(current)) {
+        if (current[sessionId] === id) { delete current[sessionId]; changed = true }
+      }
+      return changed ? current : undefined
+    })
+    await store.removeChat(id)
+    return { deleted: true }
+  }
+
+  return { links, resolve, resolveState, resolveSceneImageState, resolveBackgroundConfig, publish, sync, list, touch, remove }
+}

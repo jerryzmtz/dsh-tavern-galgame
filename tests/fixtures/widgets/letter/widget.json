@@ -1,0 +1,93 @@
+{
+  "format": "dsh.widget/2",
+  "namespace": "letter",
+  "view": {
+    "entry": "index.html"
+  },
+  "stateSchema": {
+    "type": "object",
+    "properties": {
+      "body": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 400
+      }
+    },
+    "required": [
+      "body"
+    ],
+    "additionalProperties": false
+  },
+  "commands": [
+    {
+      "name": "set",
+      "effect": "state.set",
+      "params": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      },
+      "summary": "Show a short letter already quoted in the completed reply."
+    },
+    {
+      "name": "clear",
+      "effect": "state.clear",
+      "params": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "summary": "Clear letter"
+    }
+  ],
+  "samples": [
+    {
+      "command": "set",
+      "params": {
+        "body": "Meet me by the old gate."
+      }
+    }
+  ],
+  "caps": {
+    "bytes": 2048,
+    "active": 1
+  },
+  "presentation": {
+    "open": {
+      "width": 280,
+      "height": 180,
+      "minWidth": 200,
+      "minHeight": 100,
+      "anchor": "corner-right"
+    }
+  },
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "signature",
+        "type": "text",
+        "maxLength": 40,
+        "default": "",
+        "label": "signature"
+      }
+    ]
+  },
+  "i18n": {
+    "defaultLocale": "en",
+    "messages": {
+      "en": {
+        "signature": "Signature"
+      }
+    }
+  }
+}

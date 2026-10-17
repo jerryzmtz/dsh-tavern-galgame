@@ -1,0 +1,1764 @@
+{
+  "assets": [
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/门扉/开门",
+      "directorNote": "A door opens as someone enters or reveals the room beyond.",
+      "durationMs": 959,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "door-open",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.2,
+        "peak": -1.9,
+        "v": 1
+      },
+      "media": "ebab47febf5aec6d8512c1b5a4280037f958006db606cef0852dfd9b69cc7908",
+      "name": "开门",
+      "recall": {
+        "keywords": [
+          "推门",
+          "拉开门",
+          "门轴",
+          "吱呀",
+          "启门"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "吱呀": [
+            "吱哑",
+            "吱嘎"
+          ],
+          "门轴": [
+            "门铰"
+          ]
+        }
+      },
+      "tags": [
+        "门",
+        "开门",
+        "进入"
+      ]
+    },
+    {
+      "author": "zebragrrl",
+      "category": "生活/门铃/便利店进店",
+      "directorNote": "A small retail store entry chime sounds as a customer crosses the door sensor; based on Door Chime 3 by Taira Komori. Play once on entry, not as an ambience loop.",
+      "durationMs": 2949,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "konbini-door-chime",
+      "kind": "sfx",
+      "license": "CC-BY-4.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -20,
+        "peak": -5.2,
+        "v": 1
+      },
+      "media": "90a8f9722f7169666110050f645be3262adf8e440e7f27a3d4ca9a0a2d03585a",
+      "name": "便利店进店提示音",
+      "recall": {
+        "keywords": [
+          "便利店门铃",
+          "进店提示音",
+          "迎客提示音",
+          "感应门铃",
+          "门铃响了",
+          "叮咚"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "便利店门铃": [
+            "便利商店门铃",
+            "超商门铃"
+          ],
+          "感应门铃": [
+            "进店感应铃"
+          ],
+          "迎客提示音": [
+            "迎宾提示音"
+          ],
+          "进店提示音": [
+            "入店提示音",
+            "进门提示音"
+          ],
+          "门铃响了": [
+            "门铃响起"
+          ]
+        }
+      },
+      "tags": [
+        "便利店",
+        "进店",
+        "门铃",
+        "提示音"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/门扉/关门",
+      "directorNote": "A door closes after an arrival or departure.",
+      "durationMs": 525,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "door-close",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.4,
+        "peak": -2.9,
+        "v": 1
+      },
+      "media": "6b0eb4e2b53c2b2092b9645e04540038595517153b0b5f4e41043a8ca919a82f",
+      "name": "关门",
+      "recall": {
+        "keywords": [
+          "闭门",
+          "合门",
+          "门闩"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "门闩": [
+            "门栓"
+          ]
+        }
+      },
+      "tags": [
+        "门",
+        "关门",
+        "离开"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/门扉/摔门",
+      "directorNote": "An angry or abrupt exit punctuated by a slammed door.",
+      "durationMs": 634,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "door-slam",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.3,
+        "peak": -2,
+        "v": 1
+      },
+      "media": "ae806f48ffb367564ffbba5ccccef0c97e35f489e450f2c7a9c802389df24c03",
+      "name": "摔门",
+      "recall": {
+        "keywords": [
+          "甩门",
+          "砸门",
+          "砰地关门"
+        ],
+        "mode": "keyword",
+        "synonyms": {}
+      },
+      "tags": [
+        "门",
+        "摔门",
+        "愤怒"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/门扉/敲门",
+      "directorNote": "A visitor knocks, interrupting a quiet indoor scene.",
+      "durationMs": 894,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "door-knock",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16,
+        "peak": -2.1,
+        "v": 1
+      },
+      "media": "1e5382dae968087f38b0f9c00f523b920e63a8700c8ea14911dd07b223b569e1",
+      "name": "敲门",
+      "recall": {
+        "keywords": [
+          "敲门声",
+          "叩门",
+          "咚咚",
+          "扣门"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "咚咚": [
+            "笃笃",
+            "叩叩"
+          ],
+          "敲门声": [
+            "叩门声"
+          ]
+        }
+      },
+      "tags": [
+        "门",
+        "敲门",
+        "来客"
+      ]
+    },
+    {
+      "author": "ralph.whitehead",
+      "category": "生活/脚步/室内",
+      "directorNote": "Calm footsteps on a wooden or hard indoor floor.",
+      "durationMs": 3600,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "footsteps-indoor",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -19.1,
+        "peak": -2.3,
+        "v": 1
+      },
+      "media": "4010026c9a3ee414a36e53aeef4fd134da5d98e8a14b74992096d9a79f58e0ca",
+      "name": "室内脚步",
+      "recall": {
+        "keywords": [
+          "脚步声",
+          "足音",
+          "脚步",
+          "室内脚步声",
+          "踢踏"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "脚步": [
+            "步履"
+          ],
+          "脚步声": [
+            "足音"
+          ],
+          "踢踏": [
+            "哒哒"
+          ]
+        }
+      },
+      "tags": [
+        "脚步",
+        "室内",
+        "木地板",
+        "走路"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/脚步/室外",
+      "directorNote": "Walking on a paved outdoor path or street.",
+      "durationMs": 3223,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "footsteps-outdoor",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -22.7,
+        "peak": -0.5,
+        "v": 1
+      },
+      "media": "6b3ac784164a834c96032e5251c6fa286f6494fcd509eec5a1fbea3f5d1e9826",
+      "name": "室外脚步",
+      "recall": {
+        "keywords": [
+          "脚步声",
+          "足音",
+          "脚步",
+          "室外脚步声",
+          "石板路上的脚步"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "脚步": [
+            "步履"
+          ],
+          "脚步声": [
+            "足音"
+          ]
+        }
+      },
+      "tags": [
+        "脚步",
+        "室外",
+        "水泥路",
+        "走路"
+      ]
+    },
+    {
+      "author": "swuing; mastered by congusbongus",
+      "category": "生活/脚步/靴子",
+      "directorNote": "Recorded concrete boot/shoe contacts sequenced for outdoor walking on a paved path. Short one-shot, not a seamless loop or running cue.",
+      "durationMs": 2650,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "footsteps-outdoor-boots",
+      "kind": "sfx",
+      "license": "CC-BY-3.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -20.03,
+        "peak": -1.92,
+        "v": 1
+      },
+      "media": "c45c032d2aed7ac0bddd673dc3acc56b442ac1ef6fe9fd1edde5b97941b5cce2",
+      "name": "室外靴子脚步",
+      "recall": {
+        "keywords": [
+          "靴声",
+          "靴子声",
+          "靴子脚步",
+          "靴跟声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "靴声": [
+            "靴子声"
+          ]
+        }
+      },
+      "tags": [
+        "脚步",
+        "室外",
+        "街道",
+        "碎石路",
+        "水泥路",
+        "靴子",
+        "走路"
+      ]
+    },
+    {
+      "author": "LewisEmmott5",
+      "category": "生活/脚步/奔跑",
+      "directorNote": "Real hurried footsteps on concrete that fade into the distance as someone runs off.",
+      "durationMs": 4300,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "running-away",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -18.7,
+        "peak": -2.3,
+        "v": 1
+      },
+      "media": "27e244b417328ac31b24b72c2e4fa330a8acfffc175cf45244d73d786ab270b6",
+      "name": "跑远",
+      "recall": {
+        "keywords": [
+          "跑步声",
+          "奔跑声",
+          "急促脚步"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "急促脚步": [
+            "急促步伐"
+          ],
+          "跑步声": [
+            "奔跑声"
+          ]
+        }
+      },
+      "tags": [
+        "奔跑",
+        "跑远",
+        "离开",
+        "脚步"
+      ]
+    },
+    {
+      "author": "qubodup",
+      "category": "身体/心跳/单次",
+      "directorNote": "A single sharp moment of fear, suspense, or romantic excitement.",
+      "durationMs": 2078,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "heartbeat-single",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.2,
+        "peak": -1.8,
+        "v": 1
+      },
+      "media": "a96775caad20c197c66e76038276e2765a36ba637d1bad1938651d98a3464e3d",
+      "name": "心跳",
+      "recall": {
+        "keywords": [
+          "心跳声",
+          "心搏",
+          "怦怦"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "心跳声": [
+            "心音"
+          ],
+          "怦怦": [
+            "扑通"
+          ]
+        }
+      },
+      "tags": [
+        "心跳",
+        "紧张",
+        "心动"
+      ]
+    },
+    {
+      "author": "Wikipit",
+      "category": "学校/铃声",
+      "directorNote": "A school chime (Westminster quarters) rings; class starts or ends.",
+      "durationMs": 11948,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "school-bell",
+      "kind": "sfx",
+      "license": "Public domain (PD-self)",
+      "loop": false,
+      "loudness": {
+        "lufs": -19.9,
+        "peak": -5.8,
+        "v": 1
+      },
+      "media": "85c1591ba4a016df6e07a54bf3b3e23f3a8d0036fda11e55670c0814f9ce80ab",
+      "name": "上课铃",
+      "recall": {
+        "keywords": [
+          "下课铃",
+          "校铃",
+          "放学铃",
+          "铃声响了",
+          "预备铃",
+          "钟声",
+          "キーンコーン",
+          "上课钟"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "キーンコーン": [
+            "キーンコーンカーンコーン",
+            "威斯敏斯特钟声"
+          ],
+          "下课铃": [
+            "下课钟"
+          ],
+          "校铃": [
+            "课铃",
+            "学校铃声"
+          ],
+          "钟声": [
+            "钟响"
+          ],
+          "铃声响了": [
+            "铃响了"
+          ],
+          "预备铃": [
+            "准备铃"
+          ]
+        }
+      },
+      "tags": [
+        "铃声",
+        "上课",
+        "下课",
+        "钟声"
+      ]
+    },
+    {
+      "author": "Zane Little Music",
+      "category": "电子/提示/来电",
+      "directorNote": "An incoming phone call interrupts the scene.",
+      "durationMs": 3496,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "phone-ring",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.5,
+        "peak": -1.2,
+        "v": 1
+      },
+      "media": "f113ffa64b10c4c3b50d254878e3eba45bc5c9397e4159cef3fc6a2501ef23d2",
+      "name": "手机铃声",
+      "recall": {
+        "keywords": [
+          "电话铃",
+          "手机铃",
+          "来电铃声",
+          "电话铃声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "手机铃": [
+            "手机铃声"
+          ],
+          "电话铃": [
+            "电话铃声"
+          ]
+        }
+      },
+      "tags": [
+        "手机",
+        "电话",
+        "来电",
+        "铃声"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "电子/提示/消息",
+      "directorNote": "A phone receives a text or notification.",
+      "durationMs": 330,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "message-notification",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -14.3,
+        "peak": -2,
+        "v": 1
+      },
+      "media": "1b99e9ae97397b22d502f8f28feff021f2c26f75e9e26e5e93962dbc3e0aa82a",
+      "name": "消息提示",
+      "recall": {
+        "keywords": [
+          "消息提示音",
+          "短信提示音",
+          "消息通知",
+          "短信铃声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "消息通知": [
+            "消息提示"
+          ]
+        }
+      },
+      "tags": [
+        "消息",
+        "通知",
+        "短信",
+        "手机"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/物件/衣料",
+      "directorNote": "Clothing shifts during a close movement, embrace, or change of clothes.",
+      "durationMs": 599,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "cloth-rustle",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.5,
+        "peak": -1.9,
+        "v": 1
+      },
+      "media": "5bef43a6eba714d1264a1fa90a750935fcf0818dee5e30a2cf049ffc9c620a79",
+      "name": "衣料摩擦",
+      "recall": {
+        "keywords": [
+          "衣服摩擦声",
+          "衣袖摩擦",
+          "窸窣"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "窸窣": [
+            "窸窸窣窣"
+          ]
+        }
+      },
+      "tags": [
+        "衣服",
+        "衣料",
+        "摩擦",
+        "换衣"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "生活/物件/纸张",
+      "directorNote": "Someone turns a page while reading a book or document.",
+      "durationMs": 444,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "page-turn",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16,
+        "peak": -2.4,
+        "v": 1
+      },
+      "media": "c078a3f73c7ae8263d76eba3afdcacea9afee631136de0f82e539177d358514d",
+      "name": "翻页",
+      "recall": {
+        "keywords": [
+          "翻书",
+          "翻书声",
+          "翻页声",
+          "书页沙沙"
+        ],
+        "mode": "keyword",
+        "synonyms": {}
+      },
+      "tags": [
+        "纸张",
+        "翻页",
+        "书本"
+      ]
+    },
+    {
+      "author": "TinyWorlds",
+      "category": "生活/物件/玻璃",
+      "directorNote": "Glass shatters from a dropped object or a sudden violent impact.",
+      "durationMs": 1021,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "glass-break",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.6,
+        "peak": -1.9,
+        "v": 1
+      },
+      "media": "3ce1ae313603e3e5ca38af2d59bfc098ccee09742f4882e5728019bd0bfb38dc",
+      "name": "玻璃碎裂",
+      "recall": {
+        "keywords": [
+          "玻璃破碎",
+          "碎玻璃",
+          "碎杯声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "碎玻璃": [
+            "玻璃碎片"
+          ]
+        }
+      },
+      "tags": [
+        "玻璃",
+        "碎裂",
+        "打碎"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "动作/碰撞/击打",
+      "directorNote": "A solid punch or blunt strike lands.",
+      "durationMs": 523,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "impact-hit",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.2,
+        "peak": -2,
+        "v": 1
+      },
+      "media": "9c6b03be816520d40bc2cc68dd1b6e5e0a9e00c5613697f29183e5609349c241",
+      "name": "击打",
+      "recall": {
+        "keywords": [
+          "撞击声",
+          "拳击声",
+          "打击声",
+          "拳击",
+          "打击"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "撞击声": [
+            "碰撞声"
+          ]
+        }
+      },
+      "tags": [
+        "击打",
+        "拳头",
+        "打击"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "动作/碰撞/倒地",
+      "directorNote": "A body falls or collapses with a muffled impact.",
+      "durationMs": 567,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "body-thud",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16,
+        "peak": -2,
+        "v": 1
+      },
+      "media": "c05ff0863f6098caa347927e13495c1785c13b821550cb4fb8e933d2ad03639d",
+      "name": "倒地闷响",
+      "recall": {
+        "keywords": [
+          "倒地声",
+          "倒地",
+          "身体落地",
+          "摔倒声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "倒地": [
+            "栽倒",
+            "跌倒"
+          ],
+          "倒地声": [
+            "倒地闷响"
+          ]
+        }
+      },
+      "tags": [
+        "倒地",
+        "跌倒",
+        "闷响"
+      ]
+    },
+    {
+      "author": "Kenney (Kenney Vleugels)",
+      "category": "动作/破风/挥动",
+      "directorNote": "A fast swing, dash, or dodge cuts through the air.",
+      "durationMs": 418,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "whoosh",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -15.8,
+        "peak": -4.9,
+        "v": 1
+      },
+      "media": "0535a99b641ae2c4ae1daa068ef56e0cb9a8d86fcb14c00bea4c546f60893051",
+      "name": "挥动破风",
+      "recall": {
+        "keywords": [
+          "破风声",
+          "破空声",
+          "挥剑",
+          "挥刀"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "挥剑": [
+            "挥刀"
+          ],
+          "破风声": [
+            "破空声"
+          ]
+        }
+      },
+      "tags": [
+        "挥动",
+        "破风",
+        "快速",
+        "闪避"
+      ]
+    },
+    {
+      "author": "themightyglider",
+      "category": "生活/物件/相机",
+      "directorNote": "A photograph is taken.",
+      "durationMs": 920,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "camera-shutter",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.3,
+        "peak": -1.3,
+        "v": 1
+      },
+      "media": "c643f75466aa7c24626177ea6b578b42c21200ad806c0f2e05eb1c77a18fd28d",
+      "name": "相机快门",
+      "recall": {
+        "keywords": [
+          "快门",
+          "快门声",
+          "咔嚓"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "咔嚓": [
+            "喀嚓"
+          ],
+          "快门": [
+            "快门声"
+          ]
+        }
+      },
+      "tags": [
+        "相机",
+        "拍照",
+        "快门"
+      ]
+    },
+    {
+      "author": "rubberduck",
+      "category": "自然/水声/水花",
+      "directorNote": "Water is splashed or something drops into water.",
+      "durationMs": 859,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "water-splash",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.4,
+        "peak": -1.6,
+        "v": 1
+      },
+      "media": "64cd0d7ba8a25ea6c141450fc76e3746e2e518ccd95d1d766aca6a2818015db1",
+      "name": "水花",
+      "recall": {
+        "keywords": [
+          "溅水声",
+          "落水",
+          "泼水声",
+          "浪花"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "落水": [
+            "入水"
+          ]
+        }
+      },
+      "tags": [
+        "水",
+        "水花",
+        "泼水"
+      ]
+    },
+    {
+      "author": "WuxiaScrub",
+      "category": "自然/天气/雷声",
+      "directorNote": "A distinct thunderclap punctuates a storm.",
+      "durationMs": 4000,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "thunder-clap",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.2,
+        "peak": -1.8,
+        "v": 1
+      },
+      "media": "c1dc6f24604fcb6893772cf4154e1f73d8c8c954133a4cbacc05a0b524f95209",
+      "name": "雷响",
+      "recall": {
+        "keywords": [
+          "雷声",
+          "霹雳",
+          "惊雷",
+          "雷鸣"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "惊雷": [
+            "响雷"
+          ],
+          "雷声": [
+            "雷鸣"
+          ],
+          "霹雳": [
+            "炸雷"
+          ]
+        }
+      },
+      "tags": [
+        "雷",
+        "雷声",
+        "雷雨"
+      ]
+    },
+    {
+      "author": "NenadSimic",
+      "category": "战斗/远声/爆炸",
+      "directorNote": "A distant explosion signals danger beyond the immediate scene.",
+      "durationMs": 1666,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "explosion-distant",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.5,
+        "peak": -1.7,
+        "v": 1
+      },
+      "media": "1db6751769ae1842470a919c29e1eff37245c0462aaf3032717fcabe5f33daaf",
+      "name": "远处爆炸",
+      "recall": {
+        "keywords": [
+          "爆炸",
+          "爆炸声",
+          "爆破声",
+          "远处的爆炸"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "爆炸": [
+            "爆破"
+          ],
+          "爆炸声": [
+            "爆破声"
+          ]
+        }
+      },
+      "tags": [
+        "爆炸",
+        "远处",
+        "轰鸣"
+      ]
+    },
+    {
+      "author": "kurt",
+      "category": "战斗/近声/枪声",
+      "directorNote": "A single close .22 pistol shot with its natural echo; no distance low-pass filter.",
+      "durationMs": 392,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "gunshot",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.8,
+        "peak": -1.7,
+        "v": 1
+      },
+      "media": "3c9e5fb0504711da5a2a8d56e1f52f1b3cb4b30d86a85f43442a2ebb150f40e5",
+      "name": "枪声",
+      "recall": {
+        "keywords": [
+          "枪响",
+          "开枪",
+          "射击",
+          "扣动扳机",
+          "枪击",
+          "鸣枪"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "开枪": [
+            "打了一枪"
+          ]
+        }
+      },
+      "tags": [
+        "枪声",
+        "近处",
+        "射击",
+        "手枪"
+      ]
+    },
+    {
+      "author": "kurt",
+      "category": "战斗/近声/枪声",
+      "directorNote": "Five rapid recorded .22 pistol shots; a short gunfire sequence, not an automatic weapon recording.",
+      "durationMs": 1993,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "gunfire-burst",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -20,
+        "peak": -1.4,
+        "v": 1
+      },
+      "media": "8997be84c93714543a8dd8fcbd53c417aebc07c750cfa472d013e959fe553f26",
+      "name": "连续枪声",
+      "recall": {
+        "keywords": [
+          "连续开枪",
+          "连射",
+          "扫射",
+          "枪林弹雨",
+          "连开几枪",
+          "连续枪响",
+          "密集枪声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "连射": [
+            "连续射击"
+          ]
+        }
+      },
+      "tags": [
+        "枪声",
+        "连射",
+        "近处",
+        "射击"
+      ]
+    },
+    {
+      "author": "kurt",
+      "category": "战斗/远声/枪声",
+      "directorNote": "A gunshot is heard from far away.",
+      "durationMs": 2022,
+      "enabled": true,
+      "gainDb": 6,
+      "id": "gunshot-distant",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -16.5,
+        "peak": -1.2,
+        "v": 1
+      },
+      "media": "74a27ede189b1d8651a4ba7144aeca0a941737a33fe3e1690ade795199c4d8cc",
+      "name": "远处枪声",
+      "recall": {
+        "keywords": [
+          "远方枪声",
+          "远处开枪",
+          "远方射击",
+          "远处枪响",
+          "远方枪响"
+        ],
+        "mode": "keyword",
+        "synonyms": {}
+      },
+      "tags": [
+        "枪声",
+        "远处",
+        "射击"
+      ]
+    },
+    {
+      "author": "bart",
+      "category": "时间/钟表",
+      "directorNote": "A mechanical clock ticks three times; use when time stops or freezes.",
+      "durationMs": 2300,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "clock-tick",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -20,
+        "peak": -2.8,
+        "v": 1
+      },
+      "media": "757e8f31c7f777adba20c5b65565b9efd49b578d21a9ebf5ce499d7dda278552",
+      "name": "钟表滴答",
+      "recall": {
+        "keywords": [
+          "滴答",
+          "钟表",
+          "时钟",
+          "秒针",
+          "时间停止",
+          "时停",
+          "时间暂停"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "时间停止": [
+            "时间冻结",
+            "时间静止"
+          ],
+          "滴答": [
+            "嘀嗒",
+            "滴嗒"
+          ]
+        }
+      },
+      "tags": [
+        "钟表",
+        "滴答",
+        "机械",
+        "时间停止"
+      ]
+    },
+    {
+      "author": "DSH Tavern (in-house synthesis)",
+      "category": "魔法/效果/闪光",
+      "directorNote": "A brief magical glimmer, enchanted object, or delicate spell appears.",
+      "durationMs": 1800,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "magic-sparkle",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.8,
+        "peak": -6.9,
+        "v": 1
+      },
+      "media": "65a00dd2cbdce431a8a910b8d5fc4bd8d1b6ef46e58d9fdb7bce326e1e135a5f",
+      "name": "魔法闪光",
+      "recall": {
+        "keywords": [
+          "魔法火花",
+          "魔光",
+          "魔法光芒"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "魔光": [
+            "魔法光芒"
+          ]
+        }
+      },
+      "tags": [
+        "魔法",
+        "闪光",
+        "铃音"
+      ]
+    },
+    {
+      "author": "DSH Tavern (in-house synthesis)",
+      "category": "魔法/效果/变身",
+      "directorNote": "An ascending magical effect for a transformation or surge of power.",
+      "durationMs": 2800,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "transformation-rise",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.8,
+        "peak": -5.7,
+        "v": 1
+      },
+      "media": "3b4b1c5af71c349685bccbc60992f9c816e0538aae8465b7453dc9da69c172cf",
+      "name": "变身上升",
+      "recall": {
+        "keywords": [
+          "变身",
+          "变身光芒",
+          "变身光柱",
+          "变身声"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "变身光芒": [
+            "变身光柱"
+          ]
+        }
+      },
+      "tags": [
+        "魔法",
+        "变身",
+        "上升"
+      ]
+    },
+    {
+      "author": "DSH Tavern (in-house synthesis)",
+      "category": "演出/提示/惊讶",
+      "directorNote": "A short playful accent for sudden surprise or an unexpected discovery.",
+      "durationMs": 850,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "surprise-sting",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.2,
+        "peak": -3.2,
+        "v": 1
+      },
+      "media": "e2c80e2b8388f6bb829a9a290923bbefca4d0cbe8912682d920999c33d2d8e86",
+      "name": "惊讶提示",
+      "recall": {
+        "keywords": [
+          "惊讶音",
+          "惊讶音效",
+          "惊讶提示音"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "惊讶音": [
+            "惊讶提示音"
+          ]
+        }
+      },
+      "tags": [
+        "惊讶",
+        "提示",
+        "拨弦"
+      ]
+    },
+    {
+      "author": "DSH Tavern (in-house synthesis)",
+      "category": "演出/提示/不祥",
+      "directorNote": "A low ominous accent when a threat or disturbing implication becomes apparent.",
+      "durationMs": 2500,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "ominous-sting",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.7,
+        "peak": -3.5,
+        "v": 1
+      },
+      "media": "3115cdf1d7654b6418e952372f3d59ddba28e231b8b6e97772edc1f6764d8c26",
+      "name": "不祥低音",
+      "recall": {
+        "keywords": [
+          "低音轰鸣",
+          "低频轰鸣",
+          "阴森低音"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "低音轰鸣": [
+            "低频轰鸣"
+          ]
+        }
+      },
+      "tags": [
+        "不祥",
+        "低音",
+        "紧张"
+      ]
+    },
+    {
+      "author": "DSH Tavern (in-house synthesis)",
+      "category": "演出/提示/疑惑",
+      "directorNote": "A playful questioning accent for confusion or a light comic double-take.",
+      "durationMs": 950,
+      "enabled": true,
+      "gainDb": 0,
+      "id": "question-boing",
+      "kind": "sfx",
+      "license": "CC0-1.0",
+      "loop": false,
+      "loudness": {
+        "lufs": -17.5,
+        "peak": -5.7,
+        "v": 1
+      },
+      "media": "c4e0f58bdd351ca130cb551b59c4733a3d4ce18ef6663f6439ff109e3ed0e2c0",
+      "name": "疑惑弹音",
+      "recall": {
+        "keywords": [
+          "弹音",
+          "弹簧音",
+          "滑音",
+          "嘣嘣"
+        ],
+        "mode": "keyword",
+        "synonyms": {
+          "弹音": [
+            "弹簧音"
+          ],
+          "滑音": [
+            "滑奏"
+          ]
+        }
+      },
+      "tags": [
+        "疑惑",
+        "弹音",
+        "木琴"
+      ]
+    },
+    {
+      "id": "cash-register",
+      "kind": "sfx",
+      "name": "收银机扫码结账",
+      "enabled": true,
+      "media": "9168674aceb6e6f144554950fd4934c365a3e854109a95aee4671ad2cd529692",
+      "author": "Work With Sounds / Werstas",
+      "license": "CC-BY-4.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "收银机",
+          "结账",
+          "收款",
+          "收银"
+        ]
+      },
+      "directorNote": "真实 HP 收银设备操作录音，包含扫码结账过程；现代商店使用，不冒充老式机械钱柜铃声。",
+      "description": "WWS Cashregister.ogg | https://commons.wikimedia.org/wiki/File:WWS_Cashregister.ogg | https://creativecommons.org/licenses/by/4.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-25.13:measured_TP=-2.17:measured_LRA=8.10:measured_thresh=-36.19:offset=2.09:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": false,
+      "durationMs": 25198,
+      "loudness": {
+        "lufs": -18.77,
+        "peak": -2.21,
+        "v": 1
+      },
+      "gainDb": 0
+    },
+    {
+      "id": "crowd-applause",
+      "kind": "sfx",
+      "name": "人群鼓掌",
+      "enabled": true,
+      "media": "dfc749761b242b498c6b7fcd9f73e02190ea264a8403b4e3e41a7a43ca4818a4",
+      "author": "eXpl0it3r",
+      "license": "CC0-1.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "鼓掌",
+          "掌声",
+          "喝彩",
+          "谢幕"
+        ]
+      },
+      "directorNote": "教堂音乐会开始前的完整掌声录音；混响较大，适合观众鼓掌与登场欢迎。",
+      "description": "Applause in a large hall or church | https://opengameart.org/content/applause-in-a-large-hall-or-church | https://creativecommons.org/publicdomain/zero/1.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-20.74:measured_TP=0.02:measured_LRA=9.00:measured_thresh=-31.28:offset=1.29:linear=true -ar 44100 -c:a libvorbis -q:a 5",
+      "loop": false,
+      "durationMs": 39146,
+      "loudness": {
+        "lufs": -18.66,
+        "peak": -2.27,
+        "v": 1
+      },
+      "gainDb": 0
+    }
+  ],
+  "blobs": {
+    "0535a99b641ae2c4ae1daa068ef56e0cb9a8d86fcb14c00bea4c546f60893051": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 7948
+    },
+    "1b99e9ae97397b22d502f8f28feff021f2c26f75e9e26e5e93962dbc3e0aa82a": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 4884
+    },
+    "1db6751769ae1842470a919c29e1eff37245c0462aaf3032717fcabe5f33daaf": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 14817
+    },
+    "1e5382dae968087f38b0f9c00f523b920e63a8700c8ea14911dd07b223b569e1": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 8766
+    },
+    "27e244b417328ac31b24b72c2e4fa330a8acfffc175cf45244d73d786ab270b6": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 45465
+    },
+    "3115cdf1d7654b6418e952372f3d59ddba28e231b8b6e97772edc1f6764d8c26": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 11446
+    },
+    "3b4b1c5af71c349685bccbc60992f9c816e0538aae8465b7453dc9da69c172cf": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 18517
+    },
+    "3c9e5fb0504711da5a2a8d56e1f52f1b3cb4b30d86a85f43442a2ebb150f40e5": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 7460
+    },
+    "3ce1ae313603e3e5ca38af2d59bfc098ccee09742f4882e5728019bd0bfb38dc": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 14361
+    },
+    "4010026c9a3ee414a36e53aeef4fd134da5d98e8a14b74992096d9a79f58e0ca": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 40015
+    },
+    "5bef43a6eba714d1264a1fa90a750935fcf0818dee5e30a2cf049ffc9c620a79": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 9084
+    },
+    "64cd0d7ba8a25ea6c141450fc76e3746e2e518ccd95d1d766aca6a2818015db1": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 12674
+    },
+    "65a00dd2cbdce431a8a910b8d5fc4bd8d1b6ef46e58d9fdb7bce326e1e135a5f": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 14500
+    },
+    "6b0eb4e2b53c2b2092b9645e04540038595517153b0b5f4e41043a8ca919a82f": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 8724
+    },
+    "6b3ac784164a834c96032e5251c6fa286f6494fcd509eec5a1fbea3f5d1e9826": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 12076
+    },
+    "74a27ede189b1d8651a4ba7144aeca0a941737a33fe3e1690ade795199c4d8cc": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 23308
+    },
+    "757e8f31c7f777adba20c5b65565b9efd49b578d21a9ebf5ce499d7dda278552": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 26172
+    },
+    "85c1591ba4a016df6e07a54bf3b3e23f3a8d0036fda11e55670c0814f9ce80ab": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 121098
+    },
+    "8997be84c93714543a8dd8fcbd53c417aebc07c750cfa472d013e959fe553f26": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 22550
+    },
+    "90a8f9722f7169666110050f645be3262adf8e440e7f27a3d4ca9a0a2d03585a": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 27958
+    },
+    "9c6b03be816520d40bc2cc68dd1b6e5e0a9e00c5613697f29183e5609349c241": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 8049
+    },
+    "a96775caad20c197c66e76038276e2765a36ba637d1bad1938651d98a3464e3d": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 19927
+    },
+    "ae806f48ffb367564ffbba5ccccef0c97e35f489e450f2c7a9c802389df24c03": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 9936
+    },
+    "c05ff0863f6098caa347927e13495c1785c13b821550cb4fb8e933d2ad03639d": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 6624
+    },
+    "c078a3f73c7ae8263d76eba3afdcacea9afee631136de0f82e539177d358514d": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 7964
+    },
+    "c1dc6f24604fcb6893772cf4154e1f73d8c8c954133a4cbacc05a0b524f95209": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 37878
+    },
+    "c45c032d2aed7ac0bddd673dc3acc56b442ac1ef6fe9fd1edde5b97941b5cce2": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 12862
+    },
+    "c4e0f58bdd351ca130cb551b59c4733a3d4ce18ef6663f6439ff109e3ed0e2c0": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 7764
+    },
+    "c643f75466aa7c24626177ea6b578b42c21200ad806c0f2e05eb1c77a18fd28d": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 12804
+    },
+    "e2c80e2b8388f6bb829a9a290923bbefca4d0cbe8912682d920999c33d2d8e86": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 8424
+    },
+    "ebab47febf5aec6d8512c1b5a4280037f958006db606cef0852dfd9b69cc7908": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 13523
+    },
+    "f113ffa64b10c4c3b50d254878e3eba45bc5c9397e4159cef3fc6a2501ef23d2": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 43889
+    },
+    "9168674aceb6e6f144554950fd4934c365a3e854109a95aee4671ad2cd529692": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 317342
+    },
+    "dfc749761b242b498c6b7fcd9f73e02190ea264a8403b4e3e41a7a43ca4818a4": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 853215
+    }
+  },
+  "bundles": {},
+  "contentHash": "e78117397b8b20b14f9c74bc35fd0bce58b02c5039b6663a4acf5e2571b6baef",
+  "credits": [
+    "credits/CREDITS.md",
+    "credits/CC-BY-3.0.txt",
+    "credits/AMBIENCE-CREDITS.md",
+    "credits/ADDITIONS.md",
+    "credits/CC0-1.0.txt",
+    "credits/CC-BY-4.0.txt"
+  ],
+  "description": "独立通用一次音效。逐项混合许可与来源见 credits/CREDITS.md。",
+  "figures": [],
+  "files": [
+    {
+      "path": "credits/ADDITIONS.md",
+      "size": 1803,
+      "sha256": "c408078c799895f9f648b4b6f222194a25904ffe198e5d4e9e6b0adc1bdc27a3"
+    },
+    {
+      "path": "credits/AMBIENCE-CREDITS.md",
+      "size": 4381,
+      "sha256": "225edbd2adc64d516d31a098870e61b9c6e2c6647a631486537184dd121ff0c4"
+    },
+    {
+      "path": "credits/CC-BY-3.0.txt",
+      "size": 483,
+      "sha256": "a3a3868ec7d2ce2dd75a817d0ebfc4739f304360028dab2f33e238bce8af9499"
+    },
+    {
+      "path": "credits/CC-BY-4.0.txt",
+      "size": 18657,
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411"
+    },
+    {
+      "path": "credits/CC0-1.0.txt",
+      "size": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "credits/CREDITS.md",
+      "size": 10514,
+      "sha256": "c63a004b84018cb171ae92a85099f4288fb41663e8775f9a70d500b35e9f65aa"
+    },
+    {
+      "path": "media/0535a99b641ae2c4ae1daa068ef56e0cb9a8d86fcb14c00bea4c546f60893051.ogg",
+      "size": 7948,
+      "sha256": "0535a99b641ae2c4ae1daa068ef56e0cb9a8d86fcb14c00bea4c546f60893051"
+    },
+    {
+      "path": "media/1b99e9ae97397b22d502f8f28feff021f2c26f75e9e26e5e93962dbc3e0aa82a.ogg",
+      "size": 4884,
+      "sha256": "1b99e9ae97397b22d502f8f28feff021f2c26f75e9e26e5e93962dbc3e0aa82a"
+    },
+    {
+      "path": "media/1db6751769ae1842470a919c29e1eff37245c0462aaf3032717fcabe5f33daaf.ogg",
+      "size": 14817,
+      "sha256": "1db6751769ae1842470a919c29e1eff37245c0462aaf3032717fcabe5f33daaf"
+    },
+    {
+      "path": "media/1e5382dae968087f38b0f9c00f523b920e63a8700c8ea14911dd07b223b569e1.ogg",
+      "size": 8766,
+      "sha256": "1e5382dae968087f38b0f9c00f523b920e63a8700c8ea14911dd07b223b569e1"
+    },
+    {
+      "path": "media/27e244b417328ac31b24b72c2e4fa330a8acfffc175cf45244d73d786ab270b6.ogg",
+      "size": 45465,
+      "sha256": "27e244b417328ac31b24b72c2e4fa330a8acfffc175cf45244d73d786ab270b6"
+    },
+    {
+      "path": "media/3115cdf1d7654b6418e952372f3d59ddba28e231b8b6e97772edc1f6764d8c26.ogg",
+      "size": 11446,
+      "sha256": "3115cdf1d7654b6418e952372f3d59ddba28e231b8b6e97772edc1f6764d8c26"
+    },
+    {
+      "path": "media/3b4b1c5af71c349685bccbc60992f9c816e0538aae8465b7453dc9da69c172cf.ogg",
+      "size": 18517,
+      "sha256": "3b4b1c5af71c349685bccbc60992f9c816e0538aae8465b7453dc9da69c172cf"
+    },
+    {
+      "path": "media/3c9e5fb0504711da5a2a8d56e1f52f1b3cb4b30d86a85f43442a2ebb150f40e5.ogg",
+      "size": 7460,
+      "sha256": "3c9e5fb0504711da5a2a8d56e1f52f1b3cb4b30d86a85f43442a2ebb150f40e5"
+    },
+    {
+      "path": "media/3ce1ae313603e3e5ca38af2d59bfc098ccee09742f4882e5728019bd0bfb38dc.ogg",
+      "size": 14361,
+      "sha256": "3ce1ae313603e3e5ca38af2d59bfc098ccee09742f4882e5728019bd0bfb38dc"
+    },
+    {
+      "path": "media/4010026c9a3ee414a36e53aeef4fd134da5d98e8a14b74992096d9a79f58e0ca.ogg",
+      "size": 40015,
+      "sha256": "4010026c9a3ee414a36e53aeef4fd134da5d98e8a14b74992096d9a79f58e0ca"
+    },
+    {
+      "path": "media/5bef43a6eba714d1264a1fa90a750935fcf0818dee5e30a2cf049ffc9c620a79.ogg",
+      "size": 9084,
+      "sha256": "5bef43a6eba714d1264a1fa90a750935fcf0818dee5e30a2cf049ffc9c620a79"
+    },
+    {
+      "path": "media/64cd0d7ba8a25ea6c141450fc76e3746e2e518ccd95d1d766aca6a2818015db1.ogg",
+      "size": 12674,
+      "sha256": "64cd0d7ba8a25ea6c141450fc76e3746e2e518ccd95d1d766aca6a2818015db1"
+    },
+    {
+      "path": "media/65a00dd2cbdce431a8a910b8d5fc4bd8d1b6ef46e58d9fdb7bce326e1e135a5f.ogg",
+      "size": 14500,
+      "sha256": "65a00dd2cbdce431a8a910b8d5fc4bd8d1b6ef46e58d9fdb7bce326e1e135a5f"
+    },
+    {
+      "path": "media/6b0eb4e2b53c2b2092b9645e04540038595517153b0b5f4e41043a8ca919a82f.ogg",
+      "size": 8724,
+      "sha256": "6b0eb4e2b53c2b2092b9645e04540038595517153b0b5f4e41043a8ca919a82f"
+    },
+    {
+      "path": "media/6b3ac784164a834c96032e5251c6fa286f6494fcd509eec5a1fbea3f5d1e9826.ogg",
+      "size": 12076,
+      "sha256": "6b3ac784164a834c96032e5251c6fa286f6494fcd509eec5a1fbea3f5d1e9826"
+    },
+    {
+      "path": "media/74a27ede189b1d8651a4ba7144aeca0a941737a33fe3e1690ade795199c4d8cc.ogg",
+      "size": 23308,
+      "sha256": "74a27ede189b1d8651a4ba7144aeca0a941737a33fe3e1690ade795199c4d8cc"
+    },
+    {
+      "path": "media/757e8f31c7f777adba20c5b65565b9efd49b578d21a9ebf5ce499d7dda278552.ogg",
+      "size": 26172,
+      "sha256": "757e8f31c7f777adba20c5b65565b9efd49b578d21a9ebf5ce499d7dda278552"
+    },
+    {
+      "path": "media/85c1591ba4a016df6e07a54bf3b3e23f3a8d0036fda11e55670c0814f9ce80ab.ogg",
+      "size": 121098,
+      "sha256": "85c1591ba4a016df6e07a54bf3b3e23f3a8d0036fda11e55670c0814f9ce80ab"
+    },
+    {
+      "path": "media/8997be84c93714543a8dd8fcbd53c417aebc07c750cfa472d013e959fe553f26.ogg",
+      "size": 22550,
+      "sha256": "8997be84c93714543a8dd8fcbd53c417aebc07c750cfa472d013e959fe553f26"
+    },
+    {
+      "path": "media/90a8f9722f7169666110050f645be3262adf8e440e7f27a3d4ca9a0a2d03585a.ogg",
+      "size": 27958,
+      "sha256": "90a8f9722f7169666110050f645be3262adf8e440e7f27a3d4ca9a0a2d03585a"
+    },
+    {
+      "path": "media/9168674aceb6e6f144554950fd4934c365a3e854109a95aee4671ad2cd529692.ogg",
+      "size": 317342,
+      "sha256": "9168674aceb6e6f144554950fd4934c365a3e854109a95aee4671ad2cd529692"
+    },
+    {
+      "path": "media/9c6b03be816520d40bc2cc68dd1b6e5e0a9e00c5613697f29183e5609349c241.ogg",
+      "size": 8049,
+      "sha256": "9c6b03be816520d40bc2cc68dd1b6e5e0a9e00c5613697f29183e5609349c241"
+    },
+    {
+      "path": "media/a96775caad20c197c66e76038276e2765a36ba637d1bad1938651d98a3464e3d.ogg",
+      "size": 19927,
+      "sha256": "a96775caad20c197c66e76038276e2765a36ba637d1bad1938651d98a3464e3d"
+    },
+    {
+      "path": "media/ae806f48ffb367564ffbba5ccccef0c97e35f489e450f2c7a9c802389df24c03.ogg",
+      "size": 9936,
+      "sha256": "ae806f48ffb367564ffbba5ccccef0c97e35f489e450f2c7a9c802389df24c03"
+    },
+    {
+      "path": "media/c05ff0863f6098caa347927e13495c1785c13b821550cb4fb8e933d2ad03639d.ogg",
+      "size": 6624,
+      "sha256": "c05ff0863f6098caa347927e13495c1785c13b821550cb4fb8e933d2ad03639d"
+    },
+    {
+      "path": "media/c078a3f73c7ae8263d76eba3afdcacea9afee631136de0f82e539177d358514d.ogg",
+      "size": 7964,
+      "sha256": "c078a3f73c7ae8263d76eba3afdcacea9afee631136de0f82e539177d358514d"
+    },
+    {
+      "path": "media/c1dc6f24604fcb6893772cf4154e1f73d8c8c954133a4cbacc05a0b524f95209.ogg",
+      "size": 37878,
+      "sha256": "c1dc6f24604fcb6893772cf4154e1f73d8c8c954133a4cbacc05a0b524f95209"
+    },
+    {
+      "path": "media/c45c032d2aed7ac0bddd673dc3acc56b442ac1ef6fe9fd1edde5b97941b5cce2.ogg",
+      "size": 12862,
+      "sha256": "c45c032d2aed7ac0bddd673dc3acc56b442ac1ef6fe9fd1edde5b97941b5cce2"
+    },
+    {
+      "path": "media/c4e0f58bdd351ca130cb551b59c4733a3d4ce18ef6663f6439ff109e3ed0e2c0.ogg",
+      "size": 7764,
+      "sha256": "c4e0f58bdd351ca130cb551b59c4733a3d4ce18ef6663f6439ff109e3ed0e2c0"
+    },
+    {
+      "path": "media/c643f75466aa7c24626177ea6b578b42c21200ad806c0f2e05eb1c77a18fd28d.ogg",
+      "size": 12804,
+      "sha256": "c643f75466aa7c24626177ea6b578b42c21200ad806c0f2e05eb1c77a18fd28d"
+    },
+    {
+      "path": "media/dfc749761b242b498c6b7fcd9f73e02190ea264a8403b4e3e41a7a43ca4818a4.ogg",
+      "size": 853215,
+      "sha256": "dfc749761b242b498c6b7fcd9f73e02190ea264a8403b4e3e41a7a43ca4818a4"
+    },
+    {
+      "path": "media/e2c80e2b8388f6bb829a9a290923bbefca4d0cbe8912682d920999c33d2d8e86.ogg",
+      "size": 8424,
+      "sha256": "e2c80e2b8388f6bb829a9a290923bbefca4d0cbe8912682d920999c33d2d8e86"
+    },
+    {
+      "path": "media/ebab47febf5aec6d8512c1b5a4280037f958006db606cef0852dfd9b69cc7908.ogg",
+      "size": 13523,
+      "sha256": "ebab47febf5aec6d8512c1b5a4280037f958006db606cef0852dfd9b69cc7908"
+    },
+    {
+      "path": "media/f113ffa64b10c4c3b50d254878e3eba45bc5c9397e4159cef3fc6a2501ef23d2.ogg",
+      "size": 43889,
+      "sha256": "f113ffa64b10c4c3b50d254878e3eba45bc5c9397e4159cef3fc6a2501ef23d2"
+    }
+  ],
+  "format": "dsh-asset-pack",
+  "id": "dfa58745-34d6-47db-9606-5b9868f46628",
+  "name": "通用一次音效",
+  "schemaVersion": 1,
+  "sprites": {}
+}

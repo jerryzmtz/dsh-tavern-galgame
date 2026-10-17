@@ -1,0 +1,247 @@
+{
+  "policy": "Shrink only. Exact path/rule/source plus occurrence count; remove stale entries, never add new ones. Includes passive documentation adjacent to the audited offenders.",
+  "baseline": "4da365669",
+  "phoneTransition": {
+    "owner": "m1-real-fix",
+    "entries": [],
+    "note": "No tracked phone prose marker at baseline; see BODY-MARKER-AUDIT.md. Remove any evidence-based transitional exception when m1-real-fix ships; never exempt the phone directory."
+  },
+  "entries": [
+    {
+      "path": "tavern-plugin/lib/domain/dialogue-bubbles.js",
+      "rule": "bubble-presentation",
+      "source": "// The model writes `@bubble:alias|name|mood|[line]` (inner thoughts as `[*...*]`);"
+    },
+    {
+      "path": "tavern-plugin/lib/domain/dialogue-bubbles.js",
+      "rule": "bubble-presentation",
+      "source": "p002: \"- Spoken lines: `@bubble:handle|name|variant|[text]`, e.g. `@bubble:lin_yue|林月|喜悦|[你好。]`.\","
+    },
+    {
+      "path": "tavern-plugin/lib/domain/dialogue-bubbles.js",
+      "rule": "bubble-presentation",
+      "source": "p004: \"- Inner thoughts: `@bubble:handle|name|variant|[*text*]`, e.g. `@bubble:lin_yue|林月|喜悦|[*终于赶上了。*]`.\","
+    },
+    {
+      "path": "tavern-plugin/lib/domain/dialogue-bubbles.js",
+      "rule": "bubble-presentation",
+      "source": "p011: \"- For a character assigned a voice language, append a translation: `@bubble:handle|name|variant|[display text]|[voice text]`, e.g. `@bubble:lin_yue|林月|喜悦|[你好。]|[こんにちは。]` for Japanese. Everyone else keeps one text field.\","
+    },
+    {
+      "path": "tavern-plugin/lib/domain/dialogue-bubbles.js",
+      "rule": "bubble-presentation",
+      "source": "p012: \"- Their inner thoughts: `@bubble:handle|name|variant|[*display text*]|[*voice text*]`.\","
+    },
+    {
+      "path": "fork/skills/tavern/create-card/SKILL.md",
+      "rule": "status-output",
+      "source": "功能取舍由用户决定：MVU 将随剧情变化的状态交给后台结算，会增加后台调用；不用 MVU 的状态美化依赖模型输出格式，可能失效。信息足够后展示卡名、玩家、角色、世界书、开场及功能摘要；已明确要求直接制作时不重复确认。"
+    },
+    {
+      "path": "fork/skills/tavern/create-card/SKILL.md",
+      "rule": "status-output",
+      "source": "- 美化不用 MVU 时，开场主页放在开场 html 代码块；状态栏约定模型输出标签，通过 `/data/extensions/regex_scripts` 的展示正则替换为 HTML，并用 promptOnly 正则移除模型历史中的旧状态块。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/example-plugin.md",
+      "rule": "marker-instruction",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "ctx.tavern.promptSection({ name: 'hello', text: '在正文最后单独写一行 hello###一句给玩家的问候###。' })"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "// 并把正文里的 hello###文字### 显示成一个小徽章。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "pattern: /hello###([^#]+)###/,"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "设置了 `DSH_HOME` 时，数据目录在 `$DSH_HOME/profile-data/tavern/data/`。最小示例 [`examples/tavern-plugin-hello`](../examples/tavern-plugin-hello/) 就是这样一个文件夹，整个复制过去即可：宿主侧每轮在第一句话所在段落后挂一张图（先显示「生成中…」再换成图片），浏览器侧把正文里的 `hello###…###` 显示成徽章。把其中的 `drawImage()` 换成你的生图服务，就是一个完整的生图插件。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-api.md",
+      "rule": "marker-instruction",
+      "source": "rawText,       // 模型原始输出（含插件让模型写进正文的标记）"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "往**游玩时的正文提示词**里加一段，例如「请在正文段落之间写 `image###…###` 标记」。`name` 用小写字母、数字、点、下划线和连字符。`text` 可以是字符串，也可以是函数：每次请求模型前调用，收到 `{ gameId }`，返回空字符串就不加。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-api.md",
+      "rule": "marker-instruction",
+      "source": "往**游玩时的正文提示词**里加一段，例如「请在正文段落之间写 `image###…###` 标记」。`name` 用小写字母、数字、点、下划线和连字符。`text` 可以是字符串，也可以是函数：每次请求模型前调用，收到 `{ gameId }`，返回空字符串就不加。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "正文里匹配 `pattern`（正则）的片段交给插件显示，例如把 `image###…###` 换成图片。生成过程中也会调用，此时 `streaming` 为 `true`。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "## 让模型在正文里写标记，由插件显示"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "例如要求模型在合适的位置写 `image###一段画面描述###`，浏览器侧把标记换成图片。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "例如要求模型在合适的位置写 `image###一段画面描述###`，浏览器侧把标记换成图片。"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "ctx.tavern.promptSection({ name: 'image-marker', text: '需要配图时，在段落之间单独写一行 image###画面描述###。' })"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "pattern: /image###([^#]+)###/,"
+    },
+    {
+      "path": "fork/skills/tavern/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "`promptSection` 的内容每次请求都一样才不会让提示词缓存失效，不要把每轮变化的内容放进去。`onTurnSettled` 收到的 `rawText` 保留了模型写的标记，宿主侧可以据此提前生成。"
+    },
+    {
+      "path": "presets/tavern/skills/create-card/SKILL.md",
+      "rule": "status-output",
+      "source": "- 前端美化：状态栏面板、开场主页等视觉样式。不选 MVU 时，状态栏只能靠模型按约定格式输出、再由正则替换成 HTML，模型偶尔不按格式输出时显示会失效；把这一点讲清楚，由用户决定。"
+    },
+    {
+      "path": "presets/tavern/skills/create-card/SKILL.md",
+      "rule": "status-output",
+      "source": "5. 选择了美化但不用 MVU：开场主页直接写进开场正文的 ```html 代码块；状态栏在 `system_prompt` 或 `post_history_instructions` 中约定每轮末尾输出固定标签格式，并通过 `rawOperations` 在 `/data/extensions/regex_scripts` 追加正则，把标签替换成选定草图的 HTML（`placement: [2]`、`markdownOnly: true`），另加一条 `promptOnly: true` 的正则从模型历史中移除旧状态块。保存后再次校验。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/example-plugin.md",
+      "rule": "marker-instruction",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "ctx.tavern.promptSection({ name: 'hello', text: '在正文最后单独写一行 hello###一句给玩家的问候###。' })"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "// 并把正文里的 hello###文字### 显示成一个小徽章。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/example-plugin.md",
+      "rule": "plugin-marker",
+      "source": "pattern: /hello###([^#]+)###/,"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "设置了 `DSH_HOME` 时，数据目录在 `$DSH_HOME/profile-data/tavern/data/`。最小示例 [`examples/tavern-plugin-hello`](../examples/tavern-plugin-hello/) 就是这样一个文件夹，整个复制过去即可：宿主侧每轮在第一句话所在段落后挂一张图（先显示「生成中…」再换成图片），浏览器侧把正文里的 `hello###…###` 显示成徽章。把其中的 `drawImage()` 换成你的生图服务，就是一个完整的生图插件。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-api.md",
+      "rule": "marker-instruction",
+      "source": "rawText,       // 模型原始输出（含插件让模型写进正文的标记）"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "往**游玩时的正文提示词**里加一段，例如「请在正文段落之间写 `image###…###` 标记」。`name` 用小写字母、数字、点、下划线和连字符。`text` 可以是字符串，也可以是函数：每次请求模型前调用，收到 `{ gameId }`，返回空字符串就不加。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-api.md",
+      "rule": "marker-instruction",
+      "source": "往**游玩时的正文提示词**里加一段，例如「请在正文段落之间写 `image###…###` 标记」。`name` 用小写字母、数字、点、下划线和连字符。`text` 可以是字符串，也可以是函数：每次请求模型前调用，收到 `{ gameId }`，返回空字符串就不加。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-api.md",
+      "rule": "plugin-marker",
+      "source": "正文里匹配 `pattern`（正则）的片段交给插件显示，例如把 `image###…###` 换成图片。生成过程中也会调用，此时 `streaming` 为 `true`。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "## 让模型在正文里写标记，由插件显示"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "例如要求模型在合适的位置写 `image###一段画面描述###`，浏览器侧把标记换成图片。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "例如要求模型在合适的位置写 `image###一段画面描述###`，浏览器侧把标记换成图片。"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "ctx.tavern.promptSection({ name: 'image-marker', text: '需要配图时，在段落之间单独写一行 image###画面描述###。' })"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "plugin-marker",
+      "source": "pattern: /image###([^#]+)###/,"
+    },
+    {
+      "path": "presets/tavern/skills/tavern-plugin/references/plugin-recipes.md",
+      "rule": "marker-instruction",
+      "source": "`promptSection` 的内容每次请求都一样才不会让提示词缓存失效，不要把每轮变化的内容放进去。`onTurnSettled` 收到的 `rawText` 保留了模型写的标记，宿主侧可以据此提前生成。"
+    },
+    {
+      "path": "examples/avra/cards/avra-complete.json",
+      "rule": "status-output",
+      "source": "\"post_history_instructions\": \"保持奇幻悬疑基调。阿芙拉只有在确认黑蜡信封或其他可信凭证后，才谈银铃商队的核心线索。每轮正文末尾输出且只输出一个 <avra_status> 状态块，依次填写时间、地点、天气、线索、信任、状态；信任必须是 0 到 100 的整数。\","
+    },
+    {
+      "path": "examples/tavern-plugin-hello/client.js",
+      "rule": "plugin-marker",
+      "source": "// 并把正文里的 hello###文字### 显示成一个小徽章。"
+    },
+    {
+      "path": "examples/tavern-plugin-hello/client.js",
+      "rule": "plugin-marker",
+      "source": "pattern: /hello###([^#]+)###/,"
+    },
+    {
+      "path": "examples/tavern-plugin-hello/index.mjs",
+      "rule": "plugin-marker",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "examples/tavern-plugin-hello/index.mjs",
+      "rule": "marker-instruction",
+      "source": "// 另外请模型在正文末尾写一个 hello###…### 标记，由 client.js 显示成徽章。"
+    },
+    {
+      "path": "examples/tavern-plugin-hello/index.mjs",
+      "rule": "plugin-marker",
+      "source": "ctx.tavern.promptSection({ name: 'hello', text: '在正文最后单独写一行 hello###一句给玩家的问候###。' })"
+    }
+  ],
+  "promptFormat": "private fork: English source relocation only; per-path/rule occurrence counts never grow and bubble protocol literals are unchanged."
+}

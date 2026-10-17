@@ -1,0 +1,3718 @@
+{
+  "soyo": {
+    "version": 2,
+    "character": {
+      "id": "soyo",
+      "name": "長崎そよ / 长崎素世"
+    },
+    "kind": "layered-static-sprites",
+    "closedBehavior": "restore-base",
+    "mouthAtlas": {
+      "src": "assets/soyo-mouth-atlas-candidates.png",
+      "width": 840,
+      "height": 2500,
+      "frames": {
+        "a": {
+          "x": 0,
+          "y": 0,
+          "w": 140,
+          "h": 88
+        },
+        "thinking_a": {
+          "x": 0,
+          "y": 112,
+          "w": 150,
+          "h": 106
+        },
+        "i": {
+          "x": 168,
+          "y": 0,
+          "w": 140,
+          "h": 88
+        },
+        "thinking_i": {
+          "x": 168,
+          "y": 112,
+          "w": 150,
+          "h": 106
+        },
+        "u": {
+          "x": 336,
+          "y": 0,
+          "w": 140,
+          "h": 88
+        },
+        "thinking_u": {
+          "x": 336,
+          "y": 112,
+          "w": 150,
+          "h": 106
+        },
+        "e": {
+          "x": 504,
+          "y": 0,
+          "w": 140,
+          "h": 88
+        },
+        "thinking_e": {
+          "x": 504,
+          "y": 112,
+          "w": 150,
+          "h": 106
+        },
+        "o": {
+          "x": 672,
+          "y": 0,
+          "w": 140,
+          "h": 88
+        },
+        "thinking_o": {
+          "x": 672,
+          "y": 112,
+          "w": 150,
+          "h": 106
+        },
+        "tense_i": {
+          "x": 168,
+          "y": 224,
+          "w": 140,
+          "h": 88
+        },
+        "tense_e": {
+          "x": 504,
+          "y": 224,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_polite_smile_a": {
+          "x": 0,
+          "y": 336,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_polite_smile_i": {
+          "x": 232,
+          "y": 336,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_polite_smile_u": {
+          "x": 464,
+          "y": 336,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_polite_smile_e": {
+          "x": 0,
+          "y": 492,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_polite_smile_o": {
+          "x": 232,
+          "y": 492,
+          "w": 140,
+          "h": 88
+        },
+        "soyo_breakdown_closed": {
+          "x": 464,
+          "y": 492,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_breakdown_a": {
+          "x": 0,
+          "y": 648,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_breakdown_i": {
+          "x": 232,
+          "y": 648,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_breakdown_u": {
+          "x": 464,
+          "y": 648,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_breakdown_e": {
+          "x": 0,
+          "y": 804,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_breakdown_o": {
+          "x": 232,
+          "y": 804,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_cold_glance_a": {
+          "x": 464,
+          "y": 804,
+          "w": 129,
+          "h": 96
+        },
+        "soyo_cold_glance_i": {
+          "x": 0,
+          "y": 960,
+          "w": 129,
+          "h": 96
+        },
+        "soyo_cold_glance_u": {
+          "x": 232,
+          "y": 960,
+          "w": 129,
+          "h": 96
+        },
+        "soyo_cold_glance_e": {
+          "x": 464,
+          "y": 960,
+          "w": 129,
+          "h": 96
+        },
+        "soyo_cold_glance_o": {
+          "x": 0,
+          "y": 1116,
+          "w": 129,
+          "h": 96
+        },
+        "soyo_end_it_a": {
+          "x": 232,
+          "y": 1116,
+          "w": 121,
+          "h": 82
+        },
+        "soyo_end_it_i": {
+          "x": 464,
+          "y": 1116,
+          "w": 121,
+          "h": 82
+        },
+        "soyo_end_it_u": {
+          "x": 0,
+          "y": 1272,
+          "w": 121,
+          "h": 82
+        },
+        "soyo_end_it_e": {
+          "x": 232,
+          "y": 1272,
+          "w": 121,
+          "h": 82
+        },
+        "soyo_end_it_o": {
+          "x": 464,
+          "y": 1272,
+          "w": 121,
+          "h": 82
+        },
+        "soyo_please_stay_a": {
+          "x": 0,
+          "y": 1428,
+          "w": 149,
+          "h": 112
+        },
+        "soyo_please_stay_i": {
+          "x": 232,
+          "y": 1428,
+          "w": 149,
+          "h": 112
+        },
+        "soyo_please_stay_u": {
+          "x": 464,
+          "y": 1428,
+          "w": 149,
+          "h": 112
+        },
+        "soyo_please_stay_e": {
+          "x": 0,
+          "y": 1584,
+          "w": 149,
+          "h": 112
+        },
+        "soyo_please_stay_o": {
+          "x": 232,
+          "y": 1584,
+          "w": 149,
+          "h": 112
+        },
+        "soyo_haruhikage_closed": {
+          "x": 464,
+          "y": 1584,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_haruhikage_a": {
+          "x": 0,
+          "y": 1740,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_haruhikage_i": {
+          "x": 232,
+          "y": 1740,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_haruhikage_u": {
+          "x": 464,
+          "y": 1740,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_haruhikage_e": {
+          "x": 0,
+          "y": 1896,
+          "w": 216,
+          "h": 140
+        },
+        "soyo_haruhikage_o": {
+          "x": 232,
+          "y": 1896,
+          "w": 216,
+          "h": 140
+        },
+        "anger_restrained_v2_a": {
+          "x": 0,
+          "y": 2052,
+          "w": 109,
+          "h": 69
+        },
+        "anger_restrained_v2_i": {
+          "x": 232,
+          "y": 2052,
+          "w": 109,
+          "h": 69
+        },
+        "anger_restrained_v2_u": {
+          "x": 464,
+          "y": 2052,
+          "w": 109,
+          "h": 69
+        },
+        "anger_restrained_v2_e": {
+          "x": 0,
+          "y": 2164,
+          "w": 109,
+          "h": 69
+        },
+        "anger_restrained_v2_o": {
+          "x": 232,
+          "y": 2164,
+          "w": 109,
+          "h": 69
+        },
+        "surprise_stunned_v2_a": {
+          "x": 464,
+          "y": 2164,
+          "w": 109,
+          "h": 75
+        },
+        "surprise_stunned_v2_i": {
+          "x": 0,
+          "y": 2276,
+          "w": 109,
+          "h": 75
+        },
+        "surprise_stunned_v2_u": {
+          "x": 232,
+          "y": 2276,
+          "w": 109,
+          "h": 75
+        },
+        "surprise_stunned_v2_e": {
+          "x": 464,
+          "y": 2276,
+          "w": 109,
+          "h": 75
+        },
+        "surprise_stunned_v2_o": {
+          "x": 0,
+          "y": 2388,
+          "w": 109,
+          "h": 75
+        }
+      },
+      "closed": "restore",
+      "defaultSet": "shared"
+    },
+    "states": [
+      {
+        "id": "joy",
+        "label": "喜悦",
+        "emotion": "joy",
+        "stage": {
+          "src": "assets/stage/joy.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 478,
+            "y": 216,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/joy.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 435,
+            "y": 528,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "anger",
+        "label": "愤怒·克制",
+        "emotion": "anger",
+        "mouthFrames": {
+          "a": "anger_restrained_v2_a",
+          "i": "anger_restrained_v2_i",
+          "u": "anger_restrained_v2_u",
+          "e": "anger_restrained_v2_e",
+          "o": "anger_restrained_v2_o"
+        },
+        "stage": {
+          "src": "assets/stage/anger_restrained_v2.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 484,
+            "y": 222,
+            "w": 45,
+            "h": 28
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/anger_restrained_v2.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 450,
+            "y": 540,
+            "w": 109,
+            "h": 69
+          }
+        }
+      },
+      {
+        "id": "sadness",
+        "label": "悲伤",
+        "emotion": "sadness",
+        "mouthFrames": {
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/sadness.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 478,
+            "y": 224,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/sadness.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 435,
+            "y": 547,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "nervous",
+        "label": "紧张",
+        "emotion": "nervous",
+        "mouthFrames": {
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/nervous.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 476,
+            "y": 224,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/nervous.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 428,
+            "y": 542,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "calm",
+        "label": "平和",
+        "emotion": "calm",
+        "stage": {
+          "src": "assets/stage/calm.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 475,
+            "y": 222,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/calm.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 426,
+            "y": 542,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "surprise",
+        "label": "惊讶·愣住",
+        "emotion": "surprise",
+        "mouthFrames": {
+          "a": "surprise_stunned_v2_a",
+          "i": "surprise_stunned_v2_i",
+          "u": "surprise_stunned_v2_u",
+          "e": "surprise_stunned_v2_e",
+          "o": "surprise_stunned_v2_o"
+        },
+        "stage": {
+          "src": "assets/stage/surprise_stunned_v2.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 448,
+            "y": 217,
+            "w": 45,
+            "h": 31
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/surprise_stunned_v2.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 457,
+            "y": 528,
+            "w": 109,
+            "h": 75
+          }
+        }
+      },
+      {
+        "id": "thinking",
+        "label": "思考",
+        "emotion": "thinking",
+        "mouthFrames": {
+          "a": "thinking_a",
+          "i": "thinking_i",
+          "u": "thinking_u",
+          "e": "thinking_e",
+          "o": "thinking_o"
+        },
+        "stage": {
+          "src": "assets/stage/thinking.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 480,
+            "y": 212,
+            "w": 62,
+            "h": 43
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/thinking.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 439,
+            "y": 518,
+            "w": 150,
+            "h": 106
+          }
+        }
+      },
+      {
+        "id": "determined",
+        "label": "坚定",
+        "emotion": "determined",
+        "mouthFrames": {
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/determined.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 477,
+            "y": 218,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/determined.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 432,
+            "y": 529,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "soyo_polite_smile",
+        "label": "托腮营业笑",
+        "emotion": "soyo_polite_smile",
+        "mouthFrames": {
+          "a": "soyo_polite_smile_a",
+          "i": "soyo_polite_smile_i",
+          "u": "soyo_polite_smile_u",
+          "e": "soyo_polite_smile_e",
+          "o": "soyo_polite_smile_o"
+        },
+        "stage": {
+          "src": "assets/stage/soyo_polite_smile.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 484,
+            "y": 223,
+            "w": 57,
+            "h": 36
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_polite_smile.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 449,
+            "y": 542,
+            "w": 140,
+            "h": 88
+          }
+        }
+      },
+      {
+        "id": "soyo_breakdown",
+        "label": "诗超绊泪崩",
+        "emotion": "soyo_breakdown",
+        "mouthFrames": {
+          "closed": "soyo_breakdown_closed",
+          "a": "soyo_breakdown_a",
+          "i": "soyo_breakdown_i",
+          "u": "soyo_breakdown_u",
+          "e": "soyo_breakdown_e",
+          "o": "soyo_breakdown_o"
+        },
+        "initialPhoneme": "a",
+        "stage": {
+          "src": "assets/stage/soyo_breakdown.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 472,
+            "y": 230,
+            "w": 89,
+            "h": 57
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_breakdown.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 422,
+            "y": 562,
+            "w": 216,
+            "h": 140
+          }
+        }
+      },
+      {
+        "id": "soyo_cold_glance",
+        "label": "冷眼斜睨",
+        "emotion": "soyo_cold_glance",
+        "mouthFrames": {
+          "a": "soyo_cold_glance_a",
+          "i": "soyo_cold_glance_i",
+          "u": "soyo_cold_glance_u",
+          "e": "soyo_cold_glance_e",
+          "o": "soyo_cold_glance_o"
+        },
+        "stage": {
+          "src": "assets/stage/soyo_cold_glance.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 484,
+            "y": 216,
+            "w": 53,
+            "h": 39
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_cold_glance.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 449,
+            "y": 524,
+            "w": 129,
+            "h": 96
+          }
+        }
+      },
+      {
+        "id": "soyo_end_it",
+        "label": "我来亲手结束它",
+        "emotion": "soyo_end_it",
+        "mouthFrames": {
+          "a": "soyo_end_it_a",
+          "i": "soyo_end_it_i",
+          "u": "soyo_end_it_u",
+          "e": "soyo_end_it_e",
+          "o": "soyo_end_it_o"
+        },
+        "stage": {
+          "src": "assets/stage/soyo_end_it.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 533,
+            "y": 233,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_end_it.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 445,
+            "y": 570,
+            "w": 121,
+            "h": 82
+          }
+        }
+      },
+      {
+        "id": "soyo_please_stay",
+        "label": "仰望挽留",
+        "emotion": "soyo_please_stay",
+        "mouthFrames": {
+          "a": "soyo_please_stay_a",
+          "i": "soyo_please_stay_i",
+          "u": "soyo_please_stay_u",
+          "e": "soyo_please_stay_e",
+          "o": "soyo_please_stay_o"
+        },
+        "stage": {
+          "src": "assets/stage/soyo_please_stay.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 495,
+            "y": 527,
+            "w": 54,
+            "h": 41
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_please_stay.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 468,
+            "y": 578,
+            "w": 149,
+            "h": 112
+          }
+        }
+      },
+      {
+        "id": "soyo_haruhikage",
+        "label": "为什么要演奏春日影",
+        "emotion": "soyo_haruhikage",
+        "mouthFrames": {
+          "closed": "soyo_haruhikage_closed",
+          "a": "soyo_haruhikage_a",
+          "i": "soyo_haruhikage_i",
+          "u": "soyo_haruhikage_u",
+          "e": "soyo_haruhikage_e",
+          "o": "soyo_haruhikage_o"
+        },
+        "initialPhoneme": "a",
+        "stage": {
+          "src": "assets/stage/soyo_haruhikage.png",
+          "width": 1024,
+          "height": 1300,
+          "mouth": {
+            "x": 476,
+            "y": 238,
+            "w": 89,
+            "h": 57
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/soyo_haruhikage.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 430,
+            "y": 578,
+            "w": 216,
+            "h": 140
+          }
+        }
+      }
+    ]
+  },
+  "mana": {
+    "version": 1,
+    "character": {
+      "id": "mana",
+      "name": "純田まな / 纯田真奈",
+      "romanized": "Mana Sumita",
+      "work": "BanG Dream! / sumimi"
+    },
+    "kind": "layered-static-sprites",
+    "closedBehavior": "restore-base except explicit surprise closed override",
+    "mouthAtlas": {
+      "src": "assets/mana-mouth-atlas.png",
+      "width": 740,
+      "height": 324,
+      "frames": {
+        "a": {
+          "x": 2,
+          "y": 2,
+          "w": 124,
+          "h": 84
+        },
+        "i": {
+          "x": 150,
+          "y": 2,
+          "w": 124,
+          "h": 84
+        },
+        "u": {
+          "x": 298,
+          "y": 2,
+          "w": 124,
+          "h": 84
+        },
+        "e": {
+          "x": 446,
+          "y": 2,
+          "w": 124,
+          "h": 84
+        },
+        "o": {
+          "x": 594,
+          "y": 2,
+          "w": 124,
+          "h": 84
+        },
+        "tense_a": {
+          "x": 2,
+          "y": 110,
+          "w": 124,
+          "h": 84
+        },
+        "tense_i": {
+          "x": 150,
+          "y": 110,
+          "w": 124,
+          "h": 84
+        },
+        "tense_e": {
+          "x": 298,
+          "y": 110,
+          "w": 124,
+          "h": 84
+        },
+        "surprise_closed": {
+          "x": 446,
+          "y": 110,
+          "w": 124,
+          "h": 84
+        },
+        "surprise_a": {
+          "x": 594,
+          "y": 110,
+          "w": 124,
+          "h": 84
+        },
+        "thinking_a": {
+          "x": 2,
+          "y": 218,
+          "w": 132,
+          "h": 96
+        },
+        "thinking_i": {
+          "x": 150,
+          "y": 218,
+          "w": 132,
+          "h": 96
+        },
+        "thinking_u": {
+          "x": 298,
+          "y": 218,
+          "w": 132,
+          "h": 96
+        },
+        "thinking_e": {
+          "x": 446,
+          "y": 218,
+          "w": 132,
+          "h": 96
+        },
+        "thinking_o": {
+          "x": 594,
+          "y": 218,
+          "w": 132,
+          "h": 96
+        }
+      },
+      "defaultFrames": {
+        "a": "a",
+        "i": "i",
+        "u": "u",
+        "e": "e",
+        "o": "o"
+      },
+      "closed": "restore"
+    },
+    "states": [
+      {
+        "id": "joy",
+        "label": "喜悦",
+        "emotion": "joy",
+        "stage": {
+          "src": "assets/stage/joy.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 468,
+            "y": 218,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/joy.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 432,
+            "y": 501,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "anger",
+        "label": "愤怒",
+        "emotion": "anger",
+        "mouthFrames": {
+          "a": "tense_a",
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/anger.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 463,
+            "y": 238,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/anger.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 432,
+            "y": 494,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "sadness",
+        "label": "悲伤",
+        "emotion": "sadness",
+        "mouthFrames": {
+          "a": "tense_a",
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/sadness.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 468,
+            "y": 246,
+            "w": 45,
+            "h": 30
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/sadness.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 415,
+            "y": 522,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "nervous",
+        "label": "紧张",
+        "emotion": "nervous",
+        "mouthFrames": {
+          "a": "tense_a",
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/nervous.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 467,
+            "y": 236,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/nervous.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 428,
+            "y": 500,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "calm",
+        "label": "平和",
+        "emotion": "calm",
+        "stage": {
+          "src": "assets/stage/calm.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 462,
+            "y": 238,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/calm.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 422,
+            "y": 484,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "surprise",
+        "label": "惊讶",
+        "emotion": "surprise",
+        "mouthFrames": {
+          "a": "surprise_a",
+          "i": "tense_i",
+          "e": "tense_e",
+          "closed": "surprise_closed"
+        },
+        "closedMouthFrame": "surprise_closed",
+        "initialPhoneme": "a",
+        "stage": {
+          "src": "assets/stage/surprise.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 462,
+            "y": 228,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/surprise.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 414,
+            "y": 486,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "thinking",
+        "label": "思考",
+        "emotion": "thinking",
+        "mouthFrames": {
+          "a": "thinking_a",
+          "i": "thinking_i",
+          "u": "thinking_u",
+          "e": "thinking_e",
+          "o": "thinking_o"
+        },
+        "stage": {
+          "src": "assets/stage/thinking.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 449,
+            "y": 224,
+            "w": 53,
+            "h": 38
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/thinking.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 382,
+            "y": 472,
+            "w": 132,
+            "h": 96
+          }
+        }
+      },
+      {
+        "id": "determined",
+        "label": "坚定",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "tense_a",
+          "i": "tense_i",
+          "e": "tense_e"
+        },
+        "stage": {
+          "src": "assets/stage/determined.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 470,
+            "y": 232,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/determined.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 442,
+            "y": 476,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "sumimi_greeting",
+        "label": "sumimi 招呼",
+        "emotion": "joy",
+        "stage": {
+          "src": "assets/stage/sumimi_greeting.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 472,
+            "y": 233,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/sumimi_greeting.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 478,
+            "y": 408,
+            "w": 124,
+            "h": 84
+          }
+        }
+      },
+      {
+        "id": "donut_share",
+        "label": "分享甜甜圈",
+        "emotion": "joy",
+        "stage": {
+          "src": "assets/stage/donut_share.png",
+          "width": 1024,
+          "height": 1240,
+          "mouth": {
+            "x": 480,
+            "y": 245,
+            "w": 50,
+            "h": 34
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/donut_share.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 458,
+            "y": 540,
+            "w": 124,
+            "h": 84
+          }
+        }
+      }
+    ]
+  },
+  "tomori": {
+    "version": 2,
+    "character": {
+      "id": "tomori",
+      "name": "高松灯"
+    },
+    "kind": "layered-static-sprites",
+    "closedBehavior": "restore-base",
+    "mouthAtlas": {
+      "src": "assets/tomori-mouth-atlas.png",
+      "width": 810,
+      "height": 496,
+      "frames": {
+        "neutral_a": {
+          "x": 6,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_i": {
+          "x": 168,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_u": {
+          "x": 330,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_e": {
+          "x": 492,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_o": {
+          "x": 654,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "tense_i": {
+          "x": 6,
+          "y": 130,
+          "w": 140,
+          "h": 100
+        },
+        "tense_e": {
+          "x": 168,
+          "y": 130,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_a_cw5": {
+          "x": 330,
+          "y": 130,
+          "w": 150,
+          "h": 112
+        },
+        "tense_i_cw5": {
+          "x": 492,
+          "y": 130,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_u_cw5": {
+          "x": 654,
+          "y": 130,
+          "w": 150,
+          "h": 112
+        },
+        "tense_e_cw5": {
+          "x": 6,
+          "y": 254,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_o_cw5": {
+          "x": 168,
+          "y": 254,
+          "w": 150,
+          "h": 112
+        },
+        "poetry_a": {
+          "x": 330,
+          "y": 254,
+          "w": 140,
+          "h": 100
+        },
+        "poetry_i": {
+          "x": 492,
+          "y": 254,
+          "w": 140,
+          "h": 100
+        },
+        "poetry_u": {
+          "x": 654,
+          "y": 254,
+          "w": 140,
+          "h": 100
+        },
+        "poetry_e": {
+          "x": 6,
+          "y": 378,
+          "w": 140,
+          "h": 100
+        },
+        "poetry_o": {
+          "x": 168,
+          "y": 378,
+          "w": 140,
+          "h": 100
+        }
+      },
+      "closed": "restore",
+      "defaultFrames": {
+        "a": "neutral_a",
+        "i": "neutral_i",
+        "u": "neutral_u",
+        "e": "neutral_e",
+        "o": "neutral_o"
+      }
+    },
+    "states": [
+      {
+        "id": "calm",
+        "label": "平和",
+        "emotion": "calm",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "neutral_i",
+          "u": "neutral_u",
+          "e": "neutral_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/calm.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 485,
+            "y": 244,
+            "w": 49,
+            "h": 35
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 485,
+              "y": 244,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_i": {
+              "x": 485,
+              "y": 244,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_u": {
+              "x": 485,
+              "y": 244,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_e": {
+              "x": 485,
+              "y": 244,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_o": {
+              "x": 485,
+              "y": 244,
+              "w": 49,
+              "h": 35
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/calm.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 431,
+            "y": 550,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 431,
+              "y": 550,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_i": {
+              "x": 431,
+              "y": 550,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_u": {
+              "x": 431,
+              "y": 550,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_e": {
+              "x": 431,
+              "y": 550,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_o": {
+              "x": 431,
+              "y": 550,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "joy",
+        "label": "喜悦",
+        "emotion": "joy",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "neutral_i",
+          "u": "neutral_u",
+          "e": "neutral_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/joy.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 483,
+            "y": 228,
+            "w": 49,
+            "h": 35
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 483,
+              "y": 228,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_i": {
+              "x": 483,
+              "y": 228,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_u": {
+              "x": 483,
+              "y": 228,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_e": {
+              "x": 483,
+              "y": 228,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_o": {
+              "x": 483,
+              "y": 228,
+              "w": 49,
+              "h": 35
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/joy.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 428,
+            "y": 453,
+            "w": 101,
+            "h": 72
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 428,
+              "y": 453,
+              "w": 101,
+              "h": 72
+            },
+            "neutral_i": {
+              "x": 428,
+              "y": 453,
+              "w": 101,
+              "h": 72
+            },
+            "neutral_u": {
+              "x": 428,
+              "y": 453,
+              "w": 101,
+              "h": 72
+            },
+            "neutral_e": {
+              "x": 428,
+              "y": 453,
+              "w": 101,
+              "h": 72
+            },
+            "neutral_o": {
+              "x": 428,
+              "y": 453,
+              "w": 101,
+              "h": 72
+            }
+          }
+        }
+      },
+      {
+        "id": "anger",
+        "label": "愤怒",
+        "emotion": "anger",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "tense_i",
+          "u": "neutral_u",
+          "e": "tense_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/anger.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 487,
+            "y": 237,
+            "w": 49,
+            "h": 35
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 487,
+              "y": 237,
+              "w": 49,
+              "h": 35
+            },
+            "tense_i": {
+              "x": 487,
+              "y": 237,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_u": {
+              "x": 487,
+              "y": 237,
+              "w": 49,
+              "h": 35
+            },
+            "tense_e": {
+              "x": 487,
+              "y": 237,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_o": {
+              "x": 487,
+              "y": 237,
+              "w": 49,
+              "h": 35
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/anger.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 436,
+            "y": 534,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 436,
+              "y": 534,
+              "w": 114,
+              "h": 82
+            },
+            "tense_i": {
+              "x": 436,
+              "y": 534,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_u": {
+              "x": 436,
+              "y": 534,
+              "w": 114,
+              "h": 82
+            },
+            "tense_e": {
+              "x": 436,
+              "y": 534,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_o": {
+              "x": 436,
+              "y": 534,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "sadness",
+        "label": "悲伤",
+        "emotion": "sadness",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/sadness.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 487,
+            "y": 246,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 487,
+              "y": 246,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 487,
+              "y": 246,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 487,
+              "y": 246,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 487,
+              "y": 246,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 487,
+              "y": 246,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/sadness.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 436,
+            "y": 552,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 436,
+              "y": 552,
+              "w": 122,
+              "h": 91
+            },
+            "tense_i_cw5": {
+              "x": 436,
+              "y": 552,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_cw5": {
+              "x": 436,
+              "y": 552,
+              "w": 122,
+              "h": 91
+            },
+            "tense_e_cw5": {
+              "x": 436,
+              "y": 552,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_cw5": {
+              "x": 436,
+              "y": 552,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "nervous",
+        "label": "紧张",
+        "emotion": "nervous",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/nervous.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 476,
+            "y": 249,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 476,
+              "y": 249,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 476,
+              "y": 249,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 476,
+              "y": 249,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 476,
+              "y": 249,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 476,
+              "y": 249,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/nervous.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 398,
+            "y": 479,
+            "w": 104,
+            "h": 77
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 398,
+              "y": 479,
+              "w": 104,
+              "h": 77
+            },
+            "tense_i_cw5": {
+              "x": 398,
+              "y": 479,
+              "w": 104,
+              "h": 77
+            },
+            "neutral_u_cw5": {
+              "x": 398,
+              "y": 479,
+              "w": 104,
+              "h": 77
+            },
+            "tense_e_cw5": {
+              "x": 398,
+              "y": 479,
+              "w": 104,
+              "h": 77
+            },
+            "neutral_o_cw5": {
+              "x": 398,
+              "y": 479,
+              "w": 104,
+              "h": 77
+            }
+          }
+        }
+      },
+      {
+        "id": "surprise",
+        "label": "惊讶",
+        "emotion": "surprise",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/surprise.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 487,
+            "y": 229,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 487,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 487,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 487,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 487,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 487,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/surprise.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 436,
+            "y": 518,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 436,
+              "y": 518,
+              "w": 122,
+              "h": 91
+            },
+            "tense_i_cw5": {
+              "x": 436,
+              "y": 518,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_cw5": {
+              "x": 436,
+              "y": 518,
+              "w": 122,
+              "h": 91
+            },
+            "tense_e_cw5": {
+              "x": 436,
+              "y": 518,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_cw5": {
+              "x": 436,
+              "y": 518,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "thinking",
+        "label": "思考",
+        "emotion": "thinking",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/thinking.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 495,
+            "y": 238,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 495,
+              "y": 238,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 495,
+              "y": 238,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 495,
+              "y": 238,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 495,
+              "y": 238,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 495,
+              "y": 238,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/thinking.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 411,
+            "y": 466,
+            "w": 106,
+            "h": 79
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 411,
+              "y": 466,
+              "w": 106,
+              "h": 79
+            },
+            "tense_i_cw5": {
+              "x": 411,
+              "y": 466,
+              "w": 106,
+              "h": 79
+            },
+            "neutral_u_cw5": {
+              "x": 411,
+              "y": 466,
+              "w": 106,
+              "h": 79
+            },
+            "tense_e_cw5": {
+              "x": 411,
+              "y": 466,
+              "w": 106,
+              "h": 79
+            },
+            "neutral_o_cw5": {
+              "x": 411,
+              "y": 466,
+              "w": 106,
+              "h": 79
+            }
+          }
+        }
+      },
+      {
+        "id": "determined",
+        "label": "坚定",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/determined.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 477,
+            "y": 229,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 477,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 477,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 477,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 477,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 477,
+              "y": 229,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/determined.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 429,
+            "y": 516,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 429,
+              "y": 516,
+              "w": 122,
+              "h": 91
+            },
+            "tense_i_cw5": {
+              "x": 429,
+              "y": 516,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_cw5": {
+              "x": 429,
+              "y": 516,
+              "w": 122,
+              "h": 91
+            },
+            "tense_e_cw5": {
+              "x": 429,
+              "y": 516,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_cw5": {
+              "x": 429,
+              "y": 516,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "lifelong_band",
+        "label": "一辈子组乐队",
+        "emotion": "joy",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/lifelong_band.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 491,
+            "y": 252,
+            "w": 53,
+            "h": 39
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 491,
+              "y": 252,
+              "w": 53,
+              "h": 39
+            },
+            "tense_i_cw5": {
+              "x": 491,
+              "y": 252,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_u_cw5": {
+              "x": 491,
+              "y": 252,
+              "w": 53,
+              "h": 39
+            },
+            "tense_e_cw5": {
+              "x": 491,
+              "y": 252,
+              "w": 53,
+              "h": 39
+            },
+            "neutral_o_cw5": {
+              "x": 491,
+              "y": 252,
+              "w": 53,
+              "h": 39
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/lifelong_band.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 434,
+            "y": 486,
+            "w": 104,
+            "h": 77
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 434,
+              "y": 486,
+              "w": 104,
+              "h": 77
+            },
+            "tense_i_cw5": {
+              "x": 434,
+              "y": 486,
+              "w": 104,
+              "h": 77
+            },
+            "neutral_u_cw5": {
+              "x": 434,
+              "y": 486,
+              "w": 104,
+              "h": 77
+            },
+            "tense_e_cw5": {
+              "x": 434,
+              "y": 486,
+              "w": 104,
+              "h": 77
+            },
+            "neutral_o_cw5": {
+              "x": 434,
+              "y": 486,
+              "w": 104,
+              "h": 77
+            }
+          }
+        }
+      },
+      {
+        "id": "poetry_reach",
+        "label": "诗超绊·不放开",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "poetry_a",
+          "i": "poetry_i",
+          "u": "poetry_u",
+          "e": "poetry_e",
+          "o": "poetry_o"
+        },
+        "stage": {
+          "src": "assets/stage/poetry_reach.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 467,
+            "y": 254,
+            "w": 56,
+            "h": 40
+          },
+          "mouthByFrame": {
+            "poetry_a": {
+              "x": 467,
+              "y": 254,
+              "w": 56,
+              "h": 40
+            },
+            "poetry_i": {
+              "x": 467,
+              "y": 254,
+              "w": 56,
+              "h": 40
+            },
+            "poetry_u": {
+              "x": 467,
+              "y": 254,
+              "w": 56,
+              "h": 40
+            },
+            "poetry_e": {
+              "x": 467,
+              "y": 254,
+              "w": 56,
+              "h": 40
+            },
+            "poetry_o": {
+              "x": 467,
+              "y": 254,
+              "w": 56,
+              "h": 40
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/poetry_reach.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 424,
+            "y": 506,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "poetry_a": {
+              "x": 424,
+              "y": 506,
+              "w": 114,
+              "h": 82
+            },
+            "poetry_i": {
+              "x": 424,
+              "y": 506,
+              "w": 114,
+              "h": 82
+            },
+            "poetry_u": {
+              "x": 424,
+              "y": 506,
+              "w": 114,
+              "h": 82
+            },
+            "poetry_e": {
+              "x": 424,
+              "y": 506,
+              "w": 114,
+              "h": 82
+            },
+            "poetry_o": {
+              "x": 424,
+              "y": 506,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "treasured_find",
+        "label": "发现宝物",
+        "emotion": "joy",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "neutral_i",
+          "u": "neutral_u",
+          "e": "neutral_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/treasured_find.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 490,
+            "y": 257,
+            "w": 49,
+            "h": 35
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 490,
+              "y": 257,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_i": {
+              "x": 490,
+              "y": 257,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_u": {
+              "x": 490,
+              "y": 257,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_e": {
+              "x": 490,
+              "y": 257,
+              "w": 49,
+              "h": 35
+            },
+            "neutral_o": {
+              "x": 490,
+              "y": 257,
+              "w": 49,
+              "h": 35
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/treasured_find.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 431,
+            "y": 499,
+            "w": 99,
+            "h": 70
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 431,
+              "y": 499,
+              "w": 99,
+              "h": 70
+            },
+            "neutral_i": {
+              "x": 431,
+              "y": 499,
+              "w": 99,
+              "h": 70
+            },
+            "neutral_u": {
+              "x": 431,
+              "y": 499,
+              "w": 99,
+              "h": 70
+            },
+            "neutral_e": {
+              "x": 431,
+              "y": 499,
+              "w": 99,
+              "h": 70
+            },
+            "neutral_o": {
+              "x": 431,
+              "y": 499,
+              "w": 99,
+              "h": 70
+            }
+          }
+        }
+      }
+    ]
+  },
+  "taki": {
+    "version": 2,
+    "character": {
+      "id": "taki",
+      "name": "椎名立希"
+    },
+    "kind": "layered-static-sprites",
+    "closedBehavior": "restore-base",
+    "mouthAtlas": {
+      "src": "assets/taki-mouth-atlas.png",
+      "width": 840,
+      "height": 816,
+      "frames": {
+        "neutral_a": {
+          "x": 6,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_i": {
+          "x": 174,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_u": {
+          "x": 342,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_e": {
+          "x": 510,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_o": {
+          "x": 678,
+          "y": 6,
+          "w": 140,
+          "h": 100
+        },
+        "neutral_a_ccw5": {
+          "x": 6,
+          "y": 142,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_i_ccw5": {
+          "x": 174,
+          "y": 142,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_u_ccw5": {
+          "x": 342,
+          "y": 142,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_e_ccw5": {
+          "x": 510,
+          "y": 142,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_o_ccw5": {
+          "x": 678,
+          "y": 142,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_a_cw10": {
+          "x": 6,
+          "y": 278,
+          "w": 156,
+          "h": 124
+        },
+        "tense_i_cw10": {
+          "x": 174,
+          "y": 278,
+          "w": 156,
+          "h": 124
+        },
+        "neutral_u_cw10": {
+          "x": 342,
+          "y": 278,
+          "w": 156,
+          "h": 124
+        },
+        "tense_e_cw10": {
+          "x": 510,
+          "y": 278,
+          "w": 156,
+          "h": 124
+        },
+        "neutral_o_cw10": {
+          "x": 678,
+          "y": 278,
+          "w": 156,
+          "h": 124
+        },
+        "tense_i": {
+          "x": 6,
+          "y": 414,
+          "w": 140,
+          "h": 100
+        },
+        "tense_e": {
+          "x": 174,
+          "y": 414,
+          "w": 140,
+          "h": 100
+        },
+        "closed_cw10": {
+          "x": 342,
+          "y": 414,
+          "w": 156,
+          "h": 124
+        },
+        "neutral_a_cw5": {
+          "x": 510,
+          "y": 414,
+          "w": 150,
+          "h": 112
+        },
+        "tense_i_cw5": {
+          "x": 678,
+          "y": 414,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_u_cw5": {
+          "x": 6,
+          "y": 550,
+          "w": 150,
+          "h": 112
+        },
+        "tense_e_cw5": {
+          "x": 174,
+          "y": 550,
+          "w": 150,
+          "h": 112
+        },
+        "neutral_o_cw5": {
+          "x": 342,
+          "y": 550,
+          "w": 150,
+          "h": 112
+        },
+        "tense_i_ccw5": {
+          "x": 510,
+          "y": 550,
+          "w": 150,
+          "h": 112
+        },
+        "tense_e_ccw5": {
+          "x": 678,
+          "y": 550,
+          "w": 150,
+          "h": 112
+        },
+        "closed_ccw5": {
+          "x": 6,
+          "y": 686,
+          "w": 150,
+          "h": 112
+        }
+      },
+      "closed": "restore",
+      "defaultFrames": {
+        "a": "neutral_a",
+        "i": "neutral_i",
+        "u": "neutral_u",
+        "e": "neutral_e",
+        "o": "neutral_o"
+      }
+    },
+    "states": [
+      {
+        "id": "calm",
+        "label": "平和",
+        "emotion": "calm",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "neutral_i",
+          "u": "neutral_u",
+          "e": "neutral_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/calm.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 456,
+            "y": 251,
+            "w": 47,
+            "h": 33
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 456,
+              "y": 251,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_i": {
+              "x": 456,
+              "y": 251,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_u": {
+              "x": 456,
+              "y": 251,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_e": {
+              "x": 456,
+              "y": 251,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_o": {
+              "x": 456,
+              "y": 251,
+              "w": 47,
+              "h": 33
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/calm.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 403,
+            "y": 596,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 403,
+              "y": 596,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_i": {
+              "x": 403,
+              "y": 596,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_u": {
+              "x": 403,
+              "y": 596,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_e": {
+              "x": 403,
+              "y": 596,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_o": {
+              "x": 403,
+              "y": 596,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "joy",
+        "label": "喜悦",
+        "emotion": "joy",
+        "mouthFrames": {
+          "a": "neutral_a_ccw5",
+          "i": "neutral_i_ccw5",
+          "u": "neutral_u_ccw5",
+          "e": "neutral_e_ccw5",
+          "o": "neutral_o_ccw5"
+        },
+        "stage": {
+          "src": "assets/stage/joy.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 478,
+            "y": 227,
+            "w": 50,
+            "h": 37
+          },
+          "mouthByFrame": {
+            "neutral_a_ccw5": {
+              "x": 478,
+              "y": 227,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_i_ccw5": {
+              "x": 478,
+              "y": 227,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_u_ccw5": {
+              "x": 478,
+              "y": 227,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_e_ccw5": {
+              "x": 478,
+              "y": 227,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_o_ccw5": {
+              "x": 478,
+              "y": 227,
+              "w": 50,
+              "h": 37
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/joy.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 458,
+            "y": 538,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_ccw5": {
+              "x": 458,
+              "y": 538,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_i_ccw5": {
+              "x": 458,
+              "y": 538,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_ccw5": {
+              "x": 458,
+              "y": 538,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_e_ccw5": {
+              "x": 458,
+              "y": 538,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_ccw5": {
+              "x": 458,
+              "y": 538,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "anger",
+        "label": "愤怒",
+        "emotion": "anger",
+        "mouthFrames": {
+          "a": "neutral_a_cw10",
+          "i": "tense_i_cw10",
+          "u": "neutral_u_cw10",
+          "e": "tense_e_cw10",
+          "o": "neutral_o_cw10"
+        },
+        "stage": {
+          "src": "assets/stage/anger.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 470,
+            "y": 246,
+            "w": 52,
+            "h": 41
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 470,
+              "y": 246,
+              "w": 52,
+              "h": 41
+            },
+            "tense_i_cw10": {
+              "x": 470,
+              "y": 246,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_u_cw10": {
+              "x": 470,
+              "y": 246,
+              "w": 52,
+              "h": 41
+            },
+            "tense_e_cw10": {
+              "x": 470,
+              "y": 246,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_o_cw10": {
+              "x": 470,
+              "y": 246,
+              "w": 52,
+              "h": 41
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/anger.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 438,
+            "y": 584,
+            "w": 127,
+            "h": 101
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 438,
+              "y": 584,
+              "w": 127,
+              "h": 101
+            },
+            "tense_i_cw10": {
+              "x": 438,
+              "y": 584,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_u_cw10": {
+              "x": 438,
+              "y": 584,
+              "w": 127,
+              "h": 101
+            },
+            "tense_e_cw10": {
+              "x": 438,
+              "y": 584,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_o_cw10": {
+              "x": 438,
+              "y": 584,
+              "w": 127,
+              "h": 101
+            }
+          }
+        }
+      },
+      {
+        "id": "sadness",
+        "label": "悲伤",
+        "emotion": "sadness",
+        "mouthFrames": {
+          "a": "neutral_a_cw10",
+          "i": "tense_i_cw10",
+          "u": "neutral_u_cw10",
+          "e": "tense_e_cw10",
+          "o": "neutral_o_cw10"
+        },
+        "stage": {
+          "src": "assets/stage/sadness.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 489,
+            "y": 237,
+            "w": 52,
+            "h": 41
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 489,
+              "y": 237,
+              "w": 52,
+              "h": 41
+            },
+            "tense_i_cw10": {
+              "x": 489,
+              "y": 237,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_u_cw10": {
+              "x": 489,
+              "y": 237,
+              "w": 52,
+              "h": 41
+            },
+            "tense_e_cw10": {
+              "x": 489,
+              "y": 237,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_o_cw10": {
+              "x": 489,
+              "y": 237,
+              "w": 52,
+              "h": 41
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/sadness.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 482,
+            "y": 556,
+            "w": 127,
+            "h": 101
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 482,
+              "y": 556,
+              "w": 127,
+              "h": 101
+            },
+            "tense_i_cw10": {
+              "x": 482,
+              "y": 556,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_u_cw10": {
+              "x": 482,
+              "y": 556,
+              "w": 127,
+              "h": 101
+            },
+            "tense_e_cw10": {
+              "x": 482,
+              "y": 556,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_o_cw10": {
+              "x": 482,
+              "y": 556,
+              "w": 127,
+              "h": 101
+            }
+          }
+        }
+      },
+      {
+        "id": "nervous",
+        "label": "紧张",
+        "emotion": "nervous",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "tense_i",
+          "u": "neutral_u",
+          "e": "tense_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/nervous.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 466,
+            "y": 236,
+            "w": 47,
+            "h": 33
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 466,
+              "y": 236,
+              "w": 47,
+              "h": 33
+            },
+            "tense_i": {
+              "x": 466,
+              "y": 236,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_u": {
+              "x": 466,
+              "y": 236,
+              "w": 47,
+              "h": 33
+            },
+            "tense_e": {
+              "x": 466,
+              "y": 236,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_o": {
+              "x": 466,
+              "y": 236,
+              "w": 47,
+              "h": 33
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/nervous.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 430,
+            "y": 554,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 430,
+              "y": 554,
+              "w": 114,
+              "h": 82
+            },
+            "tense_i": {
+              "x": 430,
+              "y": 554,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_u": {
+              "x": 430,
+              "y": 554,
+              "w": 114,
+              "h": 82
+            },
+            "tense_e": {
+              "x": 430,
+              "y": 554,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_o": {
+              "x": 430,
+              "y": 554,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "surprise",
+        "label": "惊讶",
+        "emotion": "surprise",
+        "mouthFrames": {
+          "a": "neutral_a_cw10",
+          "i": "tense_i_cw10",
+          "u": "neutral_u_cw10",
+          "e": "tense_e_cw10",
+          "o": "neutral_o_cw10"
+        },
+        "closedMouthFrame": "closed_cw10",
+        "stage": {
+          "src": "assets/stage/surprise.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 464,
+            "y": 224,
+            "w": 52,
+            "h": 41
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            },
+            "tense_i_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_u_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            },
+            "tense_e_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_o_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            },
+            "closed_cw10": {
+              "x": 464,
+              "y": 224,
+              "w": 52,
+              "h": 41
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/surprise.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 423,
+            "y": 528,
+            "w": 127,
+            "h": 101
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            },
+            "tense_i_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_u_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            },
+            "tense_e_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_o_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            },
+            "closed_cw10": {
+              "x": 423,
+              "y": 528,
+              "w": 127,
+              "h": 101
+            }
+          }
+        }
+      },
+      {
+        "id": "thinking",
+        "label": "思考",
+        "emotion": "thinking",
+        "mouthFrames": {
+          "a": "neutral_a_cw5",
+          "i": "tense_i_cw5",
+          "u": "neutral_u_cw5",
+          "e": "tense_e_cw5",
+          "o": "neutral_o_cw5"
+        },
+        "stage": {
+          "src": "assets/stage/thinking.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 470,
+            "y": 237,
+            "w": 50,
+            "h": 37
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 470,
+              "y": 237,
+              "w": 50,
+              "h": 37
+            },
+            "tense_i_cw5": {
+              "x": 470,
+              "y": 237,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_u_cw5": {
+              "x": 470,
+              "y": 237,
+              "w": 50,
+              "h": 37
+            },
+            "tense_e_cw5": {
+              "x": 470,
+              "y": 237,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_o_cw5": {
+              "x": 470,
+              "y": 237,
+              "w": 50,
+              "h": 37
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/thinking.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 439,
+            "y": 561,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_cw5": {
+              "x": 439,
+              "y": 561,
+              "w": 122,
+              "h": 91
+            },
+            "tense_i_cw5": {
+              "x": 439,
+              "y": 561,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_cw5": {
+              "x": 439,
+              "y": 561,
+              "w": 122,
+              "h": 91
+            },
+            "tense_e_cw5": {
+              "x": 439,
+              "y": 561,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_cw5": {
+              "x": 439,
+              "y": 561,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "determined",
+        "label": "坚定",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "neutral_a_cw10",
+          "i": "tense_i_cw10",
+          "u": "neutral_u_cw10",
+          "e": "tense_e_cw10",
+          "o": "neutral_o_cw10"
+        },
+        "stage": {
+          "src": "assets/stage/determined.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 479,
+            "y": 234,
+            "w": 52,
+            "h": 41
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 479,
+              "y": 234,
+              "w": 52,
+              "h": 41
+            },
+            "tense_i_cw10": {
+              "x": 479,
+              "y": 234,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_u_cw10": {
+              "x": 479,
+              "y": 234,
+              "w": 52,
+              "h": 41
+            },
+            "tense_e_cw10": {
+              "x": 479,
+              "y": 234,
+              "w": 52,
+              "h": 41
+            },
+            "neutral_o_cw10": {
+              "x": 479,
+              "y": 234,
+              "w": 52,
+              "h": 41
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/determined.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 461,
+            "y": 557,
+            "w": 127,
+            "h": 101
+          },
+          "mouthByFrame": {
+            "neutral_a_cw10": {
+              "x": 461,
+              "y": 557,
+              "w": 127,
+              "h": 101
+            },
+            "tense_i_cw10": {
+              "x": 461,
+              "y": 557,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_u_cw10": {
+              "x": 461,
+              "y": 557,
+              "w": 127,
+              "h": 101
+            },
+            "tense_e_cw10": {
+              "x": 461,
+              "y": 557,
+              "w": 127,
+              "h": 101
+            },
+            "neutral_o_cw10": {
+              "x": 461,
+              "y": 557,
+              "w": 127,
+              "h": 101
+            }
+          }
+        }
+      },
+      {
+        "id": "huh_reaction",
+        "label": "哈？",
+        "emotion": "surprise",
+        "mouthFrames": {
+          "a": "neutral_a_ccw5",
+          "i": "tense_i_ccw5",
+          "u": "neutral_u_ccw5",
+          "e": "tense_e_ccw5",
+          "o": "neutral_o_ccw5"
+        },
+        "closedMouthFrame": "closed_ccw5",
+        "stage": {
+          "src": "assets/stage/huh_reaction.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 481,
+            "y": 231,
+            "w": 50,
+            "h": 37
+          },
+          "mouthByFrame": {
+            "neutral_a_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            },
+            "tense_i_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_u_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            },
+            "tense_e_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            },
+            "neutral_o_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            },
+            "closed_ccw5": {
+              "x": 481,
+              "y": 231,
+              "w": 50,
+              "h": 37
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/huh_reaction.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 466,
+            "y": 550,
+            "w": 122,
+            "h": 91
+          },
+          "mouthByFrame": {
+            "neutral_a_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            },
+            "tense_i_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_u_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            },
+            "tense_e_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            },
+            "neutral_o_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            },
+            "closed_ccw5": {
+              "x": 466,
+              "y": 550,
+              "w": 122,
+              "h": 91
+            }
+          }
+        }
+      },
+      {
+        "id": "stop_running",
+        "label": "排练质问",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "tense_i",
+          "u": "neutral_u",
+          "e": "tense_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/stop_running.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 483,
+            "y": 256,
+            "w": 47,
+            "h": 33
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 483,
+              "y": 256,
+              "w": 47,
+              "h": 33
+            },
+            "tense_i": {
+              "x": 483,
+              "y": 256,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_u": {
+              "x": 483,
+              "y": 256,
+              "w": 47,
+              "h": 33
+            },
+            "tense_e": {
+              "x": 483,
+              "y": 256,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_o": {
+              "x": 483,
+              "y": 256,
+              "w": 47,
+              "h": 33
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/stop_running.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 471,
+            "y": 610,
+            "w": 114,
+            "h": 82
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 471,
+              "y": 610,
+              "w": 114,
+              "h": 82
+            },
+            "tense_i": {
+              "x": 471,
+              "y": 610,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_u": {
+              "x": 471,
+              "y": 610,
+              "w": 114,
+              "h": 82
+            },
+            "tense_e": {
+              "x": 471,
+              "y": 610,
+              "w": 114,
+              "h": 82
+            },
+            "neutral_o": {
+              "x": 471,
+              "y": 610,
+              "w": 114,
+              "h": 82
+            }
+          }
+        }
+      },
+      {
+        "id": "tearful_drummer",
+        "label": "鼓手落泪",
+        "emotion": "determined",
+        "mouthFrames": {
+          "a": "neutral_a",
+          "i": "tense_i",
+          "u": "neutral_u",
+          "e": "tense_e",
+          "o": "neutral_o"
+        },
+        "stage": {
+          "src": "assets/stage/tearful_drummer.png",
+          "width": 1024,
+          "height": 1420,
+          "mouth": {
+            "x": 473,
+            "y": 279,
+            "w": 47,
+            "h": 33
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 473,
+              "y": 279,
+              "w": 47,
+              "h": 33
+            },
+            "tense_i": {
+              "x": 473,
+              "y": 279,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_u": {
+              "x": 473,
+              "y": 279,
+              "w": 47,
+              "h": 33
+            },
+            "tense_e": {
+              "x": 473,
+              "y": 279,
+              "w": 47,
+              "h": 33
+            },
+            "neutral_o": {
+              "x": 473,
+              "y": 279,
+              "w": 47,
+              "h": 33
+            }
+          }
+        },
+        "portrait": {
+          "src": "assets/portrait/tearful_drummer.png",
+          "width": 1024,
+          "height": 1024,
+          "mouth": {
+            "x": 436,
+            "y": 602,
+            "w": 105,
+            "h": 75
+          },
+          "mouthByFrame": {
+            "neutral_a": {
+              "x": 436,
+              "y": 602,
+              "w": 105,
+              "h": 75
+            },
+            "tense_i": {
+              "x": 436,
+              "y": 602,
+              "w": 105,
+              "h": 75
+            },
+            "neutral_u": {
+              "x": 436,
+              "y": 602,
+              "w": 105,
+              "h": 75
+            },
+            "tense_e": {
+              "x": 436,
+              "y": 602,
+              "w": 105,
+              "h": 75
+            },
+            "neutral_o": {
+              "x": 436,
+              "y": 602,
+              "w": 105,
+              "h": 75
+            }
+          }
+        }
+      }
+    ]
+  }
+}

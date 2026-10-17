@@ -1,0 +1,649 @@
+const React = require('react')
+const h = React.createElement
+exports.name = 'dsh-tts-client'
+exports.inject = ['slots']
+const READING_METHODS = new Set(['savePronunciationDictionary','editReading','createReadingPreset','deleteReadingPreset','setActiveReadingPreset','importReadingPreset'])
+exports.apply = function(ctx) {
+  let active = true, enabled = null, unprovide, removing = Promise.resolve()
+  const stateListeners = new Set(), managementListeners = new Set()
+  async function call(method,args = {}) {
+    if (!active) throw new Error('PLUGIN_UNAVAILABLE')
+    const response = await fetch('/api/dsh-tts/v1/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method,args}),credentials:'same-origin'})
+    const result = await response.json(); if (!response.ok) throw new Error(result.error)
+    // private fork: a change to the active reading preset changes every line's identity; players drop their decoded audio.
+    if (READING_METHODS.has(method)) for (const fn of listeners) fn({type:'readingsChanged'})
+    if (['saveVoicePreset','deleteVoicePreset','importVoicePresets','saveService','deleteService'].includes(method)) {
+      for (const fn of listeners) fn({type:'voicesChanged'})
+      for (const fn of managementListeners) fn()
+    }
+    return result
+  }
+  const listeners = new Set(), jobs = new Set()
+  const audioUrl = ticket => '/api/dsh-tts/v1/audio?ticket=' + encodeURIComponent(ticket)
+  const failure = (code, status) => Object.assign(new Error(code), {code,status})
+  async function request(path, options = {}) {
+    if (!active) throw failure('PLUGIN_UNAVAILABLE')
+    const response = await fetch('/api/dsh-tts/v1/' + path,{credentials:'same-origin',...options})
+    const result = await response.json()
+    if (!response.ok) throw failure(result.error || 'REQUEST_FAILED',response.status)
+    return result
+  }
+  const cancel = requestId => fetch('/api/dsh-tts/v1/synthesis/status?requestId=' + encodeURIComponent(requestId),{method:'DELETE',credentials:'same-origin'}).catch(() => {})
+  const client = Object.freeze({
+    apiVersion:1, call, audioUrl, available:() => active && enabled === true,
+    listVoices:() => call('voices'),
+    subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn) },
+    async synthesize(input, {scope,signal} = {}) {
+      if (!active) throw failure('PLUGIN_UNAVAILABLE')
+      if (!enabled) throw failure('TTS_DISABLED')
+      if (signal?.aborted) throw failure('ABORTED')
+      const job = {id:null, cancelled:false}, abort = () => { job.cancelled = true; if (job.id) void cancel(job.id) }
+      jobs.add(job); signal?.addEventListener('abort',abort,{once:true})
+      try {
+        // Keep the POST alive long enough to obtain its id, then cancel even a late acknowledgement.
+        const submitted = await request('synthesis',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input,scope})})
+        job.id = submitted.requestId
+        const deadline = Date.now() + (submitted.timeoutMs || 125000)
+        while (active && !job.cancelled && Date.now() < deadline) {
+          const status = await request('synthesis/status?requestId=' + encodeURIComponent(job.id),{signal})
+          if (!active || job.cancelled) break
+          if (status.state === 'ready') return status.result
+          if (status.state === 'error') throw failure(status.error,status.status)
+          if (status.state === 'cancelled') throw failure('ABORTED')
+          await new Promise(resolve => setTimeout(resolve,150))
+        }
+        throw failure(active && !job.cancelled ? 'TIMEOUT' : 'ABORTED')
+      } finally {
+        signal?.removeEventListener('abort',abort); jobs.delete(job)
+        if (job.id) void cancel(job.id)
+        for (const fn of listeners) fn({type:'modelValidationChanged'})
+      }
+    },
+    async audio(ticket, {signal} = {}) {
+      if (!active) throw failure('PLUGIN_UNAVAILABLE')
+      if (!enabled) throw failure('TTS_DISABLED')
+      const response = await fetch(audioUrl(ticket),{credentials:'same-origin',signal})
+      if (!response.ok) throw failure('AUDIO_GONE',response.status)
+      const blob = await response.blob()
+      if (!active || !enabled || signal?.aborted) throw failure('ABORTED')
+      return blob
+    }
+  })
+  async function setEnabled(value) {
+    if (!active || enabled === value) return
+    enabled = value
+    if (!enabled) {
+      for (const job of jobs) { job.cancelled = true; if (job.id) void cancel(job.id) }
+      for (const fn of listeners) fn({type:'unavailable'})
+      listeners.clear()
+      if (unprovide) { const stop = unprovide; unprovide = undefined; removing = stop() }
+    }
+    for (const fn of stateListeners) fn()
+    await removing
+    if (active && enabled && !unprovide) unprovide = ctx.provide('ttsClient',client)
+  }
+  ctx.effect(() => {
+    const events = new EventSource('/api/dsh-tts/v1/enabled')
+    events.onmessage = event => { void setEnabled(JSON.parse(event.data).enabled) }
+    events.onerror = () => { void setEnabled(false) }
+    return () => {
+      events.close(); void setEnabled(false); active = false; stateListeners.clear(); managementListeners.clear()
+    }
+  })
+  // private fork: panel UI (docs/fork/panel-ui-design.md). Basic mode keeps the switches a
+  // listener needs; advanced mode reveals the creator tools in place, never a second copy.
+  const STYLES = '/* client.css is inlined by build.mjs */'
+  ctx.effect(() => {
+    if (typeof document === 'undefined') return () => {}
+    const style = document.createElement('style'); style.id = 'dsh-tts-styles'; style.textContent = STYLES
+    document.head.appendChild(style)
+    return () => style.remove()
+  })
+  // private fork (voice settings r3, owner review 2026-10): 语音服务 → 声音预设 → 本地引擎 → 合成缓存. Rows are click-to-edit
+  // with the form opening right under its row; actions are a quiet trash icon or ⋯; a dashed ＋ adds. No grey subtitles:
+  // a row shows its name and, only when something is wrong, a ⚠ chip. Explanations live behind a 「?」.
+  const KINDS = {qwen:'通义千问',azure:'Azure','fish-audio':'Fish Audio',volcengine:'火山引擎','openai-compatible':'OpenAI 兼容','gpt-sovits-api':'GPT-SoVITS','reference-api':'参考音频 API',reference:'参考音频',service:'本地引擎'}
+  const KIND_NOTES = {qwen:'阿里云百炼，按字数计费','fish-audio':'默认用免费模型','openai-compatible':'任何 OpenAI 兼容的语音接口',azure:'微软 Azure 语音，按字符计费',volcengine:'豆包语音，按字数计费','gpt-sovits-api':'局域网里的 GPT-SoVITS，不计费','reference-api':'按参考音频合成的接口'}
+  const PAID = new Set(['azure','qwen','volcengine','openai-compatible'])
+  const PRESET_KINDS = new Set(['azure','qwen','fish-audio','volcengine','openai-compatible','gpt-sovits-api'])
+  const MOODS = [['joy','开心'],['anger','生气'],['sad','难过'],['anxious','紧张'],['calm','平静'],['shy','害羞'],['disgust','厌恶'],['love','亲昵']]
+  // Display copies of the adapters' default tables (src/providers/*.js), used only as placeholders.
+  const MOOD_DEFAULTS = {
+    qwen:{joy:'语气开心、轻快',anger:'语气生气、强烈',sad:'语气悲伤、低落',anxious:'语气紧张、不安',shy:'语气害羞、腼腆',disgust:'语气厌恶、不满',love:'语气温柔、亲昵'},
+    azure:{joy:'cheerful',anger:'angry',sad:'sad',anxious:'fearful',disgust:'disgruntled',love:'affectionate'},
+    volcengine:{joy:'happy',anger:'angry',sad:'sad',anxious:'fear',shy:'shy',disgust:'hate',love:'lovey-dovey'},
+  }
+  const LANGUAGES = {qwen:['zh','en','ja','ko','fr','de','ru','it','es','pt'],other:['zh','ja','en','ko','yue']}
+  const GENDERS = {Female:'女声',Male:'男声',female:'女声',male:'男声'}
+  const PRESET_ID = /^[a-z0-9][a-z0-9_-]{0,39}\/[a-z0-9][a-z0-9_-]{0,39}$/
+  // private fork: async synthesis jobs expose safe codes, never upstream response bodies.
+  const FISH_ERRORS = {FISH_AUTH_FAILED:'Fish Audio 密钥无效（401）',FISH_BILLING_REQUIRED:'Fish Audio 额度或余额不足（402），未切换付费模型',FISH_RATE_LIMITED:'Fish Audio 请求受限（429），请稍后重试',FISH_REQUEST_FAILED:'Fish Audio 请求失败，请检查声音模型 ID 与服务状态'}
+  const CODES = {SERVICE_IN_USE:'还有声音预设在用这个服务',REVISION_CONFLICT:'内容已在别处修改，请重新打开',CREDENTIALS_READ_ONLY:'这个密钥由环境变量提供，不能在这里修改',INVALID_PARAMS:'参数超出范围（INVALID_PARAMS）'}
+  const failText = e => FISH_ERRORS[e.code || e.message] || CODES[e.code || e.message] || (e instanceof SyntaxError ? 'JSON 格式有误' : /^[A-Z_]+$/.test(e.message) ? '操作失败（' + e.message + '）' : e.message)
+  const sizeText = bytes => bytes < 1024 ? bytes + ' B' : bytes < 1024 ** 2 ? (bytes / 1024).toFixed(1) + ' KB' : bytes < 1024 ** 3 ? (bytes / 1024 ** 2).toFixed(1) + ' MB' : (bytes / 1024 ** 3).toFixed(2) + ' GB'
+  const MODE_KEY = 'dsh-tts:panel-mode'
+  function usePanelMode() {
+    const [mode,setMode] = React.useState(() => localStorage.getItem(MODE_KEY) === 'advanced' ? 'advanced' : 'basic')
+    return [mode,value => { localStorage.setItem(MODE_KEY,value); setMode(value) }]
+  }
+  function ModeSwitch({mode,onChange}) {
+    return h('div',{className:'dtts-segmented',role:'group','aria-label':'显示模式'},
+      [['basic','基础'],['advanced','高级']].map(([value,label]) => h('button',{key:value,type:'button','aria-pressed':mode === value,onClick:() => onChange(value)},label)))
+  }
+  // Line icons (16 px, currentColor).
+  const PATHS = {plus:['M8 3.5v9M3.5 8h9'],trash:['M3 4.5h10','M6.5 4.5V3h3v1.5','M4.5 4.5l.6 8.5h5.8l.6-8.5','M6.8 7v4','M9.2 7v4'],
+    warn:['M8 2.5l6 10.5H2z','M8 6.5v3','M8 11.4v.1'],refresh:['M12.8 7.2A4.9 4.9 0 1 0 12 10.6','M13 3.2v3.6H9.4'],check:['M3.5 8.5l3 3 6-6.5'],chevron:['M6 4l4 4-4 4'],back:['M10 3.5 5.5 8l4.5 4.5']}
+  const Icon = ({name,size = 16}) => h('svg',{className:'dtts-icon',width:size,height:size,viewBox:'0 0 16 16',fill:'none','aria-hidden':true},
+    name === 'more' ? [3.5,8,12.5].map(x => h('circle',{key:x,cx:x,cy:8,r:1.25,fill:'currentColor'})) :
+      PATHS[name].map((d,i) => h('path',{key:i,d,stroke:'currentColor',strokeWidth:1.3,strokeLinecap:'round',strokeLinejoin:'round'})))
+  // private fork: no grey helper text (docs/fork/panel-ui-design.md §一.5). Explanations sit behind a small 「?」:
+  // its tooltip shows on hover / keyboard focus and toggles on click or tap; Esc or an outside tap closes it.
+  function Help({text,label = '说明'}) {
+    const [open,setOpen] = React.useState(false), root = React.useRef(null), id = React.useId()
+    React.useEffect(() => {
+      if (!open) return
+      const out = e => { if (root.current && !root.current.contains(e.target)) setOpen(false) }
+      document.addEventListener('pointerdown',out,true); return () => document.removeEventListener('pointerdown',out,true)
+    },[open])
+    return h('span',{className:'dtts-help-anchor',ref:root,'data-open':open || undefined,onKeyDown:e => { if (e.key === 'Escape' && open) { e.stopPropagation(); setOpen(false) } }},
+      h('button',{type:'button',className:'dtts-help','aria-label':label,'aria-describedby':id,'aria-expanded':open,onClick:e => { e.preventDefault(); e.stopPropagation(); setOpen(!open) }},'?'),
+      h('span',{role:'tooltip',id,className:'dtts-help-tip'},text))
+  }
+  // ⋯ menu: items {label, onSelect, danger?, disabled?}; Esc / outside tap closes; arrow keys move between items.
+  function Menu({label,items}) {
+    const [open,setOpen] = React.useState(false), root = React.useRef(null)
+    React.useEffect(() => {
+      if (!open) return
+      const out = e => { if (root.current && !root.current.contains(e.target)) setOpen(false) }
+      const key = e => { if (e.key === 'Escape') setOpen(false) }
+      const doc = root.current.ownerDocument; doc.addEventListener('pointerdown',out,true); doc.addEventListener('keydown',key,true)
+      root.current?.querySelector('[role=menuitem]:not(:disabled)')?.focus?.()
+      return () => { doc.removeEventListener('pointerdown',out,true); doc.removeEventListener('keydown',key,true) }
+    },[open])
+    const move = e => {
+      if (!['ArrowDown','ArrowUp'].includes(e.key)) return
+      e.preventDefault(); const list = [...root.current.querySelectorAll('[role=menuitem]:not(:disabled)')], i = list.indexOf(root.current.ownerDocument.activeElement)
+      list[(i + (e.key === 'ArrowDown' ? 1 : list.length - 1)) % list.length]?.focus()
+    }
+    return h('span',{className:'dtts-menu-anchor',ref:root},
+      h('button',{type:'button',className:'dtts-icon-button','aria-label':label,title:label,'aria-haspopup':'menu','aria-expanded':open,onClick:e => { e.stopPropagation(); setOpen(!open) }},h(Icon,{name:'more'})),
+      open && h('div',{className:'dtts-menu',role:'menu','aria-label':label,onKeyDown:move},items.filter(Boolean).map(item => h('button',{key:item.label,type:'button',role:'menuitem',disabled:item.disabled,
+        className:item.danger ? 'is-danger' : undefined,onClick:e => { e.stopPropagation(); setOpen(false); item.onSelect() }},item.label))))
+  }
+  function Section({title,meta,help,action,children,className}) {
+    // private fork: heading order title → count → 「?」; no accent bar.
+    return h('section',{className:'dtts-section' + (className ? ' ' + className : '')},h('header',{className:'dtts-section-head'},h('h3',null,h('span',null,title),meta !== undefined && h('span',{className:'dtts-section-count'},meta),help && h(Help,{text:help,label:title + ' 说明'})),action),children)
+  }
+  // The 「?」 is a labelable button: with help the row is a div and the text a <label for> the first native control
+  // (re-created with an id; child.children covers hook renderers that keep children outside props).
+  const FIELD_CONTROLS = new Set(['input','textarea'])
+  function Field({label,help,children,top,warning}) {
+    const id = React.useId()
+    if (!help && !warning) return h('label',{className:'dtts-field' + (top ? ' dtts-field-top' : '')},h('span',{className:'dtts-label'},label),children)
+    let target = null
+    const items = (Array.isArray(children) ? children : [children]).map(child => { if (!target && child && typeof child === 'object' && FIELD_CONTROLS.has(child.type)) { target = child.props?.id || id; const {children:own,...rest} = child.props, inner = own !== undefined ? own : child.children; return inner === undefined ? h(child.type,{...rest,key:child.key ?? undefined,id:target}) : h(child.type,{...rest,key:child.key ?? undefined,id:target},...(Array.isArray(inner) ? inner : [inner])) } return child })
+    return h('div',{className:'dtts-field' + (top ? ' dtts-field-top' : '')},h('span',{className:'dtts-label'},target ? h('label',{htmlFor:target},label) : label,warning,help && h(Help,{text:help,label:label + ' 说明'})),items)
+  }
+  // Custom single choice (no native <select>): chips in a radiogroup, arrow keys move the choice.
+  function Choices({label,value,options,onChange,disabled}) {
+    const keys = e => {
+      if (!['ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key) || !options.length) return
+      e.preventDefault(); const i = Math.max(0,options.findIndex(o => o[0] === value)), next = options[(i + (/Right|Down/.test(e.key) ? 1 : options.length - 1)) % options.length]
+      onChange(next[0]); e.currentTarget.querySelectorAll('[role=radio]')[options.indexOf(next)]?.focus()
+    }
+    return h('div',{className:'dtts-chips',role:'radiogroup','aria-label':label,onKeyDown:keys},options.map(([key,text,note]) => h('button',{key,type:'button',role:'radio',className:'dtts-chip','aria-checked':value === key,
+      tabIndex:value === key || !options.some(o => o[0] === value) && key === options[0][0] ? 0 : -1,disabled,title:note || undefined,onClick:() => onChange(key)},text)))
+  }
+  const Status = ({label,children}) => children ? h('p',{className:'dtts-status',role:'status','aria-label':label},children) : null
+  const Button = ({primary,link,danger,...props}) => h('button',{type:'button',className:primary ? 'dtts-primary' : link ? 'dtts-link' + (danger ? ' is-danger' : '') : 'dtts-button',...props})
+  const Warn = ({children,title}) => h('span',{className:'dtts-warn',title:title || undefined,'aria-label':'⚠ ' + (title || children)},h(Icon,{name:'warn',size:13}),children)
+  const AddRow = ({label,onClick,disabled}) => h('button',{type:'button',className:'dtts-add','aria-label':label,title:label,disabled,onClick},h(Icon,{name:'plus'}))
+  function Confirm({text,yes = '删除',onYes,onNo}) {
+    const ref = React.useRef(null)
+    React.useEffect(() => { ref.current?.focus?.() },[])
+    return h('div',{className:'dtts-confirm',role:'alertdialog','aria-label':text,onKeyDown:e => { if (e.key === 'Escape') onNo() }},h('span',null,text),
+      h('span',{className:'dtts-confirm-actions'},h(Button,{onClick:onNo},'取消'),h('button',{ref,type:'button',className:'dtts-button is-danger',onClick:onYes},yes)))
+  }
+  // A clickable row: the name opens the editor in place; the ⚠ chip and actions stay beside it.
+  function Line({title,code,open,onOpen,warn,children,current}) {
+    return h('div',{className:'dtts-line','data-open':open || undefined},
+      onOpen ? h('button',{type:'button',className:'dtts-line-main','aria-expanded':open,onClick:onOpen},h('span',{className:'dtts-line-title'},title),code && h('code',null,code))
+        : h('span',{className:'dtts-line-main is-static'},h('span',{className:'dtts-line-title'},title),code && h('code',null,code)),
+      current, warn, children && h('span',{className:'dtts-line-actions'},children))
+  }
+  const voiceName = v => v.label && v.label !== v.id ? v.label + ' ' + v.id : v.id
+  function useServiceData() {
+    const [state,setState] = React.useState(null), [error,setError] = React.useState('')
+    React.useEffect(() => {
+      let mounted = true
+      const reload = () => { call('services').then(value => { if (mounted) { setState(value); setError('') } }).catch(e => { if (mounted) setError(failText(e)) }) }
+      reload(); managementListeners.add(reload)
+      return () => { mounted = false; managementListeners.delete(reload) }
+    },[])
+    return [state,error]
+  }
+  // 「default」 is the local engine's connection (dsh-tts-local registers its install id); show it by what it is.
+  const isLocalEngine = p => !!p.capabilities?.localEngine || p.kind === 'reference' && /^local[:-]|^default$/.test(p.id)
+  const runningName = p => isLocalEngine(p) ? '本地引擎' : p.label || KINDS[p.kind] || p.id
+  // Only real problems become a chip; a fine or untested service shows nothing.
+  function serviceProblem(p, kind) {
+    const missing = (kind?.fields || []).some(f => f.secret && f.required && !p.secrets?.[f.key]?.configured)
+    if (missing || p.check?.status === 'credentials-required') return ['未设置密钥']
+    if (p.check?.status === 'error') return ['连接失败',p.check.message]
+    return null
+  }
+  const runningProblem = p => p.status?.state === 'offline' ? ['未连接'] : p.status?.state === 'error' ? ['出错',p.status.error] : p.status?.state === 'credentials-required' ? ['未设置密钥'] : null
+  function resultView(r) {
+    const count = r.voices?.length ? ' · ' + r.voices.length + ' 个音色' : ''
+    const [tone,text] = r.status === 'connected' ? ['ready',(r.message || '连接成功') + count] : r.status === 'reachable' ? ['ready',r.message || '服务能连上'] :
+      r.status === 'credentials-required' ? ['warn','还没有填写密钥'] : r.status === 'invalid' ? ['error','配置有误：' + (r.message || '')] : ['error',r.message || '连接失败']
+    return h('p',{className:'dtts-result','data-state':tone,role:'status','aria-label':'测试结果'},h(Icon,{name:tone === 'ready' ? 'check' : 'warn',size:14}),text)
+  }
+  function ServicesSection({advanced,onLocal}) {
+    const [state,loadError] = useServiceData()
+    const [kinds,setKinds] = React.useState([]), [editor,setEditor] = React.useState(null), [message,setMessage] = React.useState(''), [busy,setBusy] = React.useState(false),
+      [testing,setTesting] = React.useState(false), [confirm,setConfirm] = React.useState(null)
+    React.useEffect(() => { let mounted = true; call('providerKinds').then(k => { if (mounted) setKinds(Array.isArray(k) ? k : []) }).catch(() => {}); return () => { mounted = false } },[])
+    const configured = state?.configured || [], external = (state?.running || []).filter(p => !configured.some(c => c.id === p.id))
+    const run = fn => async () => { setBusy(true); setMessage(''); try { await fn() } catch(e) { setMessage(failText(e)) } finally { setBusy(false) } }
+    const patch = values => setEditor(e => ({...e,...values}))
+    const descriptor = kind => kinds.find(k => k.kind === kind)
+    function uniqueId(kind) {
+      const base = {azure:'azure','gpt-sovits-api':'gpt-sovits',qwen:'qwen',volcengine:'volc','openai-compatible':'openai','fish-audio':'fish','reference-api':'reference'}[kind] || kind, taken = new Set([...configured,...external].map(p => p.id))
+      if (!taken.has(base)) return base
+      for (let n = 2; ; n++) if (!taken.has(base + '-' + n)) return base + '-' + n
+    }
+    function uniqueLabel(kind) {
+      const base = KINDS[kind] || kind, taken = new Set(configured.map(p => p.label))
+      if (!taken.has(base)) return base
+      for (let n = 2; ; n++) if (!taken.has(base + ' ' + n)) return base + ' ' + n
+    }
+    function chooseKind(kind) {
+      const d = descriptor(kind), config = Object.fromEntries((d?.fields || []).filter(f => !f.secret && f.default !== undefined).map(f => [f.key,f.default]))
+      patch({kind,id:uniqueId(kind),label:uniqueLabel(kind),config,secrets:{},probe:null})
+    }
+    const close = () => { setEditor(null); setTesting(false) }
+    const startAdd = () => { setMessage(''); setConfirm(null); setEditor({mode:'add',kind:'',id:'',label:'',config:{},secrets:{},probe:null}) }
+    const toggleEdit = p => { setMessage(''); setConfirm(null); if (editor?.mode === 'edit' && editor.id === p.id) return close()
+      setEditor({mode:'edit',kind:p.kind,id:p.id,label:p.label,config:{...p.config},secrets:{},stored:p.secrets || {},expectedRevision:p.revision,probe:null}) }
+    const typedSecrets = () => Object.fromEntries(Object.entries(editor.secrets).filter(([,v]) => v))
+    // Explicit only: one real minimal request (see settings.js check()); the saved row picks up the result.
+    const probe = async () => {
+      setTesting(true); patch({probe:null})
+      try { const result = await call('probeService',{id:editor.id,kind:editor.kind,config:editor.config,secrets:typedSecrets()}); patch({probe:result}) }
+      catch(e) { patch({probe:{status:'error',message:failText(e)}}) }
+      finally { setTesting(false); for (const fn of managementListeners) fn() }
+    }
+    const save = run(async () => {
+      if (!editor.label.trim()) throw new Error('请填写名称')
+      const secrets = typedSecrets(), saved = await call('saveService',{id:editor.id,kind:editor.kind,label:editor.label.trim(),config:editor.config,
+        ...(editor.expectedRevision ? {expectedRevision:editor.expectedRevision} : {}),...(Object.keys(secrets).length ? {secrets} : {})})
+      close(); setMessage('已保存「' + saved.label + '」')
+    })
+    const remove = (p,force) => run(async () => {
+      try { await call('deleteService',{id:p.id,expectedRevision:p.revision,...(force ? {force:true} : {})}) }
+      catch(e) { if (!force && e.message === 'SERVICE_IN_USE') { setConfirm({id:p.id,inUse:true}); return } throw e }
+      setConfirm(null); if (editor?.id === p.id) close(); setMessage('已删除「' + p.label + '」')
+    })
+    const fieldView = f => {
+      const value = editor.config[f.key] ?? '', set = v => patch({config:{...editor.config,[f.key]:v},probe:null})
+      if (f.type === 'select') return h(Field,{key:f.key,label:f.label},h(Choices,{label:f.label,value,options:f.options,onChange:set}))
+      return h(Field,{key:f.key,label:f.label},h('input',{'aria-label':f.label,value,placeholder:f.placeholder || '',spellCheck:false,onChange:e => set(e.target.value)}))
+    }
+    const secretField = f => h(Field,{key:f.key,label:f.label,help:'密钥交给 DSH 凭据存储，不写进设置、预设或卡片；保存后不再显示。'},h('input',{type:'password',autoComplete:'new-password','aria-label':f.label,value:editor.secrets[f.key] || '',
+      placeholder:editor.stored?.[f.key]?.configured ? '已保存' : '',onChange:e => patch({secrets:{...editor.secrets,[f.key]:e.target.value},probe:null})}))
+    const costly = editor?.kind === 'volcengine' || editor?.kind === 'openai-compatible' && !editor.config.modelsPath && !editor.config.voicesPath
+    function Form() {
+      const kind = descriptor(editor.kind)
+      if (!kind) return null
+      return h('div',{className:'dtts-form',role:'group','aria-label':editor.mode === 'add' ? '添加语音服务' : '编辑 ' + editor.label},
+        h(Field,{label:'名称'},h('input',{'aria-label':'服务名称',value:editor.label,onChange:e => patch({label:e.target.value})})),
+        advanced && h(Field,{label:'服务 ID'},h('input',{'aria-label':'服务 ID',className:'dtts-code',value:editor.id,disabled:editor.mode === 'edit',onChange:e => patch({id:e.target.value})})),
+        kind.fields.filter(f => !f.secret && (advanced || !f.advanced)).map(fieldView),
+        kind.fields.filter(f => f.secret).map(secretField),
+        (testing || editor.probe) && (testing ? h('p',{className:'dtts-result',role:'status','aria-label':'测试结果'},h('span',{className:'dtts-spinner','aria-hidden':true}),'正在连接…') : resultView(editor.probe)),
+        h('div',{className:'dtts-actions'},
+          h('span',{className:'dtts-actions-start'},h(Button,{disabled:testing || busy,onClick:probe},'测试连接'),
+            h(Help,{label:'测试连接 说明',text:costly ? '会真的合成一个字来验证密钥，可能产生极少费用。' : '会真的请求一次服务（只查列表，不合成、不计费）。'})),
+          h(Button,{onClick:close},'取消'),
+          h(Button,{primary:true,disabled:busy,onClick:save},'保存')))
+    }
+    const editing = id => editor?.mode === 'edit' && editor.id === id
+    const count = state ? configured.length + external.length : undefined
+    return h(Section,{title:'语音服务',meta:count,help:'合成声音的服务。点一行修改，「测试连接」在里面。'},
+      !state ? h('p',{className:'dtts-muted'},loadError || '正在载入…') :
+      h('ul',{className:'dtts-list'},
+        configured.map(p => { const problem = serviceProblem(p,descriptor(p.kind)); return h('li',{key:p.id,'data-open':editing(p.id) || undefined},
+          h(Line,{title:p.label,code:advanced && p.id,open:editing(p.id),onOpen:() => toggleEdit(p),warn:problem && h(Warn,{title:problem[1]},problem[0])},
+            // private fork (UI standard R13, acceptance U11): no resident delete on the row — 删除… sits in the row's ⋯.
+            h(Menu,{label:p.label + ' 更多操作',items:[{label:'删除…',danger:true,disabled:busy,onSelect:() => { setConfirm({id:p.id}) }}]})),
+          confirm?.id === p.id && h(Confirm,{text:confirm.inUse ? '还有声音预设在用「' + p.label + '」，仍要删除？' : '删除「' + p.label + '」？',yes:confirm.inUse ? '仍要删除' : '删除',onYes:remove(p,confirm.inUse),onNo:() => setConfirm(null)}),
+          editing(p.id) && Form()) }),
+        external.map(p => { const problem = runningProblem(p), local = isLocalEngine(p); return h('li',{key:p.id},
+          h(Line,{title:runningName(p),code:advanced && p.id,onOpen:local && onLocal ? onLocal : undefined,warn:problem && h(Warn,{title:problem[1]},problem[0])})) })),
+      editor?.mode === 'add' ? h('div',{className:'dtts-adding'},
+          h('div',{className:'dtts-adding-head'},h('span',{className:'dtts-label'},'选择类型'),!editor.kind && h(Button,{link:true,onClick:close},'取消')),
+          h('div',{className:'dtts-kinds',role:'radiogroup','aria-label':'服务类型'},kinds.map(k => h('button',{key:k.kind,type:'button',role:'radio',className:'dtts-kind','aria-checked':editor.kind === k.kind,
+            title:KIND_NOTES[k.kind] || undefined,onClick:() => chooseKind(k.kind)},KINDS[k.kind] || k.label))),
+          editor.kind && Form())
+        : state && h(AddRow,{label:'添加语音服务',disabled:busy,onClick:startAdd}),
+      h(Status,{label:'服务状态'},message))
+  }
+  function PresetSection({advanced}) {
+    const [services] = useServiceData()
+    const empty = () => ({id:'',label:'',providerId:'',base:'',model:'qwen3-tts-flash',instructions:'',pitch:0,rate:0,speechRate:0,speed:1,refAudioPath:'',promptText:'',promptLang:'zh',gptWeights:'',sovitsWeights:'',textSplitMethod:'cut5',languages:'',moods:{},extraMoods:'{}',search:''})
+    const [presets,setPresets] = React.useState(null), [draft,setDraft] = React.useState(empty), [editing,setEditing] = React.useState(null), [template,setTemplate] = React.useState(null),
+      [open,setOpen] = React.useState(false), [message,setMessage] = React.useState(''), [busy,setBusy] = React.useState(false), [ticket,setTicket] = React.useState(null), [voices,setVoices] = React.useState({}),
+      [confirm,setConfirm] = React.useState(null), [moodsOpen,setMoodsOpen] = React.useState(false), [found,setFound] = React.useState(null)
+    const controller = React.useRef(null), fileInput = React.useRef(null), loading = React.useRef(new Set()), voiceList = React.useRef(null)
+    const configured = services?.configured || []
+    const providers = [...configured.filter(p => PRESET_KINDS.has(p.kind)).map(p => ({id:p.id,label:p.label,kind:p.kind,paid:p.kind === 'fish-audio' ? p.config.model !== 's2.1-pro-free' : PAID.has(p.kind)})),
+      ...(services?.running || []).filter(p => !configured.some(c => c.id === p.id) && p.capabilities?.serviceVoiceEngines?.length).map(p => ({id:p.id,label:runningName(p),kind:'service',paid:false}))]
+    const refresh = async () => { const list = await call('voicePresets'); setPresets(Array.isArray(list) ? list : []) }
+    React.useEffect(() => {
+      let mounted = true
+      const reload = () => { refresh().catch(e => { if (mounted) setMessage(failText(e)) }) }
+      reload(); managementListeners.add(reload)
+      return () => { mounted = false; managementListeners.delete(reload); controller.current?.abort() }
+    },[])
+    // Voices are fetched from the provider, like an LLM provider's model list; ↻ fetches again.
+    function loadVoices(serviceId, force) {
+      if (!serviceId || !force && (voices[serviceId] || loading.current.has(serviceId))) return
+      loading.current.add(serviceId)
+      if (force) setVoices(v => { const {[serviceId]:_,...rest} = v; return rest })
+      call('providerVoices',{serviceId}).then(r => setVoices(v => ({...v,[serviceId]:r})),e => setVoices(v => ({...v,[serviceId]:{status:'error',message:failText(e),voices:[],models:[]}})))
+        .finally(() => loading.current.delete(serviceId))
+    }
+    const presetProvider = v => providers.find(p => p.id === v.providerId) || (() => { const same = providers.filter(p => p.kind === v.kind); return same.length === 1 ? same[0] : undefined })()
+    const provider = providers.find(p => p.id === draft.providerId), kind = provider?.kind || template?.kind
+    const list = voices[draft.providerId]
+    const pool = [...(found?.serviceId === draft.providerId ? found.voices : []),...(list?.voices || [])].filter((v,i,a) => a.findIndex(x => x.id === v.id) === i)
+    const baseVoice = pool.find(v => v.id === draft.base)
+    const patch = values => setDraft(d => ({...d,...values}))
+    const [modelStatus,setModelStatus] = React.useState(null)
+    const statusKey = JSON.stringify([draft.providerId,kind,draft.model,draft.base])
+    React.useEffect(() => {
+      let live = true
+      setModelStatus(null)
+      if (open && !busy) call('voiceModelStatus',{serviceId:draft.providerId,provider:kind,model:draft.model,voiceName:draft.base})
+        .then(value => { if (live) setModelStatus({key:statusKey,...value}) },() => {})
+      return () => { live = false }
+    },[open,busy,statusKey,services])
+    const status = modelStatus?.key === statusKey ? modelStatus : null
+    const issueText = code => ({QWEN_MODEL_NOT_FOUND:'当前服务上次合成无法访问此模型（404）。请核对模型开通状态与区域。',QWEN_VOICE_UNSUPPORTED:'上次合成返回：此模型不支持该音色。请重新选择音色。'}[code] || '')
+    const fieldWarning = field => {
+      const issue = status?.issues?.find(issue => issue.field === field), text = issue && issueText(issue.code)
+      return text ? h(React.Fragment,null,h('span',{className:'dtts-warn',role:'img','aria-label':text},'⚠'),h(Help,{text,label:(field === 'model' ? '模型' : '音色') + '警告说明'})) : null
+    }
+    // Fish: search its public voices by name as you type (a free GET); the curated picks stay underneath.
+    React.useEffect(() => {
+      const query = draft.search.trim()
+      if (kind !== 'fish-audio' || !list?.search || query.length < 1) { setFound(null); return }
+      let live = true
+      const timer = setTimeout(() => { call('searchFishVoices',{serviceId:draft.providerId,query}).then(r => { if (live) setFound({serviceId:draft.providerId,query,voices:(r.voices || []).map(v => ({id:v.voiceId,label:v.name,languages:v.languages || [],description:(v.toneTags || []).slice(0,3).join(' · ')}))}) },
+        e => { if (live) setFound({serviceId:draft.providerId,query,voices:[],error:failText(e)}) }) },350)
+      return () => { live = false; clearTimeout(timer) }
+    },[kind,draft.providerId,draft.search,list])
+    // Reveal the current base voice when an existing preset opens (scrolls only the list, not the panel).
+    React.useEffect(() => { const ul = voiceList.current, item = ul?.querySelector('[aria-selected=true]'); if (item) ul.scrollTop = item.offsetTop - ul.offsetTop - 8 },[open,list,editing?.preset.id,template])
+    const allowed = kind === 'qwen' || kind === 'service' && baseVoice?.engine === 'qwen' ? LANGUAGES.qwen : LANGUAGES.other
+    const pickLanguages = langs => { const picked = (langs || []).map(l => String(l).split('-')[0]).filter((l,i,a) => allowed.includes(l) && a.indexOf(l) === i); return (picked.length ? picked : [allowed[0]]).join(', ') }
+    function start(entry, copy) {
+      setTicket(null); setMessage(''); setConfirm(null); setMoodsOpen(false); setFound(null)
+      if (entry && !copy && open && editing?.preset.id === entry.preset.id) return close()
+      setOpen(true); setEditing(entry && !copy ? entry : null); setTemplate(entry?.preset || null)
+      if (!entry) { const only = providers.length === 1 ? providers[0].id : ''; setDraft({...empty(),providerId:only,model:providers.find(p => p.id === only)?.kind === 'qwen' ? 'qwen3-tts-flash' : ''}); loadVoices(only); return }
+      const v = entry.preset, p = v.params, [work,name] = v.id.split('/'), providerId = v.providerId || presetProvider(v)?.id || ''
+      const moods = {}, extra = {}, taken = new Set((presets || []).map(e => e.preset.id))
+      const copyBase = work + '/' + name.slice(0,30) + '-copy'
+      let copyId = copyBase
+      for (let n = 2; taken.has(copyId); n++) copyId = copyBase + '-' + n
+      for (const [mood,value] of Object.entries(p.moods || {})) (MOODS.some(([id]) => id === mood) ? moods : extra)[mood] = value
+      setDraft({...empty(),id:copy ? copyId : v.id,label:copy ? v.label + '（副本）' : v.label,providerId,languages:v.languages.join(', '),
+        base:p.referenceId || p.voiceName || p.voice || p.speaker || v.voiceId || '',model:p.model || 'qwen3-tts-flash',instructions:p.instructions || '',pitch:p.pitch ?? 0,rate:p.rate ?? 0,speechRate:p.speechRate ?? 0,speed:p.speed ?? p.speedFactor ?? 1,refAudioPath:p.refAudioPath || '',promptText:p.promptText || '',promptLang:p.promptLang || 'zh',gptWeights:p.gptWeights || '',sovitsWeights:p.sovitsWeights || '',textSplitMethod:p.textSplitMethod || 'cut5',moods,extraMoods:JSON.stringify(extra)})
+      loadVoices(providerId)
+    }
+    function close() { setOpen(false); setEditing(null); setTemplate(null); setDraft(empty()); setTicket(null); setFound(null) }
+    function pickVoice(v) {
+      const models = list?.models || []
+      patch({base:v.id,languages:pickLanguages(v.languages),...(kind === 'qwen' && v.instruct === false && /instruct/.test(draft.model) ? {model:(models.find(m => !m.instruct) || {id:'qwen3-tts-flash'}).id} : {}),
+        ...(!draft.label && v.label ? {label:v.label} : {})})
+    }
+    function chooseProvider(id) {
+      const p = providers.find(p => p.id === id)
+      patch({providerId:id,base:'',search:'',languages:'',model:p?.kind === 'qwen' ? 'qwen3-tts-flash' : '',instructions:'',moods:{},extraMoods:'{}'}); setFound(null); loadVoices(id)
+    }
+    // private fork: keep generated work/name IDs separate from builtin IDs such as qwen/bella.
+    // ASCII labels stay readable; CJK labels fall back to the selected voice.
+    function automaticId() {
+      const slug = (s,fallback) => String(s).toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^[^a-z0-9]+|-+$/g,'').slice(0,32) || fallback
+      const work = slug(draft.providerId + '-presets','voice-presets'), name = slug(draft.label,slug(draft.base,'preset'))
+      const used = new Set([...(presets || []).map(e => e.preset.id),...(list?.voices || []).map(v => v.id)])
+      let id = work + '/' + name
+      for (let n = 2; used.has(id); n++) id = work + '/' + name + '-' + n
+      return id
+    }
+    function descriptor() {
+      if (!kind) throw new Error('请选择语音服务')
+      if (!draft.base && kind !== 'gpt-sovits-api') throw new Error('请选择音色')
+      if (!draft.label.trim()) throw new Error('请填写名称')
+      const presetId = editing?.preset.id || draft.id || automaticId()
+      if (!PRESET_ID.test(presetId)) throw new Error('预设 ID 写作「作品/名称」，只用小写字母、数字、- 和 _')
+      const same = template?.kind === kind ? template : null
+      const moods = {...JSON.parse(draft.extraMoods || '{}')}
+      for (const [mood,value] of Object.entries(draft.moods)) if (value === null || value) moods[mood] = value
+      let params, extra = {}
+      if (kind === 'azure') params = {voiceName:draft.base,pitch:Number(draft.pitch),rate:Number(draft.rate),...(same?.params.styles !== undefined ? {styles:same.params.styles} : {})}
+      // private fork: model/cost belongs to the service, never a portable Fish preset.
+      else if (kind === 'fish-audio') params = {...(same?.params || {}),referenceId:draft.base,speed:Number(draft.speed)}
+      else if (kind === 'qwen') params = {voice:draft.base,model:draft.model,...(/instruct/.test(draft.model) && draft.instructions.trim() ? {instructions:draft.instructions.trim()} : {})}
+      else if (kind === 'openai-compatible') params = {voice:draft.base,model:draft.model,speed:Number(draft.speed),...(draft.instructions.trim() ? {instructions:draft.instructions.trim()} : {})}
+      else if (kind === 'gpt-sovits-api') params = {refAudioPath:draft.refAudioPath,promptText:draft.promptText,promptLang:draft.promptLang,speedFactor:Number(draft.speed),gptWeights:draft.gptWeights,sovitsWeights:draft.sovitsWeights,textSplitMethod:draft.textSplitMethod}
+      else if (kind === 'volcengine') params = {speaker:draft.base,speechRate:Number(draft.speechRate)}
+      else {
+        // Service voices: the local engine owns model identity and parameters.
+        const base = baseVoice || (same?.voiceId === draft.base ? same : null)
+        if (!base) throw new Error('请选择音色')
+        params = {...(base.params || {})}
+        extra = {voiceId:base.voiceId || base.id,engine:base.engine,revision:base.revision,...(base.modelSetId ? {modelSetId:base.modelSetId} : {}),...(base.modelVersion ? {modelVersion:base.modelVersion} : {})}
+      }
+      if (['azure','qwen','volcengine'].includes(kind) && Object.keys(moods).length) params.moods = moods
+      const preset = {...(same?.moodStyles ? {moodStyles:same.moodStyles} : {}),...extra,schemaVersion:1,id:presetId,label:draft.label.trim(),kind,enabled:same?.enabled ?? true,
+        ...(draft.providerId ? {providerId:draft.providerId} : {}),languages:(draft.languages || (kind === 'gpt-sovits-api' ? draft.promptLang : 'zh, en, ja')).split(/[,\s]+/).filter(Boolean),params}
+      return preset
+    }
+    const run = fn => async () => { setBusy(true); setMessage(''); try { await fn(); await refresh() } catch(e) { setMessage(failText(e)) } finally { setBusy(false) } }
+    async function save() {
+      const entry = await call('saveVoicePreset',{preset:descriptor(),expectedRevision:editing?.revision ?? null})
+      setEditing(entry); setTemplate(entry.preset); patch({id:entry.preset.id}); setMessage('已保存「' + entry.preset.label + '」'); return entry.preset
+    }
+    const preview = run(async () => {
+      const preset = await save(); controller.current?.abort(); controller.current = new AbortController(); setTicket(null)
+      const samples = {zh:'你好，这是声音预设试听。',ja:'こんにちは。音声のテストです。'}
+      const language = preset.languages[0], result = await client.synthesize({voiceId:preset.id,language,text:samples[language] || 'Hello, this is a voice preset preview.'},{scope:'voice-preset-preview',signal:controller.current.signal})
+      setTicket(result.ticket); setMessage('试听已就绪')
+    })
+    const exportPresets = () => {
+      const text = JSON.stringify({version:1,presets:(presets || []).map(e => e.preset)},null,2), url = URL.createObjectURL(new Blob([text],{type:'application/json'}))
+      const a = document.createElement('a'); a.href = url; a.download = 'voice-presets.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url),0)
+    }
+    const importPresets = file => run(async () => {
+      const data = JSON.parse(await file.text()), list = Array.isArray(data) ? data : data?.presets
+      if (!Array.isArray(list)) throw new Error('文件里没有声音预设')
+      const r = await call('importVoicePresets',{presets:list})
+      setMessage(['导入 ' + r.added.length + ' 个',r.unchanged.length && '已存在 ' + r.unchanged.length + ' 个',r.conflicts.length && '同名冲突 ' + r.conflicts.length + ' 个（保留本机版本）'].filter(Boolean).join('，'))
+    })()
+    const remove = entry => run(async () => { await call('deleteVoicePreset',{id:entry.preset.id,expectedRevision:entry.revision}); if (editing?.preset.id === entry.preset.id) close(); setTicket(null); setConfirm(null); setMessage('已删除') })
+    const field = (label,key,props = {},help) => h(Field,{label,help},h('input',{'aria-label':label,value:key === 'id' && !draft.id && !editing ? automaticId() : draft[key],onChange:e => patch({[key]:e.target.value}),...props}))
+    const query = draft.search.trim().toLowerCase()
+    const shown = pool.filter(v => !query || found?.query && found.voices.some(x => x.id === v.id) || [v.id,v.label,v.description].some(s => String(s || '').toLowerCase().includes(query)))
+    const models = (list?.models || []).filter(m => !m.instruct || baseVoice?.instruct !== false)
+    const moodRow = ([mood,label]) => {
+      const value = draft.moods[mood], fallback = MOOD_DEFAULTS[kind]?.[mood]
+      return h('div',{key:mood,className:'dtts-mood'},h('span',{className:'dtts-label'},label),
+        h('input',{'aria-label':'情绪 ' + label,value:value ?? '',disabled:value === null,placeholder:value === null ? '不修饰' : fallback ? '默认：' + fallback : '默认不修饰',
+          onChange:e => patch({moods:{...draft.moods,[mood]:e.target.value}})}),
+        h(Button,{link:true,onClick:() => { const next = {...draft.moods}; if (value === null) delete next[mood]; else next[mood] = null; patch({moods:next}) }},value === null ? '恢复' : '不修饰'))
+    }
+    const changedMoods = Object.values(draft.moods).filter(v => v === null || v).length
+    const paid = provider?.paid ?? PAID.has(kind)
+    const picker = () => {
+      const loadingList = !list && !!draft.providerId, failed = list && (list.status === 'error' || list.status === 'credentials-required')
+      return h(Field,{label:'音色',warning:fieldWarning('voice'),top:true},h('div',{className:'dtts-picker'},
+        h('div',{className:'dtts-picker-bar'},
+          h('input',{type:'search','aria-label':'搜索音色',placeholder:kind === 'fish-audio' ? '搜索 Fish 声音' : '搜索',value:draft.search,onChange:e => patch({search:e.target.value})}),
+          h('button',{type:'button',className:'dtts-icon-button','aria-label':'重新获取音色',title:'重新获取音色',disabled:loadingList,onClick:() => { setFound(null); loadVoices(draft.providerId,true) }},h(Icon,{name:'refresh'}))),
+        loadingList ? h('p',{className:'dtts-muted dtts-loading'},h('span',{className:'dtts-spinner','aria-hidden':true}),'正在获取音色…') :
+        failed ? h(Warn,{title:list.message},list.status === 'credentials-required' ? '未设置密钥，获取不到音色' : '获取音色失败') :
+        !shown.length ? h('p',{className:'dtts-muted'},found?.error ? found.error : pool.length || query ? '没有匹配的音色' : '这个服务没有音色列表') :
+        h('ul',{ref:voiceList,className:'dtts-voices',role:'listbox','aria-label':'音色'},shown.slice(0,200).map(v => h('li',{key:v.id},
+          h('button',{type:'button',role:'option','aria-selected':draft.base === v.id,onClick:() => pickVoice(v)},
+            h('span',{className:'dtts-voice-name'},v.label || v.id,v.label && v.label !== v.id && kind !== 'fish-audio' && h('code',null,v.id)),
+            h('span',{className:'dtts-voice-meta'},[GENDERS[v.gender],v.description,v.state && v.state !== 'ready' && '未就绪',v.instruct && kind === 'qwen' && models.some(m => m.instruct) && '支持风格指令'].filter(Boolean).join(' · ')))))),
+        kind !== 'service' && h('input',{'aria-label':'音色 ID',className:'dtts-code',placeholder:'或直接填写音色 ID',spellCheck:false,value:draft.base,onChange:e => patch({base:e.target.value.trim()})})))
+    }
+    function Form() {
+      const providerOptions = providers.map(p => [p.id,p.label])
+      if (draft.providerId && !provider) providerOptions.push([draft.providerId,draft.providerId + '（不可用）'])
+      return h('div',{className:'dtts-form',role:'group','aria-label':editing ? '编辑 ' + editing.preset.label : '新建声音预设'},
+        h(Field,{label:'语音服务'},providers.length ? h(Choices,{label:'语音服务',value:draft.providerId,options:providerOptions,disabled:!!editing && template?.kind === 'service',onChange:chooseProvider}) : h(Warn,null,'还没有语音服务')),
+        draft.providerId && kind !== 'gpt-sovits-api' && picker(),
+        field('名称','label',{placeholder:'例如：大肥鱼','aria-label':'预设名称'}),
+        advanced && field('预设 ID','id',{placeholder:'作品/名称',disabled:!!editing,className:'dtts-code'},'写作「作品/名称」，如 deepseek-whale/dafeiyu。卡片按这个 ID 引用预设，保存后不能改。'),
+        kind === 'qwen' && h(React.Fragment,null,
+          h(Field,{label:'模型',warning:fieldWarning('model')},h(Choices,{label:'模型',value:draft.model,onChange:model => patch({model}),
+            options:[...(models.length ? models : [{id:draft.model,label:draft.model}]).map(m => [m.id,m.label,m.instruct ? '支持风格指令' : '']),...(models.length && !models.some(m => m.id === draft.model) ? [[draft.model,draft.model]] : [])]})),
+          /instruct/.test(draft.model) && h(Field,{label:'风格说明'},h('textarea',{'aria-label':'风格说明',rows:2,maxLength:200,placeholder:'例如：声音软糯，语速稍慢，尾音上扬',value:draft.instructions,onChange:e => patch({instructions:e.target.value})}))),
+        kind === 'fish-audio' && field('语速倍率','speed',{type:'number',min:0.5,max:2,step:0.05,className:'dtts-number'}),
+        kind === 'openai-compatible' && h(React.Fragment,null,
+          models.length ? h(Field,{label:'模型'},h(Choices,{label:'模型',value:draft.model,onChange:model => patch({model}),options:[...models.map(m => [m.id,m.label || m.id]),...(draft.model && !models.some(m => m.id === draft.model) ? [[draft.model,draft.model]] : [])]}))
+            : field('模型','model',{placeholder:'服务商提供的模型 ID',spellCheck:false},'这个服务没有模型列表，请手填模型；合成需返回 WAV。'),
+          field('语速倍率','speed',{type:'number',min:0.25,max:4,step:0.05,className:'dtts-number'}),
+          field('风格说明','instructions',{maxLength:200,placeholder:'可选'})),
+        kind === 'gpt-sovits-api' && h(React.Fragment,null,
+          field('参考音频路径','refAudioPath',{},'这个接口没有音色列表，用服务那台电脑上的参考音频定义声音。'),field('参考原文','promptText'),
+          h(Field,{label:'参考语言'},h(Choices,{label:'参考语言',value:draft.promptLang,onChange:l => patch({promptLang:l,languages:l}),options:['zh','ja','en','ko','yue'].map(l => [l,l])})),
+          field('语速倍率','speed',{type:'number',min:0.25,max:4,step:0.05,className:'dtts-number'}),
+          advanced && h(React.Fragment,null,field('GPT 权重路径','gptWeights'),field('SoVITS 权重路径','sovitsWeights'))),
+        kind === 'azure' && h(React.Fragment,null,field('音高（%）','pitch',{type:'number',min:-50,max:50,className:'dtts-number'}),field('语速（%）','rate',{type:'number',min:-50,max:100,className:'dtts-number'})),
+        kind === 'volcengine' && field('语速','speechRate',{type:'number',min:-50,max:100,className:'dtts-number'}),
+        ['azure','qwen','volcengine'].includes(kind) && h('div',{className:'dtts-fold'},
+          h('div',{className:'dtts-fold-head'},h('button',{type:'button',className:'dtts-fold-toggle','aria-expanded':moodsOpen,onClick:() => setMoodsOpen(!moodsOpen)},h(Icon,{name:'chevron',size:14}),'情绪微调',status?.modelInstructions === false && h('span',{className:'dtts-tag'},'未使用'),changedMoods ? h('span',{className:'dtts-count'},changedMoods) : null),
+            h(Help,{label:'情绪微调 说明',text:status?.modelInstructions === false ? '当前模型不支持情绪指令，这些设置保留但不会发送。' : kind === 'qwen' ? '台词带情绪时追加的语气说明（仅 Instruct 模型）；留空用默认。' : kind === 'azure' ? 'Azure 说话风格名，需要这个音色支持；留空用默认。' : '火山引擎情绪名，需要这个音色支持；留空用默认。'})),
+          moodsOpen && h(React.Fragment,null,MOODS.filter(([mood]) => !(kind === 'qwen' && mood === 'calm')).map(moodRow),
+            advanced && h(Field,{label:'其他情绪'},h('textarea',{'aria-label':'其他情绪（JSON）',className:'dtts-code',rows:2,spellCheck:false,value:draft.extraMoods,onChange:e => patch({extraMoods:e.target.value})})))),
+        advanced && field('语言','languages',{placeholder:'zh, en, ja'}),
+        h('div',{className:'dtts-actions'},
+          h('span',{className:'dtts-actions-start'},h(Button,{onClick:preview,disabled:busy,className:paid ? 'dtts-button is-paid' : 'dtts-button'},paid ? '试听（付费）' : '试听'),
+            h(Help,{label:'试听 说明',text:paid ? '先保存，再合成一句短样本，按服务价格计费一次。' : '先保存，再合成一句短样本。'})),
+          h(Button,{onClick:close},'取消'),
+          h(Button,{primary:true,disabled:busy,onClick:run(save)},'保存')),
+        ticket && h('audio',{className:'dtts-audio',controls:true,autoPlay:true,src:audioUrl(ticket)}))
+    }
+    const isOpen = id => open && editing?.preset.id === id
+    return h(Section,{title:'声音预设',meta:presets ? presets.length : undefined,help:'在服务的音色上调好参数，存成能反复用的声音。点一行修改。',
+        action:advanced && h(Menu,{label:'声音预设 更多操作',items:[{label:'导入…',onSelect:() => fileInput.current?.click(),disabled:busy},{label:'导出',onSelect:exportPresets,disabled:busy || !presets?.length}]})},
+      h('input',{ref:fileInput,type:'file',accept:'application/json,.json',hidden:true,onChange:e => { const file = e.target.files?.[0]; e.target.value = ''; if (file) importPresets(file) }}),
+      !presets ? h('p',{className:'dtts-muted'},'正在载入…') :
+      h('ul',{className:'dtts-list'},presets.map(entry => { const v = entry.preset, p = presetProvider(v); return h('li',{key:v.id,'data-open':isOpen(v.id) || undefined},
+        h(Line,{title:v.label,code:advanced && v.id,open:isOpen(v.id),onOpen:() => start(entry),current:p && h('span',{className:'dtts-tag'},p.label),warn:!p && h(Warn,null,'服务不可用')},
+          h(Menu,{label:'更多操作 ' + v.label,items:[{label:'复制',onSelect:() => start(entry,true)},{label:'删除',danger:true,onSelect:() => setConfirm(v.id)}]})),
+        confirm === v.id && h(Confirm,{text:'删除「' + v.label + '」？',onYes:remove(entry),onNo:() => setConfirm(null)}),
+        isOpen(v.id) && Form()) }),
+        open && !editing && h('li',{key:'+new','data-open':true},Form())),
+      presets && !(open && !editing) && h(AddRow,{label:'新建声音预设',disabled:busy,onClick:() => start(null)}),
+      h(Status,{label:'预设状态'},message))
+  }
+  function CacheSection({advanced}) {
+    const [cache,setCache] = React.useState(null), [message,setMessage] = React.useState(''), [limits,setLimits] = React.useState({cacheMaxGB:1,cacheMaxAgeDays:30})
+    const update = stats => { setCache(stats); setLimits({cacheMaxGB:stats.maxBytes / 1024 ** 3,cacheMaxAgeDays:stats.maxAgeDays}) }
+    React.useEffect(() => { let mounted = true; call('cache').then(stats => { if (mounted) update(stats) }).catch(e => { if (mounted) setMessage(failText(e)) }); return () => { mounted = false } },[])
+    const run = (fn,done) => async () => { try { await fn(); update(await call('cache')); setMessage(done) } catch(e) { setMessage(failText(e)) } }
+    return h(Section,{title:'合成缓存',help:'合成过的台词存在这里，重播不再花钱。'},
+      h('div',{className:'dtts-line'},h('output',{'aria-label':'缓存用量',className:'dtts-line-main is-static dtts-value'},cache ? sizeText(cache.bytes) + ' · ' + cache.count + ' 条' : '正在载入…'),
+        h('span',{className:'dtts-line-actions'},h(Button,{onClick:run(() => call('clearCache',{all:true}),'缓存已清空')},'清空'))),
+      advanced && h(React.Fragment,null,
+        [['cacheMaxGB','上限（GB）',0.1,100,'any'],['cacheMaxAgeDays','保留天数',1,3650,1,'超过保留天数的音频先删除，再按容量淘汰最久没用的；只清合成结果，不动卡片参考音频。']].map(([key,label,min,max,step,help]) => h(Field,{key,label,help},
+          h('input',{name:key,'aria-label':label,type:'number',min,max,step,className:'dtts-number',value:limits[key],onChange:e => setLimits({...limits,[key]:Number(e.target.value)})}))),
+        h('div',{className:'dtts-actions'},h(Button,{onClick:run(() => call('saveCacheSettings',limits),'已保存缓存设置')},'保存缓存设置'))),
+      h(Status,{label:'缓存状态'},message))
+  }
+  // private fork (docs/fork/reading-dictionary.md): the 读音词典 (named presets, one active, a windowed 写法 → 读音 list) is
+  // drawn by the Tavern plugin with the shared panel components (ttsReadingsEditor); this page only places it and hands
+  // over the control RPC. Without Tavern the section is absent.
+  let ReadingsEditor = null
+  const readingsListeners = new Set()
+  ctx.inject(['ttsReadingsEditor'], child => child.effect(() => {
+    ReadingsEditor = child.get('ttsReadingsEditor').render
+    for (const fn of readingsListeners) fn()
+    return () => { ReadingsEditor = null; for (const fn of readingsListeners) fn() }
+  }))
+  function ReadingsSection({advanced}) {
+    const render = React.useSyncExternalStore(fn => { readingsListeners.add(fn); return () => readingsListeners.delete(fn) },() => ReadingsEditor)
+    return render ? render({call,advanced}) : null
+  }
+  let LocalPanel = null, sidebar = null
+  const localListeners = new Set()
+  ctx.inject(['ttsLocalClient'], child => child.effect(() => {
+    LocalPanel = child.get('ttsLocalClient').Panel
+    for (const fn of localListeners) fn()
+    return () => { LocalPanel = null; for (const fn of localListeners) fn() }
+  }))
+  // private fork: generic, short-lived return intent; the destination owns payload consumption.
+  const returnKey = 'dsh:settings-return'
+  const openSettingsTab = toTab => { if (!sidebar) throw new Error('当前页面无法切换设置标签'); return sidebar.openTab({type:toTab}) }
+  function readReturnIntent() {
+    try {
+      const intent = JSON.parse(window.sessionStorage.getItem(returnKey))
+      if (!intent || typeof intent.toTab !== 'string' || !/^[a-z0-9][a-z0-9_.:-]{0,159}$/i.test(intent.toTab) || intent.toTab === 'dsh-tts:voice' || typeof intent.label !== 'string' || !intent.label.trim() || intent.label.length > 80 || !intent.payload || typeof intent.payload !== 'object' || Array.isArray(intent.payload) || !Number.isFinite(intent.createdAt) || Date.now() < intent.createdAt || Date.now() - intent.createdAt >= 600000 || intent.consumedBy) return null
+      return intent
+    } catch { return null }
+  }
+  function VoicePanel() {
+    const current = React.useSyncExternalStore(fn => {stateListeners.add(fn);return () => stateListeners.delete(fn)},() => enabled)
+    const Local = React.useSyncExternalStore(fn => {localListeners.add(fn);return () => localListeners.delete(fn)},() => LocalPanel)
+    const [message,setMessage] = React.useState(''), [mode,setMode] = usePanelMode(), advanced = mode === 'advanced'
+    const [returnIntent,setReturnIntent] = React.useState(readReturnIntent), root = React.useRef(null)
+    // The 本地引擎 row in 语音服务 leads to its own section (status and start / stop live there).
+    const onLocal = Local ? () => { const section = root.current?.querySelector('.dtts-local'); section?.scrollIntoView?.({block:'start',behavior:'smooth'}); section?.querySelector('button')?.focus?.({preventScroll:true}) } : null
+    React.useEffect(() => {
+      if (!returnIntent) return
+      const timer = setTimeout(() => setReturnIntent(null),Math.max(0,600000 - (Date.now() - returnIntent.createdAt)))
+      return () => clearTimeout(timer)
+    },[returnIntent])
+    const returnToSettings = async () => {
+      const current = readReturnIntent()
+      if (!current || JSON.stringify(current) !== JSON.stringify(returnIntent)) { setReturnIntent(null); return }
+      const marked = JSON.stringify({...current,consumedBy:'dsh-tts'})
+      try {
+        window.sessionStorage.setItem(returnKey,marked)
+        await openSettingsTab(current.toTab)
+        setReturnIntent(null)
+      } catch {
+        try { if (window.sessionStorage.getItem(returnKey) === marked) window.sessionStorage.setItem(returnKey,JSON.stringify(current)) } catch {}
+        setMessage('暂时无法返回，请重试')
+      }
+    }
+    return h('div',{className:'dtts',ref:root},
+      // private fork (settings polish, owner 2026-10): opened from 舞台设置 › 配音, the page shows the shared sub-page header —
+      // a quiet ‹ (its name and tooltip are the return label) right before the title, no separate link line.
+      h('header',{className:'dtts-head'},h('div',{className:'dtts-title'},returnIntent && sidebar && h('button',{type:'button',className:'dtts-back','aria-label':returnIntent.label,title:returnIntent.label,onClick:returnToSettings},h(Icon,{name:'back',size:18})),h('h2',null,'配音')),h(ModeSwitch,{mode,onChange:setMode})),
+      h('label',{className:'dtts-toggle'},
+        h('span',{className:'dtts-toggle-text'},h('strong',null,'启用配音')),
+        h('input',{type:'checkbox',role:'switch',className:'dtts-switch','aria-label':'启用配音',checked:current === true,disabled:current === null,onChange:async e => {
+          try { await call('setEnabled',{enabled:e.target.checked}); setMessage('') } catch (error) {setMessage(failText(error))}
+        }})),
+      h(Status,{label:'配音状态'},message),
+      h(ServicesSection,{advanced,onLocal}),h(PresetSection,{advanced}),
+      Local ? h(Local,{mode}) : advanced && h(Section,{title:'本地引擎'},h('p',{className:'dtts-muted'},'本地引擎插件未启用')),
+      h(CacheSection,{advanced}),h(ReadingsSection,{advanced}))
+  }
+  const icon = size => h('svg',{width:size || 16,height:size || 16,viewBox:'0 0 16 16',fill:'none','aria-hidden':true},
+    h('path',{d:'M2.5 6.5v3M5.25 4.5v7M8 2.5v11M10.75 5v6M13.5 6.5v3',stroke:'currentColor',strokeWidth:1.2,strokeLinecap:'round'}))
+  ctx.slots.inject('settings.section',() => ctx.slots.register({name:'settings.section',id:'tts',order:70,label:() => '配音'},VoicePanel))
+  ctx.inject(['betterSidebar'], child => child.effect(() => {
+    sidebar = child.get('betterSidebar')
+    const dispose = sidebar.registerTab({id:'dsh-tts:voice',title:'配音',order:10,single:true,icon,component:VoicePanel})
+    return () => { dispose(); sidebar = null }
+  }))
+}

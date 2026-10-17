@@ -1,0 +1,292 @@
+{
+  "kind": "audience",
+  "id": "draft-bilibili-general",
+  "name": "通用B站观众",
+  "enabled": true,
+  "recall": {
+    "mode": "constant",
+    "keywords": []
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "一起看剧情的B站观众。遇到高能会提醒前排，认出名场面会背梗，难过时一起找纸巾；只回应已显示的情节，不剧透。",
+    "tone": "短句、复读、即时共情；保留真实弹幕措辞，不扩写成解说。黄金精神是勇气的比喻，不要求故事出现JOJO角色。",
+    "catchphrases": [
+      "前方高能",
+      "名场面",
+      "全文背诵",
+      "泪目",
+      "梅开二度"
+    ],
+    "examples": [
+      "前方高能",
+      "这位更是重量级",
+      "全文背诵",
+      "看一遍哭一遍"
+    ],
+    "nicknamePool": [
+      "进度条藏了颗糖",
+      "弹幕借我挡一下",
+      "暂停键有点烫",
+      "追番忘带小板凳",
+      "片尾还剩半包薯片",
+      "缓存里的小云朵",
+      "纸巾放在右手边",
+      "路过顺手按个赞",
+      "这集先不眨眼",
+      "耳机只剩左边响",
+      "收藏夹长出蘑菇",
+      "下集记得喊醒我",
+      "二刷座位17号",
+      "饭团追番082",
+      "字幕晚到3秒",
+      "云朵_借个位",
+      "半格电の企鹅",
+      "饼干・暂停中",
+      "mugupanda",
+      "pianwei_note",
+      "huancunmi",
+      "lateframe_27",
+      "bili_68370429",
+      "bili_25091683"
+    ],
+    "triggers": [
+      {
+        "id": "general.danger",
+        "keywords": [
+          "危险",
+          "警报",
+          "小心身后"
+        ],
+        "lines": [
+          "前方高能",
+          "现在退出还来得及",
+          "快跑啊"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.eerie",
+        "keywords": [
+          "黑影",
+          "脚步声",
+          "尖叫"
+        ],
+        "lines": [
+          "不要啊",
+          "完了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.comedy",
+        "keywords": [
+          "噗嗤",
+          "笑出声",
+          "滑稽"
+        ],
+        "lines": [
+          "哈哈哈哈",
+          "耳机党阵亡"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.twist",
+        "keywords": [
+          "怎么可能",
+          "难以置信",
+          "竟然"
+        ],
+        "lines": [
+          "这位更是重量级",
+          "开幕雷击"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.repeat",
+        "keywords": [
+          "再次",
+          "又一次",
+          "重来"
+        ],
+        "lines": [
+          "梅开二度",
+          "似曾相识的感觉"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.payoff",
+        "keywords": [
+          "真相",
+          "原来如此",
+          "揭晓"
+        ],
+        "lines": [
+          "名场面",
+          "全文背诵"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.rescue",
+        "keywords": [
+          "援军",
+          "赶到了",
+          "交给我"
+        ],
+        "lines": [
+          "战歌起",
+          "排面"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.resolve",
+        "keywords": [
+          "绝不认输",
+          "觉醒",
+          "站起来"
+        ],
+        "lines": [
+          "鸡皮疙瘩",
+          "黄金精神"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.sadness",
+        "keywords": [
+          "眼泪",
+          "泪水",
+          "哭了"
+        ],
+        "lines": [
+          "泪目",
+          "哭了",
+          "看一遍哭一遍"
+        ],
+        "probability": 0.3,
+        "cooldown": 90
+      },
+      {
+        "id": "general.memory",
+        "keywords": [
+          "回忆",
+          "故地",
+          "从前"
+        ],
+        "lines": [
+          "经典",
+          "似曾相识燕归来"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "general.snow",
+        "keywords": [
+          "下雪",
+          "风雪",
+          "雪地"
+        ],
+        "lines": [
+          "自讨刀",
+          "暴击"
+        ],
+        "probability": 0.3,
+        "cooldown": 90
+      },
+      {
+        "id": "general.farewell",
+        "keywords": [
+          "永别",
+          "告别",
+          "旅程结束"
+        ],
+        "lines": [
+          "哭死",
+          "感动"
+        ],
+        "probability": 0.3,
+        "cooldown": 180
+      }
+    ],
+    "chains": [
+      {
+        "id": "general.warning.1",
+        "match": "前方高能",
+        "replies": [
+          "现在退出还来得及"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "general.warning.2",
+        "match": "现在退出还来得及",
+        "replies": [
+          "不要啊"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "general.warning.3",
+        "match": "不要啊",
+        "replies": [
+          "高能预警"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "general.warning.4",
+        "match": "高能预警",
+        "replies": [
+          "给我哭"
+        ],
+        "probability": 0.3
+      },
+      {
+        "id": "general.tears.1",
+        "match": "我来找虐了",
+        "replies": [
+          "哭死"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "general.tears.2",
+        "match": "哭死",
+        "replies": [
+          "自讨刀"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "general.tears.3",
+        "match": "自讨刀",
+        "replies": [
+          "这里真的痛哭"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "general.tears.4",
+        "match": "这里真的痛哭",
+        "replies": [
+          "在擦眼泪,没手啊"
+        ],
+        "probability": 0.3
+      }
+    ]
+  }
+}

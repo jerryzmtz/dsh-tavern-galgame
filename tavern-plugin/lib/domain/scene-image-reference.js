@@ -1,0 +1,91 @@
+import { createHash } from 'node:crypto'
+import { sceneSlotKeys } from './scene-slots.js'
+import { imageReferenceCapability } from '../../packages/dsh-image-gen/src/tavern/scene-image-reference.js'
+export { imageReferenceCapability }
+
+const hash = value => createHash('sha256').update(value).digest('hex')
+const pathFor = chatId => 'scene-images/' + hash(String(chatId)) + '/references.json'
+const formats = new Set(['image/png', 'image/jpeg', 'image/webp'])
+const limit = 8 * 1024 * 1024
+
+export function imageReferencePeople(version) {
+  const subjects = new Set(version?.plan?.subjects || [])
+  return (version?.plan?.people || []).filter(person => subjects.has(person.id) && (
+    person.identity?.quote || person.identity?.kind === 'scene-person' && typeof person.identity.targetKey === 'string' && person.identity.targetKey.length > 0
+  )).map(person => ({
+    id: person.id, name: person.name,
+    description: ['position', 'appearance', 'clothing'].map(field => {
+      const block = version.plan.blocks?.find(item => item.owner === person.id && item.field === field)
+      return block ? block.text : person.fields?.[field]?.text
+    }).filter(Boolean).join('；').slice(0, 800)
+  }))
+}
+
+function imageDigest(image) {
+  const type = image?.ref?.mediaType || image?.mediaType
+  if (!formats.has(type) || !(image?.data instanceof Uint8Array) || !image.data.length || image.data.length > limit) throw new Error('参考图须为已保存的 PNG、JPEG 或 WebP，大小不超过 8 MiB')
+  return { mediaType: type, digest: hash(image.data) }
+}
+
+/** User-authorized references, never an automatic last-image feedback loop. */
+export function createSceneImageReferences({ store }) {
+  async function read(chatId) { return await store.readJson(pathFor(chatId)) || { version: 1, records: [] } }
+  async function select({ chatId, lineage, config }) {
+    const capability = imageReferenceCapability(config), people = new Map()
+    const document = await read(chatId)
+    // Derive branch keys only when references exist, and only for their endpoints.
+    const turns = new Set(document.records.flatMap(record => [record.source.turn, record.activation.turn]))
+    const targets = document.records.length ? (typeof lineage === 'function' ? await lineage(turns) : lineage) : []
+    // A picture added to a turn is a reference source of that turn too.
+    const keys = new Set(sceneSlotKeys(targets.map(target => target.key)))
+    for (const record of document.records) {
+      if (!keys.has(record.activation.key) || !keys.has(record.source.key)) continue
+      people.set(record.person.id, record)
+    }
+    const active = [...people.values()].filter(record => record.enabled && !(document.revokedIds || []).includes(record.id))
+    const eligible = capability.supported ? active.filter(record => record.gateway === capability.gateway) : []
+    return { chatId, capability, active, records: eligible, warning: active.length && eligible.length < active.length
+      ? capability.supported ? '部分造型参考未授权给当前渠道/模型，仅沿用文字；需要时请重新选择参考图。' : capability.reason : '' }
+  }
+  async function bind({ chatId, source, activation, version, config, consent, image, enabled = true, personId }) {
+    const capability = imageReferenceCapability(config)
+    const people = imageReferencePeople(version)
+    const selectedId = personId === undefined && version?.plan?.subjects?.length === 1 ? people[0]?.id : personId
+    const person = people.find(item => item.id === selectedId)
+    if (!person) throw new Error('请选择图片中身份明确的人物；只有单人图可以直接绑定，不能按姓名猜测')
+    if (enabled && (!capability.supported || consent !== capability.gateway)) throw new Error('请确认参考图发送的当前生图服务；渠道或模型可能已变化')
+    const bytes = enabled ? imageDigest(image) : null
+    const record = { person, source: { key: source.key, turn: source.turn, versionId: version.id, attachment: version.attachment },
+      activation: { key: activation.key, turn: activation.turn }, gateway: capability.gateway, enabled, image: bytes, at: Date.now() }
+    record.id = hash(JSON.stringify(record))
+    await store.updateJson(pathFor(chatId), previous => {
+      const records = (previous?.records || []).filter(item => !(item.activation.key === activation.key && item.person.id === record.person.id))
+      if (records.length >= 2000) throw new Error('本游戏造型参考记录已达上限，未覆盖历史记录')
+      const revoked = new Set(previous?.revokedIds || [])
+      if (!enabled) for (const item of records) if (item.person.id === record.person.id) revoked.add(item.id)
+      return { version: 1, records: [...records, record], revokedIds: records.filter(item => revoked.has(item.id)).map(item => item.id) }
+    })
+    return record
+  }
+  async function load({ selected, plan, readImage, readVersion }) {
+    const images = [], warnings = []
+    const current = await read(selected.chatId)
+    // Model membership alone cannot authorize another person's reference.
+    const subjects = new Set(plan.subjects || [])
+    for (const record of selected.records) {
+      if (!subjects.has(record.person.id)) continue
+      if (!current.records.some(item => item.id === record.id) || (current.revokedIds || []).includes(record.id)) { warnings.push('造型参考已取消或替换，本次仅沿用文字外貌。'); continue }
+      if (images.length >= selected.capability.maxImages) { warnings.push('参考图数量超过渠道上限，部分人物仅沿用文字外貌。'); break }
+      const version = await readVersion(record.source)
+      if (!version || JSON.stringify(version.attachment) !== JSON.stringify(record.source.attachment)) { warnings.push('参考图片已删除或版本改变，仅沿用文字外貌。'); continue }
+      try {
+        const image = await readImage(record.source.attachment)
+        if (imageDigest(image).digest !== record.image.digest) throw new Error('参考图内容已变化')
+        images.push({ personId: record.person.id, name: record.person.name, description: record.person.description || '', data: Buffer.from(image.data), mediaType: record.image.mediaType,
+          reference: { id: record.id, person: record.person, source: record.source, activation: record.activation, gateway: record.gateway, image: record.image } })
+      } catch { warnings.push('参考图读取或完整性校验失败，仅沿用文字外貌。') }
+    }
+    return { images, warnings: [...new Set([selected.warning, ...warnings].filter(Boolean))] }
+  }
+  return { select, bind, load }
+}

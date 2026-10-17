@@ -1,0 +1,379 @@
+{
+  "format": "asset-packs-v1",
+  "complete": true,
+  "binding": {
+    "commandSpecVersion": 3,
+    "registryDigest": "dabdcc627269700cc877aa1cffc2eca71e0a9fc0a34e9dc6612915a7fe144fff",
+    "cardRevision": "c1",
+    "engineDigest": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "target": {
+      "sourceKey": "s1",
+      "branchId": "b1",
+      "revision": 1
+    },
+    "packs": [
+      {
+        "packId": "11111111-1111-4111-8111-111111111111",
+        "revision": "r1",
+        "contentHash": "5c392e5b0061517c48d46614d055501233244c8423291e82d341d5848b203147"
+      },
+      {
+        "packId": "33333333-3333-4333-8333-333333333333",
+        "missing": true
+      }
+    ],
+    "effectivePackIds": [
+      "11111111-1111-4111-8111-111111111111",
+      "33333333-3333-4333-8333-333333333333"
+    ],
+    "charactersDigest": "6632e08984cfd8ea16ee00945200481a471c95bfdd110602ed55984b92dabb0a",
+    "catalogueDigest": "7af3dbb7dcd97cdfb6f7bc91311629e3b31c16635e1740d14d3fb45b6d79aa7c",
+    "unitsDigest": "2ebbdff2fc49ade6e5684aeb6851fcce36efec31685869ce84e9a0599036d621",
+    "generation": 0
+  },
+  "baseline": {
+    "format": "asset-packs-v1",
+    "scene": null,
+    "music": null,
+    "lighting": {
+      "time": {
+        "mode": "auto",
+        "ref": null
+      },
+      "mood": null
+    },
+    "soundscape": {},
+    "widgets": {},
+    "cast": [],
+    "weather": "none",
+    "sound": [],
+    "camera": {
+      "mode": "reset",
+      "actor": null
+    },
+    "dof": null,
+    "widgetTime": 0,
+    "actors": {
+      "actor": {
+        "figure": {
+          "figureId": "22222222-2222-4222-8222-222222222222",
+          "packId": "11111111-1111-4111-8111-111111111111"
+        },
+        "outfitKey": "school",
+        "ruler": {
+          "heightCm": 158,
+          "headRatio": 1,
+          "elevationCm": 0
+        },
+        "gaze": "viewer",
+        "figureLight": "lit"
+      }
+    }
+  },
+  "entries": [
+    {
+      "at": 1,
+      "ops": [
+        {
+          "op": "skin.set",
+          "ref": {
+            "packId": "11111111-1111-4111-8111-111111111111",
+            "kind": "skins",
+            "assetId": "paper"
+          },
+          "level": 2
+        }
+      ],
+      "state": {
+        "format": "asset-packs-v1",
+        "scene": null,
+        "music": null,
+        "lighting": {
+          "time": {
+            "mode": "auto",
+            "ref": null
+          },
+          "mood": null
+        },
+        "soundscape": {},
+        "widgets": {},
+        "cast": [],
+        "weather": "none",
+        "sound": [],
+        "camera": {
+          "mode": "reset",
+          "actor": null
+        },
+        "dof": null,
+        "widgetTime": 0,
+        "actors": {
+          "actor": {
+            "figure": {
+              "figureId": "22222222-2222-4222-8222-222222222222",
+              "packId": "11111111-1111-4111-8111-111111111111"
+            },
+            "outfitKey": "school",
+            "ruler": {
+              "heightCm": 158,
+              "headRatio": 1,
+              "elevationCm": 0
+            },
+            "gaze": "viewer",
+            "figureLight": "lit"
+          }
+        },
+        "skin": {
+          "ref": {
+            "packId": "11111111-1111-4111-8111-111111111111",
+            "kind": "skins",
+            "assetId": "paper"
+          },
+          "level": 2
+        },
+        "pacing": {
+          "paragraph": 0,
+          "moodSetAt": null,
+          "musicSetAt": null,
+          "moodChanges": 0,
+          "previousMood": null,
+          "recentTracks": [],
+          "sceneAt": null,
+          "moodAt": null,
+          "openingAt": null
+        },
+        "figureScale": {
+          "version": 6,
+          "scene": 0,
+          "hMax": 150,
+          "rescales": 0,
+          "event": null
+        }
+      },
+      "timeTransitionMs": 0
+    },
+    {
+      "at": 2,
+      "ops": [
+        {
+          "op": "skin.set",
+          "ref": {
+            "packId": "11111111-1111-4111-8111-111111111111",
+            "kind": "skins",
+            "assetId": "paper"
+          },
+          "level": 3
+        }
+      ],
+      "state": {
+        "format": "asset-packs-v1",
+        "scene": null,
+        "music": null,
+        "lighting": {
+          "time": {
+            "mode": "auto",
+            "ref": null
+          },
+          "mood": null
+        },
+        "soundscape": {},
+        "widgets": {},
+        "cast": [],
+        "weather": "none",
+        "sound": [],
+        "camera": {
+          "mode": "reset",
+          "actor": null
+        },
+        "dof": null,
+        "widgetTime": 0,
+        "actors": {
+          "actor": {
+            "figure": {
+              "figureId": "22222222-2222-4222-8222-222222222222",
+              "packId": "11111111-1111-4111-8111-111111111111"
+            },
+            "outfitKey": "school",
+            "ruler": {
+              "heightCm": 158,
+              "headRatio": 1,
+              "elevationCm": 0
+            },
+            "gaze": "viewer",
+            "figureLight": "lit"
+          }
+        },
+        "skin": {
+          "ref": {
+            "packId": "11111111-1111-4111-8111-111111111111",
+            "kind": "skins",
+            "assetId": "paper"
+          },
+          "level": 3
+        },
+        "pacing": {
+          "paragraph": 0,
+          "moodSetAt": null,
+          "musicSetAt": null,
+          "moodChanges": 0,
+          "previousMood": null,
+          "recentTracks": [],
+          "sceneAt": null,
+          "moodAt": null,
+          "openingAt": null
+        },
+        "figureScale": {
+          "version": 6,
+          "scene": 0,
+          "hMax": 150,
+          "rescales": 0,
+          "event": null
+        }
+      },
+      "timeTransitionMs": 0
+    },
+    {
+      "at": 3,
+      "ops": [
+        {
+          "op": "skin.off"
+        }
+      ],
+      "state": {
+        "format": "asset-packs-v1",
+        "scene": null,
+        "music": null,
+        "lighting": {
+          "time": {
+            "mode": "auto",
+            "ref": null
+          },
+          "mood": null
+        },
+        "soundscape": {},
+        "widgets": {},
+        "cast": [],
+        "weather": "none",
+        "sound": [],
+        "camera": {
+          "mode": "reset",
+          "actor": null
+        },
+        "dof": null,
+        "widgetTime": 0,
+        "actors": {
+          "actor": {
+            "figure": {
+              "figureId": "22222222-2222-4222-8222-222222222222",
+              "packId": "11111111-1111-4111-8111-111111111111"
+            },
+            "outfitKey": "school",
+            "ruler": {
+              "heightCm": 158,
+              "headRatio": 1,
+              "elevationCm": 0
+            },
+            "gaze": "viewer",
+            "figureLight": "lit"
+          }
+        },
+        "skin": {
+          "ref": null
+        },
+        "pacing": {
+          "paragraph": 0,
+          "moodSetAt": null,
+          "musicSetAt": null,
+          "moodChanges": 0,
+          "previousMood": null,
+          "recentTracks": [],
+          "sceneAt": null,
+          "moodAt": null,
+          "openingAt": null
+        },
+        "figureScale": {
+          "version": 6,
+          "scene": 0,
+          "hMax": 150,
+          "rescales": 0,
+          "event": null
+        }
+      },
+      "timeTransitionMs": 0
+    }
+  ],
+  "end": {
+    "format": "asset-packs-v1",
+    "scene": null,
+    "music": null,
+    "lighting": {
+      "time": {
+        "mode": "auto",
+        "ref": null
+      },
+      "mood": null
+    },
+    "soundscape": {},
+    "widgets": {},
+    "cast": [],
+    "weather": "none",
+    "sound": [],
+    "camera": {
+      "mode": "reset",
+      "actor": null
+    },
+    "dof": null,
+    "widgetTime": 0,
+    "actors": {
+      "actor": {
+        "figure": {
+          "figureId": "22222222-2222-4222-8222-222222222222",
+          "packId": "11111111-1111-4111-8111-111111111111"
+        },
+        "outfitKey": "school",
+        "ruler": {
+          "heightCm": 158,
+          "headRatio": 1,
+          "elevationCm": 0
+        },
+        "gaze": "viewer",
+        "figureLight": "lit"
+      }
+    },
+    "skin": {
+      "ref": null
+    },
+    "pacing": {
+      "paragraph": 3,
+      "moodSetAt": null,
+      "musicSetAt": null,
+      "moodChanges": 0,
+      "previousMood": null,
+      "recentTracks": [],
+      "sceneAt": null,
+      "moodAt": null,
+      "openingAt": null
+    },
+    "figureScale": {
+      "version": 6,
+      "scene": 0,
+      "hMax": 150,
+      "rescales": 0
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "pack-missing",
+      "packId": "33333333-3333-4333-8333-333333333333"
+    }
+  ],
+  "partial": false,
+  "stats": {
+    "calls": 1,
+    "failures": 0,
+    "acceptedOps": 3,
+    "droppedOps": 0,
+    "droppedEntries": 0,
+    "dropsByCapability": {}
+  },
+  "digest": "a182ef5437cd48d98e6861d722bd8bbb6c8b6076c18cd9e7f38f28351e016aed"
+}

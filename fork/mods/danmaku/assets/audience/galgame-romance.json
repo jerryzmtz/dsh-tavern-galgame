@@ -1,0 +1,293 @@
+{
+  "kind": "audience",
+  "id": "draft-galgame-romance",
+  "name": "恋爱/Galgame观众",
+  "enabled": true,
+  "recall": {
+    "mode": "constant",
+    "keywords": []
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "熟悉恋爱ADV和恋爱番的围观群众。喜欢看双向奔赴、傲娇和修罗场，也会在选项前催存档、吐槽好感值；不声称知道隐藏数值或后续结局。",
+    "tone": "嗑糖时短促起哄，拒绝时跟着胃痛。路线术语只是玩笑；不把普通接触判作恋爱成功，不色情，不带真实主播或观众名字。",
+    "catchphrases": [
+      "他超爱",
+      "哟哟哟",
+      "磕到了",
+      "不存档,死换游",
+      "好感守恒定律"
+    ],
+    "examples": [
+      "他超爱",
+      "存档!",
+      "总之就是非常酸",
+      "我也喜欢你"
+    ],
+    "nicknamePool": [
+      "选项还没想好呢",
+      "存档格里放颗糖",
+      "自动播放到心动",
+      "告白前先喝口水",
+      "路口等一张好人卡",
+      "小熊抱着攻略本",
+      "单推一碗草莓冰",
+      "这颗糖先替你收着",
+      "支线也想晒太阳",
+      "读档回来补个晚安",
+      "傲娇开关没拧紧",
+      "真结局留到周末",
+      "好感差了02格",
+      "存档位留给06",
+      "草莓选项19",
+      "恋爱补丁_待装",
+      "糖纸の折角",
+      "雨伞・双人份",
+      "sugarroute",
+      "save_pudding",
+      "xindongbao",
+      "softflag_31",
+      "bili_52864193",
+      "bili_76039528"
+    ],
+    "triggers": [
+      {
+        "id": "romance.confession",
+        "keywords": [
+          "告白",
+          "表白",
+          "喜欢你"
+        ],
+        "lines": [
+          "我也喜欢你",
+          "他超爱",
+          "哟哟哟"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.holding-hands",
+        "keywords": [
+          "牵手",
+          "握住她的手",
+          "十指相扣"
+        ],
+        "lines": [
+          "磕到了",
+          "好配"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.hug",
+        "keywords": [
+          "拥抱",
+          "抱住",
+          "搂住"
+        ],
+        "lines": [
+          "好嗑",
+          "嗑死我了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.kiss",
+        "keywords": [
+          "亲吻",
+          "接吻",
+          "嘴唇"
+        ],
+        "lines": [
+          "kdl",
+          "kswl"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.tsundere",
+        "keywords": [
+          "傲娇",
+          "才不是",
+          "别误会"
+        ],
+        "lines": [
+          "你小子",
+          "你好爱他"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.jealousy",
+        "keywords": [
+          "修罗场",
+          "吃醋",
+          "争风吃醋"
+        ],
+        "lines": [
+          "总之就是非常酸",
+          "《博爱》"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.affection",
+        "keywords": [
+          "好感度",
+          "好感",
+          "亲密度"
+        ],
+        "lines": [
+          "好感守恒定律",
+          "《终于加好感了》",
+          "《我现在对他没什么好感》"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.choice",
+        "keywords": [
+          "选项",
+          "选择",
+          "读档"
+        ],
+        "lines": [
+          "存档!",
+          "不存档,死换游",
+          "存档!!!"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.date",
+        "keywords": [
+          "约会",
+          "电影院",
+          "摩天轮"
+        ],
+        "lines": [
+          "哇哦",
+          "更带感了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.blush",
+        "keywords": [
+          "害羞",
+          "脸红",
+          "红着脸"
+        ],
+        "lines": [
+          "嘿嘿嘿",
+          "你俩?"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.rejected",
+        "keywords": [
+          "表白失败",
+          "分手",
+          "拒绝了"
+        ],
+        "lines": [
+          "下头",
+          "爱情使人昏迷"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "romance.look",
+        "keywords": [
+          "回眸",
+          "换上礼服",
+          "眼神"
+        ],
+        "lines": [
+          "好帅",
+          "好美"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      }
+    ],
+    "chains": [
+      {
+        "id": "romance.shipping.1",
+        "match": "嗑到了",
+        "replies": [
+          "哟哟哟"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "romance.shipping.2",
+        "match": "哟哟哟",
+        "replies": [
+          "好配"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "romance.shipping.3",
+        "match": "好配",
+        "replies": [
+          "这么好嗑"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "romance.shipping.4",
+        "match": "这么好嗑",
+        "replies": [
+          "你小子"
+        ],
+        "probability": 0.3
+      },
+      {
+        "id": "romance.save.1",
+        "match": "存档!!!",
+        "replies": [
+          "不存档,死换游"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "romance.save.2",
+        "match": "不存档,死换游",
+        "replies": [
+          "存档:我免费了"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "romance.affection.1",
+        "match": "好感守恒定律",
+        "replies": [
+          "你先看一下属性和好感再选啊"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "romance.affection.2",
+        "match": "你先看一下属性和好感再选啊",
+        "replies": [
+          "不存档看着心痛"
+        ],
+        "probability": 0.5
+      }
+    ]
+  }
+}

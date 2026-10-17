@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "looks": [
+    {
+      "id": "auto",
+      "label": "auto",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "time",
+      "time": false,
+      "params": {}
+    },
+    {
+      "id": "day",
+      "label": "day",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "time",
+      "time": true,
+      "params": {}
+    },
+    {
+      "id": "dusk",
+      "label": "dusk",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "time",
+      "time": true,
+      "params": {
+        "gain": [
+          1,
+          0.8,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "night",
+      "label": "night",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "time",
+      "time": true,
+      "params": {
+        "gain": [
+          0.4,
+          0.5,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "dark",
+      "label": "dark",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "time",
+      "time": true,
+      "params": {
+        "gain": [
+          0.2,
+          0.2,
+          0.2
+        ],
+        "vignette": {
+          "amount": 0.3
+        }
+      }
+    },
+    {
+      "id": "warm",
+      "label": "warm",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "mood",
+      "time": false,
+      "params": {
+        "gain": [
+          1.1,
+          1,
+          0.9
+        ],
+        "lift": [
+          0.03,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "cold",
+      "label": "cold",
+      "meaning": "Public synthetic lighting fixture",
+      "layer": "mood",
+      "time": false,
+      "params": {
+        "gain": [
+          0.8,
+          0.9,
+          1
+        ]
+      }
+    }
+  ]
+}

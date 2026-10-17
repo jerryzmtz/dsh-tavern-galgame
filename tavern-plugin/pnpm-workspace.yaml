@@ -1,0 +1,9 @@
+# DSH host peers are supplied by the selected runtime via bin/plugin-dependencies.mjs.
+# Do not resolve a second host graph (upstream stable peer ranges exclude its RCs).
+autoInstallPeers: false
+nodeLinker: hoisted
+minimumReleaseAgeExclude:
+  - '@deepseek-ai/*'
+packages:
+  - .
+  - packages/dsh-tavern-remote

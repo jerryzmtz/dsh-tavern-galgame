@@ -1,0 +1,379 @@
+[
+  {
+    "voiceId": "822da156d6474fca904d3f326a5b0794",
+    "name": "xiang830",
+    "languages": [
+      "zh"
+    ],
+    "gender": "female",
+    "toneTags": [
+      "young",
+      "conversational",
+      "narration",
+      "calm",
+      "gentle",
+      "warm",
+      "smooth",
+      "clear",
+      "relaxed",
+      "measured",
+      "friendly",
+      "expressive",
+      "character-voice",
+      "social-media",
+      "entertainment"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:26:53.198Z",
+      "httpStatus": 200,
+      "bytes": 315436,
+      "sha256": "1526c102b3bf3e1ed7a1873bc751960d23783e09152087335ca7d92c4daad4ae"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "86aa853190ad4953965936879a41f587",
+    "name": "温和_女声",
+    "languages": [
+      "zh"
+    ],
+    "gender": "female",
+    "toneTags": [
+      "middle-aged",
+      "narration",
+      "educational",
+      "conversational",
+      "calm",
+      "warm",
+      "smooth",
+      "clear",
+      "professional",
+      "measured",
+      "storytelling",
+      "gentle",
+      "expressive",
+      "dark"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:26:55.817Z",
+      "httpStatus": 200,
+      "bytes": 327724,
+      "sha256": "1e9dd9fbf30740600d2b0b290f209f4aa9c7c50d58436e47b9586a2752282716"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "92bb1b9e0aff4bb2bba6fcb3e19f5e96",
+    "name": "宁静时光",
+    "languages": [
+      "zh"
+    ],
+    "gender": "male",
+    "toneTags": [
+      "young",
+      "narration",
+      "educational",
+      "conversational",
+      "character-voice",
+      "entertainment",
+      "calm",
+      "relaxed",
+      "measured",
+      "gentle",
+      "warm",
+      "smooth",
+      "clear",
+      "neutral-tone",
+      "storytelling",
+      "narrative",
+      "high",
+      "soft",
+      "bright"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:26:58.921Z",
+      "httpStatus": 200,
+      "bytes": 233516,
+      "sha256": "f849a027717c59ac625c5b596ebdb8448b1a47655d0dae4d8edb0b197310e324"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "830a0ce606794c01bfff33971aeab632",
+    "name": "平静从容的讲述者",
+    "languages": [
+      "zh"
+    ],
+    "gender": "male",
+    "toneTags": [
+      "middle-aged",
+      "narration",
+      "educational",
+      "social-media",
+      "soft",
+      "warm",
+      "smooth",
+      "calm",
+      "relaxed",
+      "measured",
+      "gentle",
+      "clear",
+      "neutral-tone",
+      "expressive",
+      "storytelling",
+      "deep"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:00.808Z",
+      "httpStatus": 200,
+      "bytes": 274476,
+      "sha256": "5107500eabdb83c5420addb828cb805bee684fd786c19ef5872609087536f267"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "5da7f24e9e274f91b2b677669c818ce9",
+    "name": "しおり (ナレーション)",
+    "languages": [
+      "ja"
+    ],
+    "gender": "female",
+    "toneTags": [
+      "young",
+      "narration",
+      "conversational",
+      "social-media",
+      "clear",
+      "warm",
+      "calm",
+      "relaxed",
+      "smooth",
+      "friendly",
+      "expressive",
+      "storytelling",
+      "measured",
+      "neutral-tone"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:03.106Z",
+      "httpStatus": 200,
+      "bytes": 319532,
+      "sha256": "7671f4b9bcc6df626dbc66980dddfaf2ffa127cc5ff4cf24049e65f33d94b511"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "b2d9d8db057042688a5e318b8f405bc2",
+    "name": "きょうこ (カスタマーサポート)",
+    "languages": [
+      "ja"
+    ],
+    "gender": "female",
+    "toneTags": [
+      "middle-aged",
+      "conversational",
+      "narration",
+      "educational",
+      "medium",
+      "calm",
+      "measured",
+      "professional",
+      "friendly",
+      "clear",
+      "expressive",
+      "neutral-tone",
+      "smooth",
+      "confident",
+      "narrative",
+      "host"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:05.922Z",
+      "httpStatus": 200,
+      "bytes": 294956,
+      "sha256": "aa8dd931179d18f9c2e71e00c27860561e96a3f011e4d9c2945cf729f0ccbc7e"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "297a6fd278df47c3b9da9bfdf55ac89a",
+    "name": "さとる(ナレーション)",
+    "languages": [
+      "ja"
+    ],
+    "gender": "male",
+    "toneTags": [
+      "young",
+      "narration",
+      "educational",
+      "calm",
+      "relaxed",
+      "warm",
+      "smooth",
+      "measured",
+      "clear",
+      "neutral-tone",
+      "friendly",
+      "storytelling",
+      "narrative"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:08.025Z",
+      "httpStatus": 200,
+      "bytes": 307244,
+      "sha256": "eced0d0fec776c8dd51cdfce5113b11df0b3c877f26f622a5c403212cc58785f"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "d738c70d206149e69f8e3b6fc8af9d96",
+    "name": "じん(ラジオパーソナリティ)",
+    "languages": [
+      "ja"
+    ],
+    "gender": "male",
+    "toneTags": [
+      "middle-aged",
+      "conversational",
+      "narration",
+      "medium",
+      "warm",
+      "smooth",
+      "calm",
+      "friendly",
+      "expressive",
+      "storytelling",
+      "host",
+      "relaxed",
+      "clear"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:10.060Z",
+      "httpStatus": 200,
+      "bytes": 294956,
+      "sha256": "c055cf06fe28088b271177167ffb5127336c48e6175d5a97354a51e93656063a"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "6611aa6363d845eab454c442ee75f5af",
+    "name": "Calm Reflective Voice",
+    "languages": [
+      "en"
+    ],
+    "gender": "female",
+    "toneTags": [
+      "middle-aged",
+      "narration",
+      "educational",
+      "social-media",
+      "medium",
+      "calm",
+      "relaxed",
+      "warm",
+      "smooth",
+      "clear",
+      "friendly",
+      "gentle",
+      "expressive",
+      "storytelling",
+      "measured"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:12.438Z",
+      "httpStatus": 200,
+      "bytes": 303148,
+      "sha256": "5c817af28447223bbda116e242caf990852bddcef521fce9ab648d445bba447b"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  },
+  {
+    "voiceId": "a754ca8729d642d9a918a42b5b6a77d1",
+    "name": "Dave - Australian Male",
+    "languages": [
+      "en"
+    ],
+    "gender": "male",
+    "toneTags": [
+      "middle-aged",
+      "narration",
+      "conversational",
+      "calm",
+      "relaxed",
+      "measured",
+      "clear",
+      "warm",
+      "confident",
+      "storytelling",
+      "narrative",
+      "documentary"
+    ],
+    "visibility": "public",
+    "licensed": true,
+    "licenseNote": "Fish reports rights secured from the voice owner; check current service terms before use.",
+    "approval": "candidate",
+    "verification": {
+      "status": "passed",
+      "model": "s2.1-pro-free",
+      "checkedAt": "2026-10-09T18:27:14.522Z",
+      "httpStatus": 200,
+      "bytes": 303148,
+      "sha256": "b55ceafb49999677e6b67edaf6db4d1a8f45c5da68609b2c53af633d9c2cbb8a"
+    },
+    "tagSource": "Fish public model metadata; not owner listening assessment"
+  }
+]

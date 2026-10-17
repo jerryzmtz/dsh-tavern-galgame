@@ -1,0 +1,24 @@
+name: 阿芙拉三轮真实游玩
+model:
+  provider: deepseek-official
+  model: deepseek-v4-flash
+  reasoningEffort: high
+timeoutMs: 300000
+steps:
+  - action: play
+    sourceCard: avra-complete.json
+  - action: say
+    input: 我把黑蜡信封放到吧台上，请阿芙拉检查。用一小段话回应。
+    expect:
+      minChars: 30
+      state:
+        - path: settleStatus
+          equals: done
+  - action: say
+    input: 我问她刚才信封上的标记是什么意思。用一小段话回应。
+    expect:
+      minChars: 30
+  - action: say
+    input: 第二天傍晚，我回到同一家酒馆，问她是否还记得昨夜的信封。用一小段话回应。
+    expect:
+      minChars: 30

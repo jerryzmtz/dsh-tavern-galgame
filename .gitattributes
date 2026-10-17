@@ -1,0 +1,43 @@
+* text=auto eol=lf
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.webp -text
+*.gif -text
+*.zip -text
+*.woff2 -text
+*.mp3 -text
+*.ogg -text
+*.wav -text
+# 客户端会内嵌 CSS 字符串；固定换行，保证 Windows 与 Linux 产物及校验一致。
+tavern-plugin/lib/client-assets/tavern.css text eol=lf
+tavern-plugin/lib/client.js text eol=lf
+# Audited runtime bytes must not be rewritten by Windows core.autocrlf.
+tavern-plugin/lib/vendor/magvarupdate/host-build/artifact/bundle.js -text
+# Preserve the pinned upstream sidebar bytes, including whitespace in literals.
+tavern-plugin/packages/dsh-better-sidebar/lib/*.js -text -whitespace linguist-vendored
+
+# Documentation and promotional images are published on the website, not shipped.
+docs export-ignore
+
+# Keep development material in Git/CI, but out of ZIP/tar source downloads.
+# Runtime images and vendor artifacts remain included.
+/tests export-ignore
+/testsets export-ignore
+/examples export-ignore
+/references export-ignore
+/.github export-ignore
+/claude export-ignore
+/scripts export-ignore
+/packaging export-ignore
+# android/ is required by setup.sh when installing from a source archive.
+/CONTEXT.md export-ignore
+/DESIGN.md export-ignore
+# Bundled plugins also carry development-only material.
+**/tests export-ignore
+**/__tests__ export-ignore
+
+tavern-plugin/packages/dsh-dream-skin/lib/*.js -text -whitespace linguist-vendored
+
+# Shell scripts run under sh/bash; CRLF breaks them and the installer checks.
+*.sh text eol=lf

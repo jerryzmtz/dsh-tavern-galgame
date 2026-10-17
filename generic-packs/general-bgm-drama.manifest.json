@@ -1,0 +1,513 @@
+{
+  "assets": [
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/悲伤",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Touching Moments One - Pulse — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100039 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "克制悲伤；用于独处回忆、失落和安静的遗憾。",
+      "enabled": true,
+      "id": "muebbf16b1c9",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "debba5589948d9cd2af41a1c726f6320d497d94f8245d8b79743eec757fbc4f5",
+      "name": "独自回望",
+      "recall": {
+        "keywords": [
+          "悲伤",
+          "失落",
+          "孤独",
+          "回望",
+          "回忆",
+          "独处",
+          "遗憾"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "sad",
+        "piano"
+      ],
+      "usage": "失落独白、悲伤回忆"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/危险",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Medusa — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100804 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "低沉紧张；用于潜在危机、警戒和对峙，不等同于已经开战。",
+      "enabled": true,
+      "id": "mufa0e28d582",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "07014c9259e588b1c56ef7334aa9d3811e69536cab89cd116bf7c56be8845bf1",
+      "name": "暗处危机",
+      "recall": {
+        "keywords": [
+          "紧张",
+          "危机",
+          "危险",
+          "不安",
+          "对峙",
+          "警戒",
+          "悬念"
+        ],
+        "mode": "constant"
+      },
+      "tags": [
+        "tense",
+        "suspense"
+      ],
+      "usage": "危险逼近、悬疑对峙"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/悬疑",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Not As It Seems — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100762 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "含蓄神秘；用于调查线索、发现秘密和尚未揭晓的谜团。",
+      "enabled": true,
+      "id": "mu929a2f43e1",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "3e4b4fc582c7324b69ff1147bf2f6a89da52121c12e7da1823f7fe438f89ae3a",
+      "name": "未解之谜",
+      "recall": {
+        "keywords": [
+          "神秘",
+          "谜团",
+          "疑惑",
+          "调查",
+          "线索",
+          "秘密",
+          "悬疑"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "mystery",
+        "suspense"
+      ],
+      "usage": "发现疑点、调查线索"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/战斗",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Five Armies — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100875 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "有力的战斗音乐；用于迎战、冲锋、激战和反击。",
+      "enabled": true,
+      "id": "muadeb2fdcf7",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "3f2bddb39bdfc6eb7200ae6b5ac2dba9832136e6026ed4912ae534b0847b1ec5",
+      "name": "迎战时刻",
+      "recall": {
+        "keywords": [
+          "战斗",
+          "迎战",
+          "热血",
+          "冲锋",
+          "决战",
+          "激战",
+          "反击"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "battle",
+        "action"
+      ],
+      "usage": "战斗交锋、紧急行动"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/温暖",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Heroic Age — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100848 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "昂扬有希望；用于鼓起勇气、下定决心和振作向前。",
+      "enabled": true,
+      "id": "mu6f25e867fd",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "f04f6fdf2da6e57a5799b1b8c0ce3289264ecff160d8417a005c3be0d537d824",
+      "name": "勇气之光",
+      "recall": {
+        "keywords": [
+          "勇气",
+          "希望",
+          "热血",
+          "决意",
+          "英雄",
+          "振作",
+          "胜利"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "climax",
+        "hope"
+      ],
+      "usage": "振作奋起、情绪高潮"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/温暖",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Touching Moments Four - Melody — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100040 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "温柔回味；用于感动后的余温、和解、告别和故事收束。",
+      "enabled": true,
+      "id": "mu52498ae216",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "33cbe14e314b0f3f8d347cc5c027cca4a08f030af35dbe0979926c9aef3ec581",
+      "name": "故事余温",
+      "recall": {
+        "keywords": [
+          "感动",
+          "余温",
+          "告别",
+          "和解",
+          "回忆",
+          "结局",
+          "温柔"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "ending",
+        "piano"
+      ],
+      "usage": "章节落幕、温柔告别"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/温暖",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Dream Culture — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300046 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "梦幻温柔；用于发现爱意、告白、浪漫约会和青春憧憬。",
+      "enabled": true,
+      "id": "mucbc3338092",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "480e62645de337386083ebe8d78ccae2b9d2440c617a063c07bab9c33f6e2d60",
+      "name": "心事渐明",
+      "recall": {
+        "keywords": [
+          "告白",
+          "浪漫",
+          "心动",
+          "恋爱",
+          "约会",
+          "憧憬",
+          "温柔"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "romance"
+      ],
+      "usage": "青春憧憬、温柔心事"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/悲伤",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Touching Moments Two - Higher — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100037 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "细腻抒情；用于失意后的倾诉、关系修复和互相安慰。",
+      "enabled": true,
+      "id": "mud7eedcbf37",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "72d7433dc51099d97cef4c74cb393adf5a640016839495ef007c8cbf58685d4b",
+      "name": "雨后心事",
+      "recall": {
+        "keywords": [
+          "悲伤",
+          "倾诉",
+          "和好",
+          "安慰",
+          "雨后",
+          "失意",
+          "修复"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "sad"
+      ],
+      "usage": "失意倾诉、关系修复"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/悲伤",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Touching Moments Five - Circle — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100041 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "安静而感伤；用于毕业、校园回忆、离别和温柔的结局。",
+      "enabled": true,
+      "id": "mud63c0e85d6",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "edffa0389df010d19e33addd6fe485631a90f2ea39af5f03438aef5294852e13",
+      "name": "毕业回声",
+      "recall": {
+        "keywords": [
+          "毕业",
+          "告别",
+          "校园",
+          "回忆",
+          "结局",
+          "离别",
+          "怀念"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "ending"
+      ],
+      "usage": "毕业回忆、校园结局"
+    },
+    {
+      "id": "bgm-horror",
+      "kind": "music",
+      "name": "阴郁恐怖",
+      "enabled": true,
+      "media": "cf1f7b04ee2b48e747ea950c205de7dab9ba7b28425f1552dddcdcfc0542ac6c",
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "恐怖",
+          "阴森",
+          "死亡",
+          "惊悚"
+        ]
+      },
+      "directorNote": "阴暗压迫的管弦乐，用于恐怖与不祥场景；保留完整结尾，不声称无缝循环。",
+      "description": "Oppressive Gloom | https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100885 | https://creativecommons.org/licenses/by/4.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-17.33:measured_TP=-1.29:measured_LRA=3.80:measured_thresh=-27.46:offset=-0.28:linear=true -ar 44100 -c:a libvorbis -q:a 5"
+    },
+    {
+      "id": "bgm-solemn",
+      "kind": "music",
+      "name": "庄严仪式",
+      "enabled": true,
+      "media": "de974667f93c55b1decef6d1a7fc125a67a1a174643aa85845167849713e096e",
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "庄严",
+          "仪式",
+          "祭祀",
+          "肃穆"
+        ]
+      },
+      "directorNote": "低沉和弦与竖琴构成肃穆仪式氛围，适合古老典礼或哀悼。",
+      "description": "Rites | https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100722 | https://creativecommons.org/licenses/by/4.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-24.10:measured_TP=-11.64:measured_LRA=4.90:measured_thresh=-34.31:offset=0.67:linear=true -ar 44100 -c:a libvorbis -q:a 5"
+    },
+    {
+      "id": "bgm-festival",
+      "kind": "music",
+      "name": "海滨庆典",
+      "enabled": true,
+      "media": "2b3ba12967dd1fbe6dbe4a63810698ad27083dfff4965525ed4c9aa9d6f9003c",
+      "author": "Kevin MacLeod",
+      "license": "CC-BY-4.0",
+      "recall": {
+        "mode": "keyword",
+        "keywords": [
+          "庆典",
+          "节庆",
+          "节日",
+          "派对"
+        ]
+      },
+      "directorNote": "明亮热烈的海岛节庆音乐；适合庆祝和派对，不冒充传统日本祭典乐器录音。",
+      "description": "Beachfront Celebration | https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200022 | https://creativecommons.org/licenses/by/4.0/ | Full recording; no trim, repeat, crossfade or pitch change. ffmpeg -map_metadata -1 -af loudnorm=I=-18:TP=-3:LRA=11:measured_I=-9.20:measured_TP=0.24:measured_LRA=1.80:measured_thresh=-19.26:offset=-0.28:linear=true -ar 44100 -c:a libvorbis -q:a 5"
+    }
+  ],
+  "author": "Kevin MacLeod",
+  "blobs": {
+    "07014c9259e588b1c56ef7334aa9d3811e69536cab89cd116bf7c56be8845bf1": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1204178
+    },
+    "33cbe14e314b0f3f8d347cc5c027cca4a08f030af35dbe0979926c9aef3ec581": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1925592
+    },
+    "3e4b4fc582c7324b69ff1147bf2f6a89da52121c12e7da1823f7fe438f89ae3a": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1840666
+    },
+    "3f2bddb39bdfc6eb7200ae6b5ac2dba9832136e6026ed4912ae534b0847b1ec5": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2919966
+    },
+    "480e62645de337386083ebe8d78ccae2b9d2440c617a063c07bab9c33f6e2d60": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3770537
+    },
+    "72d7433dc51099d97cef4c74cb393adf5a640016839495ef007c8cbf58685d4b": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3142120
+    },
+    "debba5589948d9cd2af41a1c726f6320d497d94f8245d8b79743eec757fbc4f5": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1880410
+    },
+    "edffa0389df010d19e33addd6fe485631a90f2ea39af5f03438aef5294852e13": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3671459
+    },
+    "f04f6fdf2da6e57a5799b1b8c0ce3289264ecff160d8417a005c3be0d537d824": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1799529
+    },
+    "cf1f7b04ee2b48e747ea950c205de7dab9ba7b28425f1552dddcdcfc0542ac6c": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3552802
+    },
+    "de974667f93c55b1decef6d1a7fc125a67a1a174643aa85845167849713e096e": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2172939
+    },
+    "2b3ba12967dd1fbe6dbe4a63810698ad27083dfff4965525ed4c9aa9d6f9003c": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3852443
+    }
+  },
+  "bundles": {},
+  "contentHash": "a5ea928e48d724d633ec38d8766df8794f106d7559fc1b57a0dee67eea6b9b6f",
+  "credits": [
+    "credits/CREDITS.md",
+    "credits/ADDITIONS.md",
+    "credits/CC0-1.0.txt",
+    "credits/CC-BY-4.0.txt"
+  ],
+  "description": "20 首跨场景背景音乐；日常、温馨、夜晚、紧张四首常驻。Kevin MacLeod / CC BY 4.0，详见随包署名。",
+  "figures": [],
+  "files": [
+    {
+      "path": "credits/ADDITIONS.md",
+      "size": 2425,
+      "sha256": "d5c9d9187c9f34251088246f5ec5f8cecb51f254574634a6de065bc7c2c0d00c"
+    },
+    {
+      "path": "credits/CC-BY-4.0.txt",
+      "size": 18657,
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411"
+    },
+    {
+      "path": "credits/CC0-1.0.txt",
+      "size": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "credits/CREDITS.md",
+      "size": 13174,
+      "sha256": "174bcc94f5ecd642220e31261f69157a32f8123a5b31f98b968bdad7616af406"
+    },
+    {
+      "path": "media/07014c9259e588b1c56ef7334aa9d3811e69536cab89cd116bf7c56be8845bf1.ogg",
+      "size": 1204178,
+      "sha256": "07014c9259e588b1c56ef7334aa9d3811e69536cab89cd116bf7c56be8845bf1"
+    },
+    {
+      "path": "media/2b3ba12967dd1fbe6dbe4a63810698ad27083dfff4965525ed4c9aa9d6f9003c.ogg",
+      "size": 3852443,
+      "sha256": "2b3ba12967dd1fbe6dbe4a63810698ad27083dfff4965525ed4c9aa9d6f9003c"
+    },
+    {
+      "path": "media/33cbe14e314b0f3f8d347cc5c027cca4a08f030af35dbe0979926c9aef3ec581.ogg",
+      "size": 1925592,
+      "sha256": "33cbe14e314b0f3f8d347cc5c027cca4a08f030af35dbe0979926c9aef3ec581"
+    },
+    {
+      "path": "media/3e4b4fc582c7324b69ff1147bf2f6a89da52121c12e7da1823f7fe438f89ae3a.ogg",
+      "size": 1840666,
+      "sha256": "3e4b4fc582c7324b69ff1147bf2f6a89da52121c12e7da1823f7fe438f89ae3a"
+    },
+    {
+      "path": "media/3f2bddb39bdfc6eb7200ae6b5ac2dba9832136e6026ed4912ae534b0847b1ec5.ogg",
+      "size": 2919966,
+      "sha256": "3f2bddb39bdfc6eb7200ae6b5ac2dba9832136e6026ed4912ae534b0847b1ec5"
+    },
+    {
+      "path": "media/480e62645de337386083ebe8d78ccae2b9d2440c617a063c07bab9c33f6e2d60.ogg",
+      "size": 3770537,
+      "sha256": "480e62645de337386083ebe8d78ccae2b9d2440c617a063c07bab9c33f6e2d60"
+    },
+    {
+      "path": "media/72d7433dc51099d97cef4c74cb393adf5a640016839495ef007c8cbf58685d4b.ogg",
+      "size": 3142120,
+      "sha256": "72d7433dc51099d97cef4c74cb393adf5a640016839495ef007c8cbf58685d4b"
+    },
+    {
+      "path": "media/cf1f7b04ee2b48e747ea950c205de7dab9ba7b28425f1552dddcdcfc0542ac6c.ogg",
+      "size": 3552802,
+      "sha256": "cf1f7b04ee2b48e747ea950c205de7dab9ba7b28425f1552dddcdcfc0542ac6c"
+    },
+    {
+      "path": "media/de974667f93c55b1decef6d1a7fc125a67a1a174643aa85845167849713e096e.ogg",
+      "size": 2172939,
+      "sha256": "de974667f93c55b1decef6d1a7fc125a67a1a174643aa85845167849713e096e"
+    },
+    {
+      "path": "media/debba5589948d9cd2af41a1c726f6320d497d94f8245d8b79743eec757fbc4f5.ogg",
+      "size": 1880410,
+      "sha256": "debba5589948d9cd2af41a1c726f6320d497d94f8245d8b79743eec757fbc4f5"
+    },
+    {
+      "path": "media/edffa0389df010d19e33addd6fe485631a90f2ea39af5f03438aef5294852e13.ogg",
+      "size": 3671459,
+      "sha256": "edffa0389df010d19e33addd6fe485631a90f2ea39af5f03438aef5294852e13"
+    },
+    {
+      "path": "media/f04f6fdf2da6e57a5799b1b8c0ce3289264ecff160d8417a005c3be0d537d824.ogg",
+      "size": 1799529,
+      "sha256": "f04f6fdf2da6e57a5799b1b8c0ce3289264ecff160d8417a005c3be0d537d824"
+    }
+  ],
+  "format": "dsh-asset-pack",
+  "id": "afab66ce-80ef-4d71-bc7a-215d8d2ced92",
+  "license": "CC-BY-4.0",
+  "name": "通用音乐·剧情",
+  "schemaVersion": 1,
+  "sprites": {}
+}

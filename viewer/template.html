@@ -1,0 +1,1792 @@
+<!doctype html>
+<!-- private fork: DSH asset review viewer — one continuous contact sheet (character → outfit, top to
+     bottom). Generated mechanically by `dsh-assets review-html`; all design lives here.
+     Offline only: no fetch/XHR, no CDN, no web fonts, file:// safe. -->
+<html lang="zh-CN" data-bg="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file: content: blob: data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<title>素材审阅</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#161618;--panel:#1f1f22;--fg:#e8e6e2;--fg2:#bab7b1;--mut:#8b8882;
+  --hov:rgba(255,255,255,.07);--act:rgba(255,255,255,.13);
+  --ok:#94cba0;--ok-bg:rgba(148,203,160,.16);--fix:#ebb36d;--fix-bg:rgba(235,179,109,.17);
+  --warn:#efc560;--warn-bg:rgba(239,197,96,.14);--bad:#ee8d7d;--bad-bg:rgba(238,141,125,.15);
+  --chg:#93b6ec;--chg-bg:rgba(147,182,236,.15);
+  --tile:transparent;--tile-img:none;--guide:rgba(255,255,255,.2);--hatch:rgba(255,255,255,.028);
+  --bar:48px;--pad:28px;
+  font:14px/1.5 "Microsoft YaHei UI","Microsoft YaHei","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Source Han Sans SC",system-ui,sans-serif;
+  color:var(--fg);background:var(--bg);color-scheme:dark;
+}
+/* Scroll anchoring is done by the script (sections change height when they materialize). */
+html{scrollbar-gutter:stable;-webkit-text-size-adjust:100%;overflow-anchor:none}
+html[data-bg=light]{--tile:#e7e6e2;--guide:rgba(0,0,0,.28);--hatch:rgba(0,0,0,.045)}
+html[data-bg=checker]{--tile:#3b3b40;--tile-img:conic-gradient(#2c2c30 25%,#3b3b40 0 50%,#2c2c30 0 75%,#3b3b40 0) 0 0/16px 16px;--guide:rgba(255,255,255,.38)}
+body{margin:0;min-height:100vh;overflow-anchor:none}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;border-radius:7px;padding:4px 10px;cursor:pointer;line-height:1.45;-webkit-tap-highlight-color:transparent}
+button:hover{background:var(--hov)}
+:focus{outline:none}
+:focus-visible{outline:2px solid rgba(255,255,255,.62);outline-offset:2px;border-radius:7px}
+input{background:var(--hov);border:0;border-radius:7px;padding:4px 10px;min-width:0}
+input::placeholder{color:var(--mut)}
+input:focus{background:var(--act)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Top bar: one slim row — filters, position/jump, background, export. */
+.bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:4px;height:var(--bar);padding:0 12px;background:rgba(22,22,24,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.proj{color:var(--mut);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:13vw;flex:none;margin-right:8px}
+.filters{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:none;font-size:13px;color:var(--fg2);padding:3px 11px;border-radius:15px;white-space:nowrap}
+.filters button b{font-weight:500;color:var(--mut);margin-left:6px;font-variant-numeric:tabular-nums}
+.filters button[aria-pressed=true]{background:var(--act);color:var(--fg)}
+.filters button.warn b{color:var(--warn)}.filters button.bad b{color:var(--bad)}.filters button.chg b{color:var(--chg)}
+.filters button.ok b{color:var(--ok)}.filters button.fix b{color:var(--fix)}
+.filters button.zero{color:var(--mut)}.filters button.zero b{color:var(--mut);opacity:.6}
+#where{max-width:24vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--fg)}
+#where::after{content:" ▾";color:var(--mut);font-size:11px}
+#filterBtn{display:none}
+.unsaved::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fix);margin-left:6px;vertical-align:middle}
+
+/* Chips: the only status decoration. */
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;line-height:19px;padding:0 8px;border-radius:10px;white-space:nowrap;background:var(--hov);color:var(--fg2);max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.chg{background:var(--chg-bg);color:var(--chg)}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.fix{background:var(--fix-bg);color:var(--fix)}
+.chip.q{background:none;color:var(--mut);padding:0 2px}
+button.chip{cursor:pointer}
+button.chip:hover{filter:brightness(1.25)}
+
+/* Review gate: 通过 / 需修改 + optional note. */
+.gate{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+.gate .gl{color:var(--mut);font-size:13px;margin-right:2px}
+.gate button{padding:3px 13px;color:var(--fg2);background:rgba(255,255,255,.045)}
+.gate button:hover{background:var(--act)}
+.gate button.ok[aria-pressed=true]{background:var(--ok-bg);color:var(--ok)}
+.gate button.fix[aria-pressed=true]{background:var(--fix-bg);color:var(--fix)}
+.gate input{width:15em;max-width:56vw;font-size:13px;padding:3px 10px}
+.gate.small button{padding:1px 10px;font-size:12px}
+.gate.small input{width:12em;font-size:12px;padding:1px 8px}
+
+/* The sheet: sections flow top to bottom; far ones are empty spacers of known height. */
+#sheet{display:block;padding:0 var(--pad) 45vh;min-height:calc(100vh - var(--bar))}
+.boot{display:flex;align-items:center;justify-content:center;min-height:60vh;color:var(--mut)}
+.sec{position:relative;isolation:isolate}
+.sec.ghost{contain:strict}
+.chr-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;padding:64px 0 4px}
+.sec.first .chr-h{padding-top:22px}
+.chr-h h2{margin:0;font-size:28px;font-weight:650;letter-spacing:.02em}
+.chr-h .n{color:var(--mut);font-size:13px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:30px 0 14px}
+.sec.first .sec-h{padding-top:18px}
+.sec-h .who{color:var(--mut);font-size:14px}
+.sec-h h3{margin:0;font-size:20px;font-weight:600}
+.sec-h .gate{margin-left:auto}
+.sec-end{height:26px}
+
+/* Sprites: explicit balanced lines; one backdrop band per line; compact canvases overlap only
+   their neighbours' transparent margins and never take pointer input outside their column. */
+.line{display:flex;justify-content:center}
+.line+.line{margin-top:18px}
+.cells{position:relative;display:flex;isolation:isolate}
+.band{position:absolute;left:0;right:0;top:0;z-index:-1;background:var(--tile) var(--tile-img);pointer-events:none}
+.cell{flex:none;display:flex;flex-direction:column;align-items:center}
+.tile{position:relative;flex:none;display:flex;align-items:center;justify-content:center}
+.tile>canvas{display:block;flex:none}
+.tile.zoom{cursor:zoom-in}
+.tile.sprite>canvas{position:absolute;left:50%;bottom:0;transform:translateX(-50%);pointer-events:none}
+.tile.hl{outline:2px solid var(--warn);outline-offset:3px}
+.guide{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--guide);pointer-events:none;z-index:3}
+.guide span{position:absolute;left:2px;top:-15px;font-size:10px;line-height:13px;color:var(--guide)}
+.cap{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3px 4px;min-height:32px;padding:5px 2px 4px;font-size:13px;color:var(--fg2);text-align:center;width:100%}
+.cap .nm{color:var(--fg);margin-right:2px}
+.cap .play{padding:0 7px;font-size:11px;color:var(--mut);line-height:19px}
+.cap .play[aria-pressed=true]{color:var(--fg);background:var(--act)}
+.avatars{display:flex;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.av{display:flex;flex-direction:column;align-items:center}
+.tile.avatar,.board .tile,.scene .tile{background:var(--tile) var(--tile-img)}
+.av .cap{min-height:26px;padding-top:3px;font-size:12px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%;height:100%;padding:8px;text-align:center;font-size:12px;color:var(--mut);background:repeating-linear-gradient(135deg,var(--hatch) 0 6px,transparent 6px 12px)}
+.empty b{font-size:13px;font-weight:500;color:var(--mut)}
+.empty.bad b{color:var(--bad)}
+.empty .msg{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;color:var(--fg2);word-break:break-word;max-width:100%}
+.tile.sprite .empty{position:absolute;inset:0}
+.slim{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;min-height:40px;padding:8px 14px;margin-top:10px;color:var(--mut);font-size:13px;background:repeating-linear-gradient(135deg,var(--hatch) 0 6px,transparent 6px 12px);border-radius:8px}
+.slim .nm{color:var(--fg2)}
+.chr-h .slim{margin:0;min-height:0;padding:2px 12px;background:none}
+
+.boards{display:flex;flex-wrap:wrap;justify-content:center;gap:28px;margin-top:30px}
+.chr-board{margin-top:14px}
+.boards>.slim{flex:1 1 100%;margin-top:0}
+.board{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.board.side{display:grid;column-gap:20px;align-items:start}
+.bmeta{display:flex;flex-direction:column;gap:10px;min-width:0}
+.board.side .pal{display:block;column-width:220px;column-gap:20px}
+.board.side .pal .zone{break-inside:avoid;margin-bottom:4px}
+.bmeta .avatars{justify-content:flex-start;margin-top:4px}
+.bcap{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap}
+.bcap .nm{font-weight:600}
+.pal{display:flex;flex-direction:column;gap:4px;font-size:12px}
+.pal .zone{display:flex;flex-wrap:wrap;align-items:center;gap:3px 14px}
+.pal .zn{color:var(--mut);min-width:3.5em}
+.sw{display:inline-flex;align-items:center;gap:6px;color:var(--fg2)}
+.sw i{display:inline-block;width:15px;height:15px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.sw code{font:11px ui-monospace,Consolas,monospace;color:var(--mut)}
+.diffs{margin:0;padding:0 0 0 1.1em;font-size:12px;color:var(--fg2)}
+.scenes{display:flex;justify-content:center;gap:24px}
+.sec+.sec .scenes{margin-top:24px}
+.scene{margin:0;display:flex;flex-direction:column;gap:8px}
+.nothing{padding:18vh 0;text-align:center;color:var(--mut)}
+.nothing button{color:var(--fg)}
+.end{padding:40px 0 0;text-align:center;color:var(--mut);font-size:12px}
+
+/* Jump list (characters → outfits) under the position button. */
+.jump{position:fixed;z-index:50;top:calc(var(--bar) + 4px);right:12px;width:min(380px,calc(100vw - 24px));max-height:calc(100vh - var(--bar) - 20px);display:flex;flex-direction:column;background:var(--panel);border-radius:12px;box-shadow:0 14px 50px rgba(0,0,0,.55);overflow:hidden}
+.jump[hidden]{display:none}
+.j-top{padding:10px 10px 4px;display:flex;flex-direction:column;gap:8px}
+.j-top input{width:100%;padding:6px 12px}
+.j-top .filters{display:none;flex-wrap:wrap;overflow:visible}
+.j-list{flex:1;overflow:auto;padding:0 6px 14px;margin:0;list-style:none;overscroll-behavior:contain}
+.j-list .grp{display:flex;width:100%;text-align:left;gap:8px;align-items:center;padding:10px 10px 3px;font-weight:600}
+.j-list .it{display:flex;width:100%;text-align:left;align-items:center;gap:8px;padding:5px 10px 5px 22px;color:var(--fg2)}
+.j-list .it[aria-current=true],.j-list .grp[aria-current=true]{background:var(--act);color:var(--fg)}
+.j-list .lbl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.j-list .cnt{font-size:12px;color:var(--mut);white-space:nowrap;font-weight:400}
+.j-list .cnt .w{color:var(--warn)}.j-list .cnt .b{color:var(--bad)}
+.j-list .off{opacity:.45}
+.j-empty{padding:16px 12px;color:var(--mut)}
+.mk{font-size:12px;line-height:16px;font-weight:400}
+.mk.ok{color:var(--ok)}.mk.fix{color:var(--fix)}.mk.none{color:var(--mut)}
+
+/* Native viewer */
+.viewer{position:fixed;inset:0;z-index:60;background:#0f0f10;touch-action:none;-webkit-user-select:none;user-select:none}
+.viewer[hidden]{display:none}
+html[data-bg=light] .viewer{background:#e7e6e2}
+html[data-bg=checker] .viewer{background:var(--tile-img),var(--tile)}
+.v-stage{position:absolute;inset:0;overflow:hidden;cursor:grab}
+.v-stage.drag{cursor:grabbing}
+.v-layer{position:absolute;left:0;top:0;transform-origin:0 0}
+.v-layer>img,.v-layer>canvas{display:block;max-width:none}
+.v-layer.px>*{image-rendering:pixelated}
+.v-top{position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:4px;padding:6px 10px;background:linear-gradient(rgba(15,15,16,.92),rgba(15,15,16,.72));flex-wrap:wrap;color:var(--fg)}
+.v-top .spacer{flex:1}
+.v-title{font-weight:600;margin:0 6px 0 4px}
+.v-size{font-size:12px;color:var(--mut);margin-right:6px;font-variant-numeric:tabular-nums}
+.v-frames{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
+.v-frames .sep{width:10px}
+.v-frames button{font-size:13px;padding:2px 9px;color:var(--fg2)}
+.v-frames button[aria-pressed=true]{background:var(--act);color:var(--fg)}
+.v-zoom{font-size:12px;color:var(--fg2);min-width:46px;text-align:right;font-variant-numeric:tabular-nums}
+.v-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:30px;line-height:1;padding:18px 12px;background:rgba(15,15,16,.45);color:var(--fg)}
+.v-prev{left:8px}.v-next{right:8px}
+.v-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--fg2);pointer-events:none;font-size:15px}
+html[data-bg=light] .v-msg{color:#444}
+.v-info{position:absolute;right:10px;top:56px;width:min(440px,calc(100vw - 20px));max-height:calc(100vh - 76px);overflow:auto;background:rgba(29,29,32,.97);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--fg2);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.v-info[hidden]{display:none}
+.v-info dl{margin:0}.v-info dt{color:var(--mut);margin-top:8px}.v-info dd{margin:2px 0 0;word-break:break-all;color:var(--fg);white-space:pre-wrap}
+.v-info .chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#2b2b2f;color:var(--fg);padding:8px 16px;border-radius:9px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .18s;z-index:70;box-shadow:0 6px 30px rgba(0,0,0,.4)}
+.toast.on{opacity:1}
+
+@media (max-width:760px){
+  :root{--bar:46px;--pad:14px}
+  .bar{padding:0 4px;gap:2px}
+  .proj,.bar>.filters,.bar .wide{display:none}
+  #where{flex:1;max-width:none;text-align:left}
+  #filterBtn{display:inline-block;white-space:nowrap}
+  #filterBtn.on{background:var(--act)}
+  .j-top .filters{display:flex}
+  .jump{left:6px;right:6px;width:auto}
+  .chr-h{padding-top:44px}.chr-h h2{font-size:22px}
+  .sec-h{padding:22px 0 10px}.sec-h h3{font-size:17px}
+  .sec-h .gate{margin-left:0}
+  .boards{gap:18px;margin-top:22px}
+  .scenes{gap:14px}
+  .v-nav{display:none}
+}
+/* Passive original-image peek: never intercept the underlying tile's pointer. */
+#hoverPreview{position:fixed;inset:0;z-index:45;display:grid;place-items:center;background:rgba(0,0,0,.86);pointer-events:none;padding:8px}
+#hoverPreview[hidden]{display:none}
+#hoverPreview img{display:block;width:auto;height:calc(100vh - 16px);max-width:calc(100vw - 16px);object-fit:contain}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="bar" id="bar">
+  <span class="proj" id="proj"></span>
+  <nav class="filters" id="filters" aria-label="筛选"></nav>
+  <button id="where" aria-haspopup="dialog" aria-expanded="false" title="跳到角色（G）">–</button>
+  <button id="filterBtn" aria-haspopup="dialog" title="筛选">全部</button>
+  <button id="compactBtn" class="wide" title="紧凑：列窄于画布，透明边互相重叠，不裁任何像素（Z）">紧凑</button>
+  <button id="bgBtn" title="图片底色（B）">底 暗</button>
+  <button id="exportBtn" title="导出审阅结果">导出</button>
+  <span class="sr" id="live" aria-live="polite"></span>
+</header>
+<main id="sheet" tabindex="-1"><div class="boot">载入中…</div></main>
+<div class="jump" id="jump" hidden role="dialog" aria-label="跳到">
+  <div class="j-top">
+    <nav class="filters" id="jFilters" aria-label="筛选"></nav>
+    <input id="jFind" type="search" placeholder="找角色或服装" aria-label="找角色或服装" autocomplete="off">
+  </div>
+  <ol class="j-list" id="jList"></ol>
+</div>
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="原图">
+  <div class="v-stage" id="vStage"><div class="v-layer" id="vLayer"></div></div>
+  <div class="v-msg" id="vMsg"></div>
+  <div class="v-top">
+    <span class="v-title" id="vTitle"></span><span class="v-size" id="vSize"></span>
+    <span class="v-frames" id="vFrames"></span>
+    <span class="spacer"></span>
+    <span class="v-zoom" id="vZoom"></span>
+    <button id="vFit" title="适合窗口（0）">适合</button>
+    <button id="vOne" title="原始像素（1）">1:1</button>
+    <button id="vInfo" title="详情（I）" aria-expanded="false">详情</button>
+    <button id="vClose" aria-label="关闭（Esc）" title="关闭（Esc）">✕</button>
+  </div>
+  <button class="v-nav v-prev" id="vPrev" aria-label="上一张">‹</button>
+  <button class="v-nav v-next" id="vNext" aria-label="下一张">›</button>
+  <div class="v-info" id="vInfoPanel" hidden></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script type="application/json" id="dsh-review-data">__DSH_REVIEW_DATA__</script>
+<script>
+(() => {
+'use strict';
+/* ==========================================================================
+   Test/agent hooks (inert unless a harness defines window.__dshReviewHooks first):
+     delay(path) -> Promise   hold an image load (stale-scroll tests)
+     onPaint({section,keys})  observe a section's atomic paint
+   ========================================================================== */
+const HOOKS = window.__dshReviewHooks || {};
+const D = document, ROOT = D.documentElement;
+const $ = id => D.getElementById(id);
+function h(tag, props, ...kids) {
+  const e = D.createElement(tag);
+  if (props) for (const k in props) {
+    const v = props[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'text') e.textContent = v;
+    else if (k === 'style') for (const s in v) e.style.setProperty(s, v[s]);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat(Infinity)) if (k != null && k !== false) e.append(k);
+  return e;
+}
+const arr = v => Array.isArray(v) ? v : [];
+const str = v => typeof v === 'string' ? v : (v == null ? '' : String(v));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const quad = v => Array.isArray(v) && v.length === 4 && v.every(n => Number.isFinite(n)) ? v.map(Number) : null;
+const pair = v => Array.isArray(v) && v.length === 2 && v.every(n => Number.isFinite(n) && n > 0) ? v.map(Number) : null;
+
+/* ---------------- Vocabulary (plain Chinese, no internal ids) ---------------- */
+// sadness/nervous: 765 legacy state ids (legacy-import keeps them; the CLI maps them to sad/anxious).
+const EMO = new Map([['calm','平和'],['joy','喜悦'],['anger','愤怒'],['sad','悲伤'],['sadness','悲伤'],['anxious','紧张'],['nervous','紧张'],['shy','害羞'],['disgust','嫌弃'],['love','爱恋'],['crying','哭泣']]);
+const EMO_ORDER = [...EMO.keys()];
+const FRAME_LABEL = {closed:'闭', small:'小', mid:'中', open:'开', a:'A', i:'I', u:'U', e:'E', o:'O'};
+const FRAME_ORDER = ['closed','small','mid','open','a','i','u','e','o'];
+const KIND = {'identity-settei':'人物色设', settei:'服装色设', sprite:'立绘', avatar:'头像', blink:'眨眼', mouth:'口型', background:'背景', cg:'CG', 'avatar-sheet':'头像表'};
+const REASON = {IDENTITY_SETTEI_REQUIRED:'等人物色设通过', SETTEI_REQUIRED:'等服装色设通过', CALM_REQUIRED:'等平和立绘', CALM_AVATAR_REQUIRED:'等平和头像', EMOTION_SPRITE_REQUIRED:'等同差分立绘', SPRITE_REQUIRED:'等同差分立绘', STALE_REFERENCES:'参考已变，需重做', REFUSED:'生成被拒', SLOT_MISSING:'未列入计划', HUMAN_APPROVAL_REQUIRED:'等你审核', REGISTRATION_REQUIRED:'等对齐'};
+// Dependency waits are normal sequencing; anything else that blocks is a problem for the owner.
+const WAITS = new Set(['IDENTITY_SETTEI_REQUIRED','SETTEI_REQUIRED','CALM_REQUIRED','CALM_AVATAR_REQUIRED','EMOTION_SPRITE_REQUIRED','SPRITE_REQUIRED','HUMAN_APPROVAL_REQUIRED','REGISTRATION_REQUIRED']);
+const WARN = {ESTIMATED_LANDMARKS:'头顶/脚底是估算', BLINK_DIFF:'眨眼差异异常', MISSING_IMAGE:'图片文件丢失', OCCLUDED_SOLE:'脚底被遮挡', POSE_EXCEPTION:'姿势例外', MISSING_MOUTH_FRAME:'缺口型帧', SIZE_MISMATCH:'尺寸与记录不符', RECT_OUT_OF_BOUNDS:'补丁越界', CANVAS_MISMATCH:'画布与平和不同', BASE_MISMATCH:'补丁底图尺寸不符'};
+const warnText = w => WARN[w.code] || w.message || '警告';
+const STATUSES = new Set(['missing','blocked','refused','changed','approved','retry-pending']);
+
+/* ---------------- Paths: relative only, never a network URL ---------------- */
+// Any scheme (http:, https:, data:, C:, //host) or absolute path is rejected, so no data can make
+// this page reach the network; images resolve relative to this HTML file (project root).
+function safeRel(p) {
+  if (typeof p !== 'string' || !p || p.length > 2048) return null;
+  p = p.replace(/\\/g, '/');
+  if (/^[a-z][a-z0-9+.-]*:/i.test(p) || p.startsWith('/')) return null;
+  return p;
+}
+const urlOf = p => p.split('/').map(encodeURIComponent).join('/');
+
+/* ---------------- Model (adapter over review-data v1) ---------------- */
+function mkItem(x, kind, ctx) {
+  x = x && typeof x === 'object' ? x : {};
+  const ip = x.image && safeRel(x.image.path), size = x.image && pair(x.image.native_size);
+  const image = ip && size ? {path: ip, w: size[0], h: size[1]} : null;
+  const preview = x.preview_image, pp = preview && safeRel(preview.path), ps = preview && pair(preview.native_size);
+  if (image && pp && ps && Math.abs(ps[0] / ps[1] - image.w / image.h) < .01) image.preview = {path: pp, w: ps[0], h: ps[1]};
+  const hx = x.half_image || (x.half && x.half.image) || null, hp = hx && safeRel(hx.path);
+  let status = STATUSES.has(x.status) ? x.status : (image ? 'changed' : 'missing');
+  if (!image && (status === 'approved' || status === 'changed')) status = 'missing';
+  const pal = arr(x.palette).length ? x.palette : arr(x.settei && x.settei.palette);
+  return {
+    slot: str(x.slot_id), kind: str(x.kind) || kind, status, image,
+    half: hp && pair(hx.native_size) ? {path: hp, w: hx.native_size[0], h: hx.native_size[1]} : null,
+    blend: x.blend, rect: quad(x.rect_xywh), baseSize: pair(x.base_native_size), frame: x.frame ? str(x.frame) : null,
+    palette: pal.filter(p => p && /^#[0-9a-f]{6}$/i.test(p.hex)).map(p => ({role: str(p.role), hex: p.hex.toUpperCase(), zone: str(p.zone)})),
+    warnings: arr(x.warnings).filter(w => w && (w.message || w.code)).map(w => ({code: str(w.code), message: str(w.message)})),
+    blocked: arr(x.blocked).filter(b => typeof b === 'string'),
+    refusal: x.refusal && typeof x.refusal.message === 'string' ? x.refusal : null,
+    provenance: x.provenance && typeof x.provenance === 'object' ? x.provenance : {},
+    settei: x.settei && typeof x.settei === 'object' ? x.settei : null,
+    parent: x.parent_version ? str(x.parent_version) : null,
+    bounds: quad(x.bounds_xywh), guides: x.guides && typeof x.guides === 'object' ? x.guides : null,
+    name: str(x.name || x.label), ctx: ctx || {}
+  };
+}
+const isProblem = it => it.status === 'refused' || (it.status === 'blocked' && it.blocked.some(b => !WAITS.has(b)));
+const isWaiting = it => it.status === 'missing' || (it.status === 'blocked' && !isProblem(it));
+function reasonOf(it) {
+  if (it.status === 'refused') return '生成被拒';
+  if (it.status === 'retry-pending') return '等待补交';
+  const r = it.blocked.map(b => REASON[b] || b);
+  return r.length ? [...new Set(r)].join('，') : '未制作';
+}
+function sortStates(list) {
+  const rank = id => { const i = EMO_ORDER.indexOf(id); return i < 0 ? 100 : i; };
+  return list.map((s, i) => [s, i]).sort((a, b) => (rank(str(a[0].id)) - rank(str(b[0].id))) || a[1] - b[1]).map(x => x[0]);
+}
+function guidesOf(calm) {
+  if (!calm || !calm.image) return null;
+  const g = calm.guides;
+  if (g && Number.isFinite(g.head_top) && Number.isFinite(g.feet)) return {top: g.head_top, feet: g.feet, est: !!g.estimated};
+  const r = calm.provenance && calm.provenance.registration;
+  if (r && typeof r === 'object') {
+    const a = r.anchorLandmarks || r.anchor_landmarks;
+    if (a && Number.isFinite(a.headTop) && Number.isFinite(a.feet)) return {top: a.headTop, feet: a.feet, est: false};
+    const l = r.landmarks, s = Number.isFinite(r.scale) ? r.scale : 1, dy = Number.isFinite(r.dy) ? r.dy : 0;
+    if (l && Number.isFinite(l.headTop) && Number.isFinite(l.feet)) return {top: l.headTop * s + dy, feet: l.feet * s + dy, est: false};
+  }
+  if (calm.bounds) return {top: calm.bounds[1], feet: calm.bounds[1] + calm.bounds[3], est: true};
+  return null;
+}
+function viewerWarn(it, code, message) { it.warnings.push({code, message, viewer: true}); }
+function deriveSheet(sh) {
+  const sprites = sh.states.map(s => s.sprite).filter(x => x.image);
+  const calm = (sh.states.find(s => s.id === 'calm') || {}).sprite;
+  const ref = calm && calm.image ? calm.image : (sprites[0] && sprites[0].image);
+  sh.canvas = ref ? [ref.w, ref.h] : [1024, 1536];
+  sh.hasSprites = sprites.length > 0;
+  const [cw, ch] = sh.canvas;
+  for (const s of sh.states) {
+    if (s.sprite.image && (s.sprite.image.w !== cw || s.sprite.image.h !== ch)) viewerWarn(s.sprite, 'CANVAS_MISMATCH', '画布 ' + s.sprite.image.w + '×' + s.sprite.image.h);
+    const base = s.sprite.image;
+    for (const p of [s.blink, ...s.mouth.frames]) {
+      if (!p || !p.image || !base) continue;
+      if (p.rect) {
+        const [x, y, w, hh] = p.rect;
+        if (x < 0 || y < 0 || w <= 0 || hh <= 0 || x + w > base.w || y + hh > base.h) { viewerWarn(p, 'RECT_OUT_OF_BOUNDS', '位置超出立绘'); p.badRect = true; }
+        else if (p.image.w !== w || p.image.h !== hh) viewerWarn(p, 'SIZE_MISMATCH', '补丁 ' + p.image.w + '×' + p.image.h + '，位置 ' + w + '×' + hh);
+      } else p.badRect = true;
+      if (p.baseSize && (p.baseSize[0] !== base.w || p.baseSize[1] !== base.h)) viewerWarn(p, 'BASE_MISMATCH', '按 ' + p.baseSize.join('×') + ' 底图制作');
+    }
+  }
+  sh.guides = guidesOf(calm);
+  // Shared crop window: only when every sprite reports real alpha bounds (never guess and hide pixels).
+  let crop = [0, 0, cw, ch];
+  if (sprites.length && sprites.every(x => x.bounds && x.image.w === cw && x.image.h === ch)) {
+    let x0 = cw, y0 = ch, x1 = 0, y1 = 0;
+    for (const x of sprites) { const [bx, by, bw, bh] = x.bounds; x0 = Math.min(x0, bx); y0 = Math.min(y0, by); x1 = Math.max(x1, bx + bw); y1 = Math.max(y1, by + bh); }
+    if (sh.guides) { y0 = Math.min(y0, sh.guides.top); y1 = Math.max(y1, sh.guides.feet); }
+    const mx = Math.round(cw * .03), my = Math.round(ch * .02);
+    x0 = Math.max(0, Math.floor(x0 - mx)); y0 = Math.max(0, Math.floor(y0 - my)); x1 = Math.min(cw, Math.ceil(x1 + mx)); y1 = Math.min(ch, Math.ceil(y1 + my));
+    if (x1 - x0 > 8 && y1 - y0 > 8) crop = [x0, y0, x1 - x0, y1 - y0];
+  }
+  sh.crop = crop;
+  sh.items = [];
+  for (const s of sh.states) sh.items.push(s.sprite, ...(sh.spriteOnly ? [] : [s.avatar, ...(s.blink ? [s.blink] : []), ...s.mouth.frames]));
+  sh.all = [...(!sh.spriteOnly && sh.settei ? [sh.settei] : []), ...sh.items];
+  // "Changed since last review" only makes sense when this outfit itself passed a review before.
+  sh.anyApproved = !sh.spriteOnly && sh.all.some(x => x && x.status === 'approved');
+}
+function buildModel(raw) {
+  if (!raw || typeof raw !== 'object' || raw.schema_version !== 1 || !raw.project) throw new Error('数据格式不支持');
+  const M = {project: {id: str(raw.project.id) || 'unknown', name: str(raw.project.name) || '素材审阅', revision: Number.isInteger(raw.project.revision) ? raw.project.revision : 0}, characters: [], sheets: [], scenes: []};
+  for (const c of arr(raw.characters)) {
+    const ch = {spriteOnly: raw.scope === 'sprite', key: str(c.key), name: str(c.name) || str(c.key) || '角色', outfits: []};
+    ch.identity = mkItem(c.identity_settei, 'identity-settei', {ch, label: '人物色设'});
+    for (const o of arr(c.outfits)) {
+      const sh = {ch, spriteOnly: ch.spriteOnly, key: str(o.key), label: str(o.label) || str(o.key) || '服装', states: []};
+      sh.settei = mkItem(o.settei, 'settei', {ch, sheet: sh, label: '服装色设'});
+      for (const st of sortStates(arr(o.states))) {
+        const id = str(st.id), label = EMO.get(id) || id || '状态', S = {id, label};
+        const ctx = extra => Object.assign({ch, sheet: sh, state: S}, extra);
+        S.sprite = mkItem(st.sprite, 'sprite', ctx({label: label + ' 立绘'}));
+        S.avatar = mkItem(st.avatar, 'avatar', ctx({label: label + ' 头像'}));
+        S.blink = st.blink ? mkItem(st.blink, 'blink', ctx({label: label + ' 眨眼'})) : null;
+        const frames = arr(st.mouth && st.mouth.frames).map(f => mkItem(f, 'mouth', ctx({})));
+        frames.sort((a, b) => { const r = f => { const i = FRAME_ORDER.indexOf(f.frame); return i < 0 ? 99 : i; }; return r(a) - r(b); });
+        for (const f of frames) f.ctx.label = label + ' 口型' + (FRAME_LABEL[f.frame] || f.frame || '');
+        S.mouth = {semantics: str(st.mouth && st.mouth.semantics) || (frames.length ? 'opening-level' : 'none'), frames};
+        sh.states.push(S);
+      }
+      deriveSheet(sh);
+      ch.outfits.push(sh); M.sheets.push(sh);
+    }
+    if (!ch.outfits.length) { const sh = {ch, key: '', label: '人物色设', states: [], settei: null, identityOnly: true}; deriveSheet(sh); ch.outfits.push(sh); M.sheets.push(sh); }
+    ch.identity.ctx.sheet = ch.outfits[0];
+    M.characters.push(ch);
+  }
+  M.scenes = arr(raw.scenes).map(x => {
+    const it = mkItem(x, str(x && x.kind) || 'background', {});
+    const key = it.slot.split('/').slice(1).join('/') || it.slot;
+    it.ctx.label = (it.name || key || '场景');
+    it.ctx.kindLabel = KIND[it.kind] || '场景';
+    return it;
+  });
+  return M;
+}
+
+/* ---------------- Decisions: localStorage keyed by project + revision ---------------- */
+const STORE_PREFIX = 'dsh-review:v1:';
+function fnv(s) { let x = 0x811c9dc5; for (let i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 0x01000193); } return (x >>> 0).toString(16).padStart(8, '0'); }
+const signature = items => fnv(items.filter(Boolean).map(i => i.slot + '|' + (i.image ? i.image.path : '-') + '|' + (i.rect || '') + '|' + (i.half ? i.half.path : '')).join('\n'));
+function buildTargets(M) {
+  const T = new Map();
+  for (const ch of M.characters) {
+    if (!ch.spriteOnly) T.set('identity:' + ch.key, {type: 'identity_settei', ch, items: [ch.identity], label: ch.name + ' · 人物色设', page: ch.firstPage});
+    for (const sh of ch.outfits) {
+      if (sh.identityOnly) continue;
+      if (!sh.spriteOnly) T.set('settei:' + ch.key + '/' + sh.key, {type: 'outfit_settei', ch, sh, items: [sh.settei], label: ch.name + ' · ' + sh.label + ' · 服装色设', page: sh.page});
+      T.set('outfit:' + ch.key + '/' + sh.key, {type: 'outfit', ch, sh, items: sh.items, label: ch.name + ' · ' + sh.label, page: sh.page});
+    }
+  }
+  for (const it of M.scenes) T.set('scene:' + it.slot, {type: 'scene', item: it, items: [it], label: it.ctx.kindLabel + ' · ' + it.ctx.label, page: it.page});
+  for (const t of T.values()) t.sig = signature(t.items);
+  return T;
+}
+const Store = {
+  ok: true, key: '', data: {decisions: {}, savedAt: null, exportedAt: null},
+  // Targets this browser decided on an earlier revision whose content has changed since.
+  changed: new Set(),
+  load(M, T) {
+    this.key = STORE_PREFIX + M.project.id + ':r' + M.project.revision;
+    try {
+      // Previous review = the newest earlier revision with saved decisions (else the newest other).
+      let best = null, bestRev = -1; const pre = STORE_PREFIX + M.project.id + ':r';
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!k || !k.startsWith(pre) || k === this.key) continue;
+        const rev = Number(k.slice(pre.length)), r = rev < M.project.revision ? rev : -2;
+        try { const v = JSON.parse(localStorage.getItem(k)); if (v && v.decisions && (r > bestRev || (r === bestRev && str(v.savedAt) > str(best && best.savedAt)))) { best = v; bestRev = r; } } catch (e) {}
+      }
+      if (best) for (const [t, d] of Object.entries(best.decisions)) { const tg = T.get(t); if (tg && d && d.sig !== tg.sig) this.changed.add(t); }
+      const own = localStorage.getItem(this.key);
+      if (own) { const v = JSON.parse(own); if (v && v.decisions) this.data = v; }
+      else {
+        // New revision: carry over only decisions whose reviewed content is unchanged.
+        if (best) for (const [t, d] of Object.entries(best.decisions)) { const tg = T.get(t); if (tg && d && d.sig === tg.sig) this.data.decisions[t] = d; }
+        if (Object.keys(this.data.decisions).length) { this.data.savedAt = new Date().toISOString(); this.data.dirty = true; localStorage.setItem(this.key, JSON.stringify(this.data)); }
+      }
+    } catch (e) { this.ok = false; }
+    for (const [t, d] of Object.entries(this.data.decisions)) { const tg = T.get(t); if (!tg || d.sig !== tg.sig) delete this.data.decisions[t]; }
+  },
+  get(t) { return this.data.decisions[t] || null; },
+  set(t, verdict, note) {
+    const tg = TARGETS.get(t); if (!tg) return;
+    if (!verdict) delete this.data.decisions[t];
+    else this.data.decisions[t] = {verdict, note: str(note).slice(0, 300), at: new Date().toISOString(), sig: tg.sig};
+    this.data.savedAt = new Date().toISOString(); this.data.dirty = true;
+    this.save();
+  },
+  save() { try { localStorage.setItem(this.key, JSON.stringify(this.data)); this.ok = true; } catch (e) { this.ok = false; } updateExportBtn(); }
+};
+
+/* ==========================================================================
+   Decode cache — strategy (honest and bounded):
+   * Never retain native-resolution decodes. Each request names a display target
+     (native crop + device-pixel size). The browser decodes off-thread (img.decode()),
+     createImageBitmap resizes once to that target, and the <img> is released (src='').
+   * Only these display-size bitmaps are retained; each costs exactly w*h*4 bytes, and
+     that is what the budget counts. The browser's own encoded-file cache is outside our
+     control and not counted. Materialized sections hold one painted canvas copy of their
+     own images; dematerialized sections release theirs (canvas width = 0).
+   * Budget (BUDGET_MB): wanted entries are never evicted; anything else is LRU-evicted
+     (bitmap.close()) once the total exceeds budget.
+   * Window (recomputed on scroll, rAF-throttled): sections intersecting the viewport are
+     priority 0, the next PREFETCH sections in the scroll direction priority 1..10, and two
+     sections behind 3 and 5. Sections are admitted in priority order only while their whole
+     byte cost fits; the first section that does not fit stops admission (no thrash).
+   * Concurrency: MAX_JOBS decodes in flight; at most one "heavy" (>12 Mpx native) decode at
+     a time, bounding the transient native spike (a 5200×3900 board is 81 MB while decoding).
+   * Fast scrolling: a new window cancels queued/in-flight loads no longer wanted
+     (img.src='' aborts) and preempts far prefetch when visible sections starve. A section
+     paints only while it is materialized and its generation token is unchanged, so results
+     for a section the reader has already left never paint.
+   ========================================================================== */
+const COARSE = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 820;
+const MEM = Number(navigator.deviceMemory) || 0;
+const BUDGET_MB = COARSE ? 96 : MEM >= 8 ? 384 : MEM && MEM <= 2 ? 128 : 256;
+const MAX_JOBS = COARSE ? 3 : 5, HEAVY_PX = 12e6, PREFETCH = 10;
+const canvasOf = (w, hh) => { const c = D.createElement('canvas'); c.width = w; c.height = hh; return c; };
+function dispose(d) { if (!d) return; if (typeof d.close === 'function') d.close(); else if (d.width) { d.width = 0; d.height = 0; } }
+async function toDrawable(src, crop, tw, th) {
+  const [sx, sy, sw, sh] = crop;
+  if (typeof createImageBitmap === 'function') {
+    try { return await createImageBitmap(src, sx, sy, sw, sh, {resizeWidth: tw, resizeHeight: th, resizeQuality: 'high'}); } catch (e) { /* fall back */ }
+  }
+  let cur = src, cx = sx, cy = sy, w = sw, hh = sh;   // progressive halving keeps big downscales clean
+  while (w / 2 >= tw && hh / 2 >= th) {
+    const c = canvasOf(Math.round(w / 2), Math.round(hh / 2)), g = c.getContext('2d');
+    g.imageSmoothingQuality = 'high'; g.drawImage(cur, cx, cy, w, hh, 0, 0, c.width, c.height);
+    if (cur !== src) dispose(cur);
+    cur = c; cx = 0; cy = 0; w = c.width; hh = c.height;
+  }
+  const out = canvasOf(tw, th), g = out.getContext('2d');
+  g.imageSmoothingQuality = 'high'; g.drawImage(cur, cx, cy, w, hh, 0, 0, tw, th);
+  if (cur !== src) dispose(cur);
+  return out;
+}
+function decodeNative(path, run) {
+  const img = new Image();
+  img.decoding = 'async';
+  if (run) run.img = img;
+  img.src = urlOf(path);
+  return img.decode().then(() => img);
+}
+const Cache = {
+  entries: new Map(), want: new Map(), groups: [], bytes: 0, active: 0, heavy: 0, clock: 0,
+  budget: BUDGET_MB * 1048576, listeners: new Set(),
+  est: r => r.tw * r.th * 4,
+  entry(req, prio) {
+    let e = this.entries.get(req.key);
+    if (!e) {
+      let resolve; const promise = new Promise(r => { resolve = r; });
+      e = {key: req.key, req, prio, state: 'queued', bmp: null, bytes: 0, used: 0, run: null, resolve, promise, heavy: req.px > HEAVY_PX};
+      this.entries.set(req.key, e);
+    } else e.prio = Math.min(e.prio, prio);
+    return e;
+  },
+  setWindow(groups) {
+    const want = new Map(); let used = 0;
+    for (const g of groups) {
+      let need = 0;
+      for (const r of g.reqs) if (!want.has(r.key)) need += this.est(r);
+      if (g.prio > 0 && used + need > this.budget) { g.admitted = false; for (const later of groups) if (later.prio > g.prio) later.admitted = false; break; }
+      g.admitted = true; used += need;
+      for (const r of g.reqs) { const w = want.get(r.key); if (!w || w.prio > g.prio) want.set(r.key, {req: r, prio: g.prio}); }
+    }
+    this.want = want; this.groups = groups;
+    for (const e of [...this.entries.values()]) {
+      const w = want.get(e.key);
+      if (!w) { if (e.state === 'queued' || e.state === 'loading' || e.state === 'failed') this.cancel(e, false); }
+      else e.prio = w.prio;
+    }
+    for (const {req, prio} of want.values()) { const e = this.entry(req, prio); e.prio = prio; }
+    this.preempt(); this.evict(); this.pump(); this.notify();
+  },
+  // Target page starving behind prefetch: requeue just enough of the farthest in-flight
+  // non-target loads to free slots (and the heavy slot) for it.
+  preempt() {
+    const all = [...this.entries.values()], waiting = all.filter(e => e.state === 'queued' && e.prio === 0);
+    if (!waiting.length) return;
+    const others = all.filter(e => e.state === 'loading' && e.prio > 0).sort((a, b) => b.prio - a.prio);
+    let need = waiting.length - (MAX_JOBS - this.active);
+    if (waiting.some(e => e.heavy) && this.heavy >= 1) { const hv = others.find(e => e.heavy); if (hv) { this.cancel(hv, true); others.splice(others.indexOf(hv), 1); need--; } }
+    for (const e of others) { if (need <= 0) break; this.cancel(e, true); need--; }
+  },
+  cancel(e, requeue) {
+    if (e.state === 'loading' && e.run) { const run = e.run; e.run = null; run.cancelled = true; run.release(); if (run.img) run.img.src = ''; run.wake(); }
+    if (requeue) { e.state = 'queued'; return; }
+    if (e.state === 'ready') { this.bytes -= e.bytes; dispose(e.bmp); }
+    e.state = 'dead'; e.bmp = null; this.entries.delete(e.key);
+    e.resolve(e);   // waiters of an abandoned target wake up and see their stale token
+  },
+  pump() {
+    while (this.active < MAX_JOBS) {
+      let best = null;
+      for (const e of this.entries.values()) if (e.state === 'queued' && (!e.heavy || this.heavy < 1) && (!best || e.prio < best.prio)) best = e;
+      if (!best) break;
+      this.start(best);
+    }
+  },
+  start(e) {
+    const run = {cancelled: false, done: false, img: null};
+    let wake; run.wait = new Promise(r => { wake = r; }); run.wake = wake;
+    run.release = () => { if (run.done) return false; run.done = true; this.active--; if (e.heavy) this.heavy--; return true; };
+    e.run = run; e.state = 'loading'; this.active++; if (e.heavy) this.heavy++;
+    this.load(e.req, run).then(res => {
+      if (run.cancelled || !run.release()) { if (res && res.bmp) dispose(res.bmp); this.pump(); return; }
+      e.run = null; e.used = ++this.clock;
+      if (res.bmp) { e.state = 'ready'; e.bmp = res.bmp; e.bytes = this.est({tw: res.bmp.width, th: res.bmp.height}); e.natural = res.natural; this.bytes += e.bytes; }
+      else { e.state = 'failed'; e.error = res.error || '读取失败'; }
+      e.resolve(e);
+      this.evict(); this.pump(); this.notify();
+    });
+  },
+  async load(req, run) {
+    try {
+      if (HOOKS.delay) await Promise.race([HOOKS.delay(req.path), run.wait]);
+      if (run.cancelled) return {};
+      const dec = decodeNative(req.path, run);
+      dec.catch(() => {});   // an aborted decode rejects later; the race below already handles it
+      const img = await Promise.race([dec, run.wait]);
+      if (run.cancelled || !img) return {};
+      const nw = img.naturalWidth, nh = img.naturalHeight;
+      let [x, y, w, hh] = req.crop;
+      if (nw !== req.nw || nh !== req.nh) { const sx = nw / req.nw, sy = nh / req.nh; x *= sx; w *= sx; y *= sy; hh *= sy; }
+      x = clamp(Math.round(x), 0, nw - 1); y = clamp(Math.round(y), 0, nh - 1); w = clamp(Math.round(w), 1, nw - x); hh = clamp(Math.round(hh), 1, nh - y);
+      const bmp = await toDrawable(img, [x, y, w, hh], req.tw, req.th);
+      img.src = '';
+      return {bmp, natural: [nw, nh]};
+    } catch (err) { return {error: '读取失败'}; }
+  },
+  evict() {
+    if (this.bytes <= this.budget) return;
+    const victims = [...this.entries.values()].filter(e => e.state === 'ready' && !this.want.has(e.key)).sort((a, b) => a.used - b.used);
+    for (const v of victims) { if (this.bytes <= this.budget) break; this.cancel(v, false); }
+  },
+  settled(keys) { return Promise.all(keys.map(k => { const e = this.entries.get(k); return e ? e.promise : Promise.resolve(null); })); },
+  peek(key) { const e = this.entries.get(key); if (e && e.state === 'ready') { e.used = ++this.clock; return e; } return e || null; },
+  isReady(key) { const e = this.entries.get(key); return !!e && (e.state === 'ready' || e.state === 'failed'); },
+  notify() { for (const f of this.listeners) f(); },
+  stats() {
+    let ready = 0, loading = 0, queued = 0;
+    for (const e of this.entries.values()) { if (e.state === 'ready') ready++; else if (e.state === 'loading') loading++; else if (e.state === 'queued') queued++; }
+    return {ready, loading, queued, bytes: this.bytes, budget: this.budget, active: this.active};
+  }
+};
+
+// Device scale quantized down to ~4.4% steps so 1-px layout jitter never misses the cache.
+const qscale = s => Math.min(1, Math.pow(2, Math.floor(Math.log2(s) * 16 + 1e-9) / 16));
+function makeReq(img, crop, devScale) {
+  if (img.preview && img.preview.w >= img.w * Math.min(1, devScale) && img.preview.h >= img.h * Math.min(1, devScale)) {
+    const p = img.preview, sx = p.w / img.w, sy = p.h / img.h;
+    return makeReq(p, [crop[0] * sx, crop[1] * sy, crop[2] * sx, crop[3] * sy], devScale / sx);
+  }
+  const s = qscale(devScale), tw = Math.max(1, Math.round(crop[2] * s)), th = Math.max(1, Math.round(crop[3] * s));
+  return {key: img.path + '#' + crop.join(',') + '@' + tw + 'x' + th, path: img.path, crop, tw, th, nw: img.w, nh: img.h, px: img.w * img.h, scale: s};
+}
+function fitReq(img, boxW, boxH, dpr) {
+  const s = Math.min(boxW / img.w, boxH / img.h);
+  const r = makeReq(img, [0, 0, img.w, img.h], s * dpr);
+  return {req: r, cssW: Math.max(1, img.w * s), cssH: Math.max(1, img.h * s)};
+}
+
+/* ---------------- Layout planning (pure: section + viewport -> sizes, image requests, height) ---------------- */
+const BAR = () => parseFloat(getComputedStyle(ROOT).getPropertyValue('--bar')) || 48;
+const NARROW = matchMedia('(max-width:760px)');
+// Phones resize innerHeight while the URL bar slides; layout uses a stable height that only
+// changes with the width or a large (>25%) height change, so scrolling never re-lays out.
+let STABLE_H = innerHeight;
+function viewport() {
+  const el = $('sheet'), pad = NARROW.matches ? 14 : 28;
+  const W = Math.max(200, ((el && el.clientWidth) || ROOT.clientWidth || innerWidth) - 2 * pad);
+  const dpr = clamp(window.devicePixelRatio || 1, 1, 2);
+  return {W, h: STABLE_H, dpr, narrow: NARROW.matches, bar: BAR(), key: Math.round(W) + 'x' + STABLE_H + '@' + dpr + (PREFS.compact ? 'c' : 'f')};
+}
+// One scale per outfit (all emotions alike), ~60% of the viewport height on desktop.
+function spriteGeom(sh, vp) {
+  const cw = sh.crop[2], ch = sh.crop[3], n = Math.max(1, sh.states.length), avail = vp.h - vp.bar;
+  // Compact: without real alpha bounds, columns are narrower than the canvas and neighbouring
+  // canvases overlap only in their (transparent) margins — nothing is cropped or hidden.
+  const full = cw === sh.canvas[0] && ch === sh.canvas[1];
+  const k = full && PREFS.compact ? 0.62 : 1, gap = k < 1 ? 0 : (vp.narrow ? 8 : 14);
+  const target = vp.narrow ? clamp(avail * .5, 220, 520) : clamp(avail * .6, 280, 1000);
+  // Desktop: prefer the whole emotion row on one line while sprites stay >= 42% of the viewport
+  // height. Phones: two per line while they stay >= 36%.
+  const across = m => (vp.W - (m - 1) * gap) / (cw * (m * k + 1 - k));
+  const m = vp.narrow ? Math.min(2, n) : n, sm = across(m);
+  const s = sm * ch >= avail * (vp.narrow ? .36 : .42) ? Math.min(sm, target / ch) : Math.min(target / ch, vp.W / cw);
+  const dev = qscale(s * vp.dpr), cssS = dev < 1 ? dev / vp.dpr : s;
+  const colW = cw * k * cssS, canvasW = cw * cssS, over = (canvasW - colW) / 2;
+  const fit = Math.max(1, Math.floor((vp.W - 2 * over + gap) / (colW + gap)));
+  const lines = Math.ceil(n / fit), per = Math.ceil(n / lines);   // balanced lines (5+4, not 7+2)
+  return {gap, s: cssS, colW, canvasW, over, spriteH: ch * cssS, per, lines, compact: k < 1, canCompact: full};
+}
+function planBoard(it, vp, reqs, av) {
+  const B = {item: it};
+  if (!it || !it.image) { B.est = 52; return B; }
+  // Dense packing ("UV unwrap": no mostly-empty column). A board limited by screen height never
+  // sits alone in a wide row: its caption, gate, palette, differences and (for an outfit) the
+  // avatar grid fill a column beside it, and the pair is centred. With nothing to place beside
+  // it, the board grows into the width, up to one screen height. Phones stack as before.
+  const zones = new Set(it.palette.map(p => p.zone || '其他')).size;
+  const diffs = it.settei ? Math.min(8, arr(it.settei.explicit_differences).length) : 0;
+  const ar = it.image.w / it.image.h, avail = vp.h - vp.bar, GAP = 20, MIN_SIDE = 240;
+  const meta = 30 + (zones ? zones * 23 + 8 : 0) + diffs * 19;
+  let w;
+  if (vp.narrow) w = Math.min(vp.W, avail * .7 * ar);
+  else {
+    w = Math.min(vp.W - MIN_SIDE - GAP, avail * ar);
+    B.side = w >= vp.W * .45 && (zones || diffs || av);
+    if (!B.side) w = Math.min(vp.W, avail * ar);
+  }
+  const hh = w / ar;
+  if (B.side) {
+    const room = vp.W - w - GAP;
+    B.sideW = Math.min(room, 320);
+    if (av) {
+      // Largest avatar size whose grid, under the palette, still fits beside the board.
+      let best = null;
+      for (let per = 1; per <= av.n; per++) {
+        const A = Math.floor(Math.min(240, (room - (per - 1) * av.agap) / per));
+        if (A < 72) break;
+        const lines = Math.ceil(av.n / per), tall = lines * (A + 26) + (lines - 1) * av.agap;
+        if (meta + 10 + tall <= hh) { best = {A, per, tall}; break; }
+        if (!best || tall < best.tall) best = {A, per, tall, over: true};
+      }
+      if (best && !best.over) { B.avA = best.A; B.sideW = Math.min(room, best.per * (best.A + av.agap) - av.agap); }
+      if (!B.avA && !(zones || diffs)) { B.side = false; w = Math.min(vp.W, avail * ar); }
+    }
+  }
+  const H = w / ar, f = fitReq(it.image, w, H, vp.dpr);
+  B.req = f.req; B.css = [f.cssW, f.cssH]; B.boxW = w; B.boxH = H;
+  reqs.push(B.req);
+  if (B.side) B.est = Math.max(H, meta + (B.avA ? 10 + Math.ceil(av.n / Math.max(1, Math.floor((B.sideW + av.agap) / (B.avA + av.agap)))) * (B.avA + 26 + av.agap) : 0)) + 8;
+  else B.est = H + 8 + meta;
+  return B;
+}
+function planOutfit(sh, vp) {
+  const G = spriteGeom(sh, vp), P = Object.assign({cells: [], avs: [], reqs: []}, G);
+  P.hasSprites = sh.states.length > 0; P.noAvatars = sh.states.every(s => !s.avatar.image);
+  if (sh.guides) P.guides = {top: (sh.guides.top - sh.crop[1]) * G.s, feet: (sh.guides.feet - sh.crop[1]) * G.s, est: sh.guides.est};
+  const n = Math.max(1, sh.states.length), agap = vp.narrow ? 8 : 12, boardReqs = [];
+  P.board = sh.spriteOnly ? {est: 0} : planBoard(sh.settei, vp, boardReqs, !P.noAvatars && sh.states.length ? {n, agap} : null);
+  P.avBeside = !!P.board.avA;
+  const A = P.avBeside ? P.board.avA : Math.round(clamp(Math.min(vp.narrow ? 120 : (vp.h - vp.bar) * .22, (vp.W - (n - 1) * agap) / n), vp.narrow ? 96 : 120, 240));
+  P.A = A; P.agap = agap;
+  for (const st of sh.states) {
+    const c = {state: st}, im = st.sprite.image;
+    if (im) {
+      const same = im.w === sh.canvas[0] && im.h === sh.canvas[1], crop = same ? sh.crop : [0, 0, im.w, im.h];
+      c.req = makeReq(im, crop, G.s * vp.dpr); c.css = [crop[2] * G.s, crop[3] * G.s];
+      P.reqs.push(c.req);
+    }
+    P.cells.push(c);
+    const a = {state: st};
+    if (!sh.spriteOnly && st.avatar.image) { const f = fitReq(st.avatar.image, A, A, vp.dpr); a.req = f.req; a.css = [f.cssW, f.cssH]; }
+    P.avs.push(a);
+  }
+  for (const a of P.avs) if (a.req) P.reqs.push(a.req);
+  P.reqs.push(...boardReqs);
+  const avPer = Math.max(1, Math.floor((vp.W + agap) / (A + agap))), avLines = Math.ceil(n / avPer);
+  P.est = 66 + (P.hasSprites ? G.lines * (G.spriteH + 34) + (G.lines - 1) * 18 : 50)
+    + (sh.spriteOnly || P.avBeside ? 0 : P.noAvatars ? 50 : 18 + avLines * (A + 26) + (avLines - 1) * agap)
+    + (sh.spriteOnly ? 0 : 30 + P.board.est) + 26;
+  return P;
+}
+function planChr(ch, vp) {
+  const P = {reqs: []};
+  P.board = planBoard(ch.identity, vp, P.reqs);
+  P.est = (vp.narrow ? 44 : 64) + 46 + (ch.identity.image ? 14 + P.board.est : 0) + 4;
+  return P;
+}
+function sceneGeom(vp) {
+  const gap = vp.narrow ? 14 : 24, n = vp.narrow ? 1 : Math.max(1, Math.round((vp.W + gap) / (560 + gap)));
+  const w = (vp.W - (n - 1) * gap) / n;
+  return {n, gap, w, h: w * 9 / 16};
+}
+function planScenes(items, vp, g, first) {
+  const P = {tiles: [], reqs: [], first, g};
+  for (const it of items) {
+    const t = {item: it, boxW: g.w, boxH: g.h};
+    if (it.image) { const f = fitReq(it.image, g.w, g.h, vp.dpr); t.req = f.req; t.css = [f.cssW, f.cssH]; P.reqs.push(t.req); }
+    P.tiles.push(t);
+  }
+  P.est = (first ? (vp.narrow ? 44 : 64) + 46 + 10 : 24) + g.h + 8 + 30;
+  return P;
+}
+
+/* ---------------- Units, facts and filters ---------------- */
+// A unit is what a filter shows or hides: a character's identity settei, one outfit, or one scene.
+function buildUnits(M) {
+  const U = [];
+  for (const ch of M.characters) {
+    if (!ch.spriteOnly) U.push({type: 'chr', id: 'chr:' + ch.key, ch, items: [ch.identity], targets: ['identity:' + ch.key]});
+    for (const sh of ch.outfits) if (!sh.identityOnly) U.push({type: 'outfit', id: 'outfit:' + ch.key + '/' + sh.key, ch, sh, items: sh.all, targets: [...(sh.spriteOnly ? [] : ['settei:' + ch.key + '/' + sh.key]), 'outfit:' + ch.key + '/' + sh.key]});
+  }
+  for (const it of M.scenes) U.push({type: 'scene', id: 'scene:' + it.slot, it, items: [it], targets: ['scene:' + it.slot]});
+  return U;
+}
+const reviewable = t => { const tg = TARGETS.get(t); return !!tg && tg.items.some(i => i && i.image); };
+function verdictOf(t) {
+  const d = Store.get(t);
+  if (d) return d.verdict === 'approved' ? 'ok' : 'fix';
+  return passedBefore(t) ? 'ok' : reviewable(t) ? 'todo' : 'none';
+}
+function facts(u) {
+  const its = u.items.filter(Boolean), v = u.targets.map(verdictOf);
+  // "已改" = changed since a review: content changed after a CLI approval in this outfit, or a
+  // decision this browser made on an earlier revision no longer matches the content.
+  const changed = (u.type === 'outfit' && u.sh.anyApproved && its.some(i => i.status === 'changed')) || u.targets.some(t => Store.changed.has(t));
+  return {
+    attention: its.some(i => i.warnings.length > 0 || isProblem(i)),
+    refused: its.some(i => i.status === 'refused'),
+    'retry-pending': its.some(i => i.status === 'retry-pending'),
+    changed,
+    missing: its.some(isWaiting),
+    todo: v.includes('todo'),
+    ok: v.includes('ok') && v.every(x => x === 'ok' || x === 'none'),
+    fix: v.includes('fix')
+  };
+}
+const FILTERS = [['all', '全部', ''], ['retry-pending', '等待补交', ''], ['attention', '⚠ 需注意', 'warn'], ['refused', '被拒', 'bad'], ['changed', '已改', 'chg'], ['missing', '缺失', ''], ['todo', '未审', ''], ['ok', '已通过', 'ok'], ['fix', '需修改', 'fix']];
+const FILTER_DESC = {'retry-pending': '等待补交的槽位', all: '全部内容', attention: '有 ⚠ 警告或问题', refused: '有被拒的图', changed: '上次审阅后有改动', missing: '有缺失或未开始的图', todo: '还没审', ok: '已通过', fix: '标了需修改'};
+/* ---------------- Small UI pieces ---------------- */
+function chip(cls, text, title) { return h('span', {class: 'chip ' + cls, title: title || null}, text); }
+function itemChips(it, sheet) {
+  const out = [];
+  if (['retry-pending'].includes(it.status)) out.push(chip('q', reasonOf(it)));
+  if (it.status === 'refused') out.push(chip('bad', '被拒', it.refusal ? it.refusal.message : ''));
+  else if (isProblem(it)) out.push(chip('bad', '受阻', reasonOf(it)));
+  if (it.status === 'changed' && sheet && sheet.anyApproved) out.push(chip('chg', '改', '上次审阅后有改动'));
+  for (const w of it.warnings) out.push(chip('warn', '⚠ ' + warnText(w), w.message || ''));
+  return out;
+}
+function emptyTile(it, w, hh, why) {
+  const bad = it && (it.status === 'refused' || isProblem(it));
+  const word = it && ['retry-pending'].includes(it.status) ? reasonOf(it) : why ? '读取失败' : !it ? '缺' : it.status === 'refused' ? '被拒' : bad ? '受阻' : it.status === 'blocked' ? '未开始' : '缺';
+  const msg = why ? '文件缺失或损坏' : !it ? '' : it.status === 'refused' ? (it.refusal ? it.refusal.message : '') : reasonOf(it);
+  // Quiet: plain waits keep their reason in the tooltip; refusals/problems say it in place.
+  return h('div', {class: 'empty' + (bad || why ? ' bad' : ''), 'data-empty': it ? it.slot : '', title: msg || null}, h('b', {text: word}), (bad || why) && msg ? h('span', {class: 'msg', text: msg}) : null);
+}
+function paintCanvas(req, cssW, cssH) {
+  const e = Cache.peek(req.key);
+  if (!e || e.state !== 'ready') return null;
+  const c = canvasOf(e.bmp.width, e.bmp.height);
+  c.style.width = cssW + 'px'; c.style.height = cssH + 'px';
+  c.dataset.src = req.path;
+  c.getContext('2d').drawImage(e.bmp, 0, 0);
+  return c;
+}
+function gate(target, small, label) {
+  const g = h('div', {class: 'gate' + (small ? ' small' : ''), 'data-target': target});
+  const ok = h('button', {class: 'ok', 'aria-pressed': 'false', text: '通过'});
+  const fix = h('button', {class: 'fix', 'aria-pressed': 'false', text: '需修改'});
+  const note = h('input', {type: 'text', maxlength: '300', placeholder: '备注（可选）', 'aria-label': '备注', hidden: true});
+  let timer = 0;
+  const choose = v => { const cur = Store.get(target); Store.set(target, cur && cur.verdict === v ? null : v, note.value); syncGates(target); if (v === 'needs_changes' && Store.get(target)) note.focus(); };
+  ok.addEventListener('click', () => choose('approved'));
+  fix.addEventListener('click', () => choose('needs_changes'));
+  note.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(() => { const cur = Store.get(target); if (cur) { Store.set(target, cur.verdict, note.value); syncGates(target, g); } }, 300); });
+  note.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === 'Escape') note.blur(); ev.stopPropagation(); });
+  if (label) g.append(h('span', {class: 'gl', text: label}));
+  g.append(ok, fix, note);
+  syncGate(g);
+  return g;
+}
+function syncGate(g) {
+  const d = Store.get(g.dataset.target), [ok, fix] = g.querySelectorAll('button'), note = g.querySelector('input');
+  ok.setAttribute('aria-pressed', String(!!d && d.verdict === 'approved'));
+  fix.setAttribute('aria-pressed', String(!!d && d.verdict === 'needs_changes'));
+  note.hidden = !d;
+  if (D.activeElement !== note) note.value = d ? d.note : '';
+}
+function syncGates(target, except) { for (const g of D.querySelectorAll('.gate')) if (g.dataset.target === target && g !== except) syncGate(g); }
+const passedBefore = target => { const tg = TARGETS.get(target); return !!tg && tg.items.length > 0 && tg.items.every(i => i && i.status === 'approved'); };
+function decisionMark(target) {
+  const d = Store.get(target);
+  if (d) return h('span', {class: 'mk ' + (d.verdict === 'approved' ? 'ok' : 'fix'), text: d.verdict === 'approved' ? '✓ 通过' : '✎ 需修改'});
+  if (passedBefore(target)) return h('span', {class: 'mk ok', text: '✓ 已通过', title: '上一轮已通过，内容未变'});
+  return h('span', {class: 'mk none', text: '○ 未审'});
+}
+function sheetCounts(sh) {
+  const all = [...(sh.identityOnly ? [] : sh.all), ...(!sh.spriteOnly && sh === sh.ch.outfits[0] ? [sh.ch.identity] : [])];
+  let warn = 0, bad = 0, miss = 0;
+  for (const it of all) { warn += it.warnings.length; if (isProblem(it)) bad++; else if (isWaiting(it)) miss++; }
+  return {warn, bad, miss};
+}
+
+function framePatches(st) {
+  if (st.sprite.ctx.sheet.spriteOnly) return [];
+  const out = [];
+  if (st.blink && st.blink.image && !st.blink.badRect) { out.push({id: 'blink', item: st.blink, image: st.blink.image}); if (st.blink.half) out.push({id: 'blink-half', item: st.blink, image: st.blink.half}); }
+  for (const f of st.mouth.frames) if (f.image && !f.badRect) out.push({id: 'mouth:' + f.frame, item: f, image: f.image});
+  return out;
+}
+
+/* ---------------- Section renderers (structure at once; pixels paint when ready) ---------------- */
+const HoverPreview = {
+  timer: 0, token: 0, run: null, el: null,
+  hide() {
+    clearTimeout(this.timer); this.timer = 0; this.token++;
+    if (this.run && this.run.img) this.run.img.removeAttribute('src');
+    this.run = null;
+    if (this.el) { this.el.hidden = true; this.el.replaceChildren(); }
+  },
+  enter(tile, it, ev) {
+    this.hide();
+    if (ev.pointerType !== 'mouse' || !matchMedia('(hover:hover) and (pointer:fine)').matches || !it.image) return;
+    const token = this.token;
+    this.timer = setTimeout(async () => {
+      if (token !== this.token || !tile.isConnected || !tile.matches(':hover') || !$('viewer').hidden) return;
+      const run = this.run = {};
+      try {
+        const img = await decodeNative(it.image.path, run);
+        if (token !== this.token || !tile.isConnected || !tile.matches(':hover')) { img.removeAttribute('src'); return; }
+        if (!this.el) { this.el = h('div', {id: 'hoverPreview', 'aria-hidden': 'true', hidden: true}); D.body.append(this.el); }
+        img.alt = ''; this.el.replaceChildren(img); this.el.hidden = false;
+      } catch (_) { if (token === this.token) this.hide(); }
+    }, 150);
+  }
+};
+addEventListener('scroll', () => HoverPreview.hide(), {capture: true, passive: true});
+addEventListener('resize', () => HoverPreview.hide());
+addEventListener('blur', () => HoverPreview.hide());
+D.addEventListener('pointerdown', () => HoverPreview.hide(), true);
+D.addEventListener('visibilitychange', () => { if (D.hidden) HoverPreview.hide(); });
+function zoomable(t, it, label) {
+  t.addEventListener('pointerenter', ev => HoverPreview.enter(t, it, ev));
+  t.addEventListener('pointerleave', () => HoverPreview.hide());
+  t.classList.add('zoom'); t.tabIndex = 0; t.setAttribute('role', 'button'); t.setAttribute('aria-label', label + '，回车看原图');
+  t.addEventListener('click', () => Viewer.open(it));
+}
+function want(sec, el, it, req, css, extra) { const T = Object.assign({el, it, req, css, done: false}, extra); sec.tiles.push(T); return T; }
+// A whole row that does not exist yet is one quiet line, not a wall of empty tiles.
+function slim(label, items, count) {
+  const missing = items.filter(i => !i.image), bad = missing.some(i => i.status === 'refused' || isProblem(i));
+  const reasons = [...new Set(missing.map(reasonOf))];
+  const refusal = missing.find(i => i.refusal);
+  return h('div', {class: 'slim', 'data-slot': items[0] ? items[0].slot : ''}, h('span', {class: 'nm', text: label}),
+    count !== false ? h('span', {text: (items.length - missing.length) + ' / ' + items.length}) : null,
+    reasons.slice(0, 2).map(r => chip(bad ? 'bad' : 'q', r, refusal ? refusal.refusal.message : '')));
+}
+function renderChr(sec) {
+  const ch = sec.ch, it = ch.identity, n = ch.outfits.filter(o => !o.identityOnly).length;
+  const head = h('header', {class: 'chr-h'}, h('h2', {text: ch.name}), n ? h('span', {class: 'n', text: n + ' 套服装'}) : null);
+  if (!it.image) { head.append(slim('人物色设', [it], false)); return [head]; }
+  return [head, h('div', {class: 'boards chr-board'}, renderBoard(sec, sec.plan.board, 'identity:' + ch.key, '人物色设'))];
+}
+function renderOutfit(sec) {
+  const sh = sec.sh, ch = sh.ch, P = sec.plan, target = 'outfit:' + ch.key + '/' + sh.key;
+  let warn = 0, bad = 0, miss = 0;
+  for (const it of sh.all) { warn += it.warnings.length; if (isProblem(it)) bad++; else if (isWaiting(it)) miss++; }
+  const playable = sh.states.some(st => st.sprite.image && framePatches(st).length);
+  if (playable) sec.playBtn = h('button', {class: 'chip', 'aria-pressed': 'false', title: '播放这一套的眨眼和口型（P）', onclick: () => Play.toggleAll(sec)}, '▶ 全部播放');
+  const head = h('header', {class: 'sec-h'}, h('span', {class: 'who', text: ch.name}), h('h3', {text: sh.label}),
+    warn ? chip('warn', '⚠ ' + warn) : null, bad ? chip('bad', '问题 ' + bad) : null, miss ? chip('q', '缺 ' + miss) : null,
+    sec.u.targets.some(t => Store.changed.has(t) && !Store.get(t)) ? chip('chg', '改', '上次审阅后有改动') : null,
+    passedBefore(target) ? chip('ok', '上轮已通过') : null,
+    sec.playBtn || null, gate(target, false, '本套'));
+  const out = [head];
+  if (sh.states.length) {
+    if (!P.hasSprites) out.push(slim('立绘', sh.states.map(s => s.sprite)));
+    else for (let i = 0; i < P.cells.length; i += P.per) out.push(renderLine(sec, P.cells.slice(i, i + P.per), i === 0));
+    if (!sh.spriteOnly && !P.avBeside) out.push(P.noAvatars ? slim('头像', sh.states.map(s => s.avatar)) : renderAvatars(sec));
+  }
+  if (!sh.spriteOnly) out.push(h('div', {class: 'boards'}, renderBoard(sec, P.board, 'settei:' + ch.key + '/' + sh.key, '服装色设')));
+  out.push(h('div', {class: 'sec-end'}));
+  return out;
+}
+function renderLine(sec, cells, first) {
+  const P = sec.plan, sh = sec.sh;
+  const box = h('div', {class: 'cells', style: {gap: P.gap + 'px'}}, h('i', {class: 'band', style: {height: P.spriteH + 'px'}}));
+  if (P.guides) {
+    const tip = P.guides.est ? '（估算）' : '';
+    box.append(h('div', {class: 'guide', style: {top: P.guides.top + 'px'}, title: '平和立绘头顶' + tip}, first ? h('span', {text: '头顶'}) : null));
+    box.append(h('div', {class: 'guide', style: {top: P.guides.feet + 'px'}, title: '平和立绘脚底' + tip}, first ? h('span', {text: '脚底'}) : null));
+  }
+  for (const c of cells) {
+    const st = c.state, cell = h('div', {class: 'cell', 'data-state': st.id, style: {width: P.colW + 'px'}});
+    const tile = h('div', {class: 'tile sprite', style: {width: P.colW + 'px', height: P.spriteH + 'px'}, 'data-slot': st.sprite.slot});
+    const cap = h('div', {class: 'cap'}, h('span', {class: 'nm', text: st.label}), itemChips(st.sprite, sh));
+    if (c.req) {
+      zoomable(tile, st.sprite, st.label + ' 立绘');
+      const T = want(sec, tile, st.sprite, c.req, c.css, {state: st}), pats = framePatches(st);
+      if (pats.length) {
+        T.pats = pats;
+        T.btn = h('button', {class: 'play', 'aria-pressed': 'false', title: '播放眨眼/口型（空格）', 'aria-label': st.label + ' 播放'}, '▶');
+        T.btn.addEventListener('click', ev => { ev.stopPropagation(); if (T.ctl) Play.toggle(T.ctl); });
+        cap.insertBefore(T.btn, cap.children[1] || null);
+        tile.addEventListener('pointerenter', ev => { if (ev.pointerType === 'mouse' && !REDUCED.matches && T.ctl) Play.hover(T.ctl, true); });
+        tile.addEventListener('pointerleave', ev => { if (ev.pointerType === 'mouse' && T.ctl) Play.hover(T.ctl, false); });
+        tile.addEventListener('keydown', ev => { if (ev.key === ' ') { ev.preventDefault(); if (T.ctl) Play.toggle(T.ctl); } });
+      }
+    } else tile.append(emptyTile(st.sprite));
+    // Without a sprite, its blink/mouth cannot exist yet; the empty tile already says why.
+    if (!sh.spriteOnly && st.sprite.image && st.blink && !st.blink.image) cap.append(chip(isProblem(st.blink) ? 'bad' : 'q', '缺眨眼', reasonOf(st.blink)));
+    const mm = !sh.spriteOnly && st.sprite.image ? st.mouth.frames.filter(f => !f.image) : [];
+    if (mm.length) cap.append(chip(mm.some(isProblem) ? 'bad' : 'q', '口型缺 ' + mm.length, mm.map(f => FRAME_LABEL[f.frame] || f.frame).join(' ')));
+    for (const p of [st.blink, ...st.mouth.frames]) if (p && p.image) for (const w of p.warnings) { const pre = p.kind === 'blink' ? '眨眼' : '口型', t = warnText(w); cap.append(chip('warn', '⚠ ' + (t.startsWith(pre) ? t : pre + t), w.message)); }
+    cell.append(tile, cap);
+    box.append(cell);
+  }
+  return h('div', {class: 'line', style: {padding: '0 ' + P.over + 'px'}}, box);
+}
+function renderAvatars(sec) {
+  const P = sec.plan, row = h('div', {class: 'avatars', style: {gap: P.agap + 'px'}});
+  for (const a of P.avs) {
+    const st = a.state, it = st.avatar;
+    const tile = h('div', {class: 'tile avatar', style: {width: P.A + 'px', height: P.A + 'px'}, 'data-slot': it.slot});
+    if (a.req) { zoomable(tile, it, st.label + ' 头像'); want(sec, tile, it, a.req, a.css); }
+    else tile.append(emptyTile(it));
+    row.append(h('div', {class: 'av', 'data-state': st.id, style: {width: P.A + 'px'}}, tile, h('div', {class: 'cap'}, h('span', {text: st.label}), itemChips(it, sec.sh))));
+  }
+  return row;
+}
+function renderBoard(sec, B, target, label) {
+  const it = B.item;
+  if (!it || !it.image) return slim(label, it ? [it] : [], false);
+  const fig = h('figure', {class: 'board' + (B.side ? ' side' : ''), style: B.side ? {'grid-template-columns': B.boxW + 'px ' + B.sideW + 'px'} : {width: B.boxW + 'px'}});
+  const tile = h('div', {class: 'tile', style: {width: B.boxW + 'px', height: B.boxH + 'px'}, 'data-slot': it.slot});
+  zoomable(tile, it, label);
+  want(sec, tile, it, B.req, B.css);
+  const meta = B.side ? h('div', {class: 'bmeta'}) : fig;
+  if (B.side) fig.append(tile, meta);
+  else fig.append(tile);
+  meta.append(h('figcaption', {class: 'bcap'}, h('span', {class: 'nm', text: label}), it.status === 'approved' ? chip('ok', '已通过', '上一轮已通过') : null, itemChips(it, sec.sh), gate(target, true)));
+  if (it.palette.length) {
+    const zones = new Map();
+    for (const p of it.palette) { const z = p.zone || '其他'; if (!zones.has(z)) zones.set(z, []); zones.get(z).push(p); }
+    meta.append(h('div', {class: 'pal', 'aria-label': '配色'}, [...zones].map(([z, list]) => h('div', {class: 'zone'}, h('span', {class: 'zn', text: z}),
+      list.map(p => h('span', {class: 'sw', title: p.zone + ' · ' + p.role + ' ' + p.hex}, h('i', {style: {background: p.hex}}), p.role, h('code', {text: p.hex})))))));
+  }
+  const diffs = it.settei && arr(it.settei.explicit_differences).filter(x => typeof x === 'string' && x);
+  if (diffs && diffs.length) meta.append(h('ul', {class: 'diffs'}, diffs.slice(0, 8).map(d => h('li', {text: d}))));
+  if (B.avA && sec.plan.avBeside) meta.append(renderAvatars(sec));
+  return fig;
+}
+function renderScenes(sec) {
+  const P = sec.plan, out = [];
+  if (P.first) out.push(h('header', {class: 'chr-h'}, h('h2', {text: '场景'}), h('span', {class: 'n', text: sec.u.count + ' 张'})));
+  const row = h('div', {class: 'scenes', style: {gap: P.g.gap + 'px'}});
+  for (const t of P.tiles) {
+    const it = t.item, fig = h('figure', {class: 'scene', style: {width: t.boxW + 'px'}});
+    const tile = h('div', {class: 'tile', style: {width: t.boxW + 'px', height: t.boxH + 'px'}, 'data-slot': it.slot});
+    if (t.req) { zoomable(tile, it, it.ctx.label); want(sec, tile, it, t.req, t.css); } else tile.append(emptyTile(it));
+    fig.append(tile, h('figcaption', {class: 'bcap'}, h('span', {class: 'nm', text: it.ctx.label}), chip('q', it.ctx.kindLabel), itemChips(it, null), it.image ? gate('scene:' + it.slot, true) : null));
+    row.append(fig);
+  }
+  out.push(row);
+  return out;
+}
+
+/* ==========================================================================
+   Continuous sheet with virtualized sections:
+   * Every section always exists as an element. Far sections are empty spacers with a known
+     height (planned estimate until first rendered, then the measured height), so the
+     scrollbar is honest and the document never jumps.
+   * IntersectionObserver: within 1.5 viewports a section materializes (DOM built, tiles sized
+     from the plan); beyond 4 viewports it dematerializes (measured height kept, canvases freed).
+   * Scroll anchoring is manual (overflow-anchor:none): before any section changes height the
+     first visible section and the reader's offset in it are recorded and restored after, so
+     content above can grow or shrink without moving what is on screen.
+   * A section paints atomically once all of its images are decoded; if it is on screen and
+     still waiting after 650 ms it paints progressively instead (no blank screen).
+   ========================================================================== */
+let MODEL = null, TARGETS = new Map();
+let UNITS = [], SHOWN = [], FILTER = 'all', VP = null, DIR = 1, LAST_Y = 0, LAST_SIG = '', RAF = 0, CUR = null;
+let IO_NEAR = null, IO_FAR = null;
+const SEC_OF = new WeakMap();
+function mkSec(type, id, u, plan) {
+  const s = {type, id, u, plan, ch: u.ch, sh: u.sh, mat: false, near: false, far: true, gen: 0, tiles: [], ctls: [], top: 0, h: plan.est, painted: false, progressive: false, seenAt: 0};
+  s.el = h('section', {class: 'sec ghost', 'data-sec': id, style: {height: Math.round(plan.est) + 'px'}});
+  SEC_OF.set(s.el, s);
+  return s;
+}
+function buildSections(vp) {
+  const out = [], scenes = [];
+  for (const u of UNITS) {
+    if (FILTER !== 'all' && !facts(u)[FILTER]) continue;
+    if (u.type === 'scene') scenes.push(u.it);
+    else out.push(mkSec(u.type, u.id, u, u.type === 'chr' ? planChr(u.ch, vp) : planOutfit(u.sh, vp)));
+  }
+  if (scenes.length) {
+    const g = sceneGeom(vp);
+    for (let i = 0; i < scenes.length; i += g.n) {
+      const items = scenes.slice(i, i + g.n);
+      out.push(mkSec('scenes', 'scenes:' + i / g.n, {items, count: scenes.length}, planScenes(items, vp, g, i === 0)));
+    }
+  }
+  return out;
+}
+function layout(keep) {
+  const ref = keep ? anchorRef() : null;
+  for (const s of SHOWN) if (s.mat) release(s);
+  if (IO_NEAR) { IO_NEAR.disconnect(); IO_FAR.disconnect(); }
+  VP = viewport();
+  SHOWN = buildSections(VP);
+  LAST_SIG = '';
+  const root = $('sheet');
+  if (!SHOWN.length) {
+    root.replaceChildren(h('div', {class: 'nothing'}, h('p', {text: '没有' + FILTER_DESC[FILTER] + '的内容'}), h('button', {class: 'chip', onclick: () => setFilter('all')}, '显示全部')));
+    Cache.setWindow([]); updateWhere(); scrollTo(0, 0);
+    return;
+  }
+  SHOWN[0].el.classList.add('first');
+  root.replaceChildren(...SHOWN.map(s => s.el), h('div', {class: 'end', text: '— 到底了 —'}));
+  IO_NEAR = new IntersectionObserver(es => { for (const e of es) { const s = SEC_OF.get(e.target); if (s) s.near = e.isIntersecting; } schedule(); }, {rootMargin: '150% 0px 150% 0px'});
+  IO_FAR = new IntersectionObserver(es => { for (const e of es) { const s = SEC_OF.get(e.target); if (s) s.far = !e.isIntersecting; } schedule(); }, {rootMargin: '400% 0px 400% 0px'});
+  for (const s of SHOWN) { IO_NEAR.observe(s.el); IO_FAR.observe(s.el); }
+  measure();
+  const s = ref && SHOWN.find(x => x.id === ref.id);
+  scrollTo(0, s ? Math.max(0, s.top + ref.frac * s.h - VP.bar) : 0);
+  LAST_Y = scrollY;
+  schedule();
+}
+function measure() { for (const s of SHOWN) { s.top = s.el.offsetTop; s.h = s.el.offsetHeight; } }
+function anchorNow() {
+  if (!VP) return null;
+  const y = scrollY + VP.bar;
+  for (const s of SHOWN) if (s.top + s.h > y + 0.5) return {s, off: y - s.top};
+  return SHOWN.length ? {s: SHOWN[SHOWN.length - 1], off: y - SHOWN[SHOWN.length - 1].top} : null;
+}
+function anchorRef() { const a = anchorNow(); return a ? {id: a.s.id, frac: a.s.h ? clamp(a.off / a.s.h, 0, 1) : 0} : null; }
+function restoreAnchor(a) {
+  if (!a || !a.s.el.isConnected) return;
+  const want = a.s.top + a.off - VP.bar;
+  if (Math.abs(want - scrollY) >= 1) { scrollTo(0, want); LAST_Y = scrollY; }
+}
+function schedule() { if (!RAF) RAF = requestAnimationFrame(tick); }
+function tick() {
+  RAF = 0;
+  if (!VP || !SHOWN.length) return;
+  const a = anchorNow();
+  let changed = false;
+  for (const s of SHOWN) {
+    if (s.near && !s.mat) { materialize(s); changed = true; }
+    else if (s.far && s.mat && !s.el.contains(D.activeElement)) { dematerialize(s); changed = true; }
+  }
+  if (changed) { measure(); restoreAnchor(a); }
+  updateWindow();
+  for (const s of SHOWN) if (s.mat && !s.painted) paintSec(s);
+  updateWhere();
+}
+function materialize(s) {
+  s.gen++; s.tiles = []; s.ctls = []; s.painted = false; s.progressive = false; s.seenAt = 0; s.playBtn = null; s.allOn = false;
+  const kids = s.type === 'chr' ? renderChr(s) : s.type === 'outfit' ? renderOutfit(s) : renderScenes(s);
+  s.el.classList.remove('ghost'); s.el.style.height = '';
+  s.el.replaceChildren(...kids);
+  s.mat = true;
+}
+function release(s) {
+  Play.drop(s);
+  for (const c of s.el.querySelectorAll('canvas')) { c.width = 0; c.height = 0; }
+  s.tiles = [];
+}
+function dematerialize(s) {
+  const hgt = s.el.offsetHeight;
+  release(s);
+  s.el.replaceChildren(); s.el.style.height = hgt + 'px'; s.el.classList.add('ghost');
+  s.mat = false; s.painted = false; s.gen++;
+}
+function visibleRange() {
+  const vt = scrollY + VP.bar, vb = scrollY + innerHeight;
+  let a = -1, b = -1;
+  for (let i = 0; i < SHOWN.length; i++) {
+    const s = SHOWN[i];
+    if (s.top < vb && s.top + s.h > vt) { if (a < 0) a = i; b = i; } else if (a >= 0) break;
+  }
+  return [a, b];
+}
+function updateWindow() {
+  const [a, b] = visibleRange();
+  if (a < 0) return;
+  const groups = [], add = (i, prio, ahead) => { const s = SHOWN[i]; if (s && s.plan.reqs.length) groups.push({sec: s, page: i, prio, reqs: s.plan.reqs, ahead}); };
+  for (let i = a; i <= b; i++) add(i, 0, false);
+  for (let k = 1; k <= PREFETCH; k++) add(DIR > 0 ? b + k : a - k, k, true);
+  for (let k = 1; k <= 2; k++) add(DIR > 0 ? a - k : b + k, 1 + 2 * k, false);
+  groups.sort((x, y) => x.prio - y.prio);
+  const sig = groups.map(g => g.sec.id + ':' + g.prio).join('|') + '#' + VP.key;
+  if (sig !== LAST_SIG) { LAST_SIG = sig; Cache.setWindow(groups); }
+  const now = performance.now();
+  for (let i = a; i <= b; i++) {
+    const s = SHOWN[i];
+    if (!s.mat || s.painted || s.seenAt) continue;
+    s.seenAt = now;
+    const g = s.gen;
+    setTimeout(() => { if (s.gen === g && s.mat && !s.painted) { s.progressive = true; schedule(); } }, 650);
+  }
+}
+function paintSec(s) {
+  const pending = s.tiles.filter(t => !t.done);
+  if (pending.length && !s.progressive && !pending.every(t => Cache.isReady(t.req.key))) return;
+  for (const t of pending) {
+    const e = Cache.peek(t.req.key);
+    if (!e || (e.state !== 'ready' && e.state !== 'failed')) continue;
+    t.done = true;
+    if (e.state === 'failed') {
+      t.el.classList.remove('zoom'); t.el.removeAttribute('role'); t.el.removeAttribute('tabindex'); t.el.removeAttribute('aria-label');
+      t.el.append(emptyTile(t.it, 0, 0, 'fail'));
+      continue;
+    }
+    const c = paintCanvas(t.req, t.css[0], t.css[1]);
+    t.el.append(c); t.canvas = c;
+    if (t.pats) { t.ctl = {sec: s, tile: t.el, canvas: c, state: t.state, req: t.req, patches: t.pats, btn: t.btn}; Play.register(t.ctl); }
+  }
+  if (s.tiles.every(t => t.done)) {
+    s.painted = true;
+    if (HOOKS.onPaint) HOOKS.onPaint({section: s.id, keys: s.tiles.map(t => t.req.key)});
+  }
+}
+function updateWhere() {
+  const a = anchorNow(), s = a ? a.s : null, el = $('where');
+  const t = !s ? '–' : s.type === 'outfit' ? s.ch.name + ' · ' + s.sh.label : s.type === 'chr' ? s.ch.name : '场景';
+  if (el.textContent !== t) el.textContent = t;
+  if (s !== CUR) { CUR = s; }
+  savePos();
+}
+let posT = 0;
+const POS_KEY = () => STORE_PREFIX + 'pos:' + (MODEL ? MODEL.project.id : '');
+function savePos() { clearTimeout(posT); posT = setTimeout(() => { try { sessionStorage.setItem(POS_KEY(), JSON.stringify(anchorRef())); } catch (e) {} }, 300); }
+function scrollToSection(id) {
+  let s = SHOWN.find(x => x.id === id);
+  if (!s && FILTER !== 'all') { FILTER = 'all'; renderFilters(); layout(false); s = SHOWN.find(x => x.id === id); }
+  if (!s) return false;
+  scrollTo(0, Math.max(0, s.top - VP.bar));
+  LAST_Y = scrollY;
+  schedule();
+  return true;
+}
+function stepSection(d) {
+  const a = anchorNow();
+  if (!a) return;
+  let i = SHOWN.indexOf(a.s);
+  if (!(d < 0 && a.off > 8)) i = clamp(i + d, 0, SHOWN.length - 1);
+  DIR = d;
+  scrollToSection(SHOWN[i].id);
+}
+function sectionOf(it) {
+  return SHOWN.find(s => s.type === 'chr' ? s.ch.identity === it : s.type === 'outfit' ? s.sh.all.includes(it) : s.u.items.includes(it)) || null;
+}
+function viewerItems() {
+  const out = [];
+  for (const s of SHOWN) {
+    if (s.type === 'chr') out.push(s.ch.identity);
+    else if (s.type === 'outfit') { for (const st of s.sh.states) out.push(st.sprite); for (const st of s.sh.states) out.push(st.avatar); out.push(s.sh.settei); }
+    else out.push(...s.u.items);
+  }
+  return out.filter(it => it && it.image);
+}
+function revealItem(it) {
+  const s = sectionOf(it);
+  if (!s) return;
+  const t = s.mat ? [...s.el.querySelectorAll('[data-slot]')].find(e => e.dataset.slot === it.slot) : null;
+  if (!t) { scrollToSection(s.id); return; }
+  const r = t.getBoundingClientRect();
+  if (r.top < VP.bar || r.bottom > innerHeight) t.scrollIntoView({block: 'center'});
+  if (t.tabIndex >= 0) t.focus({preventScroll: true});
+}
+
+/* ---------------- Filters (tags in the bar; counts only inside the chips) ---------------- */
+let COUNTS = {};
+function countUnits() {
+  const c = {};
+  for (const [f] of FILTERS) c[f] = 0;
+  for (const u of UNITS) { c.all++; const F = facts(u); for (const [f] of FILTERS) if (f !== 'all' && F[f]) c[f]++; }
+  return (COUNTS = c);
+}
+function renderFilters() {
+  countUnits();
+  for (const box of [$('filters'), $('jFilters')]) {
+    box.replaceChildren(...FILTERS.map(([f, label, cls]) => h('button', {class: (cls || '') + (COUNTS[f] || f === 'all' ? '' : ' zero'), 'data-f': f, 'aria-pressed': String(FILTER === f), title: FILTER_DESC[f], onclick: () => setFilter(FILTER === f ? 'all' : f)}, label, h('b', {text: String(COUNTS[f])}))));
+  }
+  const fb = $('filterBtn'), cur = FILTERS.find(x => x[0] === FILTER);
+  fb.textContent = FILTER === 'all' ? '筛选' : cur[1] + ' ' + COUNTS[FILTER];
+  fb.classList.toggle('on', FILTER !== 'all');
+}
+function setFilter(f) {
+  if (!FILTERS.some(x => x[0] === f) || f === FILTER) return;
+  FILTER = f;
+  renderFilters();
+  layout(false);
+  $('live').textContent = FILTER === 'all' ? '显示全部' : '只显示' + FILTER_DESC[f] + '：' + COUNTS[f];
+  if (!$('jump').hidden) renderJump();
+}
+/* ---------------- In-place blink / mouth playback ----------------
+   Frames are composited source-over at the sprite's native size (base, then patch at its
+   rect), then the whole frame is resized with the same crop/target as the sheet bitmap.
+   Built on demand (hover / ▶) for materialized sections only, one build at a time; sets of
+   sprites that left the sheet are dropped first, then least recently used, within FRAME_MB.
+   "▶ 全部播放" starts only as many sprites as fit in FRAME_MB. */
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)');
+const FRAME_MB = COARSE ? 40 : MEM >= 8 ? 256 : 128;
+const liveCtl = c => c.canvas.isConnected && c.sec.mat;
+const Frames = {
+  map: new Map(), bytes: 0, queue: [], busy: false, epoch: 0,
+  key: c => c.req.key + '|' + c.patches.map(p => p.id + ':' + p.image.path).join(','),
+  get(c) {
+    const k = this.key(c);
+    let f = this.map.get(k);
+    if (!f) { let resolve; f = {k, promise: new Promise(r => { resolve = r; }), resolve, set: null, bytes: 0, used: 0, c}; this.map.set(k, f); this.queue.push(f); this.run(); }
+    f.c = c; f.used = performance.now();
+    return f.promise;
+  },
+  async run() {
+    if (this.busy) return;
+    this.busy = true;
+    while (this.queue.length) {
+      const f = this.queue.shift();
+      if (!liveCtl(f.c)) { this.map.delete(f.k); f.resolve(null); continue; }
+      try { f.set = await this.build(f.c); } catch (e) { f.set = null; }
+      if (f.set) { f.bytes = f.set.bytes; this.bytes += f.bytes; }
+      f.resolve(f.set);
+      this.trim();
+    }
+    this.busy = false;
+  },
+  async build(c) {
+    const [base, ...imgs] = await Promise.all([decodeNative(c.state.sprite.image.path), ...c.patches.map(p => decodeNative(p.image.path))]);
+    const nw = base.naturalWidth, nh = base.naturalHeight, req = c.req;
+    let [x, y, w, hh] = req.crop;
+    if (nw !== req.nw || nh !== req.nh) { const sx = nw / req.nw, sy = nh / req.nh; x *= sx; w *= sx; y *= sy; hh *= sy; }
+    const crop = [Math.round(x), Math.round(y), Math.round(w), Math.round(hh)];
+    const cv = canvasOf(nw, nh), g = cv.getContext('2d');
+    const set = {frames: new Map(), bytes: 0, order: [], semantics: c.state.mouth.semantics};
+    g.drawImage(base, 0, 0);
+    set.base = await toDrawable(cv, crop, req.tw, req.th);
+    for (let i = 0; i < c.patches.length; i++) {
+      const p = c.patches[i], r = p.item.rect;
+      g.globalCompositeOperation = 'copy'; g.drawImage(base, 0, 0); g.globalCompositeOperation = 'source-over';
+      drawPatch(g, imgs[i], p.item);
+      set.frames.set(p.id, await toDrawable(cv, crop, req.tw, req.th));
+      if (p.id.startsWith('mouth:')) set.order.push(p.id);
+    }
+    base.src = ''; imgs.forEach(im => { im.src = ''; }); cv.width = cv.height = 0;
+    set.bytes = (set.frames.size + 1) * req.tw * req.th * 4;
+    return set;
+  },
+  trim() {
+    const cap = FRAME_MB * 1048576;
+    if (this.bytes <= cap) return;
+    const list = [...this.map.values()].filter(f => f.set && !f.c.playing).sort((a, b) => (liveCtl(a.c) - liveCtl(b.c)) || (a.used - b.used));
+    for (const f of list) { if (this.bytes <= cap) break; this.drop(f); }
+  },
+  drop(f) { this.map.delete(f.k); if (f.set) { dispose(f.set.base); for (const b of f.set.frames.values()) dispose(b); this.bytes -= f.bytes; } }
+};
+const Play = {
+  register(c) { c.sec.ctls.push(c); if (c.sec.allOn && this.fits(c.sec, c)) { c.pinned = true; this.start(c); } this.sync(c.sec); },
+  drop(sec) { for (const c of sec.ctls) this.stop(c); sec.ctls = []; sec.allOn = false; },
+  cost: c => (c.patches.length + 1) * c.req.tw * c.req.th * 4,
+  fits(sec, c) { let b = 0; for (const x of sec.ctls) if (x.pinned && x !== c) b += this.cost(x); return b + this.cost(c) <= FRAME_MB * 1048576; },
+  hover(c, on) { c.hovering = on; if (on) this.start(c); else if (!c.pinned) this.stop(c); },
+  toggle(c) { c.pinned = !c.pinned; if (c.pinned) this.start(c); else this.stop(c); this.sync(c.sec); },
+  toggleAll(sec) {
+    if (!sec) return;
+    sec.allOn = !sec.allOn;
+    let bytes = 0, n = 0;
+    for (const c of sec.ctls) {
+      const on = sec.allOn && bytes + this.cost(c) <= FRAME_MB * 1048576;
+      if (on) { bytes += this.cost(c); n++; }
+      c.pinned = on; if (on) this.start(c); else this.stop(c);
+    }
+    if (sec.allOn && n < sec.ctls.length) toast('内存上限：同时播放 ' + n + ' / ' + sec.ctls.length + ' 张');
+    this.sync(sec);
+  },
+  sync(sec) {
+    for (const c of sec.ctls) if (c.btn) c.btn.setAttribute('aria-pressed', String(!!c.pinned));
+    const b = sec.playBtn;
+    if (b) { b.setAttribute('aria-pressed', String(!!sec.allOn)); b.textContent = sec.allOn ? '■ 停止播放' : '▶ 全部播放'; }
+  },
+  async start(c) {
+    if (c.playing) return;
+    c.playing = true; const run = c.run = {};
+    const set = await Frames.get(c);
+    if (c.run !== run || !set || !c.canvas.isConnected) return;
+    const steps = timeline(set);
+    let k = 0;
+    const tick = () => {
+      if (c.run !== run || !c.canvas.isConnected) return;
+      if (D.hidden) { c.timer = setTimeout(tick, 400); return; }
+      const [id, ms] = steps[k++ % steps.length];
+      draw(c.canvas, id === 'base' ? set.base : set.frames.get(id) || set.base);
+      c.timer = setTimeout(tick, REDUCED.matches ? ms * 2 : ms);
+    };
+    tick();
+  },
+  stop(c) {
+    c.playing = false; c.run = null; clearTimeout(c.timer);
+    const f = Frames.map.get(Frames.key(c));
+    if (f && f.set && c.canvas.isConnected) draw(c.canvas, f.set.base);
+  }
+};
+function drawPatch(g, image, item) {
+  const [x, y, w, h] = item.rect;
+  if (item.blend !== 'replace') { g.drawImage(image, x, y, w, h); return; }
+  const work = canvasOf(w, h), source = work.getContext('2d'); source.drawImage(image, 0, 0);
+  const patch = source.getImageData(0, 0, w, h).data, target = g.getImageData(x, y, w, h);
+  for (let i = 0; i < patch.length; i += 4) if (patch[i + 3]) target.data.set(patch.subarray(i, i + 4), i);
+  g.putImageData(target, x, y); work.width = work.height = 0;
+}
+function draw(canvas, bmp) { const g = canvas.getContext('2d'); g.clearRect(0, 0, canvas.width, canvas.height); g.drawImage(bmp, 0, 0, canvas.width, canvas.height); }
+function timeline(set) {
+  const st = [], has = id => set.frames.has(id);
+  if (has('blink')) { st.push(['base', 900]); if (has('blink-half')) st.push(['blink-half', 45]); st.push(['blink', 140]); if (has('blink-half')) st.push(['blink-half', 45]); st.push(['base', 420]); }
+  if (set.order.length) {
+    const m = set.order, talk = set.semantics === 'vowels' || m.length < 3 ? m : [...m, ...m.slice(1, -1).reverse()];
+    for (let k = 0; k < 3; k++) for (const id of talk) st.push([id, 120]);
+    st.push(['base', 650]);
+  }
+  if (!st.length) st.push(['base', 1000]);
+  return st;
+}
+
+/* ---------------- Native-resolution viewer with zoom/pan ---------------- */
+const Viewer = {
+  list: [], idx: 0, token: 0, z: 1, x: 0, y: 0, iw: 0, ih: 0, el: null, natives: null, frame: 'base', timer: 0, opener: null,
+  open(it) {
+    HoverPreview.hide();
+    this.list = viewerItems(); this.idx = Math.max(0, this.list.indexOf(it)); this.opened = it;
+    if (!this.list.length) return;
+    this.opener = D.activeElement;
+    $('viewer').hidden = false; ROOT.style.overflow = 'hidden'; ROOT.style.scrollbarGutter = 'auto';
+    this.show();
+    $('vClose').focus();
+  },
+  close() {
+    if ($('viewer').hidden) return;
+    this.token++; clearInterval(this.timer); this.timer = 0;
+    this.release();
+    $('viewer').hidden = true; ROOT.style.overflow = ''; ROOT.style.scrollbarGutter = '';
+    $('vInfoPanel').hidden = true; $('vInfo').setAttribute('aria-expanded', 'false');
+    if (this.opener && this.opener.isConnected) this.opener.focus();
+    if (this.relayout) { this.relayout = false; relayout(); }
+    const cur = this.item();
+    if (cur && cur !== this.opened) revealItem(cur);
+  },
+  release() { if (this.natives) { this.natives.base.src = ''; for (const im of this.natives.patches.values()) im.src = ''; } this.natives = null; $('vLayer').replaceChildren(); this.el = null; },
+  nav(d) { if (this.list.length < 2) return; this.idx = (this.idx + d + this.list.length) % this.list.length; this.show(); },
+  item() { return this.list[this.idx]; },
+  patchesOf(it) { const st = it.ctx.state; return it.kind === 'sprite' && st ? framePatches(st) : []; },
+  async show() {
+    const it = this.item(), token = ++this.token;
+    clearInterval(this.timer); this.timer = 0; this.frame = 'base';
+    this.release();
+    const ctx = it.ctx, where = [ctx.ch && ctx.ch.name, ctx.sheet && !ctx.sheet.identityOnly && ctx.sheet.label].filter(Boolean).join(' · ');
+    $('vTitle').textContent = (where ? where + ' · ' : '') + (ctx.label || KIND[it.kind] || '');
+    $('vSize').textContent = it.image.w + '×' + it.image.h;
+    $('vZoom').textContent = '';
+    $('vPrev').hidden = $('vNext').hidden = this.list.length < 2;
+    this.renderInfo(it);
+    const pats = this.patchesOf(it);
+    this.renderFrames(pats);
+    const msgT = setTimeout(() => { if (token === this.token) $('vMsg').textContent = '载入原图…'; }, 160);
+    try {
+      const base = await decodeNative(it.image.path);
+      if (token !== this.token) { base.src = ''; return; }
+      let el = base;
+      if (pats.length) {
+        const patches = new Map(), imgs = await Promise.all(pats.map(p => decodeNative(p.image.path).catch(() => null)));
+        if (token !== this.token) { base.src = ''; imgs.forEach(i => i && (i.src = '')); return; }
+        pats.forEach((p, k) => { if (imgs[k]) patches.set(p.id, imgs[k]); });
+        this.natives = {base, patches, pats};
+        el = canvasOf(base.naturalWidth, base.naturalHeight);
+        this.compose(el, 'base');
+      } else this.natives = {base, patches: new Map(), pats: []};
+      clearTimeout(msgT); $('vMsg').textContent = '';
+      this.el = el; this.iw = base.naturalWidth; this.ih = base.naturalHeight;
+      $('vSize').textContent = this.iw + '×' + this.ih;
+      $('vLayer').replaceChildren(el);
+      this.fit();
+    } catch (e) {
+      clearTimeout(msgT);
+      if (token === this.token) $('vMsg').textContent = '读取失败：文件缺失或损坏';
+    }
+  },
+  compose(cv, id) {
+    const n = this.natives, g = cv.getContext('2d');
+    g.globalCompositeOperation = 'copy'; g.drawImage(n.base, 0, 0); g.globalCompositeOperation = 'source-over';
+    const p = n.pats.find(q => q.id === id), im = p && n.patches.get(id);
+    if (im) drawPatch(g, im, p.item);
+  },
+  setFrame(id) {
+    this.frame = id;
+    if (this.el && this.el.tagName === 'CANVAS' && this.natives) this.compose(this.el, id);
+    for (const b of $('vFrames').querySelectorAll('button[data-f]')) b.setAttribute('aria-pressed', String(b.dataset.f === id));
+  },
+  renderFrames(pats) {
+    const box = $('vFrames'); box.replaceChildren();
+    if (!pats.length) return;
+    const btn = (id, label) => h('button', {'data-f': id, 'aria-pressed': String(id === 'base'), onclick: () => { this.stopPlay(); this.setFrame(id); }}, label);
+    box.append(btn('base', '原图'));
+    const blink = pats.filter(p => p.id.startsWith('blink'));
+    if (blink.length) { box.append(h('span', {class: 'sep'})); for (const p of blink) box.append(btn(p.id, p.id === 'blink' ? '闭眼' : '半闭')); }
+    const mouth = pats.filter(p => p.id.startsWith('mouth:'));
+    if (mouth.length) { box.append(h('span', {class: 'sep'})); box.append(h('span', {class: 'v-size', text: '口型'})); for (const p of mouth) box.append(btn(p.id, FRAME_LABEL[p.item.frame] || p.item.frame)); }
+    box.append(h('span', {class: 'sep'}), h('button', {id: 'vPlay', 'aria-pressed': 'false', title: '播放（空格）', onclick: () => this.togglePlay()}, '▶'));
+  },
+  togglePlay() {
+    if (this.timer) { this.stopPlay(); return; }
+    if (!this.natives || !this.natives.pats.length) return;
+    const seq = ['base', ...this.natives.pats.map(p => p.id), 'base'];
+    let k = 0;
+    this.timer = setInterval(() => this.setFrame(seq[k++ % seq.length]), REDUCED.matches ? 700 : 260);
+    const b = $('vPlay'); if (b) { b.textContent = '■'; b.setAttribute('aria-pressed', 'true'); }
+  },
+  stopPlay() { clearInterval(this.timer); this.timer = 0; const b = $('vPlay'); if (b) { b.textContent = '▶'; b.setAttribute('aria-pressed', 'false'); } },
+  renderInfo(it) {
+    const p = it.provenance || {}, rows = [];
+    const add = (k, v) => { if (v != null && v !== '') rows.push(h('dt', {text: k}), h('dd', {text: typeof v === 'string' ? v : JSON.stringify(v, null, 1)})); };
+    const chips = h('div', {class: 'chips'}, itemChips(it, it.ctx.sheet));
+    add('状态', {missing: '缺', blocked: '受阻', refused: '被拒', changed: '待审', approved: '已通过', 'retry-pending': '等待补交'}[it.status]);
+    if (it.blocked.length) add('受阻原因', it.blocked.map(b => REASON[b] || b).join('，'));
+    if (it.refusal) add('工具原话', it.refusal.message);
+    for (const w of it.warnings) add('⚠ ' + warnText(w), w.message);
+    add('槽位', it.slot); add('文件', it.image && it.image.path);
+    if (it.rect) add('位置 xywh', it.rect.join(', '));
+    add('来源', p.source); add('时间', p.timestamp); add('计划', p.plan_id);
+    if (p.registration) add('配准', p.registration);
+    if (arr(p.references).length) add('参考', p.references.map(r => (r.role || '') + ' ' + (r.path || r.slot || '')).join('\n'));
+    if (p.prompt) add('提示词', p.prompt);
+    if (it.settei) { for (const k of ['feature_rules', 'hair_rules', 'explicit_differences']) if (arr(it.settei[k]).length) add({feature_rules: '五官规则', hair_rules: '发型规则', explicit_differences: '明确差异'}[k], it.settei[k].join('\n')); }
+    $('vInfoPanel').replaceChildren(chips, h('dl', null, rows));
+  },
+  fit() {
+    const vw = innerWidth, vh = innerHeight, top = (D.querySelector('.v-top').offsetHeight || 46) + 6;
+    const z = Math.min((vw - 24) / this.iw, (vh - top - 16) / this.ih, 1);
+    this.z = z; this.x = (vw - this.iw * z) / 2; this.y = top + (vh - top - this.ih * z) / 2; this.apply();
+  },
+  one(cx, cy) { cx = cx == null ? innerWidth / 2 : cx; cy = cy == null ? innerHeight / 2 : cy; this.zoomAt(1 / this.z, cx, cy); },
+  zoomAt(f, cx, cy) { const z = clamp(this.z * f, .03, 16); f = z / this.z; this.x = cx - (cx - this.x) * f; this.y = cy - (cy - this.y) * f; this.z = z; this.apply(); },
+  apply() {
+    const L = $('vLayer');
+    L.style.transform = 'translate(' + this.x + 'px,' + this.y + 'px) scale(' + this.z + ')';
+    L.classList.toggle('px', this.z >= 2);
+    $('vZoom').textContent = Math.round(this.z * 100) + '%';
+  }
+};
+(function wireViewer() {
+  const S = $('vStage'), pts = new Map();
+  let last = null, pinch = null, moved = false, lastTap = 0;
+  S.addEventListener('wheel', ev => { if ($('viewer').hidden || !Viewer.el) return; ev.preventDefault(); Viewer.zoomAt(Math.exp(-ev.deltaY * (ev.deltaMode ? 0.05 : 0.0016)), ev.clientX, ev.clientY); }, {passive: false});
+  S.addEventListener('pointerdown', ev => { S.setPointerCapture(ev.pointerId); pts.set(ev.pointerId, [ev.clientX, ev.clientY]); moved = false; if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = {d: Math.hypot(a[0] - b[0], a[1] - b[1]), z: Viewer.z}; } last = [ev.clientX, ev.clientY]; S.classList.add('drag'); });
+  S.addEventListener('pointermove', ev => {
+    if (!pts.has(ev.pointerId)) return;
+    pts.set(ev.pointerId, [ev.clientX, ev.clientY]);
+    if (pts.size === 2 && pinch) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); Viewer.zoomAt(pinch.z * d / pinch.d / Viewer.z, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); moved = true; return; }
+    if (last) { const dx = ev.clientX - last[0], dy = ev.clientY - last[1]; if (Math.abs(dx) + Math.abs(dy) > 2) moved = true; Viewer.x += dx; Viewer.y += dy; Viewer.apply(); last = [ev.clientX, ev.clientY]; }
+  });
+  let downAt = null, downZ = 1;
+  S.addEventListener('pointerdown', ev => { if (pts.size === 1) { downAt = [ev.clientX, ev.clientY]; downZ = Viewer.z; } }, true);
+  const up = ev => {
+    // Touch: a horizontal swipe at fit zoom changes image (side arrows are hidden on phones).
+    if (ev.type === 'pointerup' && ev.pointerType !== 'mouse' && downAt && pts.size === 1 && !pinch && Math.abs(Viewer.z - downZ) < 1e-6) {
+      const dx = ev.clientX - downAt[0], dy = ev.clientY - downAt[1];
+      if (Math.abs(dx) > 70 && Math.abs(dy) < 60 && Viewer.iw * Viewer.z <= innerWidth + 1) { downAt = null; pts.delete(ev.pointerId); last = null; S.classList.remove('drag'); Viewer.nav(dx < 0 ? 1 : -1); return; }
+    }
+    pts.delete(ev.pointerId); if (pts.size < 2) pinch = null; if (!pts.size) { last = null; S.classList.remove('drag'); downAt = null; }
+    if (!moved && ev.type === 'pointerup') { const now = performance.now(); if (now - lastTap < 320) { Math.abs(Viewer.z - 1) < .01 ? Viewer.fit() : Viewer.one(ev.clientX, ev.clientY); lastTap = 0; } else lastTap = now; }
+  };
+  S.addEventListener('pointerup', up); S.addEventListener('pointercancel', up);
+  $('vClose').onclick = () => Viewer.close();
+  $('vFit').onclick = () => Viewer.fit();
+  $('vOne').onclick = () => Viewer.one();
+  $('vPrev').onclick = () => Viewer.nav(-1);
+  $('vNext').onclick = () => Viewer.nav(1);
+  $('vInfo').onclick = () => { const p = $('vInfoPanel'); p.hidden = !p.hidden; $('vInfo').setAttribute('aria-expanded', String(!p.hidden)); };
+})();
+
+
+/* ---------------- Jump list: characters → outfits ---------------- */
+function outfitCounts(sh) {
+  let warn = 0, bad = 0;
+  for (const it of sh.all) { warn += it.warnings.length; if (isProblem(it)) bad++; }
+  return {warn, bad};
+}
+function renderJump() {
+  const q = $('jFind').value.trim().toLowerCase(), shown = new Set(SHOWN.map(s => s.id)), rows = [];
+  const cur = CUR ? CUR.id : '';
+  const btn = (cls, id, kids) => h('li', null, h('button', {class: cls + (shown.has(id) ? '' : ' off'), 'data-id': id, 'aria-current': String(cur === id), title: shown.has(id) ? null : '当前筛选下隐藏，点击显示全部并跳转', onclick: () => Jump.go(id)}, kids));
+  for (const ch of MODEL.characters) {
+    const outfits = ch.outfits.filter(o => !o.identityOnly);
+    const hit = !q || ch.name.toLowerCase().includes(q);
+    const list = outfits.filter(o => hit || o.label.toLowerCase().includes(q));
+    if (!hit && !list.length) continue;
+    rows.push(btn('grp', ch.spriteOnly && outfits.length ? 'outfit:' + ch.key + '/' + outfits[0].key : 'chr:' + ch.key, [h('span', {class: 'lbl', text: ch.name}), decisionMark('identity:' + ch.key)]));
+    for (const o of list) {
+      const c = outfitCounts(o);
+      rows.push(btn('it', 'outfit:' + ch.key + '/' + o.key, [h('span', {class: 'lbl', text: o.label}),
+        h('span', {class: 'cnt'}, c.warn ? h('span', {class: 'w', text: '⚠' + c.warn + ' '}) : null, c.bad ? h('span', {class: 'b', text: '问题 ' + c.bad + ' '}) : null),
+        decisionMark('outfit:' + ch.key + '/' + o.key)]));
+    }
+  }
+  if (MODEL.scenes.length && (!q || '场景背景cg'.includes(q))) rows.push(btn('grp', 'scenes:0', [h('span', {class: 'lbl', text: '场景'}), h('span', {class: 'cnt', text: MODEL.scenes.length + ' 张'})]));
+  $('jList').replaceChildren(...(rows.length ? rows : [h('li', {class: 'j-empty', text: '没有匹配的角色或服装'})]));
+}
+const Jump = {
+  opener: null,
+  open(find) {
+    renderJump();
+    this.opener = D.activeElement;
+    $('jump').hidden = false; $('where').setAttribute('aria-expanded', 'true');
+    const cur = $('jList').querySelector('[aria-current="true"]');
+    if (cur) cur.scrollIntoView({block: 'center'});
+    if (find || !cur) $('jFind').focus(); else cur.focus();
+  },
+  close(restore) {
+    if ($('jump').hidden) return;
+    $('jump').hidden = true; $('where').setAttribute('aria-expanded', 'false');
+    if (restore !== false && this.opener && this.opener.isConnected) this.opener.focus();
+  },
+  toggle() { if ($('jump').hidden) this.open(!NARROW.matches); else this.close(); },
+  go(id) {
+    this.close(false);
+    // Scenes are chunked by line; a hidden chunk id resolves after the filter resets.
+    if (scrollToSection(id) || (id.startsWith('scenes:') && scrollToSection(SHOWN.find(s => s.type === 'scenes') ? SHOWN.find(s => s.type === 'scenes').id : id))) $('sheet').focus({preventScroll: true});
+  }
+};
+$('where').onclick = () => Jump.toggle();
+$('filterBtn').onclick = () => Jump.toggle();
+$('jFind').addEventListener('input', () => renderJump());
+$('jFind').addEventListener('keydown', ev => {
+  if (ev.key === 'Enter') { ev.preventDefault(); const b = $('jList').querySelector('button'); if (b) b.click(); }
+  else if (ev.key === 'ArrowDown') { ev.preventDefault(); const b = $('jList').querySelector('button'); if (b) b.focus(); }
+});
+D.addEventListener('pointerdown', ev => {
+  if ($('jump').hidden) return;
+  const t = ev.target;
+  if (!$('jump').contains(t) && !$('where').contains(t) && !$('filterBtn').contains(t)) Jump.close(false);
+}, true);
+/* ---------------- Export decisions ---------------- */
+function buildExport() {
+  const M = MODEL, decisions = [];
+  let approved = 0, changes = 0;
+  for (const [t, tg] of TARGETS) {
+    const d = Store.get(t); if (!d) continue;
+    d.verdict === 'approved' ? approved++ : changes++;
+    const o = {target: tg.type, verdict: d.verdict, note: d.note || '', decided_at: d.at};
+    if (tg.ch) { o.character = tg.ch.key; o.character_name = tg.ch.name; }
+    if (tg.sh) { o.outfit = tg.sh.key; o.outfit_label = tg.sh.label; }
+    if (tg.type !== 'outfit') { o.slot_id = tg.items[0].slot; o.image = tg.items[0].image ? tg.items[0].image.path : null; }
+    else o.slot_prefix = tg.ch.key + '/' + tg.sh.key + '/';
+    decisions.push(o);
+  }
+  const total = TARGETS.size;
+  return {schema: 'dsh-review-decisions', schema_version: 1, project: {id: M.project.id, name: M.project.name, revision: M.project.revision}, exported_at: new Date().toISOString(), summary: {targets: total, approved, needs_changes: changes, unreviewed: total - approved - changes}, decisions};
+}
+function exportDecisions() {
+  const data = buildExport(), text = JSON.stringify(data, null, 2) + '\n';
+  const url = URL.createObjectURL(new Blob([text], {type: 'application/json'}));
+  const a = h('a', {href: url, download: 'review-decisions-' + MODEL.project.id.slice(0, 8) + '-r' + MODEL.project.revision + '.json'});
+  D.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  Store.data.exportedAt = new Date().toISOString(); Store.data.dirty = false; Store.save();
+  toast('已导出 ' + data.decisions.length + ' 条审阅结果');
+}
+function updateExportBtn() { if (UNITS.length) renderFilters(); const b = $('exportBtn'); b.classList.toggle('unsaved', !!Store.data.dirty); b.title = Store.data.dirty ? '有未导出的审阅结果' : '导出审阅结果'; }
+let toastT = 0;
+function toast(t) { const e = $('toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove('on'), 2200); }
+
+/* ---------------- Display preferences (per browser, not per project) ---------------- */
+const PREFS = {compact: true};
+try { const v = JSON.parse(localStorage.getItem(STORE_PREFIX + 'prefs') || '{}'); if (typeof v.compact === 'boolean') PREFS.compact = v.compact; } catch (e) {}
+function togglePref(k) {
+  PREFS[k] = !PREFS[k];
+  try { localStorage.setItem(STORE_PREFIX + 'prefs', JSON.stringify(PREFS)); } catch (e) {}
+  syncCompactBtn();
+  layout(true);
+}
+
+/* ---------------- Background mode ---------------- */
+const BG = [['dark', '暗'], ['light', '亮'], ['checker', '格']];
+function setBg(mode) {
+  ROOT.dataset.bg = mode;
+  $('bgBtn').textContent = '底 ' + (BG.find(b => b[0] === mode) || BG[0])[1];
+  try { localStorage.setItem(STORE_PREFIX + 'bg', mode); } catch (e) {}
+}
+$('bgBtn').onclick = () => { const i = BG.findIndex(b => b[0] === ROOT.dataset.bg); setBg(BG[(i + 1) % BG.length][0]); };
+
+
+/* ---------------- Global keys and wiring ---------------- */
+$('exportBtn').onclick = () => exportDecisions();
+$('compactBtn').onclick = () => togglePref('compact');
+function syncCompactBtn() { const b = $('compactBtn'); b.textContent = PREFS.compact ? '紧凑' : '整张'; b.setAttribute('aria-pressed', String(PREFS.compact)); }
+D.addEventListener('keydown', ev => {
+  if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+  const tag = (ev.target && ev.target.tagName) || '';
+  if (!$('viewer').hidden) {
+    const k = ev.key;
+    if (k === 'Escape') { ev.preventDefault(); Viewer.close(); }
+    else if (k === 'ArrowLeft') { ev.preventDefault(); Viewer.nav(-1); }
+    else if (k === 'ArrowRight') { ev.preventDefault(); Viewer.nav(1); }
+    else if (k === '+' || k === '=') Viewer.zoomAt(1.25, innerWidth / 2, innerHeight / 2);
+    else if (k === '-') Viewer.zoomAt(.8, innerWidth / 2, innerHeight / 2);
+    else if (k === '0') Viewer.fit();
+    else if (k === '1') Viewer.one();
+    else if (k === ' ') { ev.preventDefault(); Viewer.togglePlay(); }
+    else if (k === 'i' || k === 'I') $('vInfo').click();
+    else if (k === 'Tab') { const f = [...$('viewer').querySelectorAll('button:not([hidden])')].filter(b => b.offsetParent); const i = f.indexOf(D.activeElement); if (ev.shiftKey && i <= 0) { ev.preventDefault(); f[f.length - 1].focus(); } else if (!ev.shiftKey && i === f.length - 1) { ev.preventDefault(); f[0].focus(); } }
+    return;
+  }
+  if (!$('jump').hidden) {
+    if (ev.key === 'Escape') { ev.preventDefault(); Jump.close(); }
+    else if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && tag === 'BUTTON') {
+      ev.preventDefault();
+      const all = [...$('jList').querySelectorAll('button')], i = all.indexOf(ev.target), n = i + (ev.key === 'ArrowDown' ? 1 : -1);
+      if (n < 0) $('jFind').focus(); else if (all[n]) all[n].focus();
+    }
+    return;
+  }
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  const k = ev.key;
+  if (k === 'ArrowRight' || k === 'j' || k === 'J') { ev.preventDefault(); stepSection(1); }
+  else if (k === 'ArrowLeft' || k === 'k' || k === 'K') { ev.preventDefault(); stepSection(-1); }
+  else if (k === 'g' || k === 'G' || k === '/') { ev.preventDefault(); Jump.open(true); }
+  else if (k === 'b' || k === 'B') $('bgBtn').click();
+  else if ((k === 'z' || k === 'Z') && !$('compactBtn').hidden) togglePref('compact');
+  else if (k === 'p' || k === 'P') { const s = CUR && CUR.ctls.length ? CUR : SHOWN.find(x => x.mat && x.ctls.length && x.top + x.h > scrollY + VP.bar); if (s) Play.toggleAll(s); }
+  else if (k === 'Enter' && ev.target && ev.target.classList && ev.target.classList.contains('zoom')) { ev.preventDefault(); ev.target.click(); }
+});
+addEventListener('scroll', () => {
+  const y = scrollY;
+  if (Math.abs(y - LAST_Y) > 2) { DIR = y > LAST_Y ? 1 : -1; LAST_Y = y; }
+  schedule();
+}, {passive: true});
+function relayout() {
+  if (!MODEL) return;
+  // Desktop follows the window; phones ignore URL-bar height changes (only the width or a big change).
+  if (!COARSE || Math.abs(innerHeight - STABLE_H) > STABLE_H * .25) STABLE_H = innerHeight;
+  const vp = viewport();
+  if (VP && vp.key === VP.key) { schedule(); return; }
+  const f = D.activeElement;
+  if (f && f.tagName === 'INPUT' && $('sheet').contains(f)) { f.addEventListener('blur', () => relayout(), {once: true}); return; }
+  layout(true);
+}
+let resizeT = 0;
+addEventListener('resize', () => {
+  clearTimeout(resizeT);
+  resizeT = setTimeout(() => {
+    if (!$('viewer').hidden) { if (Viewer.el) Viewer.fit(); Viewer.relayout = true; return; }
+    relayout();
+  }, 200);
+});
+addEventListener('hashchange', () => { const m = /[#&]s=([^&]+)/.exec(location.hash); if (m && MODEL) scrollToSection(decodeURIComponent(m[1])); });
+D.addEventListener('visibilitychange', () => { if (D.hidden) for (const s of SHOWN) for (const c of s.ctls) if (!c.pinned) Play.stop(c); });
+
+/* ---------------- Boot ---------------- */
+function boot() {
+  try { const bg = localStorage.getItem(STORE_PREFIX + 'bg'); if (bg && BG.some(b => b[0] === bg)) setBg(bg); } catch (e) {}
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  let raw;
+  try { raw = JSON.parse($('dsh-review-data').textContent); } catch (e) { $('sheet').replaceChildren(h('div', {class: 'boot', text: '没有审阅数据：请用 dsh-assets review-html 生成本页。'})); return; }
+  try { MODEL = buildModel(raw); } catch (e) { $('sheet').replaceChildren(h('div', {class: 'boot', text: '审阅数据无法读取：' + e.message})); return; }
+  TARGETS = buildTargets(MODEL);
+  Store.load(MODEL, TARGETS);
+  $('proj').textContent = MODEL.project.name;
+  D.title = MODEL.project.name + ' · 素材审阅';
+  UNITS = buildUnits(MODEL);
+  $('compactBtn').hidden = !MODEL.sheets.some(sh => !sh.identityOnly && sh.hasSprites && sh.crop[2] === sh.canvas[0] && sh.crop[3] === sh.canvas[1]);
+  syncCompactBtn();
+  updateExportBtn();
+  Cache.listeners.add(schedule);
+  layout(false);
+  // Same-tab reload returns to where the reader was; #s=<section> deep-links (tests, agents).
+  let ref = null;
+  try { ref = JSON.parse(sessionStorage.getItem(POS_KEY()) || 'null'); } catch (e) {}
+  const m = /[#&]s=([^&]+)/.exec(location.hash);
+  if (m) ref = {id: decodeURIComponent(m[1]), frac: 0};
+  const s = ref && ref.id && SHOWN.find(x => x.id === ref.id);
+  if (s) { scrollTo(0, Math.max(0, s.top + (ref.frac || 0) * s.h - VP.bar)); LAST_Y = scrollY; schedule(); }
+}
+window.__dshReview = {
+  get model() { return MODEL; }, get filter() { return FILTER; },
+  setFilter: f => setFilter(f), scrollTo: id => scrollToSection(id),
+  sections: () => SHOWN.map(s => ({id: s.id, type: s.type, mat: s.mat, painted: s.painted, top: s.top, h: s.h, est: Math.round(s.plan.est)})),
+  visible: () => { if (!VP || !SHOWN.length) return []; const [a, b] = visibleRange(); return a < 0 ? [] : SHOWN.slice(a, b + 1).map(s => s.id); },
+  ready: () => { if (!VP || !SHOWN.length) return !!MODEL; const [a, b] = visibleRange(); return a >= 0 && SHOWN.slice(a, b + 1).every(s => s.mat && s.painted); },
+  counts: () => Object.assign({}, COUNTS), cache: () => Cache.stats(), frames: () => ({bytes: Frames.bytes, cap: FRAME_MB * 1048576}),
+  prefetch: () => Cache.groups.filter(g => g.ahead).map(g => ({section: g.sec.id, admitted: !!g.admitted, ready: g.reqs.every(r => Cache.isReady(r.key))})),
+  exportData: () => buildExport(), budgetMB: BUDGET_MB
+};
+boot();
+})();
+</script>
+</body>
+</html>

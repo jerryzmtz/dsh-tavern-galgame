@@ -1,0 +1,34 @@
+{
+  "baseline": "widgets-v3 merged with addaacc9",
+  "justification": "private fork: retain main's per-section placement and exact wire gates. V3 moves named widget command schemas from tools into catalogue. Against main: wire +82 B, tools/schema -1153 B, system -35 B; this was already present at 990f67a8. Card enable, history avatars and import names add 0 B. No old 13180/51294 slack remains.",
+  "small": {
+    "inputBytes": 13061,
+    "systemBytes": 1176,
+    "toolSchemaBytes": 7043,
+    "toolBytes": 7175,
+    "sections": {
+      "director": 624,
+      "command-guidance": 398,
+      "catalogue": 3334,
+      "actors": 106,
+      "carried": 444,
+      "reply": 114,
+      "tools": 7175
+    }
+  },
+  "filled": {
+    "inputBytes": 40658,
+    "systemBytes": 12872,
+    "toolSchemaBytes": 7043,
+    "toolBytes": 7175,
+    "sections": {
+      "director": 624,
+      "command-guidance": 398,
+      "catalogue": 28063,
+      "actors": 106,
+      "carried": 444,
+      "reply": 114,
+      "tools": 7175
+    }
+  }
+}

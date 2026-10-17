@@ -1,0 +1,276 @@
+{
+  "format": "dsh-mod",
+  "schemaVersion": 2,
+  "id": "dsh.demo",
+  "name": "Contract demo",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "dependencies": {
+    "hostApi": 1,
+    "capabilities": [
+      "stage.place"
+    ]
+  },
+  "permissions": {
+    "stage": [
+      "place"
+    ],
+    "judge": true,
+    "variables": {
+      "reads": [
+        {
+          "id": "sample-read",
+          "source": "mvu",
+          "path": "/sample"
+        }
+      ],
+      "writes": [
+        {
+          "id": "sample-write",
+          "source": "mvu",
+          "path": "/sample",
+          "scope": "subtree",
+          "ops": [
+            "replace"
+          ]
+        }
+      ]
+    }
+  },
+  "commands": [
+    {
+      "id": "mark",
+      "op": "mod.dsh.demo.mark",
+      "dsl": {
+        "verb": "demo",
+        "syntax": "demo mark label=<text>"
+      },
+      "params": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "maxLength": 80
+          }
+        },
+        "required": [
+          "label"
+        ],
+        "additionalProperties": false
+      },
+      "persistence": "marker",
+      "handler": "command",
+      "promptId": "marker-rule",
+      "placement": {
+        "section": "director.commands.presentation",
+        "order": 20
+      },
+      "caps": {
+        "perTurn": 4,
+        "bytes": 1024
+      },
+      "mode": "adds"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "marker-rule",
+      "target": "director",
+      "path": "prompts/demo.txt",
+      "placement": {
+        "section": "director.rules.presentation",
+        "order": 10
+      }
+    }
+  ],
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "caption",
+        "type": "text",
+        "label": "Caption",
+        "help": "A static label, not a prompt.",
+        "default": "Demo",
+        "maxLength": 80,
+        "scope": "global"
+      },
+      {
+        "key": "visible",
+        "type": "toggle",
+        "label": "Visible",
+        "default": true,
+        "scope": "global"
+      },
+      {
+        "key": "opacity",
+        "type": "slider",
+        "label": "Opacity",
+        "default": 1,
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "scope": "global",
+        "dependsOn": {
+          "key": "visible",
+          "equals": true
+        }
+      },
+      {
+        "key": "size",
+        "type": "segmented",
+        "label": "Size",
+        "default": "small",
+        "scope": "global",
+        "choices": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "key": "accent",
+        "type": "colour",
+        "label": "Accent",
+        "default": "#225566",
+        "scope": "global"
+      },
+      {
+        "key": "image",
+        "type": "asset-picker",
+        "label": "Image",
+        "default": null,
+        "scope": "global",
+        "kind": "icon",
+        "source": "own"
+      },
+      {
+        "key": "sound",
+        "type": "sound-picker",
+        "label": "Sound",
+        "default": null,
+        "scope": "global",
+        "kind": "tone"
+      }
+    ],
+    "sections": [
+      {
+        "id": "appearance",
+        "title": "Appearance",
+        "help": "Offline layout example.",
+        "groups": [
+          {
+            "id": "general",
+            "title": "General",
+            "fields": [
+              "caption",
+              "visible"
+            ]
+          },
+          {
+            "id": "visual",
+            "title": "Visual",
+            "help": "Second-level fold state has its own ID.",
+            "fields": [
+              "opacity",
+              "size",
+              "accent",
+              "image",
+              "sound"
+            ],
+            "folded": true
+          }
+        ],
+        "folded": false
+      }
+    ]
+  },
+  "packSchema": {
+    "fields": []
+  },
+  "assetKinds": [
+    {
+      "id": "icon",
+      "label": "Icon",
+      "fields": {
+        "fields": []
+      },
+      "directorSelectable": false,
+      "mediaSlots": [
+        {
+          "id": "image",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": "tone",
+      "label": "Tone",
+      "fields": {
+        "fields": []
+      },
+      "directorSelectable": false,
+      "mediaSlots": [
+        {
+          "id": "audio",
+          "type": "audio"
+        }
+      ]
+    }
+  ],
+  "uiPages": [
+    {
+      "id": "preview",
+      "title": "Preview",
+      "entry": "ui/preview.html",
+      "placement": "settings"
+    }
+  ],
+  "runtime": {
+    "entry": "runtime.js"
+  },
+  "defaultPacks": [],
+  "files": [
+    {
+      "path": "runtime.js",
+      "size": 244
+    },
+    {
+      "path": "prompts/demo.txt",
+      "size": 50
+    },
+    {
+      "path": "ui/preview.html",
+      "size": 131
+    }
+  ],
+  "license": {
+    "privateUse": false
+  },
+  "summary": "A first-party framework demonstration.",
+  "relevance": "需要演示模组标记的测试场景",
+  "ui": {
+    "preview": {
+      "entry": "ui/preview.html",
+      "modes": [
+        {
+          "id": "default",
+          "label": "Preview"
+        }
+      ],
+      "aspect": 1.5
+    }
+  },
+  "compatibility": {
+    "compatible": [],
+    "incompatible": []
+  },
+  "admission": {
+    "entryKinds": []
+  },
+  "builtinAssets": []
+}

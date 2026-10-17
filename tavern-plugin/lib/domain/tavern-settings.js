@@ -1,0 +1,162 @@
+import { compactionPolicy } from './auto-compaction.js'
+import { normalizeBackgroundModel } from './background-model-selection.js'
+
+function object(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value) ? value : {}
+}
+
+function promptOverride(document, name) {
+  const value = object(document.promptOverrides)[name]
+  return typeof value === 'string' && (value.trim() !== '' || name === 'system-append') ? value : null
+}
+
+export function normalizeBackgroundTasks(value) {
+  const tasks = object(value)
+  // variableFeedback: hand the last round's changed variables back to the foreground.
+  return { posture: tasks.posture !== false, characterDesign: false, variables: tasks.variables !== false, ledger: false, variableFeedback: tasks.variableFeedback !== false }
+}
+
+export function normalizePlayDefaults(value) {
+  const input = object(value)
+  return { playerName: typeof input.playerName === 'string' ? input.playerName.trim().slice(0, 80) || '你' : '你',
+    statusBarPlacement: input.statusBarPlacement === 'body' ? 'body' : 'sidebar',
+    backgroundTasks: normalizeBackgroundTasks(input.backgroundTasks),
+    webSearchEnabled: input.webSearchEnabled === true, sceneImagesEnabled: input.sceneImagesEnabled === true }
+}
+
+export function applyTavernSettingsPatch(current, patch) {
+  const next = Object.assign({}, object(current))
+  const input = object(patch)
+  if (Object.hasOwn(input, 'defaultPlaySettings')) {
+    const patch = object(input.defaultPlaySettings)
+    for (const key of ['webSearchEnabled', 'sceneImagesEnabled']) if (Object.hasOwn(patch, key) && typeof patch[key] !== 'boolean') throw new Error('默认开关必须为布尔值')
+    if (Object.hasOwn(patch, 'playerName') && (typeof patch.playerName !== 'string' || patch.playerName.length > 80)) throw new Error('玩家称呼最多 80 字')
+    if (Object.hasOwn(patch, 'statusBarPlacement') && !['body', 'sidebar'].includes(patch.statusBarPlacement)) throw new Error('状态栏位置无效')
+    for (const key of ['variables', 'posture', 'variableFeedback']) if (Object.hasOwn(object(patch.backgroundTasks), key) && typeof patch.backgroundTasks[key] !== 'boolean') throw new Error('默认结算开关必须为布尔值')
+    const current = normalizePlayDefaults(next.defaultPlaySettings)
+    next.defaultPlaySettings = normalizePlayDefaults({ ...current, ...patch, backgroundTasks: { ...current.backgroundTasks, ...object(patch.backgroundTasks) } })
+  }
+  if (Object.hasOwn(input, 'defaultWritingSkill')) {
+    const { name, enabled } = object(input.defaultWritingSkill)
+    if (typeof name !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name) || typeof enabled !== 'boolean') throw new Error('无效的写作 Skill 配置')
+    const disabled = Array.isArray(next.defaultDisabledWritingSkills) ? next.defaultDisabledWritingSkills : []
+    next.defaultDisabledWritingSkills = enabled ? disabled.filter(value => value !== name) : [...new Set([...disabled, name])]
+  }
+  for (const name of ['defaultForegroundModel', 'defaultBackgroundModel', 'defaultWorkbenchModel', 'defaultImageModel']) {
+    if (!Object.hasOwn(input, name)) continue
+    const selection = normalizeBackgroundModel(input[name])
+    if (input[name] !== null && !selection) throw new Error('默认模型配置无效')
+    next[name] = selection
+  }
+  if (Object.hasOwn(input, 'modModelSelection')) {
+    const {modId,slotId,selection}=object(input.modModelSelection)
+    if(typeof modId!=='string' || !/^[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+$/.test(modId) || typeof slotId!=='string' || !/^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(slotId) || ['constructor','prototype','__proto__'].includes(slotId))throw new Error('无效的模组模型槽')
+    const model=normalizeBackgroundModel(selection)
+    if(selection!==null && !model)throw new Error('无效的模组模型配置')
+    next.modModels={...object(next.modModels),[modId]:{...object(next.modModels?.[modId]),[slotId]:model}}
+  }
+  // private fork: opt-in global automatic candidates, stored beside dismissal preferences.
+  if (Object.hasOwn(input, 'candidateAutoGenerate')) {
+    if (typeof input.candidateAutoGenerate !== 'boolean') throw new Error('无效的自动生成候选项设置')
+    next.candidateAutoGenerate = input.candidateAutoGenerate
+  }
+  if (Object.hasOwn(input, 'hideContextAndReasoning')) {
+    if (typeof input.hideContextAndReasoning !== 'boolean') throw new Error('无效的对话显示设置')
+    next.hideContextAndReasoning = input.hideContextAndReasoning
+  }
+  if (Object.hasOwn(input, 'candidateDismissMode')) {
+    if (!['after-fill', 'after-send'].includes(input.candidateDismissMode)) throw new Error('无效的候选项收起方式')
+    next.candidateDismissMode = input.candidateDismissMode
+  }
+  if (Object.hasOwn(input, 'contextCompaction')) next.contextCompaction = { ...compactionPolicy(input.contextCompaction), revision: Date.now() }
+  if (Object.prototype.hasOwnProperty.call(input, 'backgroundTasks')) {
+    next.backgroundTasks = normalizeBackgroundTasks({ ...normalizeBackgroundTasks(next.backgroundTasks), ...object(input.backgroundTasks) })
+  }
+  if (input.sillyModeEnabled === true || input.compatibilityMode === true) throw new Error('silly 模式已停用')
+  if (Object.prototype.hasOwnProperty.call(input, 'sillyModeEnabled')) next.sillyModeEnabled = false
+  if (Object.prototype.hasOwnProperty.call(input, 'compatibilityMode')) next.compatibilityMode = input.compatibilityMode === true
+  if (Object.hasOwn(input, 'systemAppendEnabled')) next.systemAppendEnabled = input.systemAppendEnabled === true
+  if (Object.prototype.hasOwnProperty.call(input, 'webSearchEnabled')) next.webSearchEnabled = input.webSearchEnabled === true
+  if (Object.prototype.hasOwnProperty.call(input, 'backgroundModel')) {
+    next.backgroundModelRevision = (Number.isSafeInteger(next.backgroundModelRevision) ? next.backgroundModelRevision : 0) + 1
+    if (input.backgroundModel === null) delete next.backgroundModel
+    else {
+      const backgroundModel = normalizeBackgroundModel(input.backgroundModel)
+      if (backgroundModel === null) throw new Error('后台模型配置无效')
+      next.backgroundModel = backgroundModel
+    }
+  }
+  const legacyStory = Object.prototype.hasOwnProperty.call(input, 'storyPrompt') ? { name: 'story', text: input.storyPrompt } : null
+  const promptChange = Object.prototype.hasOwnProperty.call(input, 'systemPrompt') ? object(input.systemPrompt) : legacyStory
+  if (promptChange !== null) {
+    const name = typeof promptChange.name === 'string' ? promptChange.name : ''
+    if (name === '') throw new Error('系统提示词名称不能为空')
+    const overrides = Object.assign({}, object(next.promptOverrides))
+    if (promptChange.text === null) {
+      delete overrides[name]
+    } else {
+      if (typeof promptChange.text !== 'string' || (promptChange.text.trim() === '' && name !== 'system-append')) throw new Error('系统提示词不能为空')
+      if (promptChange.text.length > 100000) throw new Error('系统提示词不能超过 100000 字符')
+      overrides[name] = promptChange.text.trim()
+    }
+    if (Object.keys(overrides).length === 0) delete next.promptOverrides
+    else next.promptOverrides = overrides
+  }
+  if (Object.prototype.hasOwnProperty.call(input, 'systemPrompts')) {
+    const values = object(input.systemPrompts)
+    const overrides = Object.assign({}, object(next.promptOverrides))
+    for (const [name, value] of Object.entries(values)) {
+      if (typeof value !== 'string' || (value.trim() === '' && name !== 'system-append' && name !== 'card-system')) throw new Error('系统提示词不能为空: ' + name)
+      if (value.length > 100000) throw new Error('系统提示词不能超过 100000 字符: ' + name)
+      overrides[name] = value.trim()
+    }
+    if (Object.keys(overrides).length === 0) delete next.promptOverrides
+    else next.promptOverrides = overrides
+  }
+  if (Array.isArray(input.resetSystemPrompts)) {
+    const overrides = Object.assign({}, object(next.promptOverrides))
+    for (const name of input.resetSystemPrompts) delete overrides[name]
+    if (Object.keys(overrides).length === 0) delete next.promptOverrides
+    else next.promptOverrides = overrides
+  } else if (input.resetSystemPrompts === true) delete next.promptOverrides
+  return next
+}
+
+export function presentTavernSettings(document, defaults) {
+  const prompts = Object.keys(object(defaults)).map(function (name) {
+    const custom = promptOverride(object(document), name)
+    return { name, text: custom === null ? String(defaults[name] || '') : custom, customized: custom !== null }
+  })
+  const story = prompts.find(function (item) { return item.name === 'story' }) || { text: '', customized: false }
+  return {
+    defaultPlaySettings: normalizePlayDefaults(object(document).defaultPlaySettings),
+    defaultDisabledWritingSkills: Array.isArray(object(document).defaultDisabledWritingSkills) ? object(document).defaultDisabledWritingSkills.filter(name => typeof name === 'string') : [],
+    modModels: structuredClone(object(document).modModels || {}),
+    defaultForegroundModel: normalizeBackgroundModel(object(document).defaultForegroundModel),
+    defaultBackgroundModel: normalizeBackgroundModel(object(document).defaultBackgroundModel),
+    defaultWorkbenchModel: normalizeBackgroundModel(object(document).defaultWorkbenchModel),
+    defaultImageModel: normalizeBackgroundModel(object(document).defaultImageModel),
+    contextCompaction: compactionPolicy(object(document).contextCompaction),
+    hideContextAndReasoning: object(document).hideContextAndReasoning !== false,
+    candidateDismissMode: object(document).candidateDismissMode === 'after-fill' ? 'after-fill' : 'after-send',
+    // private fork: existing profiles stay manual until explicitly enabled.
+    candidateAutoGenerate: object(document).candidateAutoGenerate === true,
+    compatibilityMode: false,
+    sillyModeEnabled: false,
+    webSearchEnabled: object(document).webSearchEnabled === true,
+    systemAppendEnabled: object(document).systemAppendEnabled !== false,
+    backgroundModel: normalizeBackgroundModel(object(document).backgroundModel),
+    backgroundTasks: normalizeBackgroundTasks(object(document).backgroundTasks),
+    // Card rendering uses a fixed trusted policy; legacy preferences are no longer applied.
+    trustedCardMode: true,
+    systemPrompts: prompts,
+    storyPrompt: story.text,
+    storyPromptCustomized: story.customized
+  }
+}
+
+export function resolveSystemPrompt(document, name, fallback) {
+  const custom = promptOverride(object(document), name)
+  if (custom !== null) return custom
+  return fallback(name)
+}

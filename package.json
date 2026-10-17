@@ -1,0 +1,109 @@
+{
+  "name": "dsh-profile-tavern",
+  "version": "2.7.0",
+  "scripts": {
+    "build:client": "node bin/build-tavern-client.mjs",
+    "check:client": "node bin/build-tavern-client.mjs --check",
+    "docs:build": "node docs/manual/build.mjs",
+    "docs:dev": "node docs/manual/build.mjs && python3 -m http.server 4173 --bind 127.0.0.1 --directory docs",
+    "test:docs": "node --test tests/manual-site.test.mjs tests/product-site.test.mjs tests/manual-pages.test.mjs",
+    "build:image-gen": "pnpm --dir tavern-plugin/packages/dsh-image-gen run build",
+    "test:image-gen": "pnpm --dir tavern-plugin/packages/dsh-image-gen test",
+    "install:tavern": "node ./bin/dsh-tavern.mjs install",
+    "start:tavern": "node ./bin/dsh-tavern.mjs start",
+    "stop:tavern": "node ./bin/dsh-tavern.mjs stop",
+    "restart:tavern": "node ./bin/dsh-tavern.mjs restart",
+    "status:tavern": "node ./bin/dsh-tavern.mjs status",
+    "test": "node bin/test-tavern.mjs",
+    "test:play": "node testsets/test-play.mjs",
+    "test:e2e": "node bin/build-tavern-client.mjs --check && node tests/e2e/gameplay.mjs",
+    "test:e2e:display": "node bin/build-tavern-client.mjs --check && node tests/e2e/gameplay.mjs --display-regression",
+    "test:e2e:card-variables": "node bin/build-tavern-client.mjs --check && node tests/e2e/gameplay.mjs --card-variables",
+    "test:e2e:card-update": "node bin/build-tavern-client.mjs --check && node tests/e2e/gameplay.mjs --card-update",
+    "test:e2e:compaction": "node bin/build-tavern-client.mjs --check && node tests/e2e/compaction-suite.mjs",
+    "build:plugin-package": "node bin/build-plugin-package.mjs",
+    "check:plugin-package": "node bin/build-plugin-package.mjs --check",
+    "prepublishOnly": "npm run check:client && npm run check:plugin-package",
+    "test:card-memory": "node --test tests/card-memory.test.mjs",
+    "test:e2e:card-memory": "node bin/build-tavern-client.mjs --check && node tests/e2e/gameplay.mjs --card-memory"
+  },
+  "dependencies": {
+    "acorn": "8.15.0",
+    "chevrotain": "^11.2.0",
+    "jsdom": "26.1.0",
+    "mathjs": "12.4.3",
+    "yaml": "2.9.0",
+    "marked": "16.3.0",
+    "zod": "^4.4.3",
+    "ws": "8.21.3",
+    "schemastery": "3.18.0",
+    "dsh-mnemon": "0.5.15",
+    "dsh-mnemon-source-runtime": "0.5.9",
+    "dsh-mnemon-source-documents": "0.5.6",
+    "sharp": "0.34.5"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-web-mobile",
+        "dsh-better-sidebar",
+        "dsh-dream-skin",
+        "dsh-tavern-plugin",
+        "dsh-tavern-remote",
+        "dsh-tts",
+        "dsh-tts-local",
+        "dsh-asset-library"
+      ]
+    },
+    "bundle": {
+      "patch": "./plugin.patch.yml"
+    }
+  },
+  "devDependencies": {
+    "playwright": "1.58.2",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "scheduler": "0.27.0",
+    "dsh-tavern-plugin": "link:./tavern-plugin",
+    "dsh-tavern-remote": "link:./tavern-plugin/packages/dsh-tavern-remote",
+    "dsh-web-mobile": "2.4.1",
+    "dsh-better-sidebar": "0.19.1",
+    "dsh-dream-skin": "link:./tavern-plugin/packages/dsh-dream-skin",
+    "dsh-tts": "link:./tavern-plugin/packages/dsh-tts",
+    "dsh-tts-local": "link:./tavern-plugin/packages/dsh-tts-local",
+    "dsh-asset-library": "link:./tavern-plugin/packages/dsh-asset-library"
+  },
+  "description": "DSH Tavern: standalone tavern Profile bundle",
+  "files": [
+    "fork/mods/",
+    "fork/skills/",
+    "bin/",
+    "config/dsh-compatibility.json",
+    "config/plugin-web.patch.yml",
+    "presets/",
+    "tavern-plugin/",
+    "plugin.patch.yml",
+    "cordis.patch.yml",
+    "patches/",
+    "!**/node_modules/**",
+    "!**/upstream/**",
+    "!**/tests/**",
+    "!**/*.map",
+    "!tavern-plugin/src/**",
+    "!**/docs/**",
+    "config/plugin-web.LICENSE",
+    "tavern-plugin/lib/vendor/st-prompt-template/upstream/settings.html"
+  ],
+  "engines": {
+    "node": ">=22.19.0",
+    "pnpm": ">=11.8.0 <12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flizzywine/dsh-tavern.git"
+  },
+  "private": true,
+  "packageManager": "pnpm@11.8.0"
+}

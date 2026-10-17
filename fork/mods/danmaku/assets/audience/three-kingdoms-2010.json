@@ -1,0 +1,311 @@
+{
+  "kind": "audience",
+  "id": "draft-three-kingdoms-2010",
+  "name": "新三国鬼畜观众",
+  "enabled": true,
+  "recall": {
+    "mode": "keyword",
+    "keywords": [
+      "曹操",
+      "刘备",
+      "关羽",
+      "张飞",
+      "诸葛亮",
+      "司马懿",
+      "孙策",
+      "邢道荣",
+      "潘凤",
+      "袁术",
+      "新三国"
+    ]
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "看2010版新三国名场面、台词合集与鬼畜的观众。接曹操的吃穿发问、刘备的奏乐、袁术的海上雄心和诸葛亮的抽象台词。不把老三国专属对白冒充本版台词；弹幕二创也不当史实。",
+    "tone": "短促、戏剧腔，名台词前半句接后半句，也会吐槽剧本的逻辑；只调侃虚构剧情，不用群体蔑称或情色梗。",
+    "catchphrases": [
+      "孟德何为",
+      "你走了我们吃什么",
+      "你走了，我们穿什么",
+      "接着奏乐接着舞",
+      "我二弟天下无敌"
+    ],
+    "examples": [
+      "孟德何为",
+      "你走了我们吃什么",
+      "你走了，我们穿什么",
+      "接着奏乐接着舞"
+    ],
+    "nicknamePool": [
+      "奏乐前先擦板凳",
+      "江边借风要排队",
+      "铜雀台下卖凉茶",
+      "丞相的饭还没凉",
+      "草船靠岸找车位",
+      "军师忘了带羽扇",
+      "小校只想按时吃饭",
+      "辕门外等一碗面",
+      "军令状写成了菜单",
+      "地图卷得有点歪",
+      "空城楼上晒被子",
+      "江东快递走水路",
+      "帐前听令073",
+      "草船限载28",
+      "鼓点慢了2拍",
+      "羽扇_借点风",
+      "军粮の小账本",
+      "奏乐・还没散席",
+      "jiangbiancha",
+      "guzhen_rice",
+      "yushandengdai",
+      "riverdrum_46",
+      "bili_69248157",
+      "bili_18356904"
+    ],
+    "triggers": [
+      {
+        "id": "three-kingdoms-2010.caocao",
+        "keywords": [
+          "曹操",
+          "孟德",
+          "阿瞒"
+        ],
+        "lines": [
+          "孟德何为",
+          "曹老板"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.food",
+        "keywords": [
+          "吃什么",
+          "吃饭",
+          "粮食"
+        ],
+        "lines": [
+          "你走了我们吃什么",
+          "是啊，吃什么",
+          {
+            "text": "说得好，当浮一大白",
+            "kind": "highlight",
+            "amount": 50
+          }
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.clothes",
+        "keywords": [
+          "穿什么",
+          "衣服",
+          "陈留"
+        ],
+        "lines": [
+          "你走了，我们穿什么",
+          "陈留大食堂"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.liubei",
+        "keywords": [
+          "刘备",
+          "玄德",
+          "奏乐"
+        ],
+        "lines": [
+          "接着奏乐接着舞",
+          "接着舞，别停接着舞，别停"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.guanyu",
+        "keywords": [
+          "关羽",
+          "云长",
+          "二弟"
+        ],
+        "lines": [
+          "我二弟天下无敌",
+          "给云长送去"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.zhangfei",
+        "keywords": [
+          "张飞",
+          "翼德",
+          "燕人"
+        ],
+        "lines": [
+          "俺也一样",
+          "大声密谋"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.zhuge",
+        "keywords": [
+          "诸葛亮",
+          "孔明",
+          "军师"
+        ],
+        "lines": [
+          "诸葛凄然",
+          "亮凄然",
+          {
+            "text": "先生真乃神人也",
+            "kind": "highlight",
+            "amount": 100
+          }
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.zhouyu",
+        "keywords": [
+          "周瑜",
+          "公瑾",
+          "庞统"
+        ],
+        "lines": [
+          "军师说你是果然翁",
+          "军师骂我是果然翁"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.yuanshu",
+        "keywords": [
+          "袁术",
+          "公路",
+          "东海"
+        ],
+        "lines": [
+          "东海龙王袁术",
+          "海贼王袁术"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.disbelief",
+        "keywords": [
+          "不可能",
+          "绝不相信"
+        ],
+        "lines": [
+          "不可能，绝对不可能",
+          "不可能！绝对不可能！"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.death",
+        "keywords": [
+          "自刎",
+          "归天",
+          "帅案"
+        ],
+        "lines": [
+          "自刎归天",
+          "我看你是舍不得这张帅案吧"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "three-kingdoms-2010.doctor",
+        "keywords": [
+          "医术",
+          "行医",
+          "医死"
+        ],
+        "lines": [
+          "这就不奇怪了",
+          "了不起，一开口就是大实话"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      }
+    ],
+    "chains": [
+      {
+        "id": "three-kingdoms-2010.relay-1-1",
+        "match": "你走了我们吃什么",
+        "replies": [
+          "是啊，吃什么"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "three-kingdoms-2010.relay-1-2",
+        "match": "是啊，吃什么",
+        "replies": [
+          "陈留大食堂"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "three-kingdoms-2010.relay-1-3",
+        "match": "陈留大食堂",
+        "replies": [
+          "你走了，我们穿什么"
+        ],
+        "probability": 0.42
+      },
+      {
+        "id": "three-kingdoms-2010.relay-2-1",
+        "match": "自刎归天",
+        "replies": [
+          "我看你是舍不得这张帅案吧"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "three-kingdoms-2010.relay-3-1",
+        "match": "接着奏乐接着舞",
+        "replies": [
+          "接着舞，别停接着舞，别停"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "three-kingdoms-2010.relay-4-1",
+        "match": "军师骂我是果然翁",
+        "replies": [
+          "军师说你是果然翁"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "three-kingdoms-2010.relay-5-1",
+        "match": "海贼王袁术",
+        "replies": [
+          "东海龙王袁术"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "three-kingdoms-2010.relay-6-1",
+        "match": "孟德何为",
+        "replies": [
+          "不可能，绝对不可能"
+        ],
+        "probability": 0.58
+      }
+    ]
+  }
+}

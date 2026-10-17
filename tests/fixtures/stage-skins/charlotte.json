@@ -1,0 +1,104 @@
+{
+ "schema": "dsh.skin/1",
+ "id": "charlotte",
+ "label": "点心派对",
+ "license": {
+  "privateUse": false
+ },
+ "textbox": {
+  "paint": {
+   "bg": "#fff4ec",
+   "fg": "#3b2418",
+   "border": "#e8577e",
+   "accent": "#c2185b"
+  },
+  "shape": {
+   "radius": 26,
+   "borderWidth": 5,
+   "rings": [
+    {
+     "width": 6,
+     "color": "#fff4ec"
+    },
+    {
+     "width": 4,
+     "color": "#c2185b"
+    }
+   ]
+  },
+  "frame": {
+   "top": {
+    "pattern": "dots",
+    "colors": [
+     "#e8577e"
+    ],
+    "height": 16,
+    "inset": 30,
+    "offset": 9
+   },
+   "bottom": {
+    "pattern": "stripes",
+    "colors": [
+     "#f6a5c0",
+     "#fff4ec"
+    ],
+    "height": 9,
+    "inset": 30,
+    "offset": 8
+   },
+   "corners": {
+    "kind": "bow",
+    "colors": [
+     "#c2185b",
+     "#f6a5c0"
+    ]
+   }
+  }
+ },
+ "nameplate": {
+  "shape": "pill",
+  "paint": {
+   "bg": "#c2185b",
+   "fg": "#ffffff"
+  },
+  "rotate": -3,
+  "size": 32,
+  "letterSpacing": 0.08,
+  "rings": [
+   {
+    "width": 4,
+    "color": "#fff4ec"
+   },
+   {
+    "width": 3,
+    "color": "#e8577e"
+   }
+  ]
+ },
+ "font": {
+  "body": "resource-han-rounded",
+  "name": "zcool-kuaile"
+ },
+ "textStyle": {
+  "weight": 500,
+  "letterSpacing": 0.03,
+  "emphasis": "#c2185b"
+ },
+ "textFx": {
+  "reveal": "pop",
+  "stepFps": 8,
+  "charsPerStep": 2,
+  "flash": "#c2185b",
+  "emphasis": "ink"
+ },
+ "cursor": {
+  "name": "lollipop",
+  "color": "#c2185b",
+  "accent": "#fff4ec",
+  "fps": 8
+ },
+ "quickMenu": {
+  "bg": "#8a3b5c",
+  "fg": "#fff4ec"
+ }
+}

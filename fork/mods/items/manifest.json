@@ -1,0 +1,310 @@
+{
+  "format": "dsh-mod",
+  "schemaVersion": 2,
+  "id": "dsh.items",
+  "name": "物品",
+  "summary": "重要物品变化即时演出并按正式结算修订数量",
+  "relevance": "获得、失去、使用、展示物品或背包清单发生变化",
+  "version": "1.2.0",
+  "apiVersion": 1,
+  "dependencies": {
+    "hostApi": 1,
+    "capabilities": [
+      "stage.place",
+      "stage.reviseAfterSettlement"
+    ]
+  },
+  "permissions": {
+    "stage": [
+      "place",
+      "reviseAfterSettlement"
+    ],
+    "variables": {
+      "reads": [
+        {
+          "id": "inventory",
+          "slot": "inventory"
+        }
+      ],
+      "writes": []
+    },
+    "mainAssets": [
+      {
+        "slot": "props",
+        "kinds": [
+          "props"
+        ]
+      }
+    ]
+  },
+  "variableSlots": [
+    {
+      "id": "inventory",
+      "label": "背包",
+      "source": "mvu",
+      "valueType": "array",
+      "fieldMapping": {
+        "name": {
+          "label": "名称",
+          "valueType": "string",
+          "required": true
+        },
+        "count": {
+          "label": "数量",
+          "valueType": "number",
+          "required": true
+        },
+        "id": {
+          "label": "稳定标识",
+          "valueType": "string",
+          "required": false
+        },
+        "category": {
+          "label": "分类",
+          "valueType": "string",
+          "required": false
+        },
+        "description": {
+          "label": "说明",
+          "valueType": "string",
+          "required": false
+        },
+        "owner": {
+          "label": "持有人",
+          "valueType": "string",
+          "required": false
+        }
+      }
+    }
+  ],
+  "commands": [
+    {
+      "id": "item",
+      "op": "mod.dsh.items.item",
+      "replaces": "item.play",
+      "dsl": {
+        "verb": "item",
+        "syntax": "item show|gain|lose name=<名称> genre=<分类> [--force]",
+        "positional": "action",
+        "flags": [
+          "force"
+        ]
+      },
+      "paramsStyle": "flat",
+      "params": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "show",
+              "gain",
+              "lose"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 96
+          },
+          "genre": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "force": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "action",
+          "name",
+          "genre",
+          "force"
+        ],
+        "additionalProperties": false
+      },
+      "persistence": "event",
+      "handler": "command",
+      "promptId": "items-rule",
+      "placement": {
+        "section": "director.commands.presentation",
+        "order": 20
+      },
+      "caps": {
+        "perTurn": 32,
+        "bytes": 2048
+      },
+      "mode": "replaces"
+    }
+  ],
+  "prompts": [
+    {
+      "id": "items-rule",
+      "target": "director",
+      "path": "prompts/items.txt",
+      "placement": {
+        "section": "director.rules.presentation",
+        "order": 20
+      }
+    },
+    {
+      "id": "inventory-context",
+      "target": "director",
+      "path": "prompts/inventory.txt",
+      "placement": {
+        "section": "director.catalogue",
+        "order": 20
+      }
+    }
+  ],
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "s4",
+        "type": "toggle",
+        "label": "提供库存名称",
+        "help": "只提供最多十二个名称作为辅助上下文",
+        "default": false,
+        "scope": "global"
+      }
+    ],
+    "sections": [
+      {
+        "id": "context",
+        "title": "导演上下文",
+        "fields": [
+          "s4"
+        ]
+      }
+    ]
+  },
+  "packSchema": {
+    "fields": []
+  },
+  "assetKinds": [],
+  "uiPages": [],
+  "runtime": {
+    "entry": "runtime.js"
+  },
+  "defaultPacks": [],
+  "files": [
+    {
+      "path": "runtime.js",
+      "size": 2715
+    },
+    {
+      "path": "logic.js",
+      "size": 7350
+    },
+    {
+      "path": "presentation.cjs",
+      "size": 1163
+    },
+    {
+      "path": "package.json",
+      "size": 18
+    },
+    {
+      "path": "prompts/items.txt",
+      "size": 384
+    },
+    {
+      "path": "prompts/inventory.txt",
+      "size": 0
+    },
+    {
+      "path": "categories.js",
+      "size": 435
+    },
+    {
+      "path": "categories/key.png",
+      "size": 98006
+    },
+    {
+      "path": "categories/document.png",
+      "size": 95664
+    },
+    {
+      "path": "categories/medicine.png",
+      "size": 101949
+    },
+    {
+      "path": "categories/weapon.png",
+      "size": 68189
+    },
+    {
+      "path": "categories/jewel.png",
+      "size": 61090
+    },
+    {
+      "path": "categories/food.png",
+      "size": 186858
+    },
+    {
+      "path": "categories/money.png",
+      "size": 227679
+    },
+    {
+      "path": "categories/misc.png",
+      "size": 210330
+    }
+  ],
+  "license": {
+    "privateUse": false,
+    "notes": [
+      "Code: AGPL-3.0. Owner-created item illustrations: CC BY-NC-SA 4.0; see LICENSE-ASSETS.md and pack credits."
+    ]
+  },
+  "compatibility": {
+    "compatible": [],
+    "incompatible": []
+  },
+  "admission": {
+    "entryKinds": [
+      "props"
+    ]
+  },
+  "builtinAssets": [
+    {
+      "id": "key",
+      "path": "categories/key.png",
+      "type": "image"
+    },
+    {
+      "id": "document",
+      "path": "categories/document.png",
+      "type": "image"
+    },
+    {
+      "id": "medicine",
+      "path": "categories/medicine.png",
+      "type": "image"
+    },
+    {
+      "id": "weapon",
+      "path": "categories/weapon.png",
+      "type": "image"
+    },
+    {
+      "id": "jewel",
+      "path": "categories/jewel.png",
+      "type": "image"
+    },
+    {
+      "id": "food",
+      "path": "categories/food.png",
+      "type": "image"
+    },
+    {
+      "id": "money",
+      "path": "categories/money.png",
+      "type": "image"
+    },
+    {
+      "id": "misc",
+      "path": "categories/misc.png",
+      "type": "image"
+    }
+  ]
+}

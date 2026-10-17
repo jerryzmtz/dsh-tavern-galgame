@@ -1,0 +1,23 @@
+// private fork: non-rendering client VM tests still initialize the foreground owner.
+import vm from 'node:vm'
+
+export function runInNewContext(source, sandbox = {}, options) {
+  if (sandbox.window?.__ModuleLoader__) {
+    sandbox.document ??= {
+      visibilityState: 'visible', hasFocus: () => true,
+      addEventListener() {}, removeEventListener() {},
+      querySelector: () => null, querySelectorAll: () => [],
+      createElement: () => ({ dataset: {}, style: {}, remove() {} }),
+      head: { appendChild() {} }
+    }
+    sandbox.URL ??= URL
+    const host = sandbox.window
+    host.performance ??= performance
+    host.addEventListener ??= () => {}
+    host.removeEventListener ??= () => {}
+    host.setTimeout ??= setTimeout
+    host.clearTimeout ??= clearTimeout
+  }
+  return vm.runInNewContext(source, sandbox, options)
+}
+export default { ...vm, runInNewContext }

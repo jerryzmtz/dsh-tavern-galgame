@@ -1,0 +1,34 @@
+{
+  "small": {
+    "inputBytes": 13474,
+    "systemBytes": 1739,
+    "toolSchemaBytes": 7708,
+    "toolBytes": 7845,
+    "sections": {
+      "director": 648,
+      "command-guidance": 615,
+      "catalogue": 2238,
+      "actors.constant": 201,
+      "music-state": 243,
+      "carried": 174,
+      "reply": 114,
+      "tools": 7845
+    }
+  },
+  "filled": {
+    "inputBytes": 32563,
+    "systemBytes": 7014,
+    "toolSchemaBytes": 7708,
+    "toolBytes": 7845,
+    "sections": {
+      "director": 648,
+      "command-guidance": 615,
+      "catalogue": 18447,
+      "actors.constant": 201,
+      "music-state": 243,
+      "carried": 174,
+      "reply": 114,
+      "tools": 7845
+    }
+  }
+}

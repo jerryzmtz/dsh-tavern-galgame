@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+import test from 'node:test'
+import vm from './fixtures/client-vm.mjs' // private fork: foreground document fixture
+
+const source = await readFile(new URL('../tavern-plugin/lib/client.js', import.meta.url), 'utf8')
+
+function loadClient() {
+  let descriptor
+  const sandbox = { window: { __ModuleLoader__: { load(value) { descriptor = value } } }, console }
+  vm.runInNewContext(source, sandbox)
+  return descriptor.factory(function () { return {} })
+}
+
+const client = loadClient()
+
+test('同一 Session 的并发恢复共用一条刷新链', async function () {
+  const sessionId = 'session-shared'
+  const summaries = {}
+  const bindings = new Set()
+  let refreshCalls = 0
+  let releaseRefresh
+  const refreshGate = new Promise(function (resolve) { releaseRefresh = resolve })
+  const recovery = client.createSessionListRecoveryModule({
+    summary: function (id) { return summaries[id] },
+    binding: function (id) { return bindings.has(id) },
+    refresh: async function () {
+      refreshCalls += 1
+      await refreshGate
+      summaries[sessionId] = { id: sessionId }
+      bindings.add(sessionId)
+    },
+    open: function () {},
+    sleep: async function () {},
+    timeoutMs: 1000
+  })
+
+  const first = recovery.wait(sessionId)
+  const second = recovery.wait(sessionId)
+  await Promise.resolve()
+  assert.equal(refreshCalls, 1)
+
+  releaseRefresh()
+  await Promise.all([first, second])
+  assert.equal(refreshCalls, 1)
+})

@@ -1,0 +1,7 @@
+{
+  "adaptedDshVersion": "0.1.5-rc.2",
+  "recommendedDesktopVersion": "2.0.13",
+  "desktopReleasesUrl": "https://github.com/anywhere-labs/dsh-desktop/releases",
+  "recommendedDshaVersion": "0.1.5-rc2",
+  "dshaReleasesUrl": "https://github.com/DSH-APP/DSHA/releases"
+}

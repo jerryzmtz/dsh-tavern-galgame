@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "6ae4dc23ee2cf7332aecf3c4926f709a1cc5b211",
+  "exporterCommit": "6ae4dc23ee2cf7332aecf3c4926f709a1cc5b211",
+  "author": "kousakayou",
+  "proof": "not-requested",
+  "published": false,
+  "status": "passed",
+  "releaseAssets": [
+    {
+      "file": "dafeiyu.zip",
+      "bytes": 167402473,
+      "sha256": "4bfcbdc810286520f6d353019f7e3d257657b7c6b1d1ea0f29776e2173cf4324"
+    }
+  ],
+  "bundle": {
+    "file": "dafeiyu.card-bundle.zip",
+    "bytes": 274708440,
+    "sha256": "01ac687d246c812f0cee67b858ac5bb580a6c90be934ab3f67715f889211492d"
+  }
+}

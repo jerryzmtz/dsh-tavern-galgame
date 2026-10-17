@@ -1,0 +1,75 @@
+{
+  "status": "local-candidates-not-published",
+  "packs": [
+    {
+      "key": "general-bgm-daily",
+      "id": "c431bb66-42f9-43a9-acd9-13c26cd6a28b",
+      "title": "通用音乐·日常",
+      "version": "1.1.0",
+      "slot": "bgm",
+      "filename": "general-bgm-daily.pack.zip",
+      "size": 35357062,
+      "sha256": "04b55ed5aaec0a72c6b6279581858b7eaec569b91733630783856e720854050f",
+      "audioBytes": 35338717,
+      "assets": 11
+    },
+    {
+      "key": "general-bgm-drama",
+      "id": "afab66ce-80ef-4d71-bc7a-215d8d2ced92",
+      "title": "通用音乐·剧情",
+      "version": "1.1.0",
+      "slot": "bgm",
+      "filename": "general-bgm-drama.pack.zip",
+      "size": 31752319,
+      "sha256": "0578f06397e6aea0d65858242e68ec3f9963bf766d8d452dfafd5918682439e7",
+      "audioBytes": 31732641,
+      "assets": 12
+    },
+    {
+      "key": "general-sfx-public",
+      "id": "dfa58745-34d6-47db-9606-5b9868f46628",
+      "title": "通用一次音效",
+      "version": "1.1.0",
+      "slot": "sfx",
+      "filename": "general-sfx-public.pack.zip",
+      "size": 1844917,
+      "sha256": "0f396c79beebb4d766ec9179d581eaa855374674f7e29c3dad5bb6f8c1096d49",
+      "audioBytes": 1812024,
+      "assets": 34
+    },
+    {
+      "key": "general-ambience-public",
+      "id": "9085f18e-e22a-4f43-9f0c-09fa6dc605fe",
+      "title": "通用环境音",
+      "version": "1.1.0",
+      "slot": "ambience",
+      "filename": "general-ambience-public.pack.zip",
+      "size": 35526372,
+      "sha256": "fd89da55a16483e03437694707f331c15e2961c394353417d0ffde142fdb49e1",
+      "audioBytes": 35498311,
+      "assets": 20
+    },
+    {
+      "key": "general-backgrounds-public",
+      "id": "abf687d3-dace-49cf-8a8b-b4c6e0f1b02c",
+      "title": "通用背景·中国",
+      "version": "1.1.0",
+      "slot": "backgrounds",
+      "filename": "general-backgrounds-public.pack.zip",
+      "size": 44370516,
+      "sha256": "3e9c7608aedfe3244d3f2cb7f7ac9d8a121d013c12d437c686f67be998646e1c",
+      "audioBytes": 0,
+      "assets": 197
+    },
+    {
+      "key": "general-items-public",
+      "id": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab",
+      "title": "中国现代都市",
+      "slot": "props",
+      "filename": "general-items-public.pack.zip",
+      "size": 59041976,
+      "sha256": "aa69ac23d3da6a50b1410a98a152b8a40a8411999ab744181b5d15c88f98c651",
+      "assets": 48
+    }
+  ]
+}

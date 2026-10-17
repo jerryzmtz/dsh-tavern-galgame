@@ -1,0 +1,11 @@
+{
+  "format": "dsh.widget/2",
+  "namespace": "items",
+  "runtime": "items",
+  "view": {"entry": "index.html"},
+  "presentation": {"open": {"width": 320, "height": 200, "minWidth": 200, "minHeight": 100, "anchor": "center-card"}},
+  "commands": [],
+  "caps": {"bytes": 4096, "active": 1},
+  "settingsSchema": {"fields": [{"key": "inventoryNames", "type": "toggle", "label": "inventoryNames", "help": "inventoryNamesHelp", "default": false}]},
+  "i18n": {"defaultLocale": "zh-CN", "messages": {"zh-CN": {"inventoryNames": "向导演提供库存名称", "inventoryNamesHelp": "最多 12 个名字，不提供数量；默认关闭。库存映射使用卡片的变量对照。"}}}
+}

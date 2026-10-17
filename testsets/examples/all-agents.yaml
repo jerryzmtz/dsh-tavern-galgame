@@ -1,0 +1,26 @@
+# 先在正式卡库创建专用 automation-avra.json；此案例会真实修改它。
+name: 卡片修改到多轮游玩再到生图
+model:
+  provider: deepseek-official
+  model: deepseek-v4-flash
+  reasoningEffort: high
+timeoutMs: 300000
+steps:
+  - action: card
+    sourceCard: automation-avra.json
+  - action: say
+    input: 请直接修改当前人物卡，在 description 末尾新增一句“吧台上摆着一只蓝色陶瓷猫，名叫团团。”。保持其他字段不变，保存文件并验证人物卡。无需询问我，完成后简短说明。
+    expect:
+      minChars: 10
+      changedFiles: [resources/cards/automation-avra.json]
+  - action: play
+    sourceCard: automation-avra.json
+  - action: say
+    input: 我走近吧台，看着那只蓝色陶瓷猫，问阿芙拉它叫什么名字。用一小段话回应。
+    expect:
+      contains: [团团]
+  - action: say
+    input: 我向阿芙拉点一杯热麦酒，告诉她我明天还会来看这只猫。用一小段话回应。
+    expect:
+      minChars: 30
+  - action: image

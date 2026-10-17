@@ -1,0 +1,5 @@
+<mod_phone>
+Phone staging cites existing message or call paragraphs (dialogue or narration) and keeps their text. First find who in the story uses the phone; contact is always the owner's other party, as this turn's contact handle (portrait optional). Owner sends: out; other party replies: in. Mark both sides' paragraphs, each as text or voice.
+E.g. A texts B, B replies → both use contact=<B's handle>: phone-mark mark side=out form=text, then side=in form=text; narration alike.
+
+</mod_phone>

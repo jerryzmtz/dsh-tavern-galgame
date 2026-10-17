@@ -1,0 +1,225 @@
+# dsh-tavern 架构
+
+架构只服务于一件事：在需要时注入最少但足够的上下文，同时守住候选项、剧本推进、权威剧情时间线和人物卡准备四项核心能力。
+
+## 运行时与交付原则
+
+DSH 是酒馆内置的固定组件。桌面、安卓和命令行版均独立打包、独立运行和更新，与官方 DSH Desktop、DSHA 及全局 DSH 的升级节奏隔离；不因上游发布而自动适配或迁移存档。完整决策与验收边界见 [ADR 0007](adr/0007-bundle-and-pin-dsh-runtime.md)。
+
+## 架构理念：一主多子
+
+SillyTavern 采用提示词工程的思路：每轮动态拼接一个超大上下文，囊括系统规则、内容偏好、对话历史、人物卡、世界书、脚本与变量等信息，再要求模型一口气完成正文生成、历史与设定遵循、格式控制甚至代码生成等复杂任务。
+
+这会带来两个问题：一是动态插入不断改变上下文前缀，提示词缓存难以充分复用，增加费用和等待时间；二是多个复杂目标互相争夺模型注意力，任务越多，越容易出现失忆、掉格式、人物状态矛盾和明显的 AI 味。
+
+dsh-tavern 改用“一主多子”Agent 架构：前台主 Agent 持续保存追加式对话历史并专注正文生成；持续存在的后台子 Agent 分步处理候选项、姿势与状态总结等小任务，再由程序把结果合并为完整体验。世界书不再调用后台 Agent 分析：常驻条目与人物卡固定信息作为标准消息记入 DSH Session，非常驻条目按关键词匹配后注入当轮。每个 Agent 都维护自己的追加式历史，固定上下文可在轨迹中查看并由 Session 重建；后台结果回写主 Session 后才进入后续对话。当前只使用一个后台子 Agent；后续可在确有职责隔离需要时扩展为多个。
+
+主 Agent 与后台 Agent 各自维护前缀稳定，从而提高缓存利用率、降低费用与等待时间；拆分后的每次生成只解决一个明确问题，也能显著提升输出质量。
+
+新架构相对传统酒馆有两项核心优势：
+
+| 优势 | 传统酒馆 | dsh-tavern |
+| --- | --- | --- |
+| 成本（费用与时间） | 动态插入容易破坏前缀稳定性，每轮重复计算大量上下文 | 主 Agent 与各后台子 Agent 都采用追加式架构，大幅提高缓存前缀稳定性，降低费用与等待时间 |
+| 质量 | 一个模型一口气承担正文、召回、状态和变量等大任务，目标相互干扰 | 主 Agent 专注正文，后台 Agent 分步完成分析任务，把一个混杂的大任务拆成多个目标明确的小任务 |
+
+## 领域语言
+
+以下术语统一描述游玩、剧本、上下文和人物卡准备中的核心概念。定义只说明领域含义，不承担实现规格。
+
+### 游玩
+
+**剧情时间线**：
+某次游玩中正文、剧本进度和派生状态共同形成的权威剧情序列。Agent 会话只是时间线的生产者或投影。
+_避免使用_：Agent 聊天记录、候选历史
+
+**剧情 revision**：
+剧情时间线某一权威状态的不透明版本；只增不减，即使回退也会产生新版本。
+_避免使用_：回合数、剧本游标
+
+**剧情 checkpoint**：
+正文提交前可完整恢复的剧情状态，用于回退和正文替代生成。
+_避免使用_：模型摘要、Agent 记忆
+
+**剧情分支**：
+从 checkpoint 回退或替代正文后产生的新剧情延续。旧分支保留历史，但不能继续影响当前剧情。
+_避免使用_：候选项、自由行动
+
+**游玩模式**：
+玩家以人物卡为基础持续推进故事的模式，包括自由故事和剧本推进。
+_避免使用_：故事模式（仅指自由故事时可以使用）
+
+**候选项**：
+正文结束后生成的下一步行动建议；玩家可以选用、修改或完全忽略。
+_避免使用_：预写结果、固定选项
+
+**本轮演出指引**：
+用户最新消息所表达的、期望在本轮正文中看到的动作、心理、对白或场景变化；它不是已经发生的剧情，也不是可直接拼接的正文原文。
+_避免使用_：玩家指令、导演指令、上一段正文
+
+**前台主 Agent**：
+直接接收玩家输入并生成故事正文的 Agent，是玩家正在交互的叙事者。
+_避免使用_：正文子 Agent
+
+**后台子 Agent**：
+持续存在、但不直接生成正文的协作者；它维护自己的追加式历史和稳定前缀，承担一项或多项后台任务，并将结果回写主 Session。当前只有一个，架构允许按需扩展为多个。
+_避免使用_：无状态模型调用、每任务必建 Agent
+
+**后台任务**：
+后台子 Agent 在一个剧情 revision 上承担的一次明确工作；任务与 Agent 不是一一对应关系，同一个子 Agent 可以依次承担多种任务。
+_避免使用_：独立子 Agent、后台线程
+
+**人物姿势**：
+最新一轮结束时，主要人物的位置、姿势、动作和必要衣着状态。
+_避免使用_：长期记忆、剧情摘要
+
+### 剧本
+
+**剧本**：
+绑定到人物卡、用于支撑长线剧情结构与推进的外部文本。
+_避免使用_：人物卡正文、聊天记录
+
+**剧本游标**：
+下一轮正文默认参考的剧本切块位置。正文成功提交后自动前进一块，候选只能保持或向前定位；前后阅读剧本不改变游标。
+_避免使用_：阅读进度、已完成比例
+
+**剧本参考**：
+某一游玩回合选定并注入的剧本文本；它指导本轮正文，但不是已经发生的剧情。
+_避免使用_：剧情事实、玩家输入
+
+**剧本走向**：
+剧本中的关键事件、因果关系和长期方向；不等于原文措辞、具体动作或唯一实现路径。
+_避免使用_：固定轨道、必须照演的原文
+
+**重大偏离**：
+继续执行当前剧本必须否定、撤销或暗中改写玩家行动，或者玩家明确拒绝关键事件、离开当前主线，使剧本事件在当前条件下无法成立。
+_避免使用_：对白不同、行动方式不同、局部顺序变化
+
+### 上下文
+
+**上下文注入**：
+为某一次模型生成选择并提供必要信息，包括人物卡、人物姿势、Guide、世界书或剧本参考。
+_避免使用_：完整数据倾倒、永久提示词
+
+**Guide**：
+用户为当前会话明确设置的持续指导；在游玩规则中优先于剧本走向和本轮演出指引。
+_避免使用_：人物卡字段、单轮玩家行动
+
+### 人物卡
+
+**卡片模式**：
+通过对话或字段编辑准备人物卡、但不进行故事游玩的产品模式。
+_避免使用_：独立编辑器、游玩后工具
+
+**人物卡准备**：
+游玩前新建、导入、讨论、修改、检查并保存人物卡的过程。
+_避免使用_：附属功能、后台配置
+
+**素材抽取**：
+通过 Agent 从小说或剧本文本中分批提炼新人物卡的卡片模式。
+_避免使用_：剧情续写、角色扮演
+
+**Tavern Skill**：
+只向卡片 Agent 开放的可复用工作方法。目录只披露名称和简介，完整 `SKILL.md` 由 DSH 原生 `skill` 工具按需加载。
+_避免使用_：全局 DSH Skill、游玩提示词、人物卡字段
+
+## 系统 seam
+
+DSH 负责通用 Agent 基础设施：会话、模型选择、工具调用、消息流和 Web 宿主。dsh-tavern 不复制这些能力，只提供文字游戏领域逻辑。
+
+Tavern Profile 是 CLI 与 DSH Desktop 共用的宿主 seam，本身不声明 Web 端口。CLI Adapter 启动时显式使用 3081，并负责独立进程和启停命令；Desktop Adapter 只安装 Profile，由 Desktop 负责动态端口、窗口、进程与 Profile 切换。两种入口不分叉领域代码。安装时读取宿主 DSH 版本，并让 Tavern 直接依赖的 DSH 子包与宿主保持同版，避免混合运行时。
+
+用户可写数据固定存放在 `$DSH_HOME/profile-data/tavern/data`，不跟随源码目录、更新位置或 Git worktree。源码只保存内置提示词、默认配置和程序文件。升级安装会先完整备份旧源码目录中的 `data`，再合并到固定目录；普通文件冲突不覆盖主数据，而是保留到 `migration-conflicts/` 供人工检查。
+
+- `tavern-plugin/lib/index.js` 是宿主适配器，把 DSH 生命周期、HTTP 和文件存储接到领域模块。
+- `tavern-plugin/src/client/` 是 Web 客户端维护源码。纵向产品能力按 Feature Module 拆分，模块同时拥有自己的 UI 状态、RPC 调用和注册逻辑，只向宿主暴露窄接口。
+- `tavern-plugin/lib/client.js` 是由 `pnpm build:client` 确定性组装的单一 Web 运行产物，以适配 DSH 当前的浏览器模块加载边界；提交前用 `pnpm check:client` 拒绝过期产物，不直接编辑该文件。
+- `tavern-plugin/lib/client-assets/tavern.css` 独立维护，构建时内置到 `client.js`，由 Web 宿主注入并复用样式节点，核心布局无需额外网络请求；原只读资源路由保留供旧客户端使用。
+- `tavern-plugin/lib/prompt-catalog.js` 是提示词文件适配器。领域模块通过注入的 `prompt` 读取固定提示词，不直接依赖文件系统。
+- Tavern preset 复用 DSH 原生 Skill 注册表、文件提供方和加载工具，但只扫描 `presets/tavern/skills/` 与 `data/skills/`；全局 Skills、游玩模式和后台任务均不进入这条能力边界。
+- `Tavern Skill Module` 是用户 Skill 的唯一写入口，校验名称和正文、原子保存文件、保护内置 Skill，并要求同名覆盖具有明确意图。
+
+正常回合不要求模型调用工具来读取已知上下文或提交正文。宿主在生成前准备上下文，在最终回复完成后提交状态；工具只保留模型需要临时决定的读取和明确修改。
+
+## 领域模块
+
+| 模块 | 接口 | 职责 |
+| --- | --- | --- |
+| Context Planner | `plan` | 为正文、候选或卡片任务选择并组合最少上下文，同时返回注入审计 |
+| Session Fixed Context | `readSessionStablePrefix`、`ensureSessionStablePrefix` | 把人物卡固定信息与常驻世界书以标准 DSH `user/message` 记入 Session，负责去重和旧外部快照迁移；不负责预设的请求时投影 |
+| Runtime Content Projection | `preserveRuntimeSource`、`projectAgentContent`、`projectOpeningPreview`、`projectOpeningCommit`、`projectRuntimeReply`、`projectBackgroundInput`、`projectBackgroundOutput` | 按具体场景解析宏、分离 HTML、应用展示正则；卡片准备仍保留完整 raw，调用方不能绕过投影边界 |
+| Script Continuity | `start`、`transition`、`inspect` | 维护剧本游标、回合参考、提交与回退 |
+| Story Timeline | `apply`、`complete`、`inspect` | 统一正文、候选、回退、替代与结算，拒绝迟到结果 |
+| Candidate Generator | `generate`、`find` | 运行候选任务、校验结果并保存到权威剧情 revision |
+| Card Preparation | `create`、`migrate`、`project`、`update`、`present` | 管理完整工作 raw、稳定业务投影、受控修改和无损导出 |
+| Turn Orchestrator | `prepare`、`stageChanges`、`finalize`、`discard`、`visibleTools` | 把 DSH 回合生命周期转换为上下文准备和原子状态提交 |
+| File Resources | `list`、`read`、`import`、`rename`、`restore` | 管理人物卡和资料的工作版、原版、路径身份与绑定关系 |
+| World Book Library | `catalog`、`get`、`binding`、`bound`、`bind`、`unbind`、`import`、`update`、`export`、`remove` | 统一人物卡内置世界书与独立世界书的身份、读取、绑定、编辑和存储适配 |
+| Tavern Conversation Registry | `links`、`resolve`、`publish`、`remove` | 原子维护 DSH Session、Tavern 对话索引和对话文件之间的对应关系 |
+| Background Task Coordinator | `begin` | 串行化同一对话的后台任务，统一任务开始、完成、失败及前台可用状态 |
+| Live Tavern View | `getSnapshot`、`subscribe`、`invalidate` | 向 Web UI 提供单一的实时 Tavern 视图缓存、刷新和重试入口；人物设计档案通过领域模块的只读投影进入该视图 |
+| Conversation Lifecycle | `start` | 把新建游玩或卡片工作台拆成可诊断的顺序阶段，并统一失败位置 |
+| Preset Reading | `inspectPreset` | 把不同 SillyTavern JSON 预设投影为统一的只读摘要和有序提示词条目，不改写原文件 |
+| Preset Compatibility | `inspectPreset`、`selectPreset`、`fullSnapshot`、`compileCompatibilityTurn` | 用户在预设库中选择一份外部预设；普通游玩把可识别提示词按头、中、尾投影到 DSH 前台请求并应用受支持的正则；兼容模式按 SillyTavern 语义编译；后台与卡片 Agent 不运行该预设 |
+
+Web 端按产品能力划分为 Tavern Shell、Play Controls、Card Library、World Book Library、Resources Library 和 Preset Library 六个 Feature Module。它们不是机械拆文件：每个模块从界面、状态到注册形成完整 seam，删除某一模块即可同时移除该能力及其宿主注册，`apply()` 只负责组合这些接口。
+
+`Background Agent Runner` 是 DSH 适配器。当前实现恢复同一个持续存在的后台子 Agent，并以候选或状态结算等不同任务模式运行；任务共享剧情理解，但保持不同的结果权限。架构允许未来按需接入更多持续存在的后台子 Agent。前台上下文注入和工具过滤会跳过后台 Activation。
+
+## 关键规则
+
+1. Context Planner 决定本轮注入什么；宿主适配器只声明用途。
+2. Script Continuity 是剧本游标的唯一写入口。阅读不推进；成功正文推进一块；候选只能保持或向前定位。
+3. Story Timeline 是正文、候选和派生状态的唯一真相。每项后台工作绑定 `{branchId, revision}`，依据过期就不能提交。
+4. 人物卡分为不可变原版、可编辑工作 raw 和稳定业务投影。Card Preparation 是 raw 与投影之间的唯一边界；标准字段、世界书和 JSON Pointer 扩展修改最终都写回工作 raw，未知字段不得因导入、编辑或导出而丢失。
+5. 当前候选、状态结算等任务共享一个持续存在的后台子 Agent，并以不同任务模式限制各自可提交的结果；只有出现明确的职责隔离需求时才扩展更多子 Agent。
+6. 领域模块不依赖 DSH 或文件系统；依赖通过接口传入，行为测试与生产调用跨越同一个 seam。
+7. 自由游玩不暴露 Tavern 文件或 Skill 工具；剧本游玩只开放剧本读取；卡片模式只开放当前准备任务需要的读取、修改和按需 Skill 加载。
+8. 人物卡、世界书、剧本、Guide 和玩家输入等外部内容进入游玩 Agent 前，必须经过统一运行时投影。读取型宏按当前上下文解析；会修改变量的宏只在明确的权威生命周期执行一次；HTML 进入展示层，不进入正文或后台任务。卡片模式编辑的是原始内容，不执行这条投影。
+9. 开场白选择是运行时投影的特殊预览边界：选择阶段使用隔离变量渲染并保留完整正文与 HTML；用户确认后才重新从原始开场白解析一次、提交变量，并将剧情正文写入 Agent、HTML 写入酒馆状态。纯展示页也是有效开场白，可以创建会话；没有正文时使用一个不可见空白字符维持原生开场消息结构，不把 HTML 送入 Agent。
+10. 后台任务不使用插件自定的小型统一输出上限。已知模型按官方最大输出能力运行；未知模型交由 DSH 适配器选择上限，且保留当前会话选择的推理等级。
+11. 外部预设属于实验能力。普通游玩只在前台正文请求中投影可识别提示词和受支持的正则，不改变 DSH 追加式历史，也不进入后台或卡片 Agent，因此不保证完整适配或破限效果；兼容模式则以尽最大可能复刻 SillyTavern 的消息结构与预设行为为目标。
+12. 人物卡固定信息和常驻世界书属于游戏 Session，必须在开场白之前以标准 DSH 消息记录，使轨迹、模型请求与磁盘恢复使用同一条历史。可切换预设仍仅做请求时投影。
+
+## 源码地图
+
+```text
+tavern-plugin/
+├── src/client/                   Web 宿主源码、组装模板与纵向 Feature Modules
+├── lib/client.js                 确定性生成的单文件 Web 运行产物
+└── lib/
+    ├── index.js                  DSH、HTTP 与存储适配器
+    ├── background-agent-runner.js 后台 Agent 适配器
+    ├── prompt-catalog.js         提示词文件适配器
+    └── domain/
+        ├── agent-readiness.js
+        ├── background-task-coordinator.js
+        ├── candidate-generation.js
+        ├── card-deletion.js
+        ├── card-extension-reading.js
+        ├── card-openings.js
+        ├── card-preparation.js
+        ├── card-reading.js
+        ├── context-planner.js
+        ├── epub-text.js
+        ├── file-resources.js
+        ├── preset-reading.js
+        ├── reply-presentation.js
+        ├── runtime-presets.js
+        ├── runtime-content-projection.js
+        ├── script-continuity.js
+        ├── skill-visibility.js
+        ├── story-timeline.js
+        ├── tavern-conversation-registry.js
+        ├── tavern-data.js
+        ├── tavern-macro-engine.js
+        ├── tavern-regex-display.js
+        ├── tavern-skills.js
+        ├── turn-orchestration.js
+        ├── workspace-resources.js
+        ├── worldbook-library.js
+        ├── worldbook-recall.js
+        └── worldbook-resource.js
+```
+
+跨 Agent 同步见[剧情时间线设计](design/agent-timeline.md)，剧本进度见[剧本游标设计](design/script-cursor.md)。权威决策记录在 [`adr/`](adr/)；产品取舍以[产品设计原则](product-design.md)为准，本文件的“领域语言”章节是术语权威来源。

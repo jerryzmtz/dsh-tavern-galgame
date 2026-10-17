@@ -1,0 +1,37 @@
+{
+  "current": [
+    "stage-config-v1-explicit",
+    "canonical-incremental-v1",
+    "playback-v3",
+    "index-v3",
+    "bubble-four-field",
+    "bubble-five-field",
+    "bubble-voice-single",
+    "bubble-voice-dual",
+    "thought"
+  ],
+  "converterOnly": [
+    "bubble-card-path",
+    "protagonist",
+    "worldview",
+    "library-mode",
+    "record-monolith",
+    "record-index-v2",
+    "text-dsl-sidecar",
+    "old-browser-keys"
+  ],
+  "noPlugins": {
+    "render": [
+      "markdown",
+      "approved-html"
+    ],
+    "actions": [
+      "send",
+      "choose",
+      "guide",
+      "retry"
+    ],
+    "modelCallsOnRead": 0,
+    "scriptAdvancesOnRead": 0
+  }
+}

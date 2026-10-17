@@ -1,0 +1,394 @@
+{
+  "format": "dsh-mod",
+  "schemaVersion": 2,
+  "id": "dsh.danmaku",
+  "name": "弹幕",
+  "summary": "模拟观众的飘屏与直播聊天；只观看，不影响剧情",
+  "relevance": "已召回观众群对已完成剧情和主播选择的直播评论",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "dependencies": {
+    "hostApi": 1,
+    "capabilities": []
+  },
+  "compatibility": {
+    "compatible": [],
+    "incompatible": []
+  },
+  "permissions": {
+    "source": [
+      "dialogue"
+    ],
+    "models": [
+      "audience"
+    ],
+    "stage": []
+  },
+  "commands": [],
+  "variableSlots": [],
+  "admission": {
+    "entryKinds": [
+      "audience"
+    ]
+  },
+  "builtinAssets": [
+    {
+      "id": "bilibili-general",
+      "path": "assets/audience/bilibili-general.json",
+      "type": "bundle"
+    },
+    {
+      "id": "galgame-romance",
+      "path": "assets/audience/galgame-romance.json",
+      "type": "bundle"
+    },
+    {
+      "id": "live-chat",
+      "path": "assets/audience/live-chat.json",
+      "type": "bundle"
+    },
+    {
+      "id": "madoka",
+      "path": "assets/audience/madoka.json",
+      "type": "bundle"
+    },
+    {
+      "id": "mujica",
+      "path": "assets/audience/mujica.json",
+      "type": "bundle"
+    },
+    {
+      "id": "mygo",
+      "path": "assets/audience/mygo.json",
+      "type": "bundle"
+    },
+    {
+      "id": "neuro",
+      "path": "assets/audience/neuro.json",
+      "type": "bundle"
+    },
+    {
+      "id": "snark",
+      "path": "assets/audience/snark.json",
+      "type": "bundle"
+    },
+    {
+      "id": "three-kingdoms-2010",
+      "path": "assets/audience/three-kingdoms-2010.json",
+      "type": "bundle"
+    }
+  ],
+  "modelSlots": [
+    {
+      "id": "audience",
+      "label": "弹幕模型",
+      "purpose": "观众评论与每轮短记忆",
+      "default": "follow-foreground"
+    }
+  ],
+  "subscriptions": [
+    {
+      "event": "stage.entered",
+      "delivery": "active"
+    },
+    {
+      "event": "stage.left",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "page.changed",
+      "delivery": "active"
+    },
+    {
+      "event": "text.revealed",
+      "delivery": "active"
+    },
+    {
+      "event": "performance.presented",
+      "delivery": "active"
+    },
+    {
+      "event": "player.input",
+      "delivery": "active"
+    },
+    {
+      "event": "generation.started",
+      "delivery": "active"
+    },
+    {
+      "event": "generation.ended",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "round.committed",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "activity.changed",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "timeline.changed",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "mod.context.changed",
+      "delivery": "lifecycle"
+    },
+    {
+      "event": "session.disposed",
+      "delivery": "lifecycle"
+    }
+  ],
+  "uiLayers": [
+    {
+      "id": "overlay",
+      "entry": "view/overlay.js",
+      "band": "audience",
+      "order": 0,
+      "input": "passthrough",
+      "playback": "recorded",
+      "budget": {
+        "maxNodes": 200,
+        "maxVisible": 32
+      }
+    },
+    {
+      "id": "sidebar",
+      "entry": "view/sidebar.js",
+      "band": "audience",
+      "order": 1,
+      "input": "regions",
+      "playback": "recorded",
+      "budget": {
+        "maxNodes": 200,
+        "maxVisible": 32
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "id": "audience-rule",
+      "path": "prompts/audience.txt",
+      "target": "model",
+      "modelSlot": "audience",
+      "placement": {
+        "section": "model.rules",
+        "order": 0
+      }
+    }
+  ],
+  "settingsSchema": {
+    "fields": [
+      {
+        "key": "view",
+        "type": "segmented",
+        "label": "舞台弹幕",
+        "default": "overlay",
+        "scope": "global",
+        "choices": [
+          {
+            "value": "overlay",
+            "label": "飘屏"
+          },
+          {
+            "value": "sidebar",
+            "label": "直播风格"
+          },
+          {
+            "value": "off",
+            "label": "关闭"
+          }
+        ]
+      },
+      {
+        "key": "density",
+        "type": "segmented",
+        "label": "显示密度",
+        "default": "standard",
+        "scope": "global",
+        "choices": [
+          {
+            "value": "low",
+            "label": "疏朗"
+          },
+          {
+            "value": "standard",
+            "label": "标准"
+          }
+        ]
+      },
+      {
+        "key": "area",
+        "type": "segmented",
+        "label": "显示区域",
+        "default": "three-quarter",
+        "scope": "global",
+        "choices": [
+          {
+            "value": "quarter",
+            "label": "四分之一"
+          },
+          {
+            "value": "half",
+            "label": "上半屏"
+          },
+          {
+            "value": "three-quarter",
+            "label": "四分之三"
+          },
+          {
+            "value": "full",
+            "label": "全屏"
+          }
+        ]
+      },
+      {
+        "key": "opacity",
+        "type": "slider",
+        "label": "不透明度",
+        "default": 90,
+        "scope": "global",
+        "min": 10,
+        "max": 100,
+        "step": 5,
+        "unit": "%"
+      },
+      {
+        "key": "fontScale",
+        "type": "slider",
+        "label": "字号",
+        "default": 100,
+        "scope": "global",
+        "min": 50,
+        "max": 150,
+        "step": 10,
+        "unit": "%"
+      }
+    ],
+    "sections": [
+      {
+        "id": "stage-controls",
+        "title": "舞台控制",
+        "fields": [
+          "view"
+        ]
+      },
+      {
+        "id": "stage-config",
+        "title": "弹幕显示",
+        "fields": [
+          "density",
+          "area",
+          "opacity",
+          "fontScale"
+        ]
+      }
+    ]
+  },
+  "packSchema": {
+    "fields": []
+  },
+  "assetKinds": [],
+  "uiPages": [],
+  "runtime": {
+    "entry": "runtime.js"
+  },
+  "defaultPacks": [],
+  "files": [
+    {
+      "path": "runtime.js",
+      "size": 896
+    },
+    {
+      "path": "controller.js",
+      "size": 11679
+    },
+    {
+      "path": "contract.js",
+      "size": 5487
+    },
+    {
+      "path": "audience.js",
+      "size": 2958
+    },
+    {
+      "path": "input.js",
+      "size": 1325
+    },
+    {
+      "path": "presentation.js",
+      "size": 3365
+    },
+    {
+      "path": "host.js",
+      "size": 1925
+    },
+    {
+      "path": "prompts/audience.txt",
+      "size": 1548
+    },
+    {
+      "path": "presets.js",
+      "size": 5385
+    },
+    {
+      "path": "nicknames.js",
+      "size": 2748
+    },
+    {
+      "path": "assets/audience/bilibili-general.json",
+      "size": 6281
+    },
+    {
+      "path": "assets/audience/galgame-romance.json",
+      "size": 6438
+    },
+    {
+      "path": "assets/audience/live-chat.json",
+      "size": 6752
+    },
+    {
+      "path": "assets/audience/madoka.json",
+      "size": 6992
+    },
+    {
+      "path": "assets/audience/mujica.json",
+      "size": 7001
+    },
+    {
+      "path": "assets/audience/mygo.json",
+      "size": 7017
+    },
+    {
+      "path": "assets/audience/neuro.json",
+      "size": 6741
+    },
+    {
+      "path": "assets/audience/snark.json",
+      "size": 6402
+    },
+    {
+      "path": "assets/audience/three-kingdoms-2010.json",
+      "size": 7397
+    },
+    {
+      "path": "view/overlay.js",
+      "size": 478
+    },
+    {
+      "path": "view/sidebar.js",
+      "size": 460
+    }
+  ],
+  "license": {
+    "privateUse": false
+  },
+  "ui": {
+    "layout": [
+      {
+        "host": "advanced"
+      }
+    ]
+  }
+}

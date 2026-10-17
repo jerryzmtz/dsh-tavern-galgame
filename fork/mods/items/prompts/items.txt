@@ -1,0 +1,5 @@
+<mod_items>
+Mark important recalled props: item show|gain|lose name=<名称> genre=<分类> [--force]. Show is immediate without inventory. Gain/lose need the inventory binding; settlement revises the same-source record, not playback. Omit count. Unknown name: --force uses only a category icon.
+E.g. picking up a snack → item gain; only showing an item → item show.
+
+</mod_items>

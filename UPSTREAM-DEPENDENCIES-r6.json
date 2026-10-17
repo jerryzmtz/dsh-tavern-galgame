@@ -1,0 +1,44 @@
+{
+  "locks": [
+    {
+      "path": "pnpm-lock.yaml",
+      "entries": 248,
+      "added": [
+        "dsh-web-mobile@2.4.1"
+      ],
+      "removed": [
+        "dsh-web-mobile@2.3.0"
+      ]
+    },
+    {
+      "path": "tavern-plugin/pnpm-lock.yaml",
+      "entries": 163,
+      "added": [],
+      "removed": []
+    }
+  ],
+  "newPackages": [
+    {
+      "key": "dsh-web-mobile@2.4.1",
+      "name": "dsh-web-mobile",
+      "version": "2.4.1",
+      "license": "MIT",
+      "registry": "https://registry.npmjs.org/dsh-web-mobile/2.4.1",
+      "tarball": "https://registry.npmjs.org/dsh-web-mobile/-/dsh-web-mobile-2.4.1.tgz",
+      "integrity": "sha512-15lNNC6p4vkMMS+IWuEts4AHozgCTVU9LoX8bRD9DZAkz6LRAm7U0CAeXeBKYVngN3qZXhIoS5gv2lYRA0DOXg==",
+      "files": [
+        "LICENSES/npm/dsh-web-mobile-2.4.1/LICENSE"
+      ],
+      "engines": {
+        "node": ">=24.0.0"
+      },
+      "patchRedistributed": true,
+      "packageBytesRedistributed": false
+    }
+  ],
+  "patches": [
+    "patches/dsh-web-mobile@2.4.1.patch",
+    "patches/dsh-better-sidebar@0.19.1.patch"
+  ],
+  "missingLicenses": []
+}

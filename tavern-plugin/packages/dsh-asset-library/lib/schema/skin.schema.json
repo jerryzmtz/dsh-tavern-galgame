@@ -1,0 +1,2270 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "dsh.skin/1",
+ "title": "Stage skin (dsh.skin/1) — generic core, with optional levels and animated overlay",
+ "description": "Declarative textbox/nameplate/font/text-effect/cursor/sfx override of the stage theme, optionally with levels 1..3 and an animated collage overlay (pieces anchored to runtime stage rects, stepped motion, cue timelines, glyph-set labels). No code, no CSS strings, no URLs. Installed as pack kind `skins`. Units: px at the 1600x900 reference stage. See docs/fork/witch-barrier-effects.md §11 and §16.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "schema",
+  "id",
+  "label",
+  "textbox",
+  "nameplate",
+  "font",
+  "textFx"
+ ],
+ "properties": {
+  "schema": {
+   "const": "dsh.skin/1"
+  },
+  "id": {
+   "$ref": "#/$defs/id"
+  },
+  "label": {
+   "type": "string",
+   "minLength": 1
+  },
+  "license": {
+   "$ref": "#/$defs/license"
+  },
+  "textbox": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "paint"
+   ],
+   "properties": {
+    "paint": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "bg",
+      "fg"
+     ],
+     "properties": {
+      "bg": {
+       "$ref": "#/$defs/color"
+      },
+      "fg": {
+       "$ref": "#/$defs/color"
+      },
+      "fgMuted": {
+       "$ref": "#/$defs/color"
+      },
+      "accent": {
+       "$ref": "#/$defs/color"
+      },
+      "onAccent": {
+       "$ref": "#/$defs/color"
+      },
+      "border": {
+       "$ref": "#/$defs/color"
+      }
+     }
+    },
+    "shape": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "radius": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 40
+      },
+      "borderWidth": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 8
+      },
+      "rings": {
+       "type": "array",
+       "maxItems": 3,
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "width",
+         "color"
+        ],
+        "properties": {
+         "width": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 12
+         },
+         "color": {
+          "$ref": "#/$defs/color"
+         }
+        }
+       }
+      }
+     }
+    },
+    "frame": {
+     "description": "Ornament bands live in the border band only (outside the content rect).",
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "top": {
+       "$ref": "#/$defs/band"
+      },
+      "bottom": {
+       "$ref": "#/$defs/band"
+      },
+      "corners": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "kind"
+       ],
+       "properties": {
+        "kind": {
+         "enum": [
+          "none",
+          "diamond",
+          "rivet",
+          "bow",
+          "bracket"
+         ]
+        },
+        "colors": {
+         "type": "array",
+         "items": {
+          "$ref": "#/$defs/color"
+         },
+         "maxItems": 2
+        }
+       }
+      },
+      "insets": {
+       "type": "array",
+       "items": {
+        "type": "number",
+        "minimum": 24,
+        "maximum": 80
+       },
+       "minItems": 4,
+       "maxItems": 4,
+       "description": "content padding t,r,b,l (≥ theme default*0.9)"
+      }
+     }
+    }
+   }
+  },
+  "nameplate": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "shape",
+    "paint"
+   ],
+   "properties": {
+    "shape": {
+     "enum": [
+      "pill",
+      "tag",
+      "torn",
+      "jagged",
+      "plate",
+      "plain"
+     ]
+    },
+    "paint": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "bg",
+      "fg"
+     ],
+     "properties": {
+      "bg": {
+       "$ref": "#/$defs/color"
+      },
+      "fg": {
+       "$ref": "#/$defs/color"
+      },
+      "border": {
+       "$ref": "#/$defs/color"
+      }
+     }
+    },
+    "rotate": {
+     "type": "number",
+     "minimum": -3,
+     "maximum": 3
+    },
+    "size": {
+     "type": "number",
+     "minimum": 18,
+     "maximum": 40
+    },
+    "letterSpacing": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 0.2
+    },
+    "rings": {
+     "type": "array",
+     "maxItems": 2,
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "width",
+       "color"
+      ],
+      "properties": {
+       "width": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 8
+       },
+       "color": {
+        "$ref": "#/$defs/color"
+       }
+      }
+     }
+    }
+   }
+  },
+  "font": {
+   "description": "Installed font ids (fonts.md catalogue), every field optional. body is the stage role (text box; name, ui and titles fall back to it), film the cinematic subtitles (falls back to body, then the built-in subtitle stack). The user's per-machine override wins over ordinary skins; a director-applied performance skin's stage fonts win over it while active. Size, reduced motion and photosensitivity settings still apply.",
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "body": {
+     "$ref": "#/$defs/fontId"
+    },
+    "name": {
+     "$ref": "#/$defs/fontId"
+    },
+    "ui": {
+     "$ref": "#/$defs/fontId"
+    },
+    "film": {
+     "$ref": "#/$defs/fontId"
+    }
+   }
+  },
+  "textStyle": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "weight": {
+     "enum": [
+      400,
+      500,
+      700
+     ]
+    },
+    "sizeScale": {
+     "type": "number",
+     "minimum": 0.85,
+     "maximum": 1.2,
+     "description": "multiplies the user's text size setting"
+    },
+    "lineHeight": {
+     "type": "number",
+     "minimum": 1.4,
+     "maximum": 1.9
+    },
+    "letterSpacing": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 0.12
+    },
+    "emphasis": {
+     "$ref": "#/$defs/color"
+    }
+   }
+  },
+  "textFx": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "reveal"
+   ],
+   "properties": {
+    "reveal": {
+     "enum": [
+      "type",
+      "ink",
+      "pop",
+      "stutter",
+      "stamp",
+      "cut",
+      "scan",
+      "scrawl"
+     ]
+    },
+    "stepFps": {
+     "type": "number",
+     "minimum": 6,
+     "maximum": 14
+    },
+    "charsPerStep": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 6
+    },
+    "cps": {
+     "type": "number",
+     "minimum": 10,
+     "maximum": 80
+    },
+    "from": {
+     "enum": [
+      "top",
+      "bottom"
+     ],
+     "description": "stamp direction"
+    },
+    "flash": {
+     "$ref": "#/$defs/color",
+     "description": "colour of a just-revealed glyph (transient; exempt from contrast)"
+    },
+    "emphasis": {
+     "enum": [
+      "none",
+      "jitter",
+      "ink"
+     ]
+    },
+    "jitter": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 1.5
+    }
+   }
+  },
+  "cursor": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "name"
+   ],
+   "properties": {
+    "name": {
+     "enum": [
+      "triangle",
+      "wheel",
+      "lollipop",
+      "eye",
+      "rose",
+      "rec",
+      "candle",
+      "gear",
+      "light",
+      "bell",
+      "feather",
+      "needle",
+      "teacup",
+      "whale"
+     ]
+    },
+    "color": {
+     "$ref": "#/$defs/color"
+    },
+    "accent": {
+     "$ref": "#/$defs/color"
+    },
+    "fps": {
+     "type": "number",
+     "minimum": 2,
+     "maximum": 12
+    }
+   }
+  },
+  "quickMenu": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "bg",
+    "fg"
+   ],
+   "properties": {
+    "bg": {
+     "$ref": "#/$defs/color"
+    },
+    "fg": {
+     "$ref": "#/$defs/color"
+    }
+   }
+  },
+  "sfx": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "$ref": "#/$defs/file"
+    },
+    "page": {
+     "$ref": "#/$defs/file"
+    },
+    "open": {
+     "$ref": "#/$defs/file"
+    }
+   }
+  },
+  "photosensitive": {
+   "type": "boolean"
+  },
+  "levels": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "default"
+   ],
+   "description": "Optional levels 1..3. Plain skins omit this (single look).",
+   "properties": {
+    "1": {
+     "$ref": "#/$defs/levelLook"
+    },
+    "2": {
+     "$ref": "#/$defs/levelLook"
+    },
+    "3": {
+     "$ref": "#/$defs/levelLook"
+    },
+    "default": {
+     "enum": [
+      1,
+      2,
+      3
+     ]
+    }
+   }
+  },
+  "overlay": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "atlases",
+    "glyphs",
+    "pieces",
+    "cues"
+   ],
+   "description": "Optional animated collage frame around the runtime stage rects (doc §16). Ordinary skins omit it.",
+   "properties": {
+    "atlases": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 2,
+     "items": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+\\.json$"
+     }
+    },
+    "glyphs": {
+     "$ref": "#/$defs/id",
+     "description": "dsh.glyphs/1 glyph-set id used by labels/decals/cover runes/nameTag; resolved in this bundle (glyphs/<id>.json), then the pack"
+    },
+    "hints": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "music": {
+       "type": "string"
+      },
+      "look": {
+       "type": "string"
+      },
+      "ambience": {
+       "type": "string"
+      },
+      "background": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "clock": {
+     "description": "Defaults for every piece's own stepped clock.",
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "fps": {
+       "type": "array",
+       "items": {
+        "type": "number",
+        "minimum": 4,
+        "maximum": 12
+       },
+       "minItems": 2,
+       "maxItems": 2
+      },
+      "jitter": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.4
+      },
+      "seed": {
+       "type": "integer"
+      },
+      "quantize": {
+       "type": "number",
+       "minimum": 1,
+       "maximum": 4
+      },
+      "microRot": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 3
+      },
+      "microPx": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 3
+      }
+     }
+    },
+    "shadow": {
+     "description": "Collage drop shadow (the piece silhouette in near-black). lead = the shadow takes its idle pose this many steps ahead of the body.",
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "offset": {
+       "type": "array",
+       "items": {
+        "type": "number",
+        "minimum": -30,
+        "maximum": 30
+       },
+       "minItems": 2,
+       "maxItems": 2
+      },
+      "alpha": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.8
+      },
+      "lead": {
+       "enum": [
+        0,
+        1,
+        2
+       ]
+      }
+     }
+    },
+    "paper": {
+     "$ref": "#/$defs/paper"
+    },
+    "labels": {
+     "description": "Rune paper strips typeset at load time (never baked into atlases). Referenced as frame label:<id>.",
+     "type": "object",
+     "propertyNames": {
+      "$ref": "#/$defs/id"
+     },
+     "additionalProperties": {
+      "$ref": "#/$defs/label"
+     }
+    },
+    "decals": {
+     "description": "Runtime compositing onto an atlas frame (rune text, TV noise, colour bars). Referenced as frame decal:<id>.",
+     "type": "object",
+     "propertyNames": {
+      "$ref": "#/$defs/id"
+     },
+     "additionalProperties": {
+      "$ref": "#/$defs/decal"
+     }
+    },
+    "nameTag": {
+     "description": "Rune sticker stuck on top of the name plate (over layer, decorative, aria-hidden): the speaker's romanised name.",
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "names"
+     ],
+     "properties": {
+      "names": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "string",
+        "maxLength": 24
+       },
+       "description": "display name -> rune text"
+      },
+      "size": {
+       "type": "number",
+       "minimum": 10,
+       "maximum": 30
+      },
+      "paper": {
+       "$ref": "#/$defs/fill"
+      },
+      "ink": {
+       "$ref": "#/$defs/color"
+      },
+      "turn": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "paper": {
+         "$ref": "#/$defs/fill"
+        },
+        "ink": {
+         "$ref": "#/$defs/color"
+        }
+       }
+      }
+     }
+    },
+    "pieces": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 80,
+     "items": {
+      "$ref": "#/$defs/piece"
+     }
+    },
+    "cues": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "entry"
+     ],
+     "properties": {
+      "entry": {
+       "$ref": "#/$defs/cue"
+      },
+      "turn": {
+       "$ref": "#/$defs/cue"
+      },
+      "exit": {
+       "$ref": "#/$defs/cue"
+      }
+     }
+    },
+    "events": {
+     "description": "Idle 'small events' (every n..m ms during idle).",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "id",
+       "every",
+       "pieces"
+      ],
+      "properties": {
+       "id": {
+        "$ref": "#/$defs/id"
+       },
+       "every": {
+        "type": "array",
+        "items": {
+         "type": "integer",
+         "minimum": 2000
+        },
+        "minItems": 2,
+        "maxItems": 2
+       },
+       "pieces": {
+        "type": "array",
+        "items": {
+         "$ref": "#/$defs/id"
+        },
+        "minItems": 1
+       },
+       "phase": {
+        "$ref": "#/$defs/phaseBody"
+       },
+       "ms": {
+        "type": "integer",
+        "minimum": 100,
+        "maximum": 4000
+       },
+       "sfx": {
+        "$ref": "#/$defs/id"
+       }
+      }
+     }
+    },
+    "intrusion": {
+     "description": "The one signature intrusion (front layer) this barrier may perform.",
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "piece",
+      "maxMs"
+     ],
+     "properties": {
+      "piece": {
+       "$ref": "#/$defs/id"
+      },
+      "maxMs": {
+       "type": "integer",
+       "minimum": 200,
+       "maximum": 2000
+      }
+     }
+    },
+    "sfx": {
+     "description": "Cue id -> short audio file in the bundle. Missing ids are silent.",
+     "type": "object",
+     "propertyNames": {
+      "$ref": "#/$defs/id"
+     },
+     "additionalProperties": {
+      "type": "string",
+      "pattern": "^[a-z0-9/._-]+\\.(ogg|m4a|mp3|wav)$"
+     }
+    }
+   }
+  },
+  "ui": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "bg": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "fg": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "fgMuted": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "accent": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "onAccent": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "border": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "radius": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 40
+    },
+    "textShadow": {
+     "enum": [
+      "none"
+     ]
+    },
+    "titleFont": {
+     "type": "string",
+     "pattern": "^[a-z0-9][a-z0-9-]{0,47}$"
+    },
+    "veil": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "color",
+      "opacity"
+     ],
+     "properties": {
+      "color": {
+       "type": "string",
+       "pattern": "^#[0-9a-fA-F]{6}$"
+      },
+      "opacity": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1
+      }
+     }
+    }
+   }
+  }
+ },
+ "$defs": {
+  "id": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9-]{0,47}$"
+  },
+  "fontId": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9-]{0,47}$"
+  },
+  "color": {
+   "type": "string",
+   "pattern": "^#[0-9a-fA-F]{6}$"
+  },
+  "file": {
+   "type": "string",
+   "pattern": "^[a-z0-9/._-]+\\.(ogg|m4a|mp3|wav)$"
+  },
+  "band": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "pattern",
+    "colors"
+   ],
+   "properties": {
+    "pattern": {
+     "enum": [
+      "staff",
+      "rule",
+      "dots",
+      "stripes",
+      "teeth",
+      "scanlines",
+      "fence",
+      "stained",
+      "lace",
+      "checker",
+      "chain"
+     ]
+    },
+    "colors": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/color"
+     },
+     "minItems": 1,
+     "maxItems": 4
+    },
+    "height": {
+     "type": "number",
+     "minimum": 2,
+     "maximum": 22
+    },
+    "inset": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 60
+    },
+    "offset": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 20
+    }
+   }
+  },
+  "fill": {
+   "description": "#rrggbb | dots:<bg>:<dot> | stripes:<a>:<b> | checker:<a>:<b>",
+   "type": "string",
+   "pattern": "^(#[0-9a-fA-F]{6}|(dots|stripes|checker):#[0-9a-fA-F]{6}:#[0-9a-fA-F]{6})$"
+  },
+  "frameRef": {
+   "type": "string",
+   "pattern": "^((label|decal):)?[a-z0-9][a-z0-9-]{0,47}$"
+  },
+  "license": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "privateUse"
+   ],
+   "properties": {
+    "privateUse": {
+     "type": "boolean",
+     "description": "true = never export into a public/shared pack."
+    },
+    "notes": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "derived": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "witch-runes",
+       "magia-record",
+       "ai-generated",
+       "original"
+      ]
+     }
+    }
+   }
+  },
+  "anchor": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "r"
+   ],
+   "properties": {
+    "r": {
+     "enum": [
+      "screen",
+      "box",
+      "name",
+      "qm"
+     ]
+    },
+    "u": {
+     "type": "number"
+    },
+    "v": {
+     "type": "number"
+    },
+    "dx": {
+     "type": "number"
+    },
+    "dy": {
+     "type": "number"
+    }
+   }
+  },
+  "motion": {
+   "type": "object",
+   "required": [
+    "op"
+   ],
+   "properties": {
+    "op": {
+     "enum": [
+      "sway",
+      "spin",
+      "bob",
+      "hop",
+      "flap",
+      "crawl",
+      "pulse",
+      "swap",
+      "blink",
+      "flip"
+     ]
+    }
+   },
+   "oneOf": [
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "sway"
+      },
+      "deg": {
+       "type": "number"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "deg"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "spin"
+      },
+      "deg": {
+       "type": "number"
+      }
+     },
+     "required": [
+      "deg"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "bob"
+      },
+      "px": {
+       "type": "number"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "px"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "hop"
+      },
+      "px": {
+       "type": "number"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "px"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "flap"
+      },
+      "seq": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       },
+       "minItems": 2
+      },
+      "axis": {
+       "enum": [
+        "x",
+        "y"
+       ]
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "seq"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "crawl"
+      },
+      "u0": {
+       "type": "number"
+      },
+      "u1": {
+       "type": "number"
+      },
+      "px": {
+       "type": "number"
+      },
+      "face": {
+       "enum": [
+        1,
+        -1
+       ]
+      },
+      "wiggle": {
+       "type": "number"
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "required": [
+      "u0",
+      "u1",
+      "px"
+     ]
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "pulse"
+      },
+      "amt": {
+       "type": "number"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     }
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "blink"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "description": "hidden on step 0 of each period"
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "flip"
+      },
+      "period": {
+       "type": "integer",
+       "minimum": 2
+      },
+      "phase": {
+       "type": "integer"
+      }
+     },
+     "description": "mirrored for the second half of each period"
+    },
+    {
+     "additionalProperties": false,
+     "properties": {
+      "op": {
+       "const": "swap"
+      },
+      "seq": {
+       "type": "array",
+       "items": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "minItems": 1,
+       "description": "frame indices; one entry = hold that frame"
+      },
+      "once": {
+       "type": "boolean"
+      },
+      "hold": {
+       "type": "integer",
+       "minimum": 1
+      }
+     },
+     "required": [
+      "seq"
+     ]
+    }
+   ]
+  },
+  "enter": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "cue": {
+     "enum": [
+      "entry",
+      "turn"
+     ]
+    },
+    "from": {
+     "enum": [
+      "left",
+      "right",
+      "top",
+      "bottom",
+      "pop"
+     ]
+    },
+    "at": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "steps": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 8
+    },
+    "dist": {
+     "type": "number"
+    },
+    "spin": {
+     "type": "number"
+    }
+   }
+  },
+  "leave": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "to": {
+     "enum": [
+      "left",
+      "right",
+      "top",
+      "bottom",
+      "pop"
+     ]
+    },
+    "steps": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 8
+    },
+    "dist": {
+     "type": "number"
+    }
+   }
+  },
+  "phaseBody": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "frame": {
+     "$ref": "#/$defs/frameRef"
+    },
+    "frames": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/frameRef"
+     },
+     "minItems": 2
+    },
+    "h": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    },
+    "rot": {
+     "type": "number"
+    },
+    "anchor": {
+     "$ref": "#/$defs/anchor"
+    },
+    "idle": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/motion"
+     }
+    },
+    "leave": {
+     "$ref": "#/$defs/leave"
+    }
+   }
+  },
+  "phase": {
+   "description": "Costume/behaviour change at a cue-relative time (fields as phaseBody, plus cue/at).",
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "at"
+   ],
+   "properties": {
+    "cue": {
+     "enum": [
+      "entry",
+      "turn"
+     ]
+    },
+    "at": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "frame": {
+     "$ref": "#/$defs/frameRef"
+    },
+    "frames": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/frameRef"
+     },
+     "minItems": 2
+    },
+    "h": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    },
+    "rot": {
+     "type": "number"
+    },
+    "anchor": {
+     "$ref": "#/$defs/anchor"
+    },
+    "idle": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/motion"
+     }
+    },
+    "leave": {
+     "$ref": "#/$defs/leave"
+    }
+   }
+  },
+  "piece": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "id",
+    "h",
+    "layer",
+    "at"
+   ],
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "frame": {
+     "$ref": "#/$defs/frameRef"
+    },
+    "frames": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/frameRef"
+     },
+     "minItems": 2
+    },
+    "h": {
+     "type": "number",
+     "exclusiveMinimum": 0,
+     "maximum": 900
+    },
+    "layer": {
+     "enum": [
+      "far",
+      "under",
+      "over",
+      "front"
+     ]
+    },
+    "at": {
+     "$ref": "#/$defs/anchor"
+    },
+    "alt": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "$ref": "#/$defs/anchor"
+      }
+     ]
+    },
+    "pivot": {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+     },
+     "minItems": 2,
+     "maxItems": 2
+    },
+    "rot": {
+     "type": "number"
+    },
+    "flip": {
+     "type": "boolean"
+    },
+    "minIntensity": {
+     "enum": [
+      1,
+      2,
+      3
+     ]
+    },
+    "clock": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "fps": {
+       "type": "number",
+       "minimum": 4,
+       "maximum": 12
+      },
+      "jitter": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.4
+      },
+      "seed": {
+       "type": "integer"
+      },
+      "phase": {
+       "type": "integer",
+       "minimum": 0
+      }
+     }
+    },
+    "boil": {
+     "enum": [
+      0,
+      1,
+      2,
+      3
+     ]
+    },
+    "idle": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/motion"
+     }
+    },
+    "enter": {
+     "$ref": "#/$defs/enter"
+    },
+    "exit": {
+     "$ref": "#/$defs/leave"
+    },
+    "phases": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/phase"
+     }
+    }
+   },
+   "oneOf": [
+    {
+     "required": [
+      "frame"
+     ]
+    },
+    {
+     "required": [
+      "frames"
+     ]
+    }
+   ]
+  },
+  "paper": {
+   "description": "Procedural torn-paper bands along screen edges + a torn mat around the runtime textbox rect.",
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "bands": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/paperBand"
+     },
+     "maxItems": 8
+    },
+    "mat": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "outer",
+      "inner"
+     ],
+     "properties": {
+      "outer": {
+       "$ref": "#/$defs/fill"
+      },
+      "inner": {
+       "$ref": "#/$defs/fill"
+      },
+      "pad": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       },
+       "minItems": 2,
+       "maxItems": 2
+      }
+     }
+    },
+    "fps": {
+     "type": "number",
+     "minimum": 4,
+     "maximum": 12
+    },
+    "boilEvery": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 4
+    }
+   }
+  },
+  "label": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "text",
+    "size"
+   ],
+   "properties": {
+    "text": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 64,
+     "description": "German/Latin text set in witch runes; see §14.4."
+    },
+    "size": {
+     "type": "number",
+     "minimum": 8,
+     "maximum": 120
+    },
+    "paper": {
+     "$ref": "#/$defs/fill"
+    },
+    "ink": {
+     "$ref": "#/$defs/color"
+    },
+    "edge": {
+     "$ref": "#/$defs/color"
+    },
+    "tracking": {
+     "type": "number"
+    },
+    "seed": {
+     "type": "integer"
+    },
+    "sharpS": {
+     "type": "boolean"
+    },
+    "source": {
+     "type": "string",
+     "description": "Where the phrase comes from (anime episode / quotation / authored)."
+    },
+    "translation": {
+     "type": "string"
+    }
+   }
+  },
+  "decal": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "frame",
+    "kind"
+   ],
+   "properties": {
+    "frame": {
+     "$ref": "#/$defs/id"
+    },
+    "kind": {
+     "enum": [
+      "runes",
+      "noise",
+      "bars",
+      "fill"
+     ]
+    },
+    "text": {
+     "type": "string"
+    },
+    "u": {
+     "type": "number"
+    },
+    "v": {
+     "type": "number"
+    },
+    "w": {
+     "type": "number"
+    },
+    "hh": {
+     "type": "number",
+     "description": "box height (fraction of frame) for noise/bars/fill"
+    },
+    "size": {
+     "type": "number",
+     "description": "rune size as a fraction of frame height"
+    },
+    "maxW": {
+     "type": "number"
+    },
+    "ink": {
+     "$ref": "#/$defs/color"
+    },
+    "rot": {
+     "type": "number"
+    },
+    "seed": {
+     "type": "integer"
+    },
+    "source": {
+     "type": "string"
+    },
+    "translation": {
+     "type": "string"
+    }
+   }
+  },
+  "coverItem": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "x",
+    "y"
+   ],
+   "properties": {
+    "frame": {
+     "$ref": "#/$defs/frameRef"
+    },
+    "runes": {
+     "type": "string"
+    },
+    "x": {
+     "type": "number"
+    },
+    "y": {
+     "type": "number"
+    },
+    "w": {
+     "type": "number"
+    },
+    "h": {
+     "type": "number"
+    },
+    "size": {
+     "type": "number"
+    },
+    "color": {
+     "$ref": "#/$defs/color"
+    },
+    "rot": {
+     "type": "number"
+    },
+    "at": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "steps": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 6
+    },
+    "from": {
+     "enum": [
+      "none",
+      "left",
+      "right",
+      "top",
+      "bottom",
+      "pop"
+     ]
+    },
+    "until": {
+     "type": "integer",
+     "minimum": 0,
+     "description": "hide before the reveal (e.g. scissors)"
+    },
+    "swap": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "at",
+       "frame"
+      ],
+      "properties": {
+       "at": {
+        "type": "integer"
+       },
+       "frame": {
+        "$ref": "#/$defs/frameRef"
+       }
+      }
+     }
+    }
+   }
+  },
+  "ritual": {
+   "description": "Closed-set entry/exit ritual: a cover sheet assembled over the screen, then a reveal.",
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "reveal"
+   ],
+   "properties": {
+    "cover": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "fill"
+     ],
+     "properties": {
+      "fill": {
+       "$ref": "#/$defs/fill"
+      },
+      "halftone": {
+       "type": "boolean"
+      },
+      "in": {
+       "enum": [
+        "top",
+        "bottom",
+        "cut",
+        "none"
+       ]
+      },
+      "inSteps": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 6
+      },
+      "items": {
+       "type": "array",
+       "items": {
+        "$ref": "#/$defs/coverItem"
+       },
+       "maxItems": 16
+      }
+     }
+    },
+    "revealAt": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "skinSwapAt": {
+     "type": "integer",
+     "minimum": 0,
+     "description": "Page-boundary skin switch hidden under the cover."
+    },
+    "reveal": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "kind"
+     ],
+     "properties": {
+      "kind": {
+       "enum": [
+        "none",
+        "tear",
+        "quarters",
+        "split-h",
+        "split-v",
+        "iris",
+        "scanline",
+        "fall-up"
+       ]
+      },
+      "steps": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 10
+      },
+      "y": {
+       "type": "number"
+      },
+      "amp": {
+       "type": "number"
+      },
+      "edge": {
+       "enum": [
+        "smooth",
+        "jagged"
+       ]
+      },
+      "ring": {
+       "$ref": "#/$defs/color"
+      }
+     }
+    }
+   }
+  },
+  "cue": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "ritual": {
+     "$ref": "#/$defs/ritual"
+    },
+    "paper": {
+     "$ref": "#/$defs/paper"
+    },
+    "paperAt": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "shake": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "at",
+       "ms",
+       "amp"
+      ],
+      "properties": {
+       "at": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "ms": {
+        "type": "integer",
+        "minimum": 50,
+        "maximum": 1500
+       },
+       "amp": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 16
+       }
+      }
+     }
+    },
+    "sfx": {
+     "$ref": "#/$defs/id"
+    },
+    "ms": {
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 4000
+    },
+    "onLevel": {
+     "enum": [
+      2,
+      3
+     ],
+     "description": "turn cue: fires when the skin level rises to this value (default 3)"
+    }
+   }
+  },
+  "paperBand": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "side",
+    "size",
+    "fill"
+   ],
+   "properties": {
+    "side": {
+     "enum": [
+      "top",
+      "left",
+      "right",
+      "bottom"
+     ]
+    },
+    "size": {
+     "type": "number",
+     "minimum": 8,
+     "maximum": 260
+    },
+    "fill": {
+     "$ref": "#/$defs/fill"
+    },
+    "seed": {
+     "type": "integer"
+    },
+    "halftone": {
+     "type": "boolean"
+    },
+    "jag": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 40
+    }
+   }
+  },
+  "levelLook": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "One skin level (director: skin <id> <level>). look \"theme\" = keep the stage theme textbox/nameplate/fonts while the overlay still plays; otherwise listed blocks replace the base blocks wholesale.",
+   "properties": {
+    "look": {
+     "enum": [
+      "base",
+      "theme"
+     ]
+    },
+    "motionScale": {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 2
+    },
+    "fpsScale": {
+     "type": "number",
+     "minimum": 0.5,
+     "maximum": 1.5
+    },
+    "bandScale": {
+     "type": "number",
+     "minimum": 0.3,
+     "maximum": 1.5
+    },
+    "textbox": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "paint"
+     ],
+     "properties": {
+      "paint": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "bg",
+        "fg"
+       ],
+       "properties": {
+        "bg": {
+         "$ref": "#/$defs/color"
+        },
+        "fg": {
+         "$ref": "#/$defs/color"
+        },
+        "fgMuted": {
+         "$ref": "#/$defs/color"
+        },
+        "accent": {
+         "$ref": "#/$defs/color"
+        },
+        "onAccent": {
+         "$ref": "#/$defs/color"
+        },
+        "border": {
+         "$ref": "#/$defs/color"
+        }
+       }
+      },
+      "shape": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "radius": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 40
+        },
+        "borderWidth": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 8
+        },
+        "rings": {
+         "type": "array",
+         "maxItems": 3,
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+           "width",
+           "color"
+          ],
+          "properties": {
+           "width": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 12
+           },
+           "color": {
+            "$ref": "#/$defs/color"
+           }
+          }
+         }
+        }
+       }
+      },
+      "frame": {
+       "description": "Ornament bands live in the border band only (outside the content rect).",
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "top": {
+         "$ref": "#/$defs/band"
+        },
+        "bottom": {
+         "$ref": "#/$defs/band"
+        },
+        "corners": {
+         "type": "object",
+         "additionalProperties": false,
+         "required": [
+          "kind"
+         ],
+         "properties": {
+          "kind": {
+           "enum": [
+            "none",
+            "diamond",
+            "rivet",
+            "bow",
+            "bracket"
+           ]
+          },
+          "colors": {
+           "type": "array",
+           "items": {
+            "$ref": "#/$defs/color"
+           },
+           "maxItems": 2
+          }
+         }
+        },
+        "insets": {
+         "type": "array",
+         "items": {
+          "type": "number",
+          "minimum": 24,
+          "maximum": 80
+         },
+         "minItems": 4,
+         "maxItems": 4,
+         "description": "content padding t,r,b,l (≥ theme default*0.9)"
+        }
+       }
+      }
+     }
+    },
+    "nameplate": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "shape",
+      "paint"
+     ],
+     "properties": {
+      "shape": {
+       "enum": [
+        "pill",
+        "tag",
+        "torn",
+        "jagged",
+        "plate",
+        "plain"
+       ]
+      },
+      "paint": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "bg",
+        "fg"
+       ],
+       "properties": {
+        "bg": {
+         "$ref": "#/$defs/color"
+        },
+        "fg": {
+         "$ref": "#/$defs/color"
+        },
+        "border": {
+         "$ref": "#/$defs/color"
+        }
+       }
+      },
+      "rotate": {
+       "type": "number",
+       "minimum": -3,
+       "maximum": 3
+      },
+      "size": {
+       "type": "number",
+       "minimum": 18,
+       "maximum": 40
+      },
+      "letterSpacing": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.2
+      },
+      "rings": {
+       "type": "array",
+       "maxItems": 2,
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "width",
+         "color"
+        ],
+        "properties": {
+         "width": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 8
+         },
+         "color": {
+          "$ref": "#/$defs/color"
+         }
+        }
+       }
+      }
+     }
+    },
+    "font": {
+     "description": "Installed font ids (fonts.md catalogue), every field optional. body is the stage role (text box; name, ui and titles fall back to it), film the cinematic subtitles (falls back to body, then the built-in subtitle stack). The user's per-machine override wins over ordinary skins; a director-applied performance skin's stage fonts win over it while active. Size, reduced motion and photosensitivity settings still apply.",
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "body": {
+       "$ref": "#/$defs/fontId"
+      },
+      "name": {
+       "$ref": "#/$defs/fontId"
+      },
+      "ui": {
+       "$ref": "#/$defs/fontId"
+      },
+      "film": {
+       "$ref": "#/$defs/fontId"
+      }
+     }
+    },
+    "textStyle": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "weight": {
+       "enum": [
+        400,
+        500,
+        700
+       ]
+      },
+      "sizeScale": {
+       "type": "number",
+       "minimum": 0.85,
+       "maximum": 1.2,
+       "description": "multiplies the user's text size setting"
+      },
+      "lineHeight": {
+       "type": "number",
+       "minimum": 1.4,
+       "maximum": 1.9
+      },
+      "letterSpacing": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.12
+      },
+      "emphasis": {
+       "$ref": "#/$defs/color"
+      }
+     }
+    },
+    "textFx": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "reveal"
+     ],
+     "properties": {
+      "reveal": {
+       "enum": [
+        "type",
+        "ink",
+        "pop",
+        "stutter",
+        "stamp",
+        "cut",
+        "scan",
+        "scrawl"
+       ]
+      },
+      "stepFps": {
+       "type": "number",
+       "minimum": 6,
+       "maximum": 14
+      },
+      "charsPerStep": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 6
+      },
+      "cps": {
+       "type": "number",
+       "minimum": 10,
+       "maximum": 80
+      },
+      "from": {
+       "enum": [
+        "top",
+        "bottom"
+       ],
+       "description": "stamp direction"
+      },
+      "flash": {
+       "$ref": "#/$defs/color",
+       "description": "colour of a just-revealed glyph (transient; exempt from contrast)"
+      },
+      "emphasis": {
+       "enum": [
+        "none",
+        "jitter",
+        "ink"
+       ]
+      },
+      "jitter": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 1.5
+      }
+     }
+    },
+    "cursor": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "name"
+     ],
+     "properties": {
+      "name": {
+       "enum": [
+        "triangle",
+        "wheel",
+        "lollipop",
+        "eye",
+        "rose",
+        "rec",
+        "candle",
+        "gear",
+        "light",
+        "bell",
+        "feather",
+        "needle",
+        "teacup",
+        "whale"
+       ]
+      },
+      "color": {
+       "$ref": "#/$defs/color"
+      },
+      "accent": {
+       "$ref": "#/$defs/color"
+      },
+      "fps": {
+       "type": "number",
+       "minimum": 2,
+       "maximum": 12
+      }
+     }
+    },
+    "quickMenu": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "bg",
+      "fg"
+     ],
+     "properties": {
+      "bg": {
+       "$ref": "#/$defs/color"
+      },
+      "fg": {
+       "$ref": "#/$defs/color"
+      }
+     }
+    },
+    "sfx": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "type": {
+       "$ref": "#/$defs/file"
+      },
+      "page": {
+       "$ref": "#/$defs/file"
+      },
+      "open": {
+       "$ref": "#/$defs/file"
+      }
+     }
+    },
+    "ui": {
+     "$ref": "#/properties/ui"
+    }
+   }
+  }
+ }
+}

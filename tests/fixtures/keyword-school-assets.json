@@ -1,0 +1,108 @@
+{
+  "source": "tavern-plugin/lib/vendor/runtime-assets/asset-libraries/school/",
+  "revision": "b24181dd10c9b0f59fb462533827252a4ff0d834",
+  "backgrounds": [
+    {
+      "id": "school-classroom",
+      "name": "教室·白天",
+      "sha": "b866a0b7611b83f7a28363403db3c000f021042231018a7a319e14cd09c5cdc2"
+    },
+    {
+      "id": "school-hallway",
+      "name": "走廊·白天",
+      "sha": "45dd15b11dd714a155f6609627fa5f9226edfcb52cbaac7babe11caf013781e3"
+    },
+    {
+      "id": "school-shoe-lockers",
+      "name": "玄关·鞋柜",
+      "sha": "5469f250404d46d95e2b2f7376503edeaf157093f82ee030549e2f6ac3dd508c"
+    },
+    {
+      "id": "school-library",
+      "name": "图书室",
+      "sha": "e3124b95cc6ff8e11290bee8010ff02c684c62a6829b1ef5954ef659fc526788"
+    },
+    {
+      "id": "school-clubroom-evening",
+      "name": "社团活动室·傍晚",
+      "sha": "394d31e7571a24cf243836c8570df23891a496669ca916806d69bee12c3f0195"
+    },
+    {
+      "id": "school-infirmary",
+      "name": "保健室",
+      "sha": "15efb9981acb9989bdafcbe8a36db573a784d4cd310cc8e32ce6bb7ddd640af8"
+    },
+    {
+      "id": "school-rooftop",
+      "name": "天台",
+      "sha": "01ae1a5e08d2390bab889710a738a0f0648b152d8b495d9114c8380799474a52"
+    },
+    {
+      "id": "school-gate",
+      "name": "校门·樱花",
+      "sha": "8a3d29601aebddf78bf572a083d1e1ae82ff8f10e11c73939d39831eb4d2069f"
+    },
+    {
+      "id": "school-commute-street",
+      "name": "上学路·住宅区",
+      "sha": "b27036feb0f5883c5363618566ace7c1bbce467888d7f276704bb87b75eef7ab"
+    },
+    {
+      "id": "town-konbini-night",
+      "name": "便利店·夜晚",
+      "sha": "48c413634081e9605f94bf0f9b76449f85893246a96304b11c872563028b8e6a"
+    },
+    {
+      "id": "home-bedroom",
+      "name": "卧室",
+      "sha": "c3ee4b7940499ef25548fa1d049f0c79dc5b70ca2eb57d5ac1790d8948a04034"
+    },
+    {
+      "id": "home-living-room",
+      "name": "客厅",
+      "sha": "c34112702c716d27a24dea8d40c7878f0394910a68626400b899a397086e3147"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "mu37c5250f35",
+      "name": "通学晴空",
+      "file": "4218e077056b2451c4aeb97b938163b51461255b9bdda1b317ab399c9985cfce.ogg"
+    },
+    {
+      "id": "muecf9a17940",
+      "name": "午后琴声",
+      "file": "7263743ef0a53b7c14cc72bb1af3073bea25225cf6e87c39863674a24f7c6a03.ogg"
+    },
+    {
+      "id": "mub32ef68e32",
+      "name": "社团日常",
+      "file": "3a7a49234699776439d04308cad09f7cb27da7e89580d2f85f5b26bd90f46bf5.ogg"
+    },
+    {
+      "id": "mua3c7fd7dff",
+      "name": "放学小路",
+      "file": "ec33de2ae5ccd69a2d141c632f7bce6993c9fd7978cb32975091dd0510aac2b4.ogg"
+    },
+    {
+      "id": "mu390c8ba64e",
+      "name": "乌龙课间",
+      "file": "d4c2030be46a30ff3c3971d6bcd5963d06aabfd411f07251bc1da23de5530fcd.ogg"
+    },
+    {
+      "id": "mucbc3338092",
+      "name": "心事渐明",
+      "file": "480e62645de337386083ebe8d78ccae2b9d2440c617a063c07bab9c33f6e2d60.ogg"
+    },
+    {
+      "id": "mud7eedcbf37",
+      "name": "雨后心事",
+      "file": "72d7433dc51099d97cef4c74cb393adf5a640016839495ef007c8cbf58685d4b.ogg"
+    },
+    {
+      "id": "mud63c0e85d6",
+      "name": "毕业回声",
+      "file": "edffa0389df010d19e33addd6fe485631a90f2ea39af5f03438aef5294852e13.ogg"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+ "schema": "dsh.skin/1",
+ "id": "oktavia",
+ "label": "人鱼的乐谱",
+ "license": {
+  "privateUse": false
+ },
+ "textbox": {
+  "paint": {
+   "bg": "#0f1d36",
+   "fg": "#f3ead7",
+   "border": "#efe4cc",
+   "accent": "#8e1f24"
+  },
+  "shape": {
+   "radius": 3,
+   "borderWidth": 3,
+   "rings": [
+    {
+     "width": 5,
+     "color": "#0f1d36"
+    },
+    {
+     "width": 2,
+     "color": "#8e1f24"
+    }
+   ]
+  },
+  "frame": {
+   "top": {
+    "pattern": "staff",
+    "colors": [
+     "#efe4cc"
+    ],
+    "height": 17,
+    "inset": 22,
+    "offset": 10
+   },
+   "bottom": {
+    "pattern": "rule",
+    "colors": [
+     "#efe4cc",
+     "#8e1f24"
+    ],
+    "inset": 22,
+    "offset": 9
+   },
+   "corners": {
+    "kind": "diamond",
+    "colors": [
+     "#efe4cc",
+     "#8e1f24"
+    ]
+   }
+  }
+ },
+ "nameplate": {
+  "shape": "plain",
+  "paint": {
+   "bg": "#efe4cc",
+   "fg": "#1a1410"
+  },
+  "rotate": -2,
+  "size": 30,
+  "letterSpacing": 0.1
+ },
+ "font": {
+  "body": "neo-zhisong-screen",
+  "name": "zhuque",
+  "ui": "zhuque"
+ },
+ "textStyle": {
+  "weight": 400,
+  "sizeScale": 1.04,
+  "letterSpacing": 0.04,
+  "emphasis": "#ffb8a6"
+ },
+ "textFx": {
+  "reveal": "ink",
+  "stepFps": 8,
+  "charsPerStep": 3,
+  "flash": "#6fb6c4",
+  "emphasis": "jitter",
+  "jitter": 1.5
+ },
+ "cursor": {
+  "name": "wheel",
+  "color": "#efe4cc",
+  "accent": "#8e1f24",
+  "fps": 8
+ },
+ "quickMenu": {
+  "bg": "#1b2f52",
+  "fg": "#efe4cc"
+ }
+}

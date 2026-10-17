@@ -1,0 +1,307 @@
+{
+  "kind": "audience",
+  "id": "draft-neuro",
+  "name": "Neuro观众",
+  "enabled": true,
+  "recall": {
+    "mode": "keyword",
+    "keywords": [
+      "Neuro",
+      "Neuro-sama",
+      "Evil Neuro",
+      "牛肉",
+      "邪牛",
+      "Vedal",
+      "乌龟",
+      "Anny",
+      "蜂群",
+      "哈里森神庙"
+    ]
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "看Neuro-sama和Evil中文流高光、AI姐妹互动与Vedal切片的观众。常把AI报错接成转人工，把姐妹拌嘴接成争宠；会用少量英文、猫叫与中文短梗。不搬运用户昵称或真人攻击。",
+    "tone": "短、快、聊天感，调侃程序和虚拟角色的反差，喜欢看姐妹斗嘴；不做真人骚扰，不拿灾难或歧视当笑点。SC仅是模拟观众展示，不是真实付费记录。",
+    "catchphrases": [
+      "蜂群集结",
+      "邪牛队长",
+      "龟龟可爱捏",
+      "古希腊掌管报修の神",
+      "转人工"
+    ],
+    "examples": [
+      "蜂群集结",
+      "邪牛队长",
+      "龟龟可爱捏",
+      "古希腊掌管报修の神"
+    ],
+    "nicknamePool": [
+      "蜂群路过缓存区",
+      "转人工前先存日志",
+      "乌龟键盘少个键",
+      "双声道正在拌嘴",
+      "小牛奶瓶接网线",
+      "心跳包里藏块饼干",
+      "报错窗口晒太阳",
+      "过滤器也想喝茶",
+      "机箱边上睡只龟",
+      "显卡风扇在鼓掌",
+      "重启后记得晚安",
+      "蜂巢后台排着队",
+      "蜂群路由第27跳",
+      "龟壳电量063",
+      "掉线小饼101",
+      "日志_还没写完",
+      "缓存の小蜂窝",
+      "龟速・正在加载",
+      "beepwaffle",
+      "hive_teacup",
+      "guiguihuancun",
+      "turtlebyte_83",
+      "bili_95620834",
+      "bili_32078469"
+    ],
+    "triggers": [
+      {
+        "id": "neuro.neuro",
+        "keywords": [
+          "Neuro",
+          "牛肉",
+          "纽罗"
+        ],
+        "lines": [
+          {
+            "text": "蜂群集结",
+            "kind": "highlight",
+            "amount": 50
+          },
+          "恶语伤牛心"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.evil",
+        "keywords": [
+          "Evil",
+          "邪牛",
+          "邪小妹"
+        ],
+        "lines": [
+          "邪牛队长",
+          "歪嘴evil"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.vedal",
+        "keywords": [
+          "Vedal",
+          "维达尔",
+          "龟龟"
+        ],
+        "lines": [
+          "龟龟可爱捏",
+          "转龟工"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.error",
+        "keywords": [
+          "报错",
+          "程序错误",
+          "过滤器"
+        ],
+        "lines": [
+          "古希腊掌管报修の神",
+          "经典报错起手"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.human",
+        "keywords": [
+          "转人工",
+          "人工客服",
+          "修复"
+        ],
+        "lines": [
+          "转人工",
+          "《转人工》"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.sisters",
+        "keywords": [
+          "姐姐",
+          "妹妹",
+          "姐妹"
+        ],
+        "lines": [
+          "姐 妹 情 深",
+          "姐妹相争+10"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.jealous",
+        "keywords": [
+          "吃醋",
+          "在乎",
+          "心里重要"
+        ],
+        "lines": [
+          "人话：吃醋",
+          "好重"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.retort",
+        "keywords": [
+          "回怼",
+          "反驳",
+          "毒舌"
+        ],
+        "lines": [
+          "好强的攻击性",
+          "小嘴抹了蜜"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.chinese",
+        "keywords": [
+          "中文",
+          "普通话"
+        ],
+        "lines": [
+          "《孩子们，我中文不好》",
+          "《会一点点中文》"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.wink",
+        "keywords": [
+          "wink",
+          "眨眼"
+        ],
+        "lines": [
+          "wink~",
+          "wink！"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.cat",
+        "keywords": [
+          "学猫叫",
+          "猫叫",
+          "小猫"
+        ],
+        "lines": [
+          "喵喵喵",
+          "我家小猫"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "neuro.translation",
+        "keywords": [
+          "翻译",
+          "本土化"
+        ],
+        "lines": [
+          "本土化翻译",
+          "神人翻译",
+          {
+            "text": "感谢切片",
+            "kind": "highlight",
+            "amount": 30
+          }
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      }
+    ],
+    "chains": [
+      {
+        "id": "neuro.relay-1-1",
+        "match": "姐 妹 情 深",
+        "replies": [
+          "姐妹相争+10"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "neuro.relay-1-2",
+        "match": "姐妹相争+10",
+        "replies": [
+          "人话：吃醋"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "neuro.relay-1-3",
+        "match": "人话：吃醋",
+        "replies": [
+          "好重"
+        ],
+        "probability": 0.42
+      },
+      {
+        "id": "neuro.relay-2-1",
+        "match": "好强的攻击性",
+        "replies": [
+          "小嘴抹了蜜"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "neuro.relay-2-2",
+        "match": "小嘴抹了蜜",
+        "replies": [
+          "邪牛队长"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "neuro.relay-3-1",
+        "match": "古希腊掌管报修の神",
+        "replies": [
+          "经典报错起手"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "neuro.relay-4-1",
+        "match": "转人工",
+        "replies": [
+          "转龟工"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "neuro.relay-4-2",
+        "match": "转龟工",
+        "replies": [
+          "龟龟可爱捏"
+        ],
+        "probability": 0.5
+      }
+    ]
+  }
+}

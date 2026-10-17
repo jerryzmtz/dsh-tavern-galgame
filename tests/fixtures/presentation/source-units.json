@@ -1,0 +1,193 @@
+[
+  {
+    "source": "Narration.\n\n@bubble:a|A|calm|[Hello.]",
+    "segments": [
+      {
+        "kind": "markdown",
+        "text": "Narration.\n"
+      },
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Hello.",
+        "thought": false,
+        "streaming": false
+      }
+    ],
+    "pages": [
+      {
+        "kind": "narration",
+        "text": "Narration.",
+        "para": 1,
+        "pending": false
+      },
+      {
+        "kind": "line",
+        "para": 2,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Hello.",
+        "thought": false,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  },
+  {
+    "source": "@bubble:a|A|calm|[Display.]|[Speech.]",
+    "segments": [
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Display.",
+        "thought": false,
+        "streaming": false,
+        "speech": "Speech.",
+        "singleVoiceText": false,
+        "voiced": true
+      }
+    ],
+    "pages": [
+      {
+        "kind": "line",
+        "para": 1,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Display.",
+        "thought": false,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  },
+  {
+    "source": "@bubble-voice:a|A|calm|[Hello.]",
+    "segments": [
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Hello.",
+        "thought": false,
+        "streaming": false,
+        "speech": "Hello.",
+        "singleVoiceText": true,
+        "voiced": true
+      }
+    ],
+    "pages": [
+      {
+        "kind": "line",
+        "para": 1,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Hello.",
+        "thought": false,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  },
+  {
+    "source": "@bubble-voice:a|A|calm|[*Display thought*]|[*Speech thought*]",
+    "segments": [
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Display thought",
+        "thought": true,
+        "streaming": false,
+        "speech": "Speech thought",
+        "singleVoiceText": false,
+        "voiced": true
+      }
+    ],
+    "pages": [
+      {
+        "kind": "line",
+        "para": 1,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "（Display thought）",
+        "thought": true,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  },
+  {
+    "source": "@bubble:a|A|calm|[Display.]|[unfinished",
+    "segments": [
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Display.",
+        "thought": false,
+        "streaming": false,
+        "voiced": true,
+        "speech": ""
+      }
+    ],
+    "pages": [
+      {
+        "kind": "line",
+        "para": 1,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "Display.",
+        "thought": false,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  },
+  {
+    "source": "```\n@bubble:a|A|calm|[literal]\n```",
+    "segments": [
+      {
+        "kind": "markdown",
+        "text": "```"
+      },
+      {
+        "kind": "bubble",
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "literal",
+        "thought": false,
+        "streaming": false
+      },
+      {
+        "kind": "markdown",
+        "text": "```"
+      }
+    ],
+    "pages": [
+      {
+        "kind": "line",
+        "para": 2,
+        "alias": "a",
+        "name": "A",
+        "mood": "calm",
+        "text": "literal",
+        "thought": false,
+        "pending": false,
+        "voice": null
+      }
+    ]
+  }
+]

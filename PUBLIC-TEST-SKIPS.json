@@ -1,0 +1,64 @@
+{
+  "tests/asset-packs-native.test.mjs": [
+    "bin/fork-build-items-pack.mjs"
+  ],
+  "tests/fork-asset-cli.test.mjs": [
+    "bin/build-pack-source.mjs"
+  ],
+  "tests/fork-closeup-merge.test.mjs": [
+    "bin/fork-merge-closeups.mjs"
+  ],
+  "tests/fork-direction-styles.test.mjs": [
+    "bin/fork-migrate-direction-styles.mjs"
+  ],
+  "tests/fork-figure-names-merge.test.mjs": [
+    "bin/fork-migrate-figure-names.mjs"
+  ],
+  "tests/fork-items-assets.test.mjs": [
+    "bin/fork-build-items-pack.mjs"
+  ],
+  "tests/fork-items-widget.test.mjs": [
+    "bin/fork-migrate-items-widget.mjs"
+  ],
+  "tests/fork-migrate-ambience.test.mjs": [
+    "bin/fork-migrate-ambience.mjs"
+  ],
+  "tests/fork-migrate-stage-actor-keys.test.mjs": [
+    "bin/fork-migrate-stage-actor-keys.mjs"
+  ],
+  "tests/fork-reading-dictionary-v2.test.mjs": [
+    "bin/fork-migrate-readings-v2.mjs"
+  ],
+  "tests/sprite-emotions-migration.test.mjs": [
+    "bin/fork-migrate-sprite-emotions.mjs"
+  ],
+  "tests/sprite-emotions.test.mjs": [
+    "bin/fork-migrate-sprite-emotions.mjs"
+  ],
+  "tests/sprite-migration-policy.test.mjs": [
+    "bin/fork-migrate-sprite-emotions.mjs"
+  ],
+  "tests/voice-migration-live.test.mjs": [
+    "bin/fork-migrate-voice-v4.mjs",
+    "bin/fork-migrate-voice-cache-v4.mjs"
+  ],
+  "tests/voice-v4-cache-migration.test.mjs": [
+    "bin/fork-audit-voice-cache-v4.mjs",
+    "bin/fork-migrate-voice-cache-v4.mjs"
+  ],
+  "tests/voice-v4.test.mjs": [
+    "bin/fork-migrate-voice-v4.mjs"
+  ],
+  "tests/fork-asset-cli-v112.test.mjs": [
+    "Only the private 765 production-provenance subtest is skipped; generic CLI tests run."
+  ],
+  "tests/plugin-api.test.mjs": [
+    "Only the omitted authoring-document comparison is skipped."
+  ],
+  "tests/windows-installer-link.test.mjs": [
+    "Only the private manual-site comparison is skipped; installer checks run."
+  ],
+  "tests/runtime-package.test.mjs": [
+    "Git archive cases skip when .git is absent; source/manifest checks run."
+  ]
+}

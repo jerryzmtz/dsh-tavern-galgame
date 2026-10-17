@@ -1,0 +1,1967 @@
+{
+  "manifest": {
+    "format": "dsh-mod",
+    "schemaVersion": 2,
+    "id": "dsh.items",
+    "name": "物品演出",
+    "summary": "重要物品变化即时演出并按正式结算修订数量",
+    "relevance": "获得、失去、使用、展示物品或背包清单发生变化",
+    "version": "1.0.0",
+    "apiVersion": 1,
+    "dependencies": {
+      "hostApi": 1,
+      "capabilities": [
+        "stage.place",
+        "stage.reviseAfterSettlement"
+      ]
+    },
+    "permissions": {
+      "stage": [
+        "place",
+        "reviseAfterSettlement"
+      ],
+      "variables": {
+        "reads": [
+          {
+            "id": "inventory",
+            "slot": "inventory"
+          }
+        ],
+        "writes": []
+      }
+    },
+    "variableSlots": [
+      {
+        "id": "inventory",
+        "label": "背包",
+        "source": "mvu",
+        "valueType": "array",
+        "fieldMapping": {
+          "name": {
+            "label": "名称",
+            "valueType": "string",
+            "required": true
+          },
+          "count": {
+            "label": "数量",
+            "valueType": "number",
+            "required": true
+          },
+          "id": {
+            "label": "稳定标识",
+            "valueType": "string",
+            "required": false
+          },
+          "category": {
+            "label": "分类",
+            "valueType": "string",
+            "required": false
+          },
+          "description": {
+            "label": "说明",
+            "valueType": "string",
+            "required": false
+          },
+          "owner": {
+            "label": "持有人",
+            "valueType": "string",
+            "required": false
+          }
+        }
+      }
+    ],
+    "commands": [
+      {
+        "id": "item",
+        "op": "mod.dsh.items.item",
+        "replaces": "item.play",
+        "dsl": {
+          "verb": "item",
+          "syntax": "item show|gain|lose name=<名称> genre=<分类> [--force]",
+          "positional": "action",
+          "flags": [
+            "force"
+          ]
+        },
+        "paramsStyle": "flat",
+        "params": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "show",
+                "gain",
+                "lose"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 96
+            },
+            "genre": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            "force": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "action",
+            "name",
+            "genre",
+            "force"
+          ],
+          "additionalProperties": false
+        },
+        "persistence": "event",
+        "handler": "command",
+        "promptId": "items-rule",
+        "placement": {
+          "section": "director.commands.presentation",
+          "order": 20
+        },
+        "caps": {
+          "perTurn": 32,
+          "bytes": 2048
+        },
+        "mode": "replaces"
+      }
+    ],
+    "prompts": [
+      {
+        "id": "items-rule",
+        "target": "director",
+        "path": "prompts/items.txt",
+        "placement": {
+          "section": "director.rules.presentation",
+          "order": 20
+        }
+      },
+      {
+        "id": "inventory-context",
+        "target": "director",
+        "path": "prompts/inventory.txt",
+        "placement": {
+          "section": "director.catalogue",
+          "order": 20
+        }
+      }
+    ],
+    "settingsSchema": {
+      "fields": [
+        {
+          "key": "s4",
+          "type": "toggle",
+          "label": "提供库存名称",
+          "help": "只提供最多十二个名称作为辅助上下文",
+          "default": false,
+          "scope": "global"
+        }
+      ],
+      "sections": [
+        {
+          "id": "context",
+          "title": "导演上下文",
+          "fields": [
+            "s4"
+          ]
+        }
+      ]
+    },
+    "packSchema": {
+      "fields": [
+        {
+          "key": "genres",
+          "type": "list",
+          "label": "分类",
+          "default": [],
+          "maxItems": 64,
+          "item": {
+            "type": "object",
+            "label": "分类",
+            "default": {
+              "id": "",
+              "label": "",
+              "icon": null
+            },
+            "fields": [
+              {
+                "key": "id",
+                "type": "text",
+                "label": "标识",
+                "default": "",
+                "maxLength": 48
+              },
+              {
+                "key": "label",
+                "type": "text",
+                "label": "名称",
+                "default": "",
+                "maxLength": 80
+              },
+              {
+                "key": "icon",
+                "type": "reference",
+                "label": "分类图",
+                "default": null,
+                "target": {
+                  "library": "mod",
+                  "modId": "dsh.items",
+                  "kinds": [
+                    "icon"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "assetKinds": [
+      {
+        "id": "icon",
+        "label": "分类图",
+        "fields": {
+          "fields": []
+        },
+        "directorSelectable": false,
+        "mediaSlots": [
+          {
+            "id": "image",
+            "type": "image"
+          }
+        ]
+      },
+      {
+        "id": "item",
+        "label": "物品",
+        "fields": {
+          "fields": [
+            {
+              "key": "genreId",
+              "type": "reference",
+              "label": "分类",
+              "default": null,
+              "target": {
+                "library": "pack",
+                "field": "genres"
+              }
+            },
+            {
+              "key": "inventoryId",
+              "type": "text",
+              "label": "库存稳定标识",
+              "default": "",
+              "maxLength": 128
+            }
+          ]
+        },
+        "directorSelectable": true,
+        "mediaSlots": [
+          {
+            "id": "image",
+            "type": "image"
+          }
+        ]
+      }
+    ],
+    "uiPages": [],
+    "runtime": {
+      "entry": "runtime.js"
+    },
+    "defaultPacks": [
+      "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb.json",
+      "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab.json"
+    ],
+    "files": [
+      {
+        "path": "runtime.js",
+        "size": 2174
+      },
+      {
+        "path": "logic.js",
+        "size": 6505
+      },
+      {
+        "path": "migration.js",
+        "size": 8886
+      },
+      {
+        "path": "presentation.cjs",
+        "size": 1163
+      },
+      {
+        "path": "package.json",
+        "size": 18
+      },
+      {
+        "path": "prompts/items.txt",
+        "size": 269
+      },
+      {
+        "path": "prompts/inventory.txt",
+        "size": 0
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/fc5cf762052b1e7b7d7ed7556acd0415534155abaafd57ae8973c886eec2a51e.png",
+        "size": 98006
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/2fa4e6f4c129f39d5351dbc99884309ca96d60942881fd2c486349fb6c08b51c.png",
+        "size": 95664
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/efdcba0f3476fc720114ffc8be7d0b8b1bdb2c14d330e02da306da47f7f04774.png",
+        "size": 101949
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/14d08d0bb90b5b4353a505a3fbde555f6514385f61a3aff211146f8471345df4.png",
+        "size": 68189
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/82f3a17c350114f4bf67dc4dea886a437115efbb289fcd6377df9df5caf9d533.png",
+        "size": 61090
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/f918e35193e6d0d6a48ebd517a95c8f917996e512f6002cf7ebf0735f7be8de9.png",
+        "size": 186858
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/23bbb12294df1f957f540af56f98e5ec43c673bb7eb8d4fdf6498a276a12e4b0.png",
+        "size": 227679
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/7ab75d51094177226ef7e377839c4276fa1f7164041d3de1d4e8be52d82add67.png",
+        "size": 210330
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb/credits/general-items.txt",
+        "size": 213
+      },
+      {
+        "path": "packs/b57d1a7c-22d5-42b0-8193-e772f65fe8bb.json",
+        "size": 5864
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/677cbc50a4359f45c1f35337e17e2ba01d98aab7cc997fb19175d40459d33e35.png",
+        "size": 814289
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b1778fa8c4599b911745434375ced4b6ea0af30ed3ed0b64c02b840c944b1301.png",
+        "size": 1100084
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/efa977a7fbe9a270f84145eded10035214f4e716e5f53bcde10d3aea66a40121.png",
+        "size": 891799
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8b9b006e683aa96ea2ee956382fc9775f7061a0b515e04458dde586c421984aa.png",
+        "size": 993570
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/4849df0f28a2051bc8b06d8080f8d54c27e32418ee95b0ea05f36c97b55d73dd.png",
+        "size": 1026649
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f13b6ba6efd88d00c380f2bc8d28571a9d427994c5d82fe67e6dcef8558912bb.png",
+        "size": 1726700
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cb90624c4fd1ff13f97899490a61ee7addd9bc1338435241192ec8deb1b82480.png",
+        "size": 886800
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/49411e122d5cd3ef0803ac1448a911ce022943976cc0249ef804675125ed01d0.png",
+        "size": 1234055
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b2b1efece1a6eaf9986da5d805611b7789d33b27c918dfa5525758ee6aed1b38.png",
+        "size": 1000116
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7756fd187cef2e6a2b0680373c0e46b1a33613dadd349028570c99dcd2a30a26.png",
+        "size": 1411897
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/302f4e865a5b325cd31edb1a0f84960f0b00070b7f18054ae01680f931ed438c.png",
+        "size": 739562
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d221b4fc9a39bd27b3ef9dc31f93b174dca54538d3d40e2f978e39d247935697.png",
+        "size": 1770872
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7cbce596b2db6d7e047ebe76cd10eda6c475bc298c3d89653f73f4f09be6ef10.png",
+        "size": 1531712
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/412611fedc0de52adba1bc8ff1221aae8992c8e7f7e61d47b2ffb79fc57dc783.png",
+        "size": 1424114
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/98276f3a3b9c2139d034bbf46c971a68ce54489a86536492073ae8155d135661.png",
+        "size": 1325078
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/661c4f38cc5c6d20bf2141c63b4f332af7ebd583e66b9e2abb2b687b2585e245.png",
+        "size": 1639585
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7f9099693bd899ccb1d96504ae558294336387c28865e641b9071dd5e7614acb.png",
+        "size": 1777719
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/62ee18c0a43c40553f205d671968b50ab6277bfb89c5bdd73481fd15f4cdc062.png",
+        "size": 1633528
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/fcbb3ba9eda107436c1eabf9e0d814e8e941610d7b7c1a78223277687f2650f6.png",
+        "size": 1400063
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b5726e673b05a268a6f8df82640d78ecd0b07366a77b749607c203a271bfc5cf.png",
+        "size": 1615052
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/df57058210b1e2b107e4900dc38879a9d5ca0f729e0b44494fd2e589e9c0fe77.png",
+        "size": 1319485
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8fe2a8d6dab6c78c52a51318fe32fb0942b70960b2cc1e629e1fc9d6a233fb27.png",
+        "size": 1227778
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/88bcd95056cb02748eaf848c5a81693248254263ff2a3ae0d6608b8ae95c58b2.png",
+        "size": 937646
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/111d81111a589750208e0c21416fc25c150d8566fb40556d3e549095890d97d9.png",
+        "size": 1934701
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/e696e188d7d73768dddadef2b228fce616da9df5fc64c8613c10ae6ccfc84c35.png",
+        "size": 560793
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/39377190900d9a3d61b673fd91ebd2b3be04b93699d9e281cffff749d22e507a.png",
+        "size": 1432370
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/6e1bf47857b21a7e4fbd5f6e066adc2a880a002d49606c0151fa81465865cc68.png",
+        "size": 1330428
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/634a7e6544af4fb8325d6c0091db3c00be85fda6aa9f28f2ea498e13065579d9.png",
+        "size": 1031475
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9b348e99f002f94eaaf8becac1b3324401f5b49576bc1246ef28c1af9a24733a.png",
+        "size": 1212766
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d356a17f8d7cb9005888b524142651963757460dcb9d19d56e34cafee1df8ea0.png",
+        "size": 1045822
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9a861e43c39703560e4d42a7f251681847bcc288934cc016c7fee542508fceea.png",
+        "size": 1298446
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/54c97ecac367fe20509eb29c0933742970c5c210e2c5d9d4ee0ed157f348b824.png",
+        "size": 1310533
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cfc163719b5c3faa3142a38e9d047a7c503db3b51bad7885e5e1e22178f14ca3.png",
+        "size": 773927
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/db63c94da43c55dafa88b553df473939cd87372d0bede26d74f9af3358ca1c86.png",
+        "size": 519941
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f12e36a7b37141b068ffece3b4c170e9d129b250724882f5104155fa3490dcc3.png",
+        "size": 986967
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/a6cd86a3bb2a12bff6ea14037598d44cf66b5be89067843410d977773920fab9.png",
+        "size": 1383648
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/69b41abe8c5fa94bba67f9859857d76a7dfa87a08c3d8c16daea9c76f09069de.png",
+        "size": 1321087
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07179453a1e0e03237567cf4223793abcf6df64350363715bcd4877a5c780063.png",
+        "size": 1226527
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/723eeeeccb537a4e5fa9f0dae019738a9c5250df2c1998683f34b0ff43ad4414.png",
+        "size": 1244990
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f2866c6c4be4d2f0e610e038946147bb124b22481da3634731c1740e02917d73.png",
+        "size": 1298859
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b161d7edf484e272b5871b3cd822b31a8da95d472fe2e79b96c08804f50a852a.png",
+        "size": 1220059
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c97cd31f357c4abef07a9cbfaf4cd435a66a7f9941096766d5286d460f5c2ad0.png",
+        "size": 1610892
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/57dd0fd8ec3d19b330aba41c5e9c34b992e581232a074be18658d5dd9bf553e2.png",
+        "size": 1010196
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07de994b97c14f90b7eda645127430c41c76f6e6dca866946892b5d59a85583e.png",
+        "size": 1040142
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9aee5952ebe3f1d50d4cd125fbf5908bc0848a107c65aea87222b74538c92203.png",
+        "size": 1767621
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/0f701614ed7374b10b21b7448cbea0cd9b79e2cae595b54141c89b5236acab76.png",
+        "size": 1620203
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/2659d0d5a465bef6260f8d85eb5022ad02d99a013e7e0b6e26a37d3e88cf35e7.png",
+        "size": 629449
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c6476150e9144bb35a3551503ce015297f87e83c33dab12f4d1b2fb9d8a1580b.png",
+        "size": 785212
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/credits/urban-items.txt",
+        "size": 435
+      },
+      {
+        "path": "packs/245445d4-8ee4-46cc-b57e-d2b56c3fc6ab.json",
+        "size": 31484
+      }
+    ],
+    "license": {
+      "privateUse": true
+    },
+    "compatibility": {},
+    "builtinAssets": [],
+    "admission": {
+      "entryKinds": [
+        "props"
+      ]
+    }
+  },
+  "packs": [
+    {
+      "format": "dsh-mod-pack",
+      "schemaVersion": 1,
+      "id": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+      "modId": "dsh.items",
+      "requiresModVersion": ">=1.0.0 <2.0.0",
+      "name": "通用",
+      "fields": {
+        "genres": [
+          {
+            "id": "genre-0",
+            "label": "钥匙",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "key"
+            }
+          },
+          {
+            "id": "genre-1",
+            "label": "文书",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "document"
+            }
+          },
+          {
+            "id": "genre-2",
+            "label": "药品",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "medicine"
+            }
+          },
+          {
+            "id": "genre-3",
+            "label": "武器",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "weapon"
+            }
+          },
+          {
+            "id": "genre-4",
+            "label": "饰品",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "jewel"
+            }
+          },
+          {
+            "id": "genre-5",
+            "label": "食物",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "food"
+            }
+          },
+          {
+            "id": "genre-6",
+            "label": "货币",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "money"
+            }
+          },
+          {
+            "id": "genre-7",
+            "label": "杂物",
+            "icon": {
+              "modId": "dsh.items",
+              "packId": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb",
+              "kind": "icon",
+              "entryId": "misc"
+            }
+          }
+        ]
+      },
+      "entries": [
+        {
+          "id": "key",
+          "kind": "icon",
+          "name": "钥匙",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/fc5cf762052b1e7b7d7ed7556acd0415534155abaafd57ae8973c886eec2a51e.png"
+          }
+        },
+        {
+          "id": "document",
+          "kind": "icon",
+          "name": "文书",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/2fa4e6f4c129f39d5351dbc99884309ca96d60942881fd2c486349fb6c08b51c.png"
+          }
+        },
+        {
+          "id": "medicine",
+          "kind": "icon",
+          "name": "药品",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/efdcba0f3476fc720114ffc8be7d0b8b1bdb2c14d330e02da306da47f7f04774.png"
+          }
+        },
+        {
+          "id": "weapon",
+          "kind": "icon",
+          "name": "武器",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/14d08d0bb90b5b4353a505a3fbde555f6514385f61a3aff211146f8471345df4.png"
+          }
+        },
+        {
+          "id": "jewel",
+          "kind": "icon",
+          "name": "饰品",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/82f3a17c350114f4bf67dc4dea886a437115efbb289fcd6377df9df5caf9d533.png"
+          }
+        },
+        {
+          "id": "food",
+          "kind": "icon",
+          "name": "食物",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/f918e35193e6d0d6a48ebd517a95c8f917996e512f6002cf7ebf0735f7be8de9.png"
+          }
+        },
+        {
+          "id": "money",
+          "kind": "icon",
+          "name": "货币",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/23bbb12294df1f957f540af56f98e5ec43c673bb7eb8d4fdf6498a276a12e4b0.png"
+          }
+        },
+        {
+          "id": "misc",
+          "kind": "icon",
+          "name": "杂物",
+          "enabled": true,
+          "fields": {},
+          "media": {
+            "image": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/7ab75d51094177226ef7e377839c4276fa1f7164041d3de1d4e8be52d82add67.png"
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/fc5cf762052b1e7b7d7ed7556acd0415534155abaafd57ae8973c886eec2a51e.png",
+          "size": 98006
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/2fa4e6f4c129f39d5351dbc99884309ca96d60942881fd2c486349fb6c08b51c.png",
+          "size": 95664
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/efdcba0f3476fc720114ffc8be7d0b8b1bdb2c14d330e02da306da47f7f04774.png",
+          "size": 101949
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/14d08d0bb90b5b4353a505a3fbde555f6514385f61a3aff211146f8471345df4.png",
+          "size": 68189
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/82f3a17c350114f4bf67dc4dea886a437115efbb289fcd6377df9df5caf9d533.png",
+          "size": 61090
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/f918e35193e6d0d6a48ebd517a95c8f917996e512f6002cf7ebf0735f7be8de9.png",
+          "size": 186858
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/23bbb12294df1f957f540af56f98e5ec43c673bb7eb8d4fdf6498a276a12e4b0.png",
+          "size": 227679
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/media/7ab75d51094177226ef7e377839c4276fa1f7164041d3de1d4e8be52d82add67.png",
+          "size": 210330
+        },
+        {
+          "path": "b57d1a7c-22d5-42b0-8193-e772f65fe8bb/credits/general-items.txt",
+          "size": 213
+        }
+      ]
+    },
+    {
+      "format": "dsh-mod-pack",
+      "schemaVersion": 1,
+      "id": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab",
+      "modId": "dsh.items",
+      "requiresModVersion": ">=1.0.0 <2.0.0",
+      "name": "中国现代都市",
+      "fields": {
+        "genres": [
+          {
+            "id": "genre-0",
+            "label": "杂物",
+            "icon": null
+          },
+          {
+            "id": "genre-1",
+            "label": "钥匙",
+            "icon": null
+          },
+          {
+            "id": "genre-2",
+            "label": "文书",
+            "icon": null
+          },
+          {
+            "id": "genre-3",
+            "label": "食物",
+            "icon": null
+          },
+          {
+            "id": "genre-4",
+            "label": "药品",
+            "icon": null
+          },
+          {
+            "id": "genre-5",
+            "label": "饰品",
+            "icon": null
+          },
+          {
+            "id": "genre-6",
+            "label": "货币",
+            "icon": null
+          }
+        ]
+      },
+      "entries": [
+        {
+          "id": "phone",
+          "kind": "item",
+          "name": "手机",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "智能手机"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/677cbc50a4359f45c1f35337e17e2ba01d98aab7cc997fb19175d40459d33e35.png"
+          }
+        },
+        {
+          "id": "power-bank",
+          "kind": "item",
+          "name": "充电宝",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "移动电源"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b1778fa8c4599b911745434375ced4b6ea0af30ed3ed0b64c02b840c944b1301.png"
+          }
+        },
+        {
+          "id": "keys",
+          "kind": "item",
+          "name": "钥匙",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "家门钥匙",
+              "房门钥匙"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-1",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/efa977a7fbe9a270f84145eded10035214f4e716e5f53bcde10d3aea66a40121.png"
+          }
+        },
+        {
+          "id": "access-card",
+          "kind": "item",
+          "name": "门禁卡",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "门卡"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-1",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8b9b006e683aa96ea2ee956382fc9775f7061a0b515e04458dde586c421984aa.png"
+          }
+        },
+        {
+          "id": "transit-card",
+          "kind": "item",
+          "name": "交通卡",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "地铁卡",
+              "公交卡",
+              "公交一卡通"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/4849df0f28a2051bc8b06d8080f8d54c27e32418ee95b0ea05f36c97b55d73dd.png"
+          }
+        },
+        {
+          "id": "wallet",
+          "kind": "item",
+          "name": "钱包",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "钱夹"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f13b6ba6efd88d00c380f2bc8d28571a9d427994c5d82fe67e6dcef8558912bb.png"
+          }
+        },
+        {
+          "id": "identity-card",
+          "kind": "item",
+          "name": "身份证",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "居民身份证"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cb90624c4fd1ff13f97899490a61ee7addd9bc1338435241192ec8deb1b82480.png"
+          }
+        },
+        {
+          "id": "umbrella",
+          "kind": "item",
+          "name": "雨伞",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "折叠伞"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/49411e122d5cd3ef0803ac1448a911ce022943976cc0249ef804675125ed01d0.png"
+          }
+        },
+        {
+          "id": "milk-tea",
+          "kind": "item",
+          "name": "奶茶",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "珍珠奶茶",
+              "一杯奶茶"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b2b1efece1a6eaf9986da5d805611b7789d33b27c918dfa5525758ee6aed1b38.png"
+          }
+        },
+        {
+          "id": "coffee",
+          "kind": "item",
+          "name": "咖啡",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "一杯咖啡",
+              "外带咖啡"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7756fd187cef2e6a2b0680373c0e46b1a33613dadd349028570c99dcd2a30a26.png"
+          }
+        },
+        {
+          "id": "water",
+          "kind": "item",
+          "name": "矿泉水",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "瓶装水",
+              "一瓶矿泉水"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/302f4e865a5b325cd31edb1a0f84960f0b00070b7f18054ae01680f931ed438c.png"
+          }
+        },
+        {
+          "id": "takeout",
+          "kind": "item",
+          "name": "外卖",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "外卖餐盒"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d221b4fc9a39bd27b3ef9dc31f93b174dca54538d3d40e2f978e39d247935697.png"
+          }
+        },
+        {
+          "id": "bento",
+          "kind": "item",
+          "name": "便当",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "盒饭"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7cbce596b2db6d7e047ebe76cd10eda6c475bc298c3d89653f73f4f09be6ef10.png"
+          }
+        },
+        {
+          "id": "noodles",
+          "kind": "item",
+          "name": "泡面",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "方便面",
+              "桶装泡面"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/412611fedc0de52adba1bc8ff1221aae8992c8e7f7e61d47b2ffb79fc57dc783.png"
+          }
+        },
+        {
+          "id": "snacks",
+          "kind": "item",
+          "name": "零食",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "小零食",
+              "零食袋"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/98276f3a3b9c2139d034bbf46c971a68ce54489a86536492073ae8155d135661.png"
+          }
+        },
+        {
+          "id": "cake",
+          "kind": "item",
+          "name": "蛋糕",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "小蛋糕",
+              "奶油蛋糕"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-3",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/661c4f38cc5c6d20bf2141c63b4f332af7ebd583e66b9e2abb2b687b2585e245.png"
+          }
+        },
+        {
+          "id": "flowers",
+          "kind": "item",
+          "name": "花束",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "一束花",
+              "鲜花"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7f9099693bd899ccb1d96504ae558294336387c28865e641b9071dd5e7614acb.png"
+          }
+        },
+        {
+          "id": "gift",
+          "kind": "item",
+          "name": "礼物盒",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "礼盒",
+              "礼品盒"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/62ee18c0a43c40553f205d671968b50ab6277bfb89c5bdd73481fd15f4cdc062.png"
+          }
+        },
+        {
+          "id": "envelope",
+          "kind": "item",
+          "name": "信封",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "一封信"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/fcbb3ba9eda107436c1eabf9e0d814e8e941610d7b7c1a78223277687f2650f6.png"
+          }
+        },
+        {
+          "id": "parcel",
+          "kind": "item",
+          "name": "快递盒",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "快递箱",
+              "快递包裹"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b5726e673b05a268a6f8df82640d78ecd0b07366a77b749607c203a271bfc5cf.png"
+          }
+        },
+        {
+          "id": "earphones",
+          "kind": "item",
+          "name": "耳机",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "蓝牙耳机",
+              "无线耳机"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/df57058210b1e2b107e4900dc38879a9d5ca0f729e0b44494fd2e589e9c0fe77.png"
+          }
+        },
+        {
+          "id": "laptop",
+          "kind": "item",
+          "name": "笔记本电脑",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "手提电脑"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8fe2a8d6dab6c78c52a51318fe32fb0942b70960b2cc1e629e1fc9d6a233fb27.png"
+          }
+        },
+        {
+          "id": "tablet",
+          "kind": "item",
+          "name": "平板",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "平板电脑"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/88bcd95056cb02748eaf848c5a81693248254263ff2a3ae0d6608b8ae95c58b2.png"
+          }
+        },
+        {
+          "id": "notebook",
+          "kind": "item",
+          "name": "笔记本",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "记事本",
+              "笔记簿"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/111d81111a589750208e0c21416fc25c150d8566fb40556d3e549095890d97d9.png"
+          }
+        },
+        {
+          "id": "pen",
+          "kind": "item",
+          "name": "笔",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "中性笔",
+              "签字笔",
+              "水笔"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/e696e188d7d73768dddadef2b228fce616da9df5fc64c8613c10ae6ccfc84c35.png"
+          }
+        },
+        {
+          "id": "book",
+          "kind": "item",
+          "name": "书",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "书本",
+              "书籍",
+              "一本书"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/39377190900d9a3d61b673fd91ebd2b3be04b93699d9e281cffff749d22e507a.png"
+          }
+        },
+        {
+          "id": "medicine",
+          "kind": "item",
+          "name": "药",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "药品",
+              "药片"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-4",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/6e1bf47857b21a7e4fbd5f6e066adc2a880a002d49606c0151fa81465865cc68.png"
+          }
+        },
+        {
+          "id": "bandage",
+          "kind": "item",
+          "name": "创可贴",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "创口贴"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-4",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/634a7e6544af4fb8325d6c0091db3c00be85fda6aa9f28f2ea498e13065579d9.png"
+          }
+        },
+        {
+          "id": "mask",
+          "kind": "item",
+          "name": "口罩",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "医用口罩",
+              "一次性口罩"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-4",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9b348e99f002f94eaaf8becac1b3324401f5b49576bc1246ef28c1af9a24733a.png"
+          }
+        },
+        {
+          "id": "tissues",
+          "kind": "item",
+          "name": "纸巾",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "餐巾纸",
+              "面巾纸"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d356a17f8d7cb9005888b524142651963757460dcb9d19d56e34cafee1df8ea0.png"
+          }
+        },
+        {
+          "id": "cosmetics",
+          "kind": "item",
+          "name": "化妆品",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "粉饼",
+              "粉盒"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9a861e43c39703560e4d42a7f251681847bcc288934cc016c7fee542508fceea.png"
+          }
+        },
+        {
+          "id": "perfume",
+          "kind": "item",
+          "name": "香水",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "香水瓶"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/54c97ecac367fe20509eb29c0933742970c5c210e2c5d9d4ee0ed157f348b824.png"
+          }
+        },
+        {
+          "id": "hairclip",
+          "kind": "item",
+          "name": "发夹",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "发卡"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-5",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cfc163719b5c3faa3142a38e9d047a7c503db3b51bad7885e5e1e22178f14ca3.png"
+          }
+        },
+        {
+          "id": "necklace",
+          "kind": "item",
+          "name": "项链",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "吊坠项链"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-5",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/db63c94da43c55dafa88b553df473939cd87372d0bede26d74f9af3358ca1c86.png"
+          }
+        },
+        {
+          "id": "ring",
+          "kind": "item",
+          "name": "戒指",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "指环"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-5",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f12e36a7b37141b068ffece3b4c170e9d129b250724882f5104155fa3490dcc3.png"
+          }
+        },
+        {
+          "id": "watch",
+          "kind": "item",
+          "name": "手表",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "腕表"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-5",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/a6cd86a3bb2a12bff6ea14037598d44cf66b5be89067843410d977773920fab9.png"
+          }
+        },
+        {
+          "id": "movie-ticket",
+          "kind": "item",
+          "name": "电影票",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "影票"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/69b41abe8c5fa94bba67f9859857d76a7dfa87a08c3d8c16daea9c76f09069de.png"
+          }
+        },
+        {
+          "id": "concert-ticket",
+          "kind": "item",
+          "name": "演唱会门票",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "演唱会票",
+              "音乐会门票"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07179453a1e0e03237567cf4223793abcf6df64350363715bcd4877a5c780063.png"
+          }
+        },
+        {
+          "id": "train-ticket",
+          "kind": "item",
+          "name": "车票",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "火车票",
+              "高铁票"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-2",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/723eeeeccb537a4e5fa9f0dae019738a9c5250df2c1998683f34b0ff43ad4414.png"
+          }
+        },
+        {
+          "id": "cash",
+          "kind": "item",
+          "name": "现金",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "纸币",
+              "人民币",
+              "零钱"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-6",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f2866c6c4be4d2f0e610e038946147bb124b22481da3634731c1740e02917d73.png"
+          }
+        },
+        {
+          "id": "red-envelope",
+          "kind": "item",
+          "name": "红包",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "压岁红包",
+              "利是封"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-6",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b161d7edf484e272b5871b3cd822b31a8da95d472fe2e79b96c08804f50a852a.png"
+          }
+        },
+        {
+          "id": "shopping-bag",
+          "kind": "item",
+          "name": "购物袋",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "手提购物袋"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c97cd31f357c4abef07a9cbfaf4cd435a66a7f9941096766d5286d460f5c2ad0.png"
+          }
+        },
+        {
+          "id": "bicycle-key",
+          "kind": "item",
+          "name": "自行车钥匙",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "车锁钥匙",
+              "单车钥匙"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-1",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/57dd0fd8ec3d19b330aba41c5e9c34b992e581232a074be18658d5dd9bf553e2.png"
+          }
+        },
+        {
+          "id": "console",
+          "kind": "item",
+          "name": "游戏机",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "掌机",
+              "便携游戏机"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07de994b97c14f90b7eda645127430c41c76f6e6dca866946892b5d59a85583e.png"
+          }
+        },
+        {
+          "id": "plush",
+          "kind": "item",
+          "name": "毛绒玩偶",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "毛绒玩具",
+              "玩偶",
+              "小熊玩偶"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9aee5952ebe3f1d50d4cd125fbf5908bc0848a107c65aea87222b74538c92203.png"
+          }
+        },
+        {
+          "id": "camera",
+          "kind": "item",
+          "name": "相机",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "照相机",
+              "数码相机"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/0f701614ed7374b10b21b7448cbea0cd9b79e2cae595b54141c89b5236acab76.png"
+          }
+        },
+        {
+          "id": "selfie-stick",
+          "kind": "item",
+          "name": "自拍杆",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "手机自拍杆"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/2659d0d5a465bef6260f8d85eb5022ad02d99a013e7e0b6e26a37d3e88cf35e7.png"
+          }
+        },
+        {
+          "id": "thermos",
+          "kind": "item",
+          "name": "保温杯",
+          "enabled": true,
+          "recall": {
+            "mode": "keyword",
+            "keywords": [
+              "保温瓶",
+              "随行杯"
+            ]
+          },
+          "fields": {
+            "genreId": "genre-0",
+            "inventoryId": ""
+          },
+          "media": {
+            "image": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c6476150e9144bb35a3551503ce015297f87e83c33dab12f4d1b2fb9d8a1580b.png"
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/677cbc50a4359f45c1f35337e17e2ba01d98aab7cc997fb19175d40459d33e35.png",
+          "size": 814289
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b1778fa8c4599b911745434375ced4b6ea0af30ed3ed0b64c02b840c944b1301.png",
+          "size": 1100084
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/efa977a7fbe9a270f84145eded10035214f4e716e5f53bcde10d3aea66a40121.png",
+          "size": 891799
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8b9b006e683aa96ea2ee956382fc9775f7061a0b515e04458dde586c421984aa.png",
+          "size": 993570
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/4849df0f28a2051bc8b06d8080f8d54c27e32418ee95b0ea05f36c97b55d73dd.png",
+          "size": 1026649
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f13b6ba6efd88d00c380f2bc8d28571a9d427994c5d82fe67e6dcef8558912bb.png",
+          "size": 1726700
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cb90624c4fd1ff13f97899490a61ee7addd9bc1338435241192ec8deb1b82480.png",
+          "size": 886800
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/49411e122d5cd3ef0803ac1448a911ce022943976cc0249ef804675125ed01d0.png",
+          "size": 1234055
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b2b1efece1a6eaf9986da5d805611b7789d33b27c918dfa5525758ee6aed1b38.png",
+          "size": 1000116
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7756fd187cef2e6a2b0680373c0e46b1a33613dadd349028570c99dcd2a30a26.png",
+          "size": 1411897
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/302f4e865a5b325cd31edb1a0f84960f0b00070b7f18054ae01680f931ed438c.png",
+          "size": 739562
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d221b4fc9a39bd27b3ef9dc31f93b174dca54538d3d40e2f978e39d247935697.png",
+          "size": 1770872
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7cbce596b2db6d7e047ebe76cd10eda6c475bc298c3d89653f73f4f09be6ef10.png",
+          "size": 1531712
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/412611fedc0de52adba1bc8ff1221aae8992c8e7f7e61d47b2ffb79fc57dc783.png",
+          "size": 1424114
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/98276f3a3b9c2139d034bbf46c971a68ce54489a86536492073ae8155d135661.png",
+          "size": 1325078
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/661c4f38cc5c6d20bf2141c63b4f332af7ebd583e66b9e2abb2b687b2585e245.png",
+          "size": 1639585
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/7f9099693bd899ccb1d96504ae558294336387c28865e641b9071dd5e7614acb.png",
+          "size": 1777719
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/62ee18c0a43c40553f205d671968b50ab6277bfb89c5bdd73481fd15f4cdc062.png",
+          "size": 1633528
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/fcbb3ba9eda107436c1eabf9e0d814e8e941610d7b7c1a78223277687f2650f6.png",
+          "size": 1400063
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b5726e673b05a268a6f8df82640d78ecd0b07366a77b749607c203a271bfc5cf.png",
+          "size": 1615052
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/df57058210b1e2b107e4900dc38879a9d5ca0f729e0b44494fd2e589e9c0fe77.png",
+          "size": 1319485
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/8fe2a8d6dab6c78c52a51318fe32fb0942b70960b2cc1e629e1fc9d6a233fb27.png",
+          "size": 1227778
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/88bcd95056cb02748eaf848c5a81693248254263ff2a3ae0d6608b8ae95c58b2.png",
+          "size": 937646
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/111d81111a589750208e0c21416fc25c150d8566fb40556d3e549095890d97d9.png",
+          "size": 1934701
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/e696e188d7d73768dddadef2b228fce616da9df5fc64c8613c10ae6ccfc84c35.png",
+          "size": 560793
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/39377190900d9a3d61b673fd91ebd2b3be04b93699d9e281cffff749d22e507a.png",
+          "size": 1432370
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/6e1bf47857b21a7e4fbd5f6e066adc2a880a002d49606c0151fa81465865cc68.png",
+          "size": 1330428
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/634a7e6544af4fb8325d6c0091db3c00be85fda6aa9f28f2ea498e13065579d9.png",
+          "size": 1031475
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9b348e99f002f94eaaf8becac1b3324401f5b49576bc1246ef28c1af9a24733a.png",
+          "size": 1212766
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/d356a17f8d7cb9005888b524142651963757460dcb9d19d56e34cafee1df8ea0.png",
+          "size": 1045822
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9a861e43c39703560e4d42a7f251681847bcc288934cc016c7fee542508fceea.png",
+          "size": 1298446
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/54c97ecac367fe20509eb29c0933742970c5c210e2c5d9d4ee0ed157f348b824.png",
+          "size": 1310533
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/cfc163719b5c3faa3142a38e9d047a7c503db3b51bad7885e5e1e22178f14ca3.png",
+          "size": 773927
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/db63c94da43c55dafa88b553df473939cd87372d0bede26d74f9af3358ca1c86.png",
+          "size": 519941
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f12e36a7b37141b068ffece3b4c170e9d129b250724882f5104155fa3490dcc3.png",
+          "size": 986967
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/a6cd86a3bb2a12bff6ea14037598d44cf66b5be89067843410d977773920fab9.png",
+          "size": 1383648
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/69b41abe8c5fa94bba67f9859857d76a7dfa87a08c3d8c16daea9c76f09069de.png",
+          "size": 1321087
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07179453a1e0e03237567cf4223793abcf6df64350363715bcd4877a5c780063.png",
+          "size": 1226527
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/723eeeeccb537a4e5fa9f0dae019738a9c5250df2c1998683f34b0ff43ad4414.png",
+          "size": 1244990
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/f2866c6c4be4d2f0e610e038946147bb124b22481da3634731c1740e02917d73.png",
+          "size": 1298859
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/b161d7edf484e272b5871b3cd822b31a8da95d472fe2e79b96c08804f50a852a.png",
+          "size": 1220059
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c97cd31f357c4abef07a9cbfaf4cd435a66a7f9941096766d5286d460f5c2ad0.png",
+          "size": 1610892
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/57dd0fd8ec3d19b330aba41c5e9c34b992e581232a074be18658d5dd9bf553e2.png",
+          "size": 1010196
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/07de994b97c14f90b7eda645127430c41c76f6e6dca866946892b5d59a85583e.png",
+          "size": 1040142
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/9aee5952ebe3f1d50d4cd125fbf5908bc0848a107c65aea87222b74538c92203.png",
+          "size": 1767621
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/0f701614ed7374b10b21b7448cbea0cd9b79e2cae595b54141c89b5236acab76.png",
+          "size": 1620203
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/2659d0d5a465bef6260f8d85eb5022ad02d99a013e7e0b6e26a37d3e88cf35e7.png",
+          "size": 629449
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/media/c6476150e9144bb35a3551503ce015297f87e83c33dab12f4d1b2fb9d8a1580b.png",
+          "size": 785212
+        },
+        {
+          "path": "245445d4-8ee4-46cc-b57e-d2b56c3fc6ab/credits/urban-items.txt",
+          "size": 435
+        }
+      ]
+    }
+  ]
+}

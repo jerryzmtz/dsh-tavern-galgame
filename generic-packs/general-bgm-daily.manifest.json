@@ -1,0 +1,507 @@
+{
+  "assets": [
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Carefree — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "明亮轻快的日常音乐；用于城市散步、朋友闲聊和轻松出行。",
+      "enabled": true,
+      "id": "mu3eefd8756f",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "8de24fe68552bf26e7b4ed57b4c5f79f9d875933553e010d3b7111fdb75ca97f",
+      "name": "晴日漫步",
+      "recall": {
+        "keywords": [
+          "日常",
+          "轻松",
+          "悠闲",
+          "散步",
+          "城市",
+          "街头",
+          "晴天"
+        ],
+        "mode": "constant"
+      },
+      "tags": [
+        "daily",
+        "bright"
+      ],
+      "usage": "明亮日常、轻松出行"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Easy Lemon — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200076 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "轻松悠闲；用于休息、午后咖啡店和无冲突的聊天。",
+      "enabled": true,
+      "id": "mud20c61937c",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "6e2fc2570cf10180017ef04ac3efbfb1dc7d41fe0cb88ae9c2d04eb76fe9b202",
+      "name": "闲暇时光",
+      "recall": {
+        "keywords": [
+          "闲暇",
+          "休息",
+          "放松",
+          "咖啡店",
+          "咖啡馆",
+          "午后",
+          "休闲"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "calm",
+        "relaxed"
+      ],
+      "usage": "平静休息、轻松交谈"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "New Friendly — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1200112 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "亲切活泼；用于课间聊天、校园日常和同学相聚。",
+      "enabled": true,
+      "id": "mu9e7574d4af",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "a7f64e065170c61629383021612ffbfb0e11e3ee9433c55afb02bdd337f67894",
+      "name": "课间笑语",
+      "recall": {
+        "keywords": [
+          "课间",
+          "学校",
+          "校园",
+          "同学",
+          "笑语",
+          "教室",
+          "课堂"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "bright"
+      ],
+      "usage": "校园课间、社团活动"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/温暖",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Heartwarming — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100207 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "柔和温暖；用于家人相处、安慰、拥抱和彼此支持。",
+      "enabled": true,
+      "id": "mu7eafb882a5",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "a27933982060a4d59f0a7f1005be64cfa5fc113e0ae765a8865b899197e4f7f3",
+      "name": "暖心约定",
+      "recall": {
+        "keywords": [
+          "温馨",
+          "温暖",
+          "安慰",
+          "家人",
+          "亲情",
+          "治愈",
+          "拥抱"
+        ],
+        "mode": "constant"
+      },
+      "tags": [
+        "romance",
+        "warm"
+      ],
+      "usage": "温暖陪伴、青涩恋情"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/喜剧",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Sneaky Snitch — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100772 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "俏皮滑稽；用于小恶作剧、心虚试探和轻喜剧，不用于严肃威胁。",
+      "enabled": true,
+      "id": "muffd27c625e",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "2138fbbe8119ab13c92e0c4208605f99daf0b4e1c302f392fce22f3c06869115",
+      "name": "小小恶作剧",
+      "recall": {
+        "keywords": [
+          "搞笑",
+          "滑稽",
+          "恶作剧",
+          "捉弄",
+          "偷偷",
+          "乌龙",
+          "心虚"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "comedy",
+        "mischief"
+      ],
+      "usage": "搞笑误会、偷偷行动"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/神秘",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Night on the Docks - Piano — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100135 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "安静夜间钢琴；用于深夜独处、低声交谈和静谧的夜景。",
+      "enabled": true,
+      "id": "muc183367255",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "259de1ed6b93adcadd11acc17f1f5b148a75427b2e2a086b93bacd6c7a3fa769",
+      "name": "夜色低语",
+      "recall": {
+        "keywords": [
+          "夜晚",
+          "深夜",
+          "安静",
+          "夜色",
+          "静谧",
+          "独处",
+          "月光"
+        ],
+        "mode": "constant"
+      },
+      "tags": [
+        "night",
+        "quiet"
+      ],
+      "usage": "夜晚独处、安静交谈"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Life of Riley — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400054 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "轻快明朗；用于清晨出门、通学和新一天的开始。",
+      "enabled": true,
+      "id": "mu37c5250f35",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "4218e077056b2451c4aeb97b938163b51461255b9bdda1b317ab399c9985cfce",
+      "name": "通学晴空",
+      "recall": {
+        "keywords": [
+          "早晨",
+          "清晨",
+          "通学",
+          "上学",
+          "晴空",
+          "出门",
+          "朝阳"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "morning"
+      ],
+      "usage": "轻快通学、日常开场"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Almost New — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1800008 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "轻柔的午后钢琴；用于咖啡店、下午茶和舒缓的谈话。",
+      "enabled": true,
+      "id": "muecf9a17940",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "7263743ef0a53b7c14cc72bb1af3073bea25225cf6e87c39863674a24f7c6a03",
+      "name": "午后琴声",
+      "recall": {
+        "keywords": [
+          "午后",
+          "咖啡店",
+          "咖啡馆",
+          "咖啡厅",
+          "下午茶",
+          "琴声",
+          "休息"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "calm"
+      ],
+      "usage": "午后教室、安静自习"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Wallpaper — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100843 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "轻巧舒适；用于校园社团、活动室和同伴的普通日常。",
+      "enabled": true,
+      "id": "mub32ef68e32",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "3a7a49234699776439d04308cad09f7cb27da7e89580d2f85f5b26bd90f46bf5",
+      "name": "社团日常",
+      "recall": {
+        "keywords": [
+          "社团",
+          "学校",
+          "校园",
+          "活动室",
+          "放学",
+          "日常",
+          "同学"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "club"
+      ],
+      "usage": "社团准备、轻松聊天"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/日常",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Porch Swing Days - faster — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100716 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "闲适温暖；用于放学归途、城市小路和傍晚散步。",
+      "enabled": true,
+      "id": "mua3c7fd7dff",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "ec33de2ae5ccd69a2d141c632f7bce6993c9fd7978cb32975091dd0510aac2b4",
+      "name": "放学小路",
+      "recall": {
+        "keywords": [
+          "放学",
+          "小路",
+          "散步",
+          "归途",
+          "傍晚",
+          "街道",
+          "城市"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "afternoon"
+      ],
+      "usage": "放学结伴、轻松归途"
+    },
+    {
+      "author": "Kevin MacLeod",
+      "category": "氛围/喜剧",
+      "credits": [
+        "credits/CREDITS.md"
+      ],
+      "description": "Monkeys Spinning Monkeys — Kevin MacLeod (incompetech.com). https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400011 | https://creativecommons.org/licenses/by/4.0/ | 已归一化约 -18 LUFS、OGG Vorbis q5；非无缝循环。",
+      "directorNote": "俏皮诙谐；用于误会、尴尬的小闹剧和校园喜剧。",
+      "enabled": true,
+      "id": "mu390c8ba64e",
+      "kind": "music",
+      "license": "CC-BY-4.0",
+      "media": "d4c2030be46a30ff3c3971d6bcd5963d06aabfd411f07251bc1da23de5530fcd",
+      "name": "乌龙课间",
+      "recall": {
+        "keywords": [
+          "乌龙",
+          "搞笑",
+          "滑稽",
+          "尴尬",
+          "误会",
+          "课间",
+          "闹剧"
+        ],
+        "mode": "keyword"
+      },
+      "tags": [
+        "school",
+        "comedy"
+      ],
+      "usage": "课间闹剧、轻松误会"
+    }
+  ],
+  "author": "Kevin MacLeod",
+  "blobs": {
+    "2138fbbe8119ab13c92e0c4208605f99daf0b4e1c302f392fce22f3c06869115": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2471058
+    },
+    "259de1ed6b93adcadd11acc17f1f5b148a75427b2e2a086b93bacd6c7a3fa769": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2418269
+    },
+    "3a7a49234699776439d04308cad09f7cb27da7e89580d2f85f5b26bd90f46bf5": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3962021
+    },
+    "4218e077056b2451c4aeb97b938163b51461255b9bdda1b317ab399c9985cfce": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 5024333
+    },
+    "6e2fc2570cf10180017ef04ac3efbfb1dc7d41fe0cb88ae9c2d04eb76fe9b202": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2329037
+    },
+    "7263743ef0a53b7c14cc72bb1af3073bea25225cf6e87c39863674a24f7c6a03": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3492343
+    },
+    "8de24fe68552bf26e7b4ed57b4c5f79f9d875933553e010d3b7111fdb75ca97f": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 4365064
+    },
+    "a27933982060a4d59f0a7f1005be64cfa5fc113e0ae765a8865b899197e4f7f3": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 1138218
+    },
+    "a7f64e065170c61629383021612ffbfb0e11e3ee9433c55afb02bdd337f67894": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 3904339
+    },
+    "d4c2030be46a30ff3c3971d6bcd5963d06aabfd411f07251bc1da23de5530fcd": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 2230686
+    },
+    "ec33de2ae5ccd69a2d141c632f7bce6993c9fd7978cb32975091dd0510aac2b4": {
+      "ext": "ogg",
+      "mime": "audio/ogg",
+      "size": 4003349
+    }
+  },
+  "bundles": {},
+  "contentHash": "7e67b2a23964bc2aa0a85222e23e53a308c5befce7a96714b2379f076306ef5d",
+  "credits": [
+    "credits/CREDITS.md",
+    "credits/ADDITIONS.md",
+    "credits/CC0-1.0.txt",
+    "credits/CC-BY-4.0.txt"
+  ],
+  "description": "20 首跨场景背景音乐；日常、温馨、夜晚、紧张四首常驻。Kevin MacLeod / CC BY 4.0，详见随包署名。",
+  "figures": [],
+  "files": [
+    {
+      "path": "credits/ADDITIONS.md",
+      "size": 425,
+      "sha256": "e0d8be329df10957640e0883b6cdf36eae96349bfc302412e07ab0dca692081b"
+    },
+    {
+      "path": "credits/CC-BY-4.0.txt",
+      "size": 18657,
+      "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411"
+    },
+    {
+      "path": "credits/CC0-1.0.txt",
+      "size": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "credits/CREDITS.md",
+      "size": 13174,
+      "sha256": "174bcc94f5ecd642220e31261f69157a32f8123a5b31f98b968bdad7616af406"
+    },
+    {
+      "path": "media/2138fbbe8119ab13c92e0c4208605f99daf0b4e1c302f392fce22f3c06869115.ogg",
+      "size": 2471058,
+      "sha256": "2138fbbe8119ab13c92e0c4208605f99daf0b4e1c302f392fce22f3c06869115"
+    },
+    {
+      "path": "media/259de1ed6b93adcadd11acc17f1f5b148a75427b2e2a086b93bacd6c7a3fa769.ogg",
+      "size": 2418269,
+      "sha256": "259de1ed6b93adcadd11acc17f1f5b148a75427b2e2a086b93bacd6c7a3fa769"
+    },
+    {
+      "path": "media/3a7a49234699776439d04308cad09f7cb27da7e89580d2f85f5b26bd90f46bf5.ogg",
+      "size": 3962021,
+      "sha256": "3a7a49234699776439d04308cad09f7cb27da7e89580d2f85f5b26bd90f46bf5"
+    },
+    {
+      "path": "media/4218e077056b2451c4aeb97b938163b51461255b9bdda1b317ab399c9985cfce.ogg",
+      "size": 5024333,
+      "sha256": "4218e077056b2451c4aeb97b938163b51461255b9bdda1b317ab399c9985cfce"
+    },
+    {
+      "path": "media/6e2fc2570cf10180017ef04ac3efbfb1dc7d41fe0cb88ae9c2d04eb76fe9b202.ogg",
+      "size": 2329037,
+      "sha256": "6e2fc2570cf10180017ef04ac3efbfb1dc7d41fe0cb88ae9c2d04eb76fe9b202"
+    },
+    {
+      "path": "media/7263743ef0a53b7c14cc72bb1af3073bea25225cf6e87c39863674a24f7c6a03.ogg",
+      "size": 3492343,
+      "sha256": "7263743ef0a53b7c14cc72bb1af3073bea25225cf6e87c39863674a24f7c6a03"
+    },
+    {
+      "path": "media/8de24fe68552bf26e7b4ed57b4c5f79f9d875933553e010d3b7111fdb75ca97f.ogg",
+      "size": 4365064,
+      "sha256": "8de24fe68552bf26e7b4ed57b4c5f79f9d875933553e010d3b7111fdb75ca97f"
+    },
+    {
+      "path": "media/a27933982060a4d59f0a7f1005be64cfa5fc113e0ae765a8865b899197e4f7f3.ogg",
+      "size": 1138218,
+      "sha256": "a27933982060a4d59f0a7f1005be64cfa5fc113e0ae765a8865b899197e4f7f3"
+    },
+    {
+      "path": "media/a7f64e065170c61629383021612ffbfb0e11e3ee9433c55afb02bdd337f67894.ogg",
+      "size": 3904339,
+      "sha256": "a7f64e065170c61629383021612ffbfb0e11e3ee9433c55afb02bdd337f67894"
+    },
+    {
+      "path": "media/d4c2030be46a30ff3c3971d6bcd5963d06aabfd411f07251bc1da23de5530fcd.ogg",
+      "size": 2230686,
+      "sha256": "d4c2030be46a30ff3c3971d6bcd5963d06aabfd411f07251bc1da23de5530fcd"
+    },
+    {
+      "path": "media/ec33de2ae5ccd69a2d141c632f7bce6993c9fd7978cb32975091dd0510aac2b4.ogg",
+      "size": 4003349,
+      "sha256": "ec33de2ae5ccd69a2d141c632f7bce6993c9fd7978cb32975091dd0510aac2b4"
+    }
+  ],
+  "format": "dsh-asset-pack",
+  "id": "c431bb66-42f9-43a9-acd9-13c26cd6a28b",
+  "license": "CC-BY-4.0",
+  "name": "通用音乐·日常",
+  "schemaVersion": 1,
+  "sprites": {}
+}

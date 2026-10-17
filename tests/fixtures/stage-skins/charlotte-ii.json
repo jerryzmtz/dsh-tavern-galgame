@@ -1,0 +1,87 @@
+{
+ "schema": "dsh.skin/1",
+ "id": "charlotte-ii",
+ "label": "点心派对（反转）",
+ "license": {
+  "privateUse": false
+ },
+ "textbox": {
+  "paint": {
+   "bg": "#120a0e",
+   "fg": "#fbe9ef",
+   "border": "#fbe9ef",
+   "accent": "#ff6b81"
+  },
+  "shape": {
+   "radius": 6,
+   "borderWidth": 4,
+   "rings": [
+    {
+     "width": 6,
+     "color": "#120a0e"
+    },
+    {
+     "width": 3,
+     "color": "#7a1022"
+    }
+   ]
+  },
+  "frame": {
+   "top": {
+    "pattern": "teeth",
+    "colors": [
+     "#fbe9ef"
+    ],
+    "height": 16,
+    "inset": 12,
+    "offset": 2
+   },
+   "bottom": {
+    "pattern": "teeth",
+    "colors": [
+     "#fbe9ef"
+    ],
+    "height": 14,
+    "inset": 12,
+    "offset": 2
+   }
+  }
+ },
+ "nameplate": {
+  "shape": "jagged",
+  "paint": {
+   "bg": "#fbe9ef",
+   "fg": "#120a0e"
+  },
+  "rotate": 2.5,
+  "size": 32,
+  "letterSpacing": 0.04
+ },
+ "font": {
+  "body": "resource-han-rounded",
+  "name": "xiaolai"
+ },
+ "textStyle": {
+  "weight": 500,
+  "letterSpacing": 0.03,
+  "emphasis": "#ff6b81"
+ },
+ "textFx": {
+  "reveal": "stutter",
+  "stepFps": 12,
+  "charsPerStep": 2,
+  "flash": "#ff6b81",
+  "emphasis": "jitter",
+  "jitter": 1.5
+ },
+ "cursor": {
+  "name": "eye",
+  "color": "#fbe9ef",
+  "accent": "#e0457b",
+  "fps": 8
+ },
+ "quickMenu": {
+  "bg": "#4a1020",
+  "fg": "#fbe9ef"
+ }
+}

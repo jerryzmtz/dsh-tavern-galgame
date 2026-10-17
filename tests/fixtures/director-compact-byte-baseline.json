@@ -1,0 +1,32 @@
+{
+  "small": {
+    "inputBytes": 11661,
+    "systemBytes": 1010,
+    "toolSchemaBytes": 7045,
+    "toolBytes": 7164,
+    "sections": {
+      "director": 535,
+      "command-guidance": 464,
+      "catalogue": 2238,
+      "actors.constant": 201,
+      "carried": 187,
+      "reply": 114,
+      "tools": 7164
+    }
+  },
+  "filled": {
+    "inputBytes": 35343,
+    "systemBytes": 6285,
+    "toolSchemaBytes": 11638,
+    "toolBytes": 11757,
+    "sections": {
+      "director": 535,
+      "command-guidance": 464,
+      "catalogue": 18447,
+      "actors.constant": 201,
+      "carried": 187,
+      "reply": 114,
+      "tools": 11757
+    }
+  }
+}

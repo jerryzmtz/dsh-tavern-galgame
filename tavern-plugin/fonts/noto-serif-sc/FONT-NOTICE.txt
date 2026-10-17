@@ -1,0 +1,22 @@
+Noto Serif SC - bundled full-coverage static WOFF2 instances
+
+Font name-table copyright: (c) 2017-2024 Adobe (http://www.adobe.com/).
+The upstream accompanying OFL notice also identifies Copyright 2012 Google Inc.
+Both notices are retained; see OFL.txt for the full SIL Open Font License 1.1.
+The font name table itself declares SIL OFL 1.1 and https://openfontlicense.org.
+
+Source: https://github.com/google/fonts/tree/main/ofl/notoserifsc
+Recorded variable-source SHA256:
+050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9
+Font version: 2.003-H1; hotconv 1.1.1; makeotfexe 2.6.0.
+
+The repository's bin/fork-install-fonts.py previously instantiated the source
+variable font at wght=400/500/700 with fontTools and encoded WOFF2, preserving
+all Unicode mappings (no subsetting). This release copies those installed
+instances byte-for-byte; no glyph outlines, metrics, or vertical ink table are
+changed here. The OS/2 weight of each file matches its declared CSS weight;
+the original ExtraLight name records remain from variable-font instantiation.
+Per-face and source hashes are retained in index.json.
+
+These files are not the owner's commercial/local custom typefaces. They are
+redistributed under OFL 1.1, not AGPL-3.0 or CC BY-NC-SA 4.0.

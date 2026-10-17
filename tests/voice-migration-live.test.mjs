@@ -1,0 +1,2 @@
+import test from 'node:test';
+test('Private authoring tool coverage', {skip: "Public alpha: private authoring/migration tools are not distributed: bin/fork-migrate-voice-v4.mjs, bin/fork-migrate-voice-cache-v4.mjs"}, () => {});

@@ -1,0 +1,309 @@
+{
+  "kind": "audience",
+  "id": "draft-mygo",
+  "name": "MyGO观众",
+  "enabled": true,
+  "recall": {
+    "mode": "keyword",
+    "keywords": [
+      "高松灯",
+      "千早爱音",
+      "要乐奈",
+      "长崎素世",
+      "长崎爽世",
+      "椎名立希",
+      "丰川祥子",
+      "若叶睦",
+      "春日影",
+      "MyGO",
+      "CRYCHIC"
+    ]
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "看MyGO动画名场面、官方歌曲和乐队二创的观众。围着春日影、素世的拉扯、爱音的委屈和灯的拼命演唱接梗。只用抓到的短弹幕，不虚构角色口癖；Mujica成员的后续剧情不在此群抢话。",
+    "tone": "温柔与突然翻脸的反差，短促、熟人感，认真听歌也会笑出声；不把二创玩笑当原作对白，不骚扰真人。",
+    "catchphrases": [
+      "主唱太拼命了",
+      "软糯爱音",
+      "soyo可爱捏",
+      "立希漂亮漂亮漂亮漂亮",
+      "只想演奏春日影的猫猫"
+    ],
+    "examples": [
+      "主唱太拼命了",
+      "软糯爱音",
+      "soyo可爱捏",
+      "立希漂亮漂亮漂亮漂亮"
+    ],
+    "nicknamePool": [
+      "春日影播到没电",
+      "迷子在车站捡拨片",
+      "诗超绊塞满书包",
+      "立交桥下找排练室",
+      "贝斯包里装奶茶",
+      "主唱的便签飞走了",
+      "耳机线缠成迷路图",
+      "放学绕去听一首",
+      "乐队名想了一整夜",
+      "观众席偷偷擦眼镜",
+      "雨声盖不住合唱",
+      "安可前再拧瓶盖",
+      "排练室灯亮到23",
+      "迷路电车042",
+      "拨片失踪第6回",
+      "春日影_倒带键",
+      "迷子の小节线",
+      "雨天・等个前奏",
+      "harukagecrumb",
+      "lost_pickbox",
+      "miludepai",
+      "encorepath_52",
+      "bili_71583026",
+      "bili_26849715"
+    ],
+    "triggers": [
+      {
+        "id": "mygo.tomori",
+        "keywords": [
+          "高松灯",
+          "灯酱"
+        ],
+        "lines": [
+          "主唱太拼命了",
+          "主唱太拼命了吧"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.anon",
+        "keywords": [
+          "千早爱音",
+          "爱音"
+        ],
+        "lines": [
+          "软糯爱音",
+          "ano酱？"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.soyo",
+        "keywords": [
+          "长崎素世",
+          "长崎爽世",
+          "素世",
+          "爽世"
+        ],
+        "lines": [
+          "soyo可爱捏",
+          "当场翻脸"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.taki",
+        "keywords": [
+          "椎名立希",
+          "立希"
+        ],
+        "lines": [
+          "立希漂亮漂亮漂亮漂亮",
+          "立希：天啊，这简直唱的就是我"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.rana",
+        "keywords": [
+          "要乐奈",
+          "乐奈"
+        ],
+        "lines": [
+          "只想演奏春日影的猫猫",
+          "kksk"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.song",
+        "keywords": [
+          "春日影",
+          "CRYCHIC"
+        ],
+        "lines": [
+          "为什么要演奏春日影",
+          "长崎素世自愿演奏春日影"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.anon-left",
+        "keywords": [
+          "爱音哭",
+          "爱音离开",
+          "爱音转身"
+        ],
+        "lines": [
+          "爱音：那我呢",
+          "爱音：那我呢？"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.wish",
+        "keywords": [
+          "祝你幸福",
+          "祝您幸福"
+        ],
+        "lines": [
+          "祝你幸福",
+          "祝您幸福"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.past",
+        "keywords": [
+          "从前",
+          "旧团",
+          "怀念"
+        ],
+        "lines": [
+          "《怀念也回不到从前》",
+          "世界线收束"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.live",
+        "keywords": [
+          "舞台",
+          "演奏",
+          "主唱"
+        ],
+        "lines": [
+          {
+            "text": "骄傲绽放的重要之人",
+            "kind": "highlight",
+            "amount": 100
+          },
+          "又看一集"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.stairs",
+        "keywords": [
+          "下楼",
+          "楼梯",
+          "跑步"
+        ],
+        "lines": [
+          "杂鱼体力",
+          "跑不过女高中生的屑"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mygo.tgw",
+        "keywords": [
+          "丰川集团",
+          "TGW",
+          "英国留学"
+        ],
+        "lines": [
+          "天才",
+          "你怎么这么懂啊"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      }
+    ],
+    "chains": [
+      {
+        "id": "mygo.relay-1-1",
+        "match": "为什么要演奏春日影",
+        "replies": [
+          "主唱太拼命了"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mygo.relay-1-2",
+        "match": "主唱太拼命了",
+        "replies": [
+          {
+            "text": "爱灯99",
+            "kind": "highlight",
+            "amount": 30
+          }
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "mygo.relay-1-3",
+        "match": "爱灯99",
+        "replies": [
+          {
+            "text": "骄傲绽放的重要之人",
+            "kind": "highlight",
+            "amount": 100
+          }
+        ],
+        "probability": 0.42
+      },
+      {
+        "id": "mygo.relay-1-4",
+        "match": "骄傲绽放的重要之人",
+        "replies": [
+          "祝你幸福"
+        ],
+        "probability": 0.34
+      },
+      {
+        "id": "mygo.relay-2-1",
+        "match": "软糯爱音",
+        "replies": [
+          "又看一集"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mygo.relay-3-1",
+        "match": "世界线收束",
+        "replies": [
+          "只想演奏春日影的猫猫"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mygo.relay-3-2",
+        "match": "只想演奏春日影的猫猫",
+        "replies": [
+          "当场翻脸"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "mygo.relay-4-1",
+        "match": "杂鱼体力",
+        "replies": [
+          "跑不过女高中生的屑"
+        ],
+        "probability": 0.58
+      }
+    ]
+  }
+}

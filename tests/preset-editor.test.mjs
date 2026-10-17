@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+
+import { createPresetEditor } from '../tavern-plugin/lib/domain/preset-editor.js'
+
+function harness(document) {
+  let text = JSON.stringify(document)
+  let writes = 0
+  const editor = createPresetEditor({
+    normalizePath: function (value, kind) {
+      assert.equal(kind, 'preset')
+      if (!String(value).startsWith('presets/')) throw new Error('bad path')
+      return String(value)
+    },
+    readText: async function () { return text },
+    writeText: async function (_path, next) { text = next; writes += 1 },
+    inspectRegexScripts: function (_inspected, source) {
+      return (source.extensions && source.extensions.regex_scripts || []).map(function (script, index) {
+        const base = '/extensions/regex_scripts/' + index
+        return { regexKey: String(script.id || 'regex-' + (index + 1)) + '#1', edit: {
+          scriptNamePath: base + '/scriptName',
+          findRegexPath: base + '/findRegex',
+          replaceStringPath: base + '/replaceString',
+          disabledPath: base + '/disabled'
+        } }
+      })
+    }
+  })
+  return { editor, document: function () { return JSON.parse(text) }, writes: function () { return writes } }
+}
+
+test('预设编辑器按 JSON Pointer 分段读取并保留未知字段', async () => {
+  const run = harness({ prompts: [{ identifier: 'main', content: '正文' }], extension_data: { custom: 42 } })
+  const result = await run.editor.read('presets/写作.json', { pointer: '/prompts/0', limit: 1000 })
+
+  assert.equal(result.pointer, '/prompts/0')
+  assert.match(result.text, /"content": "正文"/)
+  assert.equal(result.done, true)
+})
+
+test('条目表单拒绝未知字段与非法角色', async () => {
+  const run = harness({ prompts: [{ identifier: 'main', content: '正文' }] })
+
+  await assert.rejects(run.editor.updateEntry('presets/写作.json', 'main#1', { identifier: 'other' }), /不支持修改/)
+  await assert.rejects(run.editor.updateEntry('presets/写作.json', 'main#1', { role: 'developer' }), /角色必须/)
+  assert.equal(run.writes(), 0)
+})

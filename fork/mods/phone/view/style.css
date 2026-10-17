@@ -1,0 +1,186 @@
+/* private fork: first-party phone mod — iPhone 15 Pro Max proportions (430×932 → 280×607), Dynamic Island by default.
+   No palette of its own: every paint derives from the nine stage tokens the host sends (--gal-ui-*), or from the card's
+   custom colour settings that replace those tokens. Only transform/opacity animate; no filters, no glare. */
+:root {
+  /* 'normal' matches the host iframe element, so the frame stays transparent around the device in every theme. */
+  color-scheme: normal;
+  --sys: system-ui, -apple-system, "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei UI", sans-serif;
+  --font: var(--gal-ui-font, var(--sys));
+  --title-font: var(--gal-ui-title-font, var(--font));
+  --accent: var(--gal-ui-accent, #6f8fd8);
+  --accent-ink: var(--gal-ui-accent-ink, #ffffff);
+  --surface: var(--gal-ui-surface, #f4f2ec);
+  --ink: var(--gal-ui-ink, #23262b);
+  --ink-2: var(--gal-ui-ink-2, #6b6f76);
+  --app-bg: color-mix(in srgb, var(--accent) 6%, var(--surface));
+  --app-bar: color-mix(in srgb, var(--surface) 86%, transparent);
+  --app-line: color-mix(in srgb, var(--ink) 12%, transparent);
+  --bubble-in: color-mix(in srgb, var(--ink) 9%, var(--surface));
+  --bubble-radius: min(19px, calc(var(--gal-ui-radius, 12px) * .5 + 12px));
+  --t: var(--theme-transition, 0ms);
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; overflow: hidden; background: transparent; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font); color: var(--ink); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+svg { display: block; }
+
+/* ---------- device: titanium frame (border = bodyColor), black bezel, screen ---------- */
+#phone { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden;
+  border: 2.5px solid var(--phone-body, #3b3a38); border-radius: 44px; padding: 5px; background-clip: content-box;
+  background-color: var(--app-bg); background-image: none; background-size: cover; background-position: center;
+  box-shadow: inset 0 0 0 5px #060607, inset 0 0 0 5.5px color-mix(in srgb, #fff 9%, transparent);
+  transition: border-color var(--t), background-color var(--t); }
+#phone::before { content: ""; position: absolute; inset: 5px; border-radius: 36.5px; pointer-events: none; background: transparent; }
+body[data-wallpaper=image] #phone::before { background: color-mix(in srgb, var(--app-bg) 58%, transparent); }
+#phone > * { position: relative; z-index: 1; }
+body:not([data-presentation=open]) #phone { display: none; }
+
+/* ---------- status bar + Dynamic Island / notch ---------- */
+.top { flex: none; height: 38px; }
+#cutout { position: absolute; z-index: 3; left: 50%; top: 7px; width: 82px; height: 24px; margin-left: -41px; border-radius: 12px; background: #050506; }
+#cutout[data-kind=notch] { top: 0; width: 118px; height: 23px; margin-left: -59px; border-radius: 0 0 15px 15px; }
+#cutout[data-kind=none] { display: none; }
+#status-bar { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr); align-items: center; padding: 0 15px 0 12px;
+  font: 600 12.5px/1 var(--sys); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ink); transition: color var(--t); }
+#clock { grid-column: 1; justify-self: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.sys { grid-column: 3; grid-row: 1; justify-self: end; display: flex; align-items: center; gap: 4px; }
+.sys svg { fill: currentColor; height: 10px; width: auto; }
+#battery { grid-column: 3; grid-row: 1; justify-self: end; position: relative; display: grid; place-items: center; width: 24px; height: 11.5px; margin-right: 1px;
+  border-radius: 3.6px; background: color-mix(in srgb, currentColor 32%, transparent); overflow: visible; }
+#battery::after { content: ""; position: absolute; right: -2.6px; top: 3.8px; width: 1.6px; height: 4px; border-radius: 0 1px 1px 0; background: color-mix(in srgb, currentColor 40%, transparent); }
+#battery .level { position: absolute; left: 0; top: 0; bottom: 0; width: calc(100% * var(--level, .8)); border-radius: 3.6px; background: currentColor; }
+/* Battery levels (battery.js): ≤40% yellow, ≤20% red. */
+#battery[data-level=warn] .level { background: #ffd60a; }
+#battery[data-level=low] .level { background: #ff453a; }
+#battery .pct { position: relative; font: 700 8.5px/1 var(--sys); color: var(--surface); letter-spacing: -.03em; mix-blend-mode: normal; }
+#battery:is([data-level=warn], [data-level=low]) .pct { color: var(--ink); }
+#battery .unit { font-size: 0; }
+.sys { margin-right: 30px; }
+#carrier { font: 600 9.5px/1 var(--sys); white-space: nowrap; max-width: 64px; overflow: hidden; text-overflow: ellipsis; }
+#carrier:empty { display: none; }
+.signal rect.off { opacity: .3; }
+body[data-cutout=none] #status-bar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); padding: 0 16px; }
+body[data-cutout=none] #clock { grid-column: 2; }
+body[data-cutout=notch] #status-bar { grid-template-columns: minmax(0, 1fr) 124px minmax(0, 1fr); }
+
+/* ---------- chat app bar ---------- */
+.appbar { flex: none; display: flex; align-items: center; gap: 6px; min-height: 48px; padding: 2px 12px 6px 2px; background: var(--app-bar); box-shadow: 0 .5px 0 var(--app-line); transition: background-color var(--t); }
+#toggle { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; color: var(--accent); }
+#toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+#head-avatar { flex: none; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; }
+.who { min-width: 0; flex: 1; display: grid; }
+#contact { font: 600 15px/1.25 var(--title-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#presence { height: 0; overflow: hidden; font: 500 11px/14px var(--sys); color: var(--accent); opacity: 0; transition: opacity .16s var(--ease), height .16s var(--ease); }
+#presence.on { height: 14px; opacity: 1; }
+
+/* ---------- history status (⚠ chips, spinner only after 150 ms) ---------- */
+#history-status { flex: none; align-self: center; margin: 8px 0 0; padding: 3px 10px; border-radius: 11px; font: 500 11px/16px var(--sys);
+  color: var(--ink); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+#history-status[data-kind=loading] { width: 22px; height: 22px; padding: 0; background: none; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent); border-top-color: var(--accent);
+  opacity: 0; animation: appear 1ms linear 150ms forwards, spin .9s linear 150ms infinite; }
+
+/* ---------- thread ---------- */
+#messages { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 10px; }
+#messages::-webkit-scrollbar { display: none; }
+article { display: flex; align-items: flex-end; gap: 6px; flex: none; max-width: 100%; transform-origin: 0 100%; }
+article[data-side=out] { flex-direction: row-reverse; transform-origin: 100% 100%; }
+article.start { margin-top: 8px; }
+article.turn-start { margin-top: 18px; }
+article > img { flex: none; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; }
+article[data-side=in] > img[hidden] { display: block !important; visibility: hidden; }
+article[data-side=out] > img { display: none !important; }
+.bubble { position: relative; min-width: 0; max-width: calc(100% - 52px); padding: 7px 11px 8px; border-radius: var(--bubble-radius);
+  background: var(--bubble-in); color: var(--ink); font: 13.5px/1.42 var(--font); overflow-wrap: anywhere; transition: background-color var(--t), color var(--t); }
+article[data-side=out] .bubble { background: var(--accent); color: var(--accent-ink); }
+article[data-side=in].end .bubble { border-bottom-left-radius: 5px; }
+article[data-side=out].end .bubble { border-bottom-right-radius: 5px; }
+article.end .bubble::before { content: ""; position: absolute; bottom: 0; left: -5px; width: 12px; height: 13px; background: inherit; clip-path: path("M5 0H12V13H0C3.6 12.2 5 9.6 5 5.5Z"); }
+article[data-side=out].end .bubble::before { left: auto; right: -5px; transform: scaleX(-1); }
+.bubble p { margin: 0; white-space: pre-wrap; display: inline; }
+.bubble.sticker { background: none; padding: 0 2px; font-size: 44px; line-height: 1.1; }
+.bubble.sticker::before { display: none; }
+.note { flex: none; align-self: center; padding: 2px 8px; border-radius: 10px; font: 500 10.5px/15px var(--sys); color: var(--ink); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); white-space: nowrap; }
+.voice { display: inline-flex; align-items: center; gap: 2px; height: 22px; margin: -2px -4px -3px 6px; padding: 0 8px; border-radius: 11px; vertical-align: middle; background: color-mix(in srgb, currentColor 14%, transparent); }
+.voice svg { width: 8px; height: 9px; fill: currentColor; margin-right: 3px; }
+.voice i { width: 2.4px; border-radius: 2px; background: currentColor; opacity: .85; }
+.voice i:nth-of-type(1) { height: 6px; } .voice i:nth-of-type(2) { height: 11px; } .voice i:nth-of-type(3) { height: 8px; } .voice i:nth-of-type(4) { height: 12px; } .voice i:nth-of-type(5) { height: 5px; }
+.dots { display: inline-flex; gap: 3px; margin-left: 5px; vertical-align: 2px; }
+.dots i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .35; animation: dot 1.2s ease-in-out infinite; }
+.dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+
+/* ---------- composer + home indicator ---------- */
+.composer { flex: none; display: flex; align-items: flex-end; gap: 4px; padding: 6px 8px 4px 4px; background: var(--app-bar); box-shadow: 0 -.5px 0 var(--app-line); transition: background-color var(--t); }
+.plus, #send { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: var(--accent); }
+.plus svg, #send svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+#field { flex: 1; min-width: 0; min-height: 32px; max-height: 92px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; padding: 7px 12px; border-radius: 16px;
+  box-shadow: inset 0 0 0 1px var(--app-line); background: color-mix(in srgb, var(--surface) 70%, transparent); font: 13.5px/18px var(--font); }
+#draft { white-space: pre-wrap; overflow-wrap: anywhere; }
+#field .caret { display: none; width: 1.5px; height: 16px; margin-top: -17px; align-self: flex-end; background: var(--accent); }
+#field.typing #draft { display: inline; }
+#field.typing .caret { display: block; animation: caret 1s steps(1) infinite; }
+#field.typing #draft:empty + .caret { margin-top: 0; align-self: flex-start; }
+#send { position: relative; }
+#send svg { position: absolute; transition: opacity .14s, transform .18s var(--ease); }
+#send .go { opacity: 0; transform: scale(.6); }
+#send.ready { background: var(--accent); color: var(--accent-ink); }
+#send.ready .go { opacity: 1; transform: none; }
+#send.ready .mic { opacity: 0; transform: scale(.6); }
+.home { flex: none; height: 16px; display: grid; place-items: center; background: var(--app-bar); }
+.home i { width: 96px; height: 4px; border-radius: 2px; background: var(--ink); opacity: .55; }
+
+/* ---------- reading sheet: the reader's own phone is the device, so only the screen is painted ---------- */
+body[data-surface=sheet] #phone { border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+body[data-surface=sheet] #phone::before { inset: 0; border-radius: 0; }
+body[data-surface=sheet] #cutout, body[data-surface=sheet] .home { display: none; }
+
+/* ---------- compact: the incoming notification banner (owner 2026-10: a real phone's banner) ----------
+   The host frames it (rounded, frosted backdrop blur, shadow, slide down/up) at exactly the phone screen's width; this view
+   paints only the translucent card in the phone's own theme: app row, bold sender, one ellipsised line, small avatar. */
+#island { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; gap: 3px; padding: 9px 13px 10px;
+  border-radius: 18px; background: color-mix(in srgb, var(--surface) 74%, transparent); color: var(--ink); cursor: pointer;
+  box-shadow: inset 0 0 0 .5px color-mix(in srgb, var(--ink) 14%, transparent); }
+body[data-presentation=compact] #island { display: flex; }
+#island:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.island-head { display: flex; align-items: center; gap: 6px; min-width: 0; font: 500 11px/16px var(--sys); color: var(--ink-2); }
+.island-glyph { flex: none; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 4.5px; background: var(--accent); color: var(--accent-ink); }
+.island-glyph svg { width: 11px; height: 11px; fill: currentColor; }
+.island-app { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .02em; }
+.island-time { flex: none; }
+.island-body { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.island-text { flex: 1; min-width: 0; display: grid; gap: 1px; }
+#island-name { font: 600 13.5px/18px var(--title-font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#island-preview { font: 13px/18px var(--font); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#island-preview:empty { display: none; }
+#island-avatar { flex: none; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; }
+
+/* ---------- motion: subtle, transform/opacity only ---------- */
+@keyframes appear { to { opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(6px) scale(.97); } }
+@keyframes sent { from { opacity: 0; transform: translateY(14px); } }
+@keyframes swap { from { opacity: 0; } }
+@keyframes dot { 0%, 60%, 100% { transform: none; opacity: .35; } 30% { transform: translateY(-2px); opacity: .9; } }
+@keyframes calm { 0%, 100% { opacity: .3; } 40% { opacity: .85; } }
+@keyframes caret { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+article.enter { animation: rise 220ms var(--ease) both; }
+article.sent { animation: sent 240ms var(--ease) both; }
+body[data-motion=reduced] article.enter, body[data-motion=reduced] article.sent { animation: swap 100ms linear both; }
+body[data-motion=reduced] .dots i { animation: calm 1.6s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  article.enter, article.sent { animation: swap 100ms linear both; }
+  .dots i { animation: calm 1.6s linear infinite; }
+  #send svg, #presence { transition: none; }
+}
+
+article[data-form=voice] .bubble { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+article[data-form=voice] .voice { margin: 0; background: none; min-height: 30px; }
+.duration, .transcript-toggle { font-size: var(--fork-fs-meta, var(--gal-ui-meta-size)); }
+.transcript-toggle { padding: 4px; min-height: 30px; color: inherit; background: none; opacity: .8; }
+.bubble p.transcript { order: 5; flex-basis: 100%; display: block; max-height: 0; opacity: 0; overflow: hidden; transition: opacity 180ms ease; }
+.bubble p.transcript.is-expanded { max-height: none; opacity: 1; }
+@media (pointer: coarse) { article[data-form=voice] .voice, .transcript-toggle { min-height: 36px; } }
+body[data-motion=reduced] .bubble p.transcript { transition: opacity 100ms linear; }

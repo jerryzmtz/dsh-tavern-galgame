@@ -1,0 +1,15 @@
+DSH Tavern Galgame public alpha candidate
+
+Upstream: https://github.com/flizzywine/dsh-tavern
+Fork maintainer: kousakayou
+Code: AGPL-3.0, see LICENSE. Preserve upstream attribution and corresponding-source/network-service obligations.
+Owner-created assets: CC BY-NC-SA 4.0, see LICENSE-ASSETS.md and pack credits.
+Dafeiyu depicts the fan character Whale Girl DeepSeek in her maid design. Original character design: 上善无形 (https://space.bilibili.com/4456176). DeepSeek-element maid redesign: ZipZipPipe (https://space.bilibili.com/4168597), CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/). Source: https://github.com/EDMOK/blue-fish-archive, README section 「版权与来源」. Modifications were made for this project; derivative assets by kousakayou remain CC BY-NC-SA 4.0 under ShareAlike. This is unofficial fan work, not affiliated with DeepSeek. No brand endorsement or trademark rights are implied.
+Claude is a third-party brand; no endorsement or trademark grant is implied.
+Third-party software, music, sound effects and fonts retain their own licenses; see THIRD-PARTY-INVENTORY.json and LICENSES/.
+Noto Serif SC: embedded copyright (c) 2017-2024 Adobe; upstream OFL notice Copyright 2012 Google Inc. SIL OFL 1.1, full license and conversion notice beside the bundled files. No commercial local fonts are bundled.
+Pocket 2.10.6 is excluded, not relicensed. Desktop/CLI do not install its optional QR/relay/mobile layout functionality. Existing Tavern remote access remains separate.
+No Live2D code is distributed in the public version: Cubism Core and the pixi-live2d-display bundle (which embeds Cubism Framework) are excluded. Users obtain and import them separately from their publishers; the app never downloads them. Live2D proprietary/Open Software licenses and any applicable Publication License obligations remain the user's responsibility; this project grants no Live2D rights. Cubism SDK / Core EULA: https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html ; display-library Open Software License: https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html .
+Private CG, song, owner voice samples, credentials and live chats are excluded.
+
+r6 uses dsh-web-mobile 2.4.1 (MIT); the redistributed patch retains that license. Exact-version tarball evidence and lock deltas: UPSTREAM-DEPENDENCIES-r6.json. The sidebar patch remains on dsh-better-sidebar 0.19.1 (MIT).

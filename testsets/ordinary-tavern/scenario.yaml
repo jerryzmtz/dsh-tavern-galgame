@@ -1,0 +1,33 @@
+name: 普通酒馆 · 模板与三轮对话回归
+model:
+  provider: deepseek-official
+  model: deepseek-v4-flash
+  reasoningEffort: low
+timeoutMs: 300000
+steps:
+  - action: play
+    sourceCard: ordinary-tavern.json
+    expect:
+      state:
+        - path: mode
+          equals: story
+  - action: say
+    input: 我走到吧台，问老板招牌茶叫什么，并点一杯。请用两三句话回答。
+    candidates: true
+    expect:
+      minChars: 10
+      contains: [桂花热茶]
+      notContains: ['<%']
+  - action: say
+    inputFrom:
+      candidate: 1
+      type: action
+    candidates: true
+    expect:
+      minChars: 10
+      notContains: ['<%']
+  - action: say
+    input: 我喝完茶，向林舟询问去东边石桥的路，并谢谢他的招待。请用两三句话回答。
+    expect:
+      minChars: 10
+      notContains: ['<%']

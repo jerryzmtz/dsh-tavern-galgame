@@ -1,0 +1,315 @@
+{
+  "kind": "audience",
+  "id": "draft-mujica",
+  "name": "Mujica观众",
+  "enabled": true,
+  "recall": {
+    "mode": "keyword",
+    "keywords": [
+      "Ave Mujica",
+      "母鸡卡",
+      "丰川祥子",
+      "祥子",
+      "Oblivionis",
+      "若叶睦",
+      "Mortis",
+      "三角初华",
+      "初华",
+      "Doloris",
+      "八幡海铃",
+      "海铃",
+      "Timoris",
+      "祐天寺若麦",
+      "喵梦",
+      "Amoris"
+    ]
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "看Ave Mujica动画、官方舞台与角色二创的观众。熟悉祥子的打工、睦与Mortis、初华沉重的独白、海铃的帮手定位与喵梦打鼓营业；短句保留观众实际的惊讶和反差吐槽。MyGO成员专梗不挪来凑数。",
+    "tone": "假面舞台的中二感与下台翻车的反差，允许阴阳怪气和虚构角色吐槽；不把人格设定用来羞辱现实群体，不攻击真人。",
+    "catchphrases": [
+      "软糯小祥",
+      "一天几份工啊",
+      "睦头人",
+      "是我精神分裂",
+      "天呐初华大人"
+    ],
+    "examples": [
+      "软糯小祥",
+      "一天几份工啊",
+      "睦头人",
+      "是我精神分裂"
+    ],
+    "nicknamePool": [
+      "假面底下吃小饼",
+      "客服耳麦夹住刘海",
+      "月光舞台缺个螺丝",
+      "大小姐打卡忘带包",
+      "黄瓜种在后台边",
+      "人偶忘记谢幕词",
+      "巡演箱里装拖鞋",
+      "黑茶没泡开就上台",
+      "鼓棒顺手当发簪",
+      "揭面前补一口饭",
+      "贝斯线缠住工牌",
+      "后台缝一颗纽扣",
+      "夜班假面第05号",
+      "客服分机207",
+      "月台补光灯39",
+      "假面_寄存柜",
+      "黑茶の纸杯盖",
+      "谢幕・尚未打卡",
+      "maskbiscuit",
+      "moon_shiftbox",
+      "jiamianxiaodeng",
+      "backstagepin_74",
+      "bili_58417602",
+      "bili_10963857"
+    ],
+    "triggers": [
+      {
+        "id": "mujica.sakiko",
+        "keywords": [
+          "丰川祥子",
+          "祥子",
+          "Oblivionis"
+        ],
+        "lines": [
+          "软糯小祥",
+          "祥压抑了"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.work",
+        "keywords": [
+          "打工",
+          "摊位",
+          "车轮饼"
+        ],
+        "lines": [
+          "一天几份工啊",
+          "多才多艺"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.mutsumi",
+        "keywords": [
+          "若叶睦",
+          "睦酱"
+        ],
+        "lines": [
+          "睦头人",
+          "无情铁手"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.mortis",
+        "keywords": [
+          "Mortis",
+          "墨缇丝",
+          "另一个睦"
+        ],
+        "lines": [
+          "是我精神分裂",
+          "金睦研"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.uika",
+        "keywords": [
+          "三角初华",
+          "初华",
+          "Doloris"
+        ],
+        "lines": [
+          "天呐初华大人",
+          "我的小祥~"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.umiri",
+        "keywords": [
+          "八幡海铃",
+          "海铃",
+          "Timoris"
+        ],
+        "lines": [
+          "呜咪铃",
+          "umr是吧"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.nyamu",
+        "keywords": [
+          "祐天寺若麦",
+          "若麦",
+          "喵梦",
+          "Amoris"
+        ],
+        "lines": [
+          {
+            "text": "鼓手太拼命了",
+            "kind": "highlight",
+            "amount": 50
+          },
+          {
+            "text": "我！还！想！听！！！",
+            "kind": "highlight",
+            "amount": 100
+          }
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.imprisoned",
+        "keywords": [
+          "Imprisoned",
+          "死亡",
+          "囚禁"
+        ],
+        "lines": [
+          "我，无畏死亡",
+          "君若离去，我不独生"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.pressure",
+        "keywords": [
+          "沉重",
+          "压力",
+          "害怕"
+        ],
+        "lines": [
+          "太重了",
+          "祥子：害怕"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.mask",
+        "keywords": [
+          "面具",
+          "假面",
+          "Ave Mujica",
+          "母鸡卡"
+        ],
+        "lines": [
+          "难绷的假面",
+          "母鸡卡罪不至此"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.song",
+        "keywords": [
+          "演唱",
+          "开口",
+          "唱歌"
+        ],
+        "lines": [
+          "伟大的脸",
+          "意义明确的特写"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "mujica.fortune",
+        "keywords": [
+          "幸运",
+          "运气"
+        ],
+        "lines": [
+          "鸿运齐天蛊",
+          "你真幸运啊"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      }
+    ],
+    "chains": [
+      {
+        "id": "mujica.relay-1-1",
+        "match": "意义明确的特写",
+        "replies": [
+          "祥子：I don't know"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mujica.relay-1-2",
+        "match": "祥子：I don't know",
+        "replies": [
+          "祥子：我不知道"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "mujica.relay-1-3",
+        "match": "祥子：我不知道",
+        "replies": [
+          "没眼看"
+        ],
+        "probability": 0.42
+      },
+      {
+        "id": "mujica.relay-1-4",
+        "match": "没眼看",
+        "replies": [
+          "祥子：害怕"
+        ],
+        "probability": 0.34
+      },
+      {
+        "id": "mujica.relay-2-1",
+        "match": "君若离去，我不独生",
+        "replies": [
+          "我，无畏死亡"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mujica.relay-3-1",
+        "match": "一天几份工啊",
+        "replies": [
+          "身兼数职"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "mujica.relay-3-2",
+        "match": "身兼数职",
+        "replies": [
+          "多才多艺"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "mujica.relay-3-3",
+        "match": "多才多艺",
+        "replies": [
+          "软糯小祥"
+        ],
+        "probability": 0.42
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+body { margin: 12px; color: var(--gal-ui-ink, #eee); background: var(--gal-ui-surface-2, #222); font-family: var(--gal-ui-font, serif); }
+p { white-space: pre-wrap; overflow-wrap: anywhere; }
+small { display: block; color: var(--gal-ui-ink-2, #ccc); }
+button { margin-top: 12px; color: inherit; background: transparent; border: 1px solid var(--gal-ui-line, #888); border-radius: var(--gal-ui-radius, 8px); padding: 6px 12px; }
+button:focus-visible { outline: var(--gal-ui-focus, 2px solid currentColor); }

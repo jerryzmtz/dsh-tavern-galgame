@@ -1,0 +1,11 @@
+{
+  "format": "dsh-mod-pack",
+  "schemaVersion": 1,
+  "id": "10000000-0000-4000-8000-000000000001",
+  "modId": "dsh.demo",
+  "requiresModVersion": ">=1.0.0 <2.0.0",
+  "name": "Offline icons",
+  "fields": {},
+  "entries": [{"id": "first", "kind": "icon", "name": "First icon", "enabled": true, "fields": {}, "media": {}}],
+  "files": []
+}

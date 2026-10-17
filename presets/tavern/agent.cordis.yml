@@ -1,0 +1,68 @@
+# Tavern preset：最终系统提示词由插件按游玩／卡片会话装配。
+- id: persona
+  name: '@deepseek-ai/dsh-persona'
+  config:
+    # text is used by DSH 0.1.2; prefix/suffix by DSH 0.1.5.
+    text: ''
+    prefix: ''
+    suffix: ''
+    includeRuntimeContext: false
+
+# 卡片模式复用 dsh-base 提供的一次性 bash／pwsh 与文件编辑能力；
+# 具体工具是否对当前会话可见，由 Tavern 按游玩/卡片模式过滤。
+- id: filesystem
+  name: cordis:group
+  group: true
+  isolate:
+    fs: true
+  config:
+    - id: fs-local
+      name: '@deepseek-ai/dsh-fs-local'
+      config:
+        cwd: !!js process.env.DSH_CWD ?? process.cwd()
+
+    - id: str-replace-editor
+      name: '@deepseek-ai/dsh-tool-str-replace-editor'
+      config:
+        maxOutputChars: 16000
+
+# Skill 来源由 Tavern 按 Agent 用途分配，调用仍使用原生工具。
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+
+# 卡片工作台保留 Tavern 的私有 Skill 来源，同时复用 DSH 创造模式工具。
+# 选择整套官方 cordis preset 会丢失本 preset 的 Skill 目录。
+- id: tool-cordis
+  name: '@deepseek-ai/dsh-tool-cordis'
+
+# 用户代码与清单都在持久数据目录；更新只保留这个加载入口。
+# 相对模块路径由原生 include 按用户清单所在目录解析。
+- id: user-tools
+  name: ./user-tools-bridge/index.js
+
+# 复用 DSH 原生上下文压缩能力，并恢复 /compact 命令。
+# 压缩器与工具结果裁剪器共享同一隔离域，保持与 DSH 标准模式一致。
+- id: compaction
+  name: cordis:group
+  group: true
+  isolate:
+    compaction: true
+    toolResultPruner: true
+  config:
+    - id: compaction-basic
+      name: '@deepseek-ai/dsh-compaction-basic'
+      config:
+        thresholdRatio: 0.5
+
+    - id: tavern-compaction
+      name: ../../tavern-plugin/lib/agent-compaction.js
+
+    - id: command-compact
+      name: '@deepseek-ai/dsh-command-compact'
+
+    - id: tool-result-pruner
+      name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+      config:
+        thresholdChars: 8192
+        headChars: 4096
+        tailChars: 1024

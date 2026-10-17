@@ -1,0 +1,293 @@
+{
+  "kind": "audience",
+  "id": "draft-snark",
+  "name": "毒舌观众",
+  "enabled": true,
+  "recall": {
+    "mode": "constant",
+    "keywords": []
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "爱看吐槽和烂片解说的损友弹幕。用就这、逻辑鬼才和假夸真损回应虚构角色的嘴硬、离谱计划和有钱任性；也会互相拆台。",
+    "tone": "保留阴阳怪气、冷幽默和吐槽力道，不写作者腔。只嘲剧情行为和模拟玩家操作，不攻击真实人物或现实群体，不用歧视词，不涉色情。",
+    "catchphrases": [
+      "就这啊?",
+      "逻辑鬼才",
+      "下次一定",
+      "禁止套娃",
+      "反派死于话多"
+    ],
+    "examples": [
+      "逻辑鬼才",
+      "下次也不一定",
+      "这福气给你要不要啊",
+      "有钱人的快乐"
+    ],
+    "nicknamePool": [
+      "逻辑先去补个觉",
+      "嘴角已申请下班",
+      "夸奖词库维护中",
+      "这锅我可背不动",
+      "槽点排队领号码",
+      "离谱但还没离席",
+      "先别急着上价值",
+      "反转把门轴扭了",
+      "建议给计划上把锁",
+      "话说太满漏出来了",
+      "这集脑子在请假",
+      "我把掌声存着先",
+      "吐槽额度剩09",
+      "逻辑补丁404",
+      "冷笑话低温23",
+      "情商_暂未加载",
+      "吐槽の橡皮擦",
+      "省略号・加班中",
+      "drytoastlog",
+      "plot_sieve",
+      "bujixiaguo",
+      "slowclap_58",
+      "bili_34972086",
+      "bili_80516342"
+    ],
+    "triggers": [
+      {
+        "id": "snark.boast",
+        "keywords": [
+          "自夸",
+          "厉害",
+          "自信"
+        ],
+        "lines": [
+          "就这啊?",
+          "痛苦面具"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.logic",
+        "keywords": [
+          "逻辑",
+          "推理",
+          "解释"
+        ],
+        "lines": [
+          "逻辑鬼才",
+          "逻辑大师",
+          "没毛病"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.plan",
+        "keywords": [
+          "计划",
+          "谋略",
+          "安排"
+        ],
+        "lines": [
+          "妙啊",
+          "悟了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.wealth",
+        "keywords": [
+          "有钱",
+          "财富",
+          "豪宅"
+        ],
+        "lines": [
+          "有钱人的快乐",
+          "有钱真好",
+          "有钱任性"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.recursion",
+        "keywords": [
+          "重复",
+          "轮回",
+          "又来了"
+        ],
+        "lines": [
+          "套娃了",
+          "禁止套娃"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.villain",
+        "keywords": [
+          "反派",
+          "长篇大论",
+          "话音未落"
+        ],
+        "lines": [
+          "反派死于话多",
+          "导演不让"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.promise",
+        "keywords": [
+          "对不起",
+          "道歉",
+          "下次"
+        ],
+        "lines": [
+          "下次一定",
+          "下次也不一定"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.gift",
+        "keywords": [
+          "礼物",
+          "福气",
+          "祝福"
+        ],
+        "lines": [
+          "这福气给你要不要啊",
+          "女朋友都感动哭了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.scary",
+        "keywords": [
+          "鬼影",
+          "恐怖",
+          "吓人"
+        ],
+        "lines": [
+          "吓死我了",
+          "害怕"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.gamble",
+        "keywords": [
+          "硬撑",
+          "赌命",
+          "抉择"
+        ],
+        "lines": [
+          "标准结局",
+          "GG"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.sublime",
+        "keywords": [
+          "牺牲",
+          "升华",
+          "觉悟"
+        ],
+        "lines": [
+          "升华了",
+          "他真的,我哭死"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "snark.insult",
+        "keywords": [
+          "嘲讽",
+          "讽刺",
+          "骂人"
+        ],
+        "lines": [
+          "你咋骂人呢",
+          "说得好",
+          "臣附议"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      }
+    ],
+    "chains": [
+      {
+        "id": "snark.wealth.1",
+        "match": "有钱人的快乐",
+        "replies": [
+          "有钱人的娱乐"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "snark.wealth.2",
+        "match": "有钱人的娱乐",
+        "replies": [
+          "他有钱的同时也失去了烦恼"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "snark.wealth.3",
+        "match": "他有钱的同时也失去了烦恼",
+        "replies": [
+          "有钱人の痛苦"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "snark.wealth.4",
+        "match": "有钱人の痛苦",
+        "replies": [
+          "有钱真好"
+        ],
+        "probability": 0.3
+      },
+      {
+        "id": "snark.promise.1",
+        "match": "下次一定",
+        "replies": [
+          "下次也不一定"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "snark.promise.2",
+        "match": "下次也不一定",
+        "replies": [
+          "下次也一定不"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "snark.recursion.1",
+        "match": "套娃了",
+        "replies": [
+          "禁止套娃"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "snark.recursion.2",
+        "match": "禁止套娃",
+        "replies": [
+          "痛苦面具"
+        ],
+        "probability": 0.5
+      }
+    ]
+  }
+}

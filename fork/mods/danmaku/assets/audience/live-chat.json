@@ -1,0 +1,314 @@
+{
+  "kind": "audience",
+  "id": "draft-live-chat",
+  "name": "直播间观众",
+  "enabled": true,
+  "recall": {
+    "mode": "constant",
+    "keywords": []
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "把玩家当主播一起看故事的直播间观众。会报到、刷收到、围观操作、祝生日快乐，难绷时从提醒高能一路接到全麻。",
+    "tone": "采用录播弹幕的口语；网络梗仅由正文相应词触发，不声称真的检测网络。少量SC为模拟高亮和模拟人民币分档，不表示发生付款，不出现真实昵称。",
+    "catchphrases": [
+      "晚上好",
+      "在在在",
+      "收到收到收到",
+      "兄弟你好卡",
+      "可爱捏"
+    ],
+    "examples": [
+      "兄弟你好卡",
+      "收到收到收到",
+      "准备好了",
+      "生日快乐"
+    ],
+    "nicknamePool": [
+      "蹲在直播间门缝",
+      "晚饭吃了两碗半",
+      "刚洗完杯子回来",
+      "板凳还给你留着",
+      "橘子汽水没开盖",
+      "后台挂着电饭煲",
+      "小窗里趴只面包",
+      "听着听着忘关灯",
+      "信号绕了个远路",
+      "今晚先不点外卖",
+      "路由器打了个盹",
+      "摸鱼摸到下班铃",
+      "夜班小饼216",
+      "蹲播第38天",
+      "麦克风音量07",
+      "热茶_还没凉",
+      "夜灯の小靠垫",
+      "瓜子・剩半袋",
+      "wananbread",
+      "desk_mogu",
+      "dengbocha",
+      "quietcup_62",
+      "bili_91735206",
+      "bili_40682971"
+    ],
+    "triggers": [
+      {
+        "id": "live.arrival",
+        "keywords": [
+          "开播",
+          "上线",
+          "进来了"
+        ],
+        "lines": [
+          "晚上好",
+          "来了来了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.roll-call",
+        "keywords": [
+          "在吗",
+          "听得见",
+          "听到了吗"
+        ],
+        "lines": [
+          "在在在",
+          "一直在",
+          "有有有"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.buffering",
+        "keywords": [
+          "卡顿",
+          "卡住",
+          "网络"
+        ],
+        "lines": [
+          "兄弟你好卡",
+          "你的网络卡卡卡",
+          "我以为我卡了",
+          "都卡了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.ready",
+        "keywords": [
+          "准备",
+          "开始了",
+          "倒计时"
+        ],
+        "lines": [
+          "准备好了",
+          "大的要来了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.win",
+        "keywords": [
+          "成功",
+          "赢了",
+          "通关"
+        ],
+        "lines": [
+          "666",
+          "赢!",
+          "通过",
+          {
+            "text": "希望我们会在更大的舞台见面",
+            "kind": "highlight",
+            "amount": 500
+          }
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.fail",
+        "keywords": [
+          "失败",
+          "输了",
+          "失误"
+        ],
+        "lines": [
+          "麻了",
+          "全麻",
+          "开摆"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.awkward",
+        "keywords": [
+          "沉默",
+          "尴尬",
+          "冷场"
+        ],
+        "lines": [
+          "蚌埠住了",
+          "尬住了",
+          "啊这"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.cute",
+        "keywords": [
+          "撒娇",
+          "可爱",
+          "摸头"
+        ],
+        "lines": [
+          "可爱捏",
+          "好可爱",
+          "太可爱了"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.song",
+        "keywords": [
+          "唱歌",
+          "歌声",
+          "旋律"
+        ],
+        "lines": [
+          "好听",
+          "bgm好听",
+          "好汀"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.acknowledge",
+        "keywords": [
+          "放心",
+          "明白",
+          "拜托了"
+        ],
+        "lines": [
+          "收到收到收到",
+          "好好好",
+          "支持"
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      },
+      {
+        "id": "live.birthday",
+        "keywords": [
+          "生日",
+          "庆生",
+          "许愿"
+        ],
+        "lines": [
+          "生日快乐",
+          "生日快乐啊",
+          {
+            "text": "拼尽全力也要祝你生日快乐",
+            "kind": "highlight",
+            "amount": 100
+          }
+        ],
+        "probability": 0.35,
+        "cooldown": 180
+      },
+      {
+        "id": "live.goodnight",
+        "keywords": [
+          "晚安",
+          "睡觉",
+          "休息"
+        ],
+        "lines": [
+          "晚安",
+          "别走",
+          {
+            "text": "晚安捏",
+            "kind": "highlight",
+            "amount": 30
+          }
+        ],
+        "probability": 0.35,
+        "cooldown": 90
+      }
+    ],
+    "chains": [
+      {
+        "id": "live.hype.1",
+        "match": "大的要来了",
+        "replies": [
+          "麻了"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "live.hype.2",
+        "match": "麻了",
+        "replies": [
+          "蚌埠住了"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "live.hype.3",
+        "match": "蚌埠住了",
+        "replies": [
+          "绷不住了"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "live.hype.4",
+        "match": "绷不住了",
+        "replies": [
+          "全麻"
+        ],
+        "probability": 0.3
+      },
+      {
+        "id": "live.network.1",
+        "match": "兄弟你好卡",
+        "replies": [
+          "你的网络卡卡卡"
+        ],
+        "probability": 0.6
+      },
+      {
+        "id": "live.network.2",
+        "match": "你的网络卡卡卡",
+        "replies": [
+          "我以为我卡了"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "live.network.3",
+        "match": "我以为我卡了",
+        "replies": [
+          "都卡了"
+        ],
+        "probability": 0.4
+      },
+      {
+        "id": "live.roll-call.1",
+        "match": "在在在",
+        "replies": [
+          "一直在"
+        ],
+        "probability": 0.6
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+# dsh-tavern-plugin bundle：项目管理配置随版本升级；Profile patch 只保留用户覆盖。
+# Tavern 默认完全权限；保留原生权限预设，用户仍可主动切回受限模式。
+- id: sandbox-policy
+  config:
+    mode: danger-full-access
+    workspaceRoot: !!js process.cwd()
+- id: approval
+  config:
+    policy: never
+- id: permission
+  config:
+    defaultPreset: danger-full-access
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+- id: session-persistence-jsonl
+  config:
+    root: !!js dshHomePath('profile-data', 'tavern', 'sessions')
+- id: storage-json
+  config:
+    root: !!js dshHomePath('profile-data', 'tavern', 'storages')
+- id: bash-sandbox
+  config:
+    timeoutMs: 600000
+    maxTimeoutMs: 600000
+- id: pwsh-sandbox
+  config:
+    timeoutMs: 600000
+    maxTimeoutMs: 600000
+# dsh-web-app disables command and filesystem tools for its generic web
+# profile. Tavern's card workspace is an explicitly writable Agent surface,
+# so restore the cross-platform primitives here instead of replacing them
+# with task-specific RPCs.
+- id: tool-bash
+  disabled: !!js process.platform === 'win32'
+- id: tool-pwsh
+  disabled: !!js process.platform !== 'win32'
+- id: tool-fs
+  disabled: false
+- id: agent-presets
+  config:
+    default: tavern
+    includeUserRoot: false
+- id: tool-web
+  disabled: false
+  config:
+    search: true
+    fetch: false
+# 插件配置与 Agent 预设是开发者层面的设置，玩家无需看到；Tavern 固定使用酒馆预设。
+- id: ui-settings-plugins
+  disabled: true
+- id: ui-agent-preset
+  disabled: true
+- insert:
+    - id: tavern-cordis-inspect
+      name: dsh-tavern-plugin/cordis-inspect
+    - id: dsh-tavern
+      name: dsh-tavern-plugin
+      inject:
+        - fs
+        - llm
+        - webServer
+        - connection
+        - tools
+        - skills
+        - agentDefaultModel
+        - sandboxPolicy
+        - shell
+        - agentPresets
+        - settings
+        - tokenMeter
+
+# Independent shell package; path loading needs no extra profile dependency/link.
+- insert:
+    - id: tavern-ui
+      name: ./packages/dsh-tavern-ui/lib/index.js

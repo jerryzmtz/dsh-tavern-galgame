@@ -1,0 +1,306 @@
+{
+  "kind": "audience",
+  "id": "draft-madoka",
+  "name": "小圆观众",
+  "enabled": true,
+  "recall": {
+    "mode": "keyword",
+    "keywords": [
+      "鹿目圆",
+      "小圆",
+      "晓美焰",
+      "巴麻美",
+      "美树沙耶香",
+      "佐仓杏子",
+      "丘比",
+      "QB",
+      "灵魂宝石",
+      "魔女结界"
+    ]
+  },
+  "directorNote": "",
+  "content": {
+    "persona": "看过魔法少女小圆TV、剧场版与魔圆二创的弹幕观众。对圆与焰、沙耶香的遗憾和神魔对峙有很强的情绪反应；也会把名场面接成短促的战力梗。用已抓取的观众原话，不把弹幕玩梗当作剧情事实。",
+    "tone": "短句、悲喜反差、神魔共舞的中二感；不预告尚未揭露的反转，不攻击真人，不借精神疾病贬低群体。",
+    "catchphrases": [
+      "吼姆拉好帅",
+      "圆神，启动！",
+      "我，真是个笨蛋",
+      "已经没什么好怕的了",
+      "杏子！"
+    ],
+    "examples": [
+      "吼姆拉好帅",
+      "圆神，启动！",
+      "我，真是个笨蛋",
+      "已经没什么好怕的了"
+    ],
+    "nicknamePool": [
+      "契约纸又折歪了",
+      "圆环边上晾围巾",
+      "粉毛口袋有颗糖",
+      "沙漏停在放学后",
+      "魔法少女忘带伞",
+      "丘比来前先锁窗",
+      "灵魂宝石擦一擦",
+      "轮回路上带饭团",
+      "缎带绕住了时针",
+      "许愿额度先存着",
+      "甜甜圈躲进结界",
+      "末班车通往圆环",
+      "放学轮回第17趟",
+      "魔法便当032",
+      "沙漏还剩08格",
+      "粉缎带_打了结",
+      "圆环の备用椅",
+      "布丁・结界外带",
+      "ribbonmogu",
+      "hourglass_cake",
+      "mofatangzhi",
+      "tinywish_64",
+      "bili_43190876",
+      "bili_87625413"
+    ],
+    "triggers": [
+      {
+        "id": "madoka.homura",
+        "keywords": [
+          "晓美焰",
+          "焰魔"
+        ],
+        "lines": [
+          "吼姆拉好帅",
+          "意气风发啊晓美焰"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.madoka",
+        "keywords": [
+          "鹿目圆",
+          "圆神"
+        ],
+        "lines": [
+          "圆神，启动！",
+          "圆神启动"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.sayaka",
+        "keywords": [
+          "美树沙耶香",
+          "沙耶香"
+        ],
+        "lines": [
+          "我，真是个笨蛋",
+          "我真是个笨蛋"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.mami",
+        "keywords": [
+          "巴麻美",
+          "麻美学姐"
+        ],
+        "lines": [
+          "已经没什么好怕的了",
+          "学姐！！！"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.kyoko",
+        "keywords": [
+          "佐仓杏子",
+          "杏子"
+        ],
+        "lines": [
+          "杏子！",
+          "杏子！！！"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.pair",
+        "keywords": [
+          "焰圆",
+          "圆焰"
+        ],
+        "lines": [
+          "圆焰99",
+          {
+            "text": "圆焰一生推",
+            "kind": "highlight",
+            "amount": 50
+          }
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.goddemon",
+        "keywords": [
+          "神与魔",
+          "神魔",
+          "圆环之理"
+        ],
+        "lines": [
+          {
+            "text": "神与魔共舞，罪与爱同歌",
+            "kind": "highlight",
+            "amount": 100
+          },
+          "似曾相识焰归来，小圆香径独徘徊"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.wish",
+        "keywords": [
+          "愿望",
+          "偷换"
+        ],
+        "lines": [
+          "我的愿望，你怎可偷换！",
+          "我的愿望，你怎可偷换"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.challenge",
+        "keywords": [
+          "挑战者",
+          "决战",
+          "魔女之夜"
+        ],
+        "lines": [
+          "你才是挑战者",
+          "天下无敌，天上来敌"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.victory",
+        "keywords": [
+          "赢了",
+          "胜利",
+          "胜算"
+        ],
+        "lines": [
+          "也就是说，是晓美焰赢了",
+          "会赢的"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.pass",
+        "keywords": [
+          "借过",
+          "拦路",
+          "裙摆"
+        ],
+        "lines": [
+          "借过一下",
+          "被偷家了"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      },
+      {
+        "id": "madoka.witch",
+        "keywords": [
+          "魔女",
+          "结界",
+          "人鱼"
+        ],
+        "lines": [
+          "人鱼魔女",
+          "救济的魔女"
+        ],
+        "probability": 0.3,
+        "cooldown": 120
+      }
+    ],
+    "chains": [
+      {
+        "id": "madoka.relay-1-1",
+        "match": "意气风发啊晓美焰",
+        "replies": [
+          "会赢的"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "madoka.relay-1-2",
+        "match": "会赢的",
+        "replies": [
+          "你才是挑战者"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "madoka.relay-1-3",
+        "match": "你才是挑战者",
+        "replies": [
+          "也就是说，是晓美焰赢了"
+        ],
+        "probability": 0.42
+      },
+      {
+        "id": "madoka.relay-1-4",
+        "match": "也就是说，是晓美焰赢了",
+        "replies": [
+          "借过一下"
+        ],
+        "probability": 0.34
+      },
+      {
+        "id": "madoka.relay-2-1",
+        "match": "我的愿望，你怎可偷换！",
+        "replies": [
+          "我真是个笨蛋"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "madoka.relay-2-2",
+        "match": "我真是个笨蛋",
+        "replies": [
+          "人鱼魔女"
+        ],
+        "probability": 0.5
+      },
+      {
+        "id": "madoka.relay-3-1",
+        "match": "神与魔共舞，罪与爱同歌",
+        "replies": [
+          "圆焰99"
+        ],
+        "probability": 0.58
+      },
+      {
+        "id": "madoka.relay-3-2",
+        "match": "圆焰99",
+        "replies": [
+          {
+            "text": "圆焰一生推",
+            "kind": "highlight",
+            "amount": 50
+          }
+        ],
+        "probability": 0.5
+      }
+    ]
+  }
+}

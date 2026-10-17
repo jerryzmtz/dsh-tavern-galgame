@@ -1,0 +1,123 @@
+// Real renderer + real DSH child Agent/tools/attachment store + local image HTTP API.
+// DSH_BOOT_MODULE=/path/dsh-app-boot/lib/index.js node --expose-internals tests/browser/scene-image-browser-smoke.mjs
+import { createServer } from 'node:http'
+import { sessionEvents } from '../../tavern-plugin/lib/domain/session-events.js'
+import { readFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { createSceneImageNativeRuntime } from '../fixtures/scene-image-native-runtime.mjs'
+import { comfyGraph } from '../fixtures/scene-image-comfy-workflow.mjs'
+
+const runtime = await createSceneImageNativeRuntime(process.env.DSH_BOOT_MODULE)
+if (['1', 'multi'].includes(process.env.SCENE_BROWSER_REFERENCE)) {
+  await runtime.service.configure({ provider: 'gemini', model: 'gemini-3.1-flash-image', baseURL: runtime.endpoint, apiKey: 'fixture-reference-key' })
+  runtime.chat.settleStatus = 'done'
+  Object.assign(runtime.chat.messages[0], { sourceText: '林岚站在窗边。', swipes: ['林岚站在窗边。'], swipeId: 0, mvu: { pending: false },
+    variables: [{ stat_data: { 人物: { 林岚: { 衣着: '青色外套' } } } }] })
+  runtime.useVisualState()
+  if (process.env.SCENE_BROWSER_REFERENCE === 'multi') {
+    runtime.chat.messages[0].sourceText = '林岚站在左侧，林雨站在右侧。'
+    runtime.chat.messages[0].swipes = [runtime.chat.messages[0].sourceText]
+    runtime.useMultiplePeople()
+  }
+}
+if (process.env.SCENE_BROWSER_COMFY_WORKFLOW === '1') await runtime.service.configure({ provider: 'comfyui', baseURL: runtime.endpoint, workflow: comfyGraph() })
+await runtime.service.configure({ enabled: false })
+const bootUrl = pathToFileURL(process.env.DSH_BOOT_MODULE)
+const require = createRequire(new URL('../../dsh-client-ui-trajectory/package.json', bootUrl))
+let bundle = 'const modules={};\n'
+const modules = ['react', 'scheduler', 'react-dom', 'react-dom/client']
+const files = [['react.production.js', 'react.production.min.js'], ['scheduler.production.js', 'scheduler.production.min.js'], ['react-dom.production.js', 'react-dom.production.min.js'], ['react-dom-client.production.js', 'react-dom-client.production.min.js']]
+for (let i = 0; i < modules.length; i++) {
+  let source
+  for (const file of files[i]) {
+    try { source = await readFile(join(dirname(require.resolve(modules[i])), 'cjs', file), 'utf8'); break } catch (error) { if (error.code !== 'ENOENT') throw error }
+  }
+  if (!source && modules[i] === 'react-dom/client') {
+    bundle += `modules['react-dom/client']={createRoot:modules['react-dom'].createRoot,hydrateRoot:modules['react-dom'].hydrateRoot};\n`
+    continue
+  }
+  if (!source) throw new Error('Missing production bundle for ' + modules[i])
+  bundle += `modules[${JSON.stringify(modules[i])}]=(()=>{const module={exports:{}};const exports=module.exports;const require=name=>modules[name];\n${source}\nreturn module.exports;})();\n`
+}
+const client = await readFile(new URL('../../tavern-plugin/lib/client.js', import.meta.url), 'utf8')
+// The real sidebar populates this session metadata cache; this isolated host has
+// no sidebar. Seed only that metadata, leaving the registered dock/renderers intact.
+// This fixture has a fixed story; image actions refresh through their DOM events.
+const fixtureClient = client.replace('const tavernSessionModes = { values: {},', 'const tavernSessionModes = { values: {"scene-parent":"story"},').replace('let tavernSessionSignals;', 'let tavernSessionSignals = { subscribe: () => () => {} };')
+const settingsSource = client.slice(client.indexOf('function SceneImageSettings()'), client.indexOf('function createGlobalSettingsModule('))
+const css = await readFile(new URL('../../tavern-plugin/lib/client-assets/tavern.css', import.meta.url), 'utf8')
+const script = `${bundle}
+const React=modules.react;
+const primitives={MarkdownText:props=>React.createElement('p',null,props.text)};
+window.__ModuleLoader__={load(d){window.client=d.factory(name=>modules[name]||primitives);}};
+${fixtureClient}
+const components={};
+client.createTavernAssistantRendererFeatureModule().register({ctx:{effect:(fn,label)=>label==='dsh-tavern: game script owner'?()=>{}:fn()},slots:{inject:(_name,fn)=>fn(),register:(spec,component)=>{components[spec.key]=component;return ()=>{};}}});
+const dockSlots={};
+client.createPlayControlsFeatureModule().register({ctx:{get:()=>undefined,effect:fn=>fn(),betterSidebar:{registerTab:()=>()=>{}},sessions:{refresh:async()=>{},subagentAddress:()=>null},remote:{commands:{execute:async()=>({ok:true})}}},slots:{inject:(_name,fn)=>fn(),register:(spec,component)=>{dockSlots[spec.id]=component;return ()=>{};}}});
+const root=modules['react-dom/client'].createRoot(document.querySelector('#app'));
+const props={sessionId:'scene-parent',node:{data:{status:'completed',blocks:[],finalNode:{seq:1}},location:{kind:'turn',turn:{turn:1,status:'closed'}}},useTurnData:()=>null,fileMentions:()=>undefined};
+root.render(React.createElement(components['assistant-step'],props));
+const dockProps={sessionId:'scene-parent',useSession:select=>select({running:false}),useChat:select=>select({legacy:{nodes:[{kind:'assistant',messageId:'fixture-reply'}]}})};
+modules['react-dom/client'].createRoot(document.querySelector('#dock')).render(React.createElement(dockSlots['dsh-tavern-candidate-actions'],dockProps));
+modules['react-dom/client'].createRoot(document.querySelector('#regen')).render(React.createElement(dockSlots['dsh-tavern-regen'],dockProps));
+const rpc=async(method,args={})=>{const response=await fetch('/api/dsh-tavern/'+method,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(args)});const result=await response.json();if(!result.ok)throw Error(result.error);return result;};
+${settingsSource}
+modules['react-dom/client'].createRoot(document.querySelector('#settings')).render(React.createElement(SceneImageSettings));
+document.querySelector('#restart').onclick=async()=>{await rpc('fixtureRestart');location.reload();};
+document.querySelector('#swipe').onclick=async()=>{await rpc('fixtureSwipe');location.reload();};
+document.querySelector('#fail').onclick=async()=>{await rpc('fixtureFail');location.reload();};
+document.querySelector('#failSave').onclick=async()=>{await rpc('fixtureFailSave');location.reload();};
+const holdButton=document.createElement('button'); holdButton.textContent='下一张模拟等待';document.querySelector('#evidence').before(holdButton);holdButton.onclick=async()=>{await rpc('fixtureHold');location.reload();};
+const queueButton=document.createElement('button');queueButton.textContent='先占用生图队列';document.querySelector('#evidence').before(queueButton);queueButton.onclick=async()=>{await rpc('fixtureOccupyQueue');location.reload();};
+document.querySelector('#evidence').onclick=async()=>{document.querySelector('#result').textContent=JSON.stringify(await rpc('fixtureEvidence'),null,2);};
+`
+const server = createServer(async (req, res) => {
+  try {
+    const url = new URL(req.url, 'http://127.0.0.1')
+    if (url.pathname === '/runner.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end(script); return }
+    if (url.pathname === '/api/dsh-tavern/events') {
+      res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' }); res.write(': ready\n\n'); return
+    }
+    if (url.pathname === '/') {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }).end(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>场景生图完整流程验证</title><style>:root{--dsw-alias-label-primary:#222;--dsw-alias-label-secondary:#666;--dsw-alias-border-l2:#ddd;--dsw-specific-sidebar-fill:#fff}body{font:16px sans-serif;max-width:880px;margin:32px auto;padding:12px}${css}</style><h1>场景生图验证 · 测试图片</h1><div id="app"></div><div id="dock"></div><div id="regen"></div><textarea aria-label="输入框" placeholder="输入下一步行动"></textarea><hr><div id="settings"></div><hr><button id="restart">模拟重启并刷新</button> <button id="swipe">切换正文版本</button> <button id="fail">下一张模拟失败</button> <button id="failSave">下一张模拟保存失败</button> <button id="evidence">核对调用记录</button><pre id="result"></pre><script src="/runner.js"></script>`)
+      return
+    }
+    const method = url.pathname.split('/').pop()
+    if (method === 'scene-image') {
+      const image = await runtime.service.readImage('scene-parent', 1, url.searchParams.get('key'), url.searchParams.get('versionId'))
+      res.writeHead(200, { 'Content-Type': image.ref.mediaType }).end(image.data); return
+    }
+    let body = ''; for await (const chunk of req) body += chunk
+    const args = body ? JSON.parse(body) : {}
+    let result = {}
+    if (method === 'getSession') result = { view: { mode: 'story', latestAssistantTurn: 1, canRollback: true, releaseCapabilities: { sceneImages: true }, card: { name: '测试卡' }, replyProjections: [{ version: 2, turn: 1, parts: [{ kind: 'markdown', text: runtime.chat.messages[0].swipes[runtime.chat.messages[0].swipeId] }] }] } }
+    else if (method === 'getSceneImageSettings') result = { settings: await runtime.service.settings(args?.provider) }
+    else if (method === 'saveSceneImageSettings') result = { settings: await runtime.service.configure(args) }
+    else if (method === 'sceneImageStatus') result = { illustration: await runtime.service.status('scene-parent', 1) }
+    else if (method === 'generateSceneImage') result = { illustration: await runtime.service.start('scene-parent', 1, args.key, args) }
+    else if (method === 'retrySceneImageSave') result = { illustration: await runtime.service.retrySave('scene-parent', 1, args.key, args.requestId) }
+    else if (method === 'cancelSceneImage') result = { illustration: await runtime.service.cancel('scene-parent', 1, args.key, args.requestId) }
+    else if (method === 'removeSceneImage') result = { illustration: await runtime.service.removeImage('scene-parent', 1, args.key, args.versionId) }
+    else if (method === 'setSceneImageReference') result = { illustration: await runtime.service.setReference('scene-parent', 1, args.key, args.versionId, args.consent, args.enabled !== false, args.personId) }
+    else if (method === 'fixtureRestart') await runtime.restart()
+    else if (method === 'fixtureSwipe') runtime.chat.messages[0].swipeId = 1 - runtime.chat.messages[0].swipeId
+    else if (method === 'fixtureFail') runtime.failNext()
+    else if (method === 'fixtureFailSave') runtime.failNextSave()
+    else if (method === 'fixtureHold') runtime.holdNextImage()
+    else if (method === 'fixtureOccupyQueue') {
+      if (!runtime.chat.messages.some(message => message.turn === 2)) runtime.chat.messages.push({ role: 'assistant', turn: 2, sourceText: '另一幅测试场景：她站在窗边看雨。' })
+      runtime.holdNextImage()
+      const target = await runtime.service.status('scene-parent', 2)
+      await runtime.service.start('scene-parent', 2, target.key)
+      for (let n = 0; n < 300 && !runtime.imageRequests.length; n++) await new Promise(resolve => setTimeout(resolve, 20))
+    }
+    else if (method === 'fixtureEvidence') result = { modelRequests: runtime.requests.length, imageRequests: runtime.imageRequests.length, referenceImages: runtime.imageRequests.at(-1)?.input?.filter(item => item.type === 'image').length || 0, parentMessages: sessionEvents(runtime.parent.agent.session).filter(e => /message/.test(e.type)).length, prompt: runtime.imageRequests.at(-1)?.prompt, status: await runtime.service.status('scene-parent', 1) }
+    res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ ok: true, ...result }))
+  } catch (error) { res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ ok: false, error: error.message })) }
+})
+await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+console.log('http://127.0.0.1:' + server.address().port)
+process.on('SIGINT', async () => { await runtime.dispose(); server.close(); process.exit(0) })

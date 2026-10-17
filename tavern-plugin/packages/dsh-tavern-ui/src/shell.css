@@ -1,0 +1,542 @@
+body.dsh-tavern-shell-active [data-turn-tail] > [data-slot="conversation.chat.turnTail"] + div > button { display: none !important; }
+body.dsh-tavern-shell-active [data-turn-tail] [data-slot="conversation.chat.assistant-actions"] > :not(.dsh-tavern-message-fork) { display: none !important; }
+/* Outer shell overrides; feature-owned rules remain in Tavern. */
+/* Host --dsw-* tokens live on <body>; resolve ours there too (not :root).
+   Re-declared on stage roots so a stage scheme re-resolves them. */
+body,
+[data-ds-dark-theme],
+[data-dsh-card-stage-scheme] {
+  --fork-font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fork-font-reading: var(--fork-font-reading-resolved, var(--fork-font-ui));
+  --fork-reading-size: 17px;
+  --fork-reading-leading: 1.9;
+  --fork-reading-width: 720px;
+  /* Follows the active skin's brand colour (default DSH skin: DeepSeek blue). */
+  --fork-accent: var(--dsw-alias-brand-primary, var(--dsw-alias-button-info-fill, #4176e6));
+  --fork-accent-soft: color-mix(in srgb, var(--fork-accent) 12%, transparent);
+  --fork-hairline: var(--dsw-alias-border-l2);
+  --fork-hover: var(--dsw-alias-interactive-bg-hover);
+  --fork-ink: var(--dsw-alias-label-primary);
+  --fork-ink-2: var(--dsw-alias-label-secondary);
+  --fork-ink-3: var(--dsw-alias-label-tertiary);
+  --fork-surface: var(--dsw-alias-bg-base);
+  --fork-surface-2: var(--dsw-specific-sidebar-fill);
+  --fork-raised: var(--dsw-specific-input-major);
+  --fork-radius: 8px;
+  --fork-radius-lg: 12px;
+  --fork-ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* Re-point the upstream tavern tokens at the host palette. */
+  --dsh-tavern-accent: var(--fork-accent);
+  --dsh-tavern-accent-active: var(--fork-accent);
+  --dsh-tavern-accent-soft: var(--fork-accent-soft);
+  --dsh-tavern-accent-border: color-mix(in srgb, var(--fork-accent) 36%, transparent);
+  --dsh-tavern-accent-ink: var(--fork-ink);
+  --dsh-tavern-accent-muted: var(--fork-ink-3);
+  --dsh-tavern-accent-hairline: var(--fork-hairline);
+  --dsh-tavern-accent-cream: var(--fork-surface);
+  --dsh-tavern-accent-surface: var(--fork-surface-2);
+  --dsh-tavern-accent-error: var(--dsw-alias-state-error-primary, #ec1313);
+  --dsh-tavern-radius-sm: 6px;
+  --dsh-tavern-radius-md: var(--fork-radius);
+  --dsh-tavern-radius-lg: var(--fork-radius-lg);
+  --dsh-tavern-font-display: var(--fork-font-ui);
+  --dsh-tavern-font-sans: var(--fork-font-ui);
+}
+
+/* ---------- Typography: no display serif anywhere in chrome ---------- */
+.dsh-tavern-status-title,
+.dsh-tavern-side-brand,
+.dsh-tavern-mobile-import-title,
+.dsh-tavern-group-manager-head h3 {
+  font-family: var(--fork-font-ui);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* ---------- Buttons: quiet by default, one filled primary ---------- */
+.dsh-tavern-btn,
+.dsh-tavern-choice-trigger,
+.dsh-tavern-export-action,
+.dsh-tavern-update-button,
+.dsh-tavern-status-view-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 5px 12px;
+  border: 1px solid var(--fork-hairline);
+  border-radius: var(--fork-radius);
+  background: transparent;
+  color: var(--fork-ink-2);
+  font: 500 13px/1.3 var(--fork-font-ui);
+  box-shadow: none;
+  transition: background 140ms var(--fork-ease), color 140ms var(--fork-ease), border-color 140ms var(--fork-ease);
+}
+.dsh-tavern-btn:hover:not(:disabled),
+.dsh-tavern-choice-trigger:hover:not(:disabled),
+.dsh-tavern-export-action:hover:not(:disabled),
+.dsh-tavern-update-button:hover:not(:disabled),
+.dsh-tavern-status-view-switch:hover:not(:disabled) {
+  border-color: var(--fork-hairline);
+  background: var(--fork-hover);
+  color: var(--fork-ink);
+}
+.dsh-tavern-btn.danger { border-color: transparent; background: transparent; color: var(--dsh-tavern-accent-error); }
+.dsh-tavern-btn.danger:hover:not(:disabled) { background: var(--dsw-alias-interactive-bg-hover-danger, var(--fork-hover)); }
+.dsh-card-primary,
+.dsh-tavern-question-primary,
+.dsh-tavern-update-button.primary {
+  border: 0;
+  border-radius: var(--fork-radius);
+  background: var(--dsw-alias-button-primary-fill);
+  color: var(--dsw-alias-label-primary-foreground);
+  font: 500 13px/1.3 var(--fork-font-ui);
+  padding: 8px 16px;
+}
+.dsh-card-primary:hover:not(:disabled),
+.dsh-tavern-question-primary:hover:not(:disabled),
+.dsh-tavern-update-button.primary:hover:not(:disabled) {
+  background: var(--dsw-alias-button-primary-hover);
+  color: var(--dsw-alias-label-primary-foreground);
+}
+
+/* ---------- Sidebar ---------- */
+/* Host logo row holds only the collapse toggle: put the brand in it and drop our own head row. */
+body.dsh-tavern-shell-active [data-slot="sidebar"] [class*="_logoRow"] {
+  /* Private compact text header, not the upstream large lockup overlay. */
+  position: static !important;
+  min-height: 0;
+  height: auto;
+  padding: 6px 0 6px 8px;
+  margin-bottom: 0;
+  align-items: center;
+}
+body.dsh-tavern-shell-active [data-slot="sidebar"] [class*="_logoRow"]::before {
+  content: "DSH Tavern";
+  flex: 1;
+  min-width: 0;
+  color: var(--fork-ink);
+  font: 600 14px/1 var(--fork-font-ui);
+}
+/* :has() stays on the logo row itself (it precedes the region holding the sidebar): a [class*] compound after a :has()
+   joins every :has() invalidation set, so any host :has() change restyled the whole transcript. */
+body.dsh-tavern-shell-active [data-slot="sidebar"] [class*="_logoRow"]:has(~ [class*="_regionArea"] .dsh-tavern-sidebar.collapsed) { padding-left: 0; justify-content: center; }
+body.dsh-tavern-shell-active [data-slot="sidebar"] [class*="_logoRow"]:has(~ [class*="_regionArea"] .dsh-tavern-sidebar.collapsed)::before { display: none; }
+.dsh-tavern-sidebar.collapsed .dsh-tavern-side-icon { width: 30px; height: 30px; font-size: 14px; color: var(--fork-ink-2); }
+.dsh-tavern-sidebar.collapsed .dsh-tavern-side-icon[title="展开侧栏"] { font-size: 0; }
+.dsh-tavern-sidebar.collapsed .dsh-tavern-side-icon[title="展开侧栏"]::after {
+  content: ""; display: inline-block; width: 16px; height: 16px; border-radius: 4px;
+  --fork-dot-glint: color-mix(in srgb, var(--fork-accent) 55%, white); background: radial-gradient(circle at 35% 35%, var(--fork-dot-glint) 0 18%, var(--fork-accent) 19%);
+}
+.dsh-tavern-sidebar { padding: 2px 8px 6px; gap: 0; }
+.dsh-tavern-sidebar:not(.collapsed) > .dsh-tavern-side-head { display: none; }
+.dsh-tavern-side-head { height: 40px; padding: 0 6px; }
+.dsh-tavern-side-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fork-ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+.dsh-tavern-side-brand::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 5px;
+  background:
+    radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--fork-accent) 55%, white) 0 18%, transparent 19%),
+    var(--fork-accent);
+}
+.dsh-tavern-mode-switch {
+  margin: 0 0 6px;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 9px;
+  background: var(--fork-hover);
+}
+.dsh-tavern-mode-switch button { height: 26px; border-radius: 7px; color: var(--fork-ink-2); font-size: 13px; font-weight: 500; }
+.dsh-tavern-mode-switch button.active {
+  background: var(--dsw-alias-button-floating-fill, var(--fork-raised));
+  color: var(--fork-ink);
+  box-shadow: 0 0 0 1px var(--dsw-alias-border-l1), var(--dsw-shadow-lv1);
+  font-weight: 600;
+}
+.dsh-tavern-side-new {
+  height: 30px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 0;
+  border-radius: var(--fork-radius);
+  background: transparent;
+  color: var(--fork-ink);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+}
+.dsh-tavern-side-new:hover:not(:disabled) { background: var(--fork-hover); }
+.dsh-tavern-side-title { margin: 8px 4px 2px 8px; color: var(--fork-ink-3); font-size: 12px; font-weight: 500; }
+.dsh-tavern-history-action { padding: 2px 6px; color: var(--fork-ink-3); font-size: 12px; }
+.dsh-tavern-side-list { gap: 1px; }
+.dsh-tavern-history-group-toggle { gap: 6px; padding: 5px 8px; border-radius: 6px; font-size: 13px; line-height: 18px; }
+.dsh-tavern-history-group-toggle:hover { background: var(--fork-hover); }
+.dsh-tavern-history-group-name { font-weight: 500; }
+.dsh-tavern-history-group-count { color: var(--fork-ink-3); opacity: 1; }
+.dsh-tavern-history-group-items { padding-left: 14px; gap: 1px; }
+.dsh-tavern-side-row { border-radius: 6px; }
+.dsh-tavern-side-row:hover { background: var(--fork-hover); }
+.dsh-tavern-side-row.active { background: var(--dsw-specific-sidebar-nav-item-active, var(--fork-hover)); }
+.dsh-tavern-side-row-main { padding: 4px 4px 4px 8px; }
+.dsh-tavern-side-row-name { font-size: 13px; line-height: 18px; }
+.dsh-tavern-side-row-meta { margin-top: 0; color: var(--fork-ink-3); font-size: 11px; line-height: 15px; }
+.dsh-tavern-side-row-more { width: 24px; height: 24px; }
+.dsh-tavern-side-row-menu,
+.dsh-tavern-more-menu {
+  border-color: var(--fork-hairline);
+  border-radius: 10px;
+  background: var(--dsw-specific-menu, var(--fork-surface-2));
+  box-shadow: var(--dsw-shadow-lv3);
+}
+
+/* Version/update block and other maintenance chrome: only in debug view (toggle in the Tavern settings page). */
+.dsh-fork-debug-setting { cursor: pointer; }
+
+/* Theme quick menu, portalled into the host logo row next to the collapse toggle. */
+.dsh-fork-theme-dock { position: relative; display: inline-flex; align-items: center; flex: none; }
+.dsh-fork-theme-trigger { display: inline-flex; align-items: center; justify-content: center; width: 28px !important; height: 28px !important; padding: 0; border-radius: 7px; color: var(--fork-ink-2); }
+.dsh-fork-theme-trigger:hover, .dsh-fork-theme-trigger[aria-expanded="true"] { background: var(--fork-hover); color: var(--fork-ink); }
+.dsh-fork-theme-trigger::before { content: ""; width: 13px; height: 13px; box-sizing: border-box; border: 1.5px solid currentColor; border-radius: 50%; background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.dsh-fork-theme-menu { position: fixed; z-index: 2100; display: grid; width: 196px; max-height: min(70vh, 460px); overflow: auto; padding: 5px; border: 1px solid var(--fork-hairline); border-radius: 10px; background: var(--dsw-specific-menu, var(--fork-surface-2)); box-shadow: var(--dsw-shadow-lv3); font: 13px/1.4 var(--fork-font-ui); }
+.dsh-fork-theme-heading { padding: 6px 8px 3px; color: var(--fork-ink-3); font-size: 11px; }
+.dsh-fork-theme-menu > button { display: flex; align-items: center; gap: 9px; width: 100%; padding: 6px 8px; border: 0; border-radius: 7px; background: transparent; color: var(--fork-ink); font: inherit; text-align: left; cursor: pointer; }
+.dsh-fork-theme-menu > button:hover { background: var(--fork-hover); }
+.dsh-fork-theme-menu > button[aria-checked="true"]::after { content: "✓"; margin-left: auto; color: var(--fork-accent); font-size: 12px; }
+.dsh-fork-theme-swatch { flex: none; width: 14px; height: 14px; box-sizing: border-box; border: 1px solid var(--fork-hairline); border-radius: 50%; background: radial-gradient(circle, var(--swatch-brand, transparent) 0 34%, transparent 36%), var(--swatch-base, var(--fork-surface-2)); }
+.dsh-fork-theme-swatch[data-builtin="light"] { background: #fff; }
+.dsh-fork-theme-swatch[data-builtin="dark"] { background: #1f1f22; }
+.dsh-fork-theme-swatch[data-builtin="system"] { background: linear-gradient(90deg, #fff 50%, #1f1f22 50%); }
+.dsh-fork-theme-menu > .dsh-fork-theme-more { margin-top: 4px; border-top: 1px solid var(--fork-hairline); border-radius: 0 0 7px 7px; color: var(--fork-ink-3); font-size: 12px; }
+body:not(.dsh-fork-debug) .dsh-tavern-update { display: none; }
+.dsh-tavern-update { border-top: 0; margin-top: 4px; padding: 4px 6px 0; }
+
+/* ---------- Host chrome that is developer tooling in play sessions ---------- */
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.session.header"] [role="tablist"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.session.header.lineage"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session] [data-composer-stats], /* duplicated by the composer details ring in both modes */
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.composer.bar"] button[aria-label^="访问模式"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.composer.bar"] button[aria-label^="Access"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.composer.bar"] button[aria-label="指令"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.composer.bar"] button[aria-label="Commands"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-turn-tail] span:has(> button[aria-haspopup="dialog"]),
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-turn-tail] [data-slot="conversation.chat.assistant-actions"] > button:not(.dsh-tavern-message-fork),
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-turn-tail] button[aria-label="在新对话中分支"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-turn-tail] button[aria-label="Branch in new chat"],
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.chat.node"]:has([data-context-source]) {
+  display: none !important;
+}
+
+/* ---------- Session header ---------- */
+/* The host header reserves 76px for its tab row; with the tabs hidden in play, shrink to the title row. */
+body:not(.dsh-fork-debug) [data-dsh-fork-session="play"] [data-slot="conversation.session.header"] > header { min-height: 0; padding-bottom: 8px; }
+[data-dsh-fork-session] [data-slot="conversation.session.header.utilities"] { gap: 6px; }
+[data-dsh-fork-session] [data-slot="conversation.session.header.utilities"] .dsh-tavern-btn,
+[data-dsh-fork-session] [data-slot="conversation.session.header.utilities"] .dsh-tavern-export-action {
+  min-height: 28px;
+  padding: 4px 10px;
+  border-color: transparent;
+  border-radius: 7px;
+  font-size: 13px;
+}
+[data-dsh-fork-session] [data-slot="conversation.session.header.utilities"] [data-fork-more] { min-width: 28px; padding: 4px 6px; font-size: 16px; line-height: 1; letter-spacing: 0; }
+.dsh-tavern-restore-header { border-color: var(--fork-hairline); background: var(--fork-surface-2); color: var(--fork-ink-3); font-size: 12px; }
+
+/* ---------- Story text: immersive reading ---------- */
+.dsh-tavern-assistant {
+  gap: 14px;
+  color: var(--fork-ink);
+  font-family: var(--fork-font-reading);
+  font-size: var(--fork-reading-size);
+  line-height: var(--fork-reading-leading);
+  letter-spacing: .01em;
+}
+[data-dsh-fork-session="play"] .dsh-tavern-user-bubble,
+[data-dsh-fork-session="play"] [class*="_userRow"] [class*="_bubble"] {
+  font-size: var(--dsh-content-font-size, var(--fork-reading-size)) !important;
+  line-height: var(--fork-reading-leading) !important;
+}
+.dsh-tavern-assistant .dsh-tavern-colored-markdown { font: inherit; }
+.dsh-tavern-assistant .dsh-tavern-colored-markdown :is(p, li) { font: inherit; line-height: inherit; }
+.dsh-tavern-assistant .dsh-tavern-colored-markdown p { margin: 0 0 .9em; }
+.dsh-tavern-assistant .dsh-tavern-colored-markdown p:last-child { margin-bottom: 0; }
+.dsh-tavern-assistant .dsh-tavern-colored-markdown hr { border: 0; height: 1px; margin: 1.6em auto; width: 40%; background: var(--fork-hairline); }
+
+/* Reasoning: one quiet collapsible line above the reply (Pi style). */
+.dsh-tavern-assistant-reasoning { font-family: var(--fork-font-ui); font-size: 13px; line-height: 1.6; color: var(--fork-ink-3); letter-spacing: 0; }
+.dsh-tavern-assistant-reasoning > summary {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px 2px 0; border-radius: 6px;
+  list-style: none; color: var(--fork-ink-3); font-size: 13px;
+}
+.dsh-tavern-assistant-reasoning > summary::-webkit-details-marker { display: none; }
+.dsh-tavern-assistant-reasoning > summary::after {
+  content: ""; width: 12px; height: 12px; background: currentColor; transition: transform 160ms var(--fork-ease);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.dsh-tavern-assistant-reasoning[open] > summary::after { transform: rotate(180deg); }
+.dsh-tavern-assistant-reasoning > summary:hover { color: var(--fork-ink-2); }
+.dsh-tavern-assistant-reasoning:has(> pre:empty) { display: none; }
+.dsh-tavern-assistant-reasoning > pre { margin: 6px 0 4px; padding-left: 12px; border-left: 2px solid var(--fork-hairline); color: var(--fork-ink-3); font-size: 13px; }
+
+/* ---------- Right sidebar chrome: tab chips keep UI size (host scales them with the content font) ---------- */
+[data-slot="rightbar"] [class*="_tab_"],
+[data-slot="rightbar"] [data-slot="sidebar.right.pane.tab.title"] { font-size: 13px !important; }
+
+/* ---------- Right sidebar start page: launcher grid (fork-sidebar-nav.js) ---------- */
+.fork-guide { box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; min-height: 100%; padding: 16px 14px 28px; font-family: var(--fork-font-ui); }
+.fork-guide-group h3 { margin: 0 0 8px 2px; color: var(--fork-ink-3); font-size: 12px; font-weight: 500; }
+.fork-guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.fork-guide-tile {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  min-height: 96px; padding: 14px 8px 12px; box-sizing: border-box;
+  border: 1px solid var(--fork-hairline); border-radius: 16px; background: var(--dsw-alias-bg-layer-1, var(--fork-surface-2));
+  color: var(--fork-ink); font: inherit; cursor: pointer;
+  transition: background 140ms var(--fork-ease), border-color 140ms var(--fork-ease), transform 140ms var(--fork-ease);
+}
+.fork-guide-tile:hover { background: var(--fork-hover); border-color: color-mix(in srgb, var(--fork-accent) 30%, var(--fork-hairline)); }
+.fork-guide-tile:active { transform: scale(.97); }
+.fork-guide-tile:focus-visible { outline: 2px solid var(--fork-accent); outline-offset: 2px; }
+.fork-guide-icon {
+  display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px;
+  background: var(--fork-accent-soft); color: var(--fork-accent);
+}
+.fork-guide-icon svg { width: 22px; height: 22px; }
+.fork-guide-title { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 18px; }
+/* ---------- Landing (no session open) ---------- */
+body.dsh-tavern-shell-active .dsh-tavern-landing::before {
+  content: "选择一张人物卡，开始新的故事";
+  color: var(--fork-ink-3);
+  font-family: var(--fork-font-ui) !important;
+  font-size: 15px;
+  font-weight: 400 !important;
+  letter-spacing: 0;
+}
+
+/* ---------- Misc upstream accents that were hard-coded warm ---------- */
+.dsh-tavern-picker-tabs button.active { border-color: var(--fork-hairline); background: var(--fork-hover); color: var(--fork-ink); }
+.dsh-tavern-update-button:hover { border-color: var(--fork-hairline); }
+
+/* ---------- Composer context & session details (fork-composer-metrics.js) ---------- */
+/* The host ring (ContextMeter) is not a slot; hide it and show ours in conversation.input.right. */
+body.dsh-tavern-shell-active [data-slot="conversation.composer.bar"] [class*="_trailing"] > span:has(> * > button[aria-label^="上下文已用"]),
+body.dsh-tavern-shell-active [data-slot="conversation.composer.bar"] [class*="_trailing"] > span:has(> button[aria-label^="上下文已用"]),
+body.dsh-tavern-shell-active [data-slot="conversation.composer.bar"] [class*="G889Qa_root"] { display: none !important; }
+.fork-metrics { display: inline-flex; align-items: center; flex: none; }
+.fork-metrics-trigger { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 7px; border: 0; border-radius: 999px; background: transparent; color: var(--dsw-alias-label-tertiary); font: 500 11px/1 var(--fork-font-ui); font-variant-numeric: tabular-nums; cursor: pointer; }
+.fork-metrics-trigger:hover, .fork-metrics-trigger[aria-expanded="true"] { background: var(--dsw-alias-interactive-bg-hover); color: var(--dsw-alias-label-primary); }
+.fork-metrics-trigger:focus-visible { outline: 2px solid var(--fork-accent); outline-offset: 2px; }
+.fork-metrics-trigger[data-level="high"] { color: #d9912a; }
+.fork-metrics-trigger[data-level="critical"] { color: #e5534b; }
+.fork-metrics-popover, .fork-metrics-tooltip {
+  position: fixed; box-sizing: border-box; overflow: auto; overscroll-behavior: contain;
+  /* Skins may make the menu fill translucent (glass); keep text readable over the story. */
+  border: 0; background: linear-gradient(var(--dsw-specific-menu, transparent), var(--dsw-specific-menu, transparent)), Canvas; color: var(--dsw-alias-label-primary);
+  --dsw-elevation-stroke-color: var(--dsw-alias-border-l1); box-shadow: var(--dsw-elevation-prominent, 0 12px 38px #0003);
+  font: 12px/1.45 var(--fork-font-ui); font-variant-numeric: tabular-nums;
+}
+.fork-metrics-popover { z-index: 2050; display: flex; flex-direction: column; gap: 14px; width: min(440px, calc(100vw - 24px)); padding: 14px; border-radius: 18px; }
+.fork-metrics-eyebrow { margin: 0; color: var(--dsw-alias-label-tertiary); font-size: 11px; font-weight: 500; line-height: 16px; }
+.fork-metrics-context-button, .fork-metrics-tile { box-sizing: border-box; min-width: 0; margin: 0; border: 0; font: inherit; color: inherit; text-align: left; cursor: help; transition: background .12s; }
+.fork-metrics-context-button:focus-visible, .fork-metrics-tile:focus-visible { outline: 2px solid var(--fork-accent); outline-offset: 2px; }
+.fork-metrics-context { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; border-radius: 14px; background: var(--dsw-alias-interactive-bg-hover); --metrics-level: var(--fork-accent); }
+.fork-metrics-context[data-level="high"] { --metrics-level: #d9912a; }
+.fork-metrics-context[data-level="critical"] { --metrics-level: #e5534b; }
+.fork-metrics-context-button { display: flex; flex-direction: column; gap: 2px; padding: 0; background: transparent; border-radius: 8px; }
+.fork-metrics-context-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.fork-metrics-context-percent { color: var(--metrics-level); font-size: 30px; font-weight: 600; line-height: 36px; letter-spacing: -.01em; }
+.fork-metrics-context-size { color: var(--dsw-alias-label-tertiary); font-size: 12px; white-space: nowrap; }
+.fork-metrics-bar { height: 6px; overflow: hidden; border-radius: 3px; background: var(--dsw-alias-border-l2); }
+.fork-metrics-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--metrics-level); transition: width .3s ease; }
+.fork-metrics-bar[data-unknown="true"] { box-sizing: border-box; border: 1px dashed var(--dsw-alias-label-caption); background: transparent; }
+.fork-metrics-session { display: flex; flex-direction: column; gap: 8px; }
+.fork-metrics-session > .fork-metrics-eyebrow { padding: 0 4px; }
+.fork-metrics-highlights { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.fork-metrics-details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 6px; }
+.fork-metrics-tile { display: flex; flex-direction: column; gap: 3px; border-radius: 12px; }
+.fork-metrics-tile:hover, .fork-metrics-tile[aria-describedby] { background: var(--dsw-alias-interactive-bg-hover); }
+.fork-metrics-tile-highlight { padding: 10px 11px; background: var(--dsw-alias-interactive-bg-hover); }
+.fork-metrics-tile-highlight:hover, .fork-metrics-tile-highlight[aria-describedby] { background: var(--dsw-alias-interactive-bg-active, var(--dsw-alias-border-l2)); }
+.fork-metrics-tile-detail { padding: 7px 10px; background: transparent; }
+.fork-metrics-tile-label { display: flex; align-items: center; gap: 5px; min-width: 0; overflow: hidden; color: var(--dsw-alias-label-tertiary); font-size: 11px; line-height: 15px; white-space: nowrap; text-overflow: ellipsis; }
+.fork-metrics-value { display: block; min-width: 0; color: var(--dsw-alias-label-primary); font-weight: 600; line-height: 1.25; overflow-wrap: anywhere; }
+.fork-metrics-tile-highlight .fork-metrics-value { font-size: 16px; }
+.fork-metrics-tile-detail .fork-metrics-value { font-size: 13px; font-weight: 500; }
+.fork-metrics-tile[data-metric="runtime"] .fork-metrics-value { color: var(--fork-accent); }
+.fork-metrics-live-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--fork-accent); animation: fork-metrics-pulse 1.6s ease-in-out infinite; }
+@keyframes fork-metrics-pulse { 50% { scale: .55; } }
+.fork-metrics-tooltip { z-index: 2051; width: 300px; padding: 12px 14px; border-radius: 14px; user-select: text; overflow-wrap: anywhere; font-size: 11px; }
+.fork-metrics-tooltip > strong { display: block; font-size: 12px; font-weight: 600; }
+.fork-metrics-tooltip dl { margin: 8px 0 0; }
+.fork-metrics-tooltip dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 3px 0; }
+.fork-metrics-tooltip dt { min-width: 0; color: var(--dsw-alias-label-tertiary); }
+.fork-metrics-tooltip dd { flex: none; margin: 0; text-align: right; white-space: nowrap; font-family: var(--dsw-font-mono, ui-monospace, monospace); }
+.fork-metrics-tooltip p { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--dsw-alias-border-l2); color: var(--dsw-alias-label-tertiary); }
+@media (max-width: 520px) {
+  .fork-metrics-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fork-metrics-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) and (update: none) { .fork-metrics-live-dot { animation: none; } .fork-metrics-bar > span { transition: none; } }
+.fork-metrics-context-lead { display: inline-flex; align-items: baseline; gap: 8px; }
+.fork-metrics-context-label { color: var(--dsw-alias-label-tertiary); font-size: 11px; font-weight: 500; }
+.fork-metrics-context-size .fork-metrics-sub { margin-left: 10px; }
+.fork-metrics-sub { flex: none; color: var(--dsw-alias-label-tertiary); font-size: 11px; line-height: 15px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.fork-metrics-sub[data-expired] { color: #d9912a; }
+
+/* ---------- Composer: always opaque ---------- */
+/* Dream Skin turns the composer card into frosted glass over the story; the text
+   behind reads as a smear. Keep a solid card (the skin's own composer base colour).
+   Never inside the galgame stage: the skin tags ANY rounded ancestor of a visible textarea, the stage's free-input
+   editor included, and this !important cream fill under the stage's light ink made typed text invisible. Stage
+   surfaces draw only from the stage UI tokens (the "stage choices" block). */
+body.dsh-tavern-shell-active [data-dsh-dream-skin-composer]:not(.fork-gal-stage *),
+body.dsh-tavern-shell-active [data-composer-card]:not(.fork-gal-stage *) {
+  background: linear-gradient(var(--dsh-dream-skin-composer-base, var(--dsw-specific-input-major)), var(--dsh-dream-skin-composer-base, var(--dsw-specific-input-major))), Canvas !important;
+}
+body.dsh-tavern-shell-active [data-dsh-dream-skin-composer]::before,
+body.dsh-tavern-shell-active [data-dsh-dream-skin-composer]::after { content: none !important; }
+
+/* ---------- Compaction as a thin divider (host node + fork line) ---------- */
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"],
+.fork-compaction-line {
+  display: flex !important; align-items: center; gap: 12px; width: 100%; margin: 6px 0; padding: 0; border: 0; background: none;
+  color: var(--fork-ink-3); font: 12px/1.5 var(--fork-font-ui) !important;
+}
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"]::before,
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"]::after,
+.fork-compaction-line::before, .fork-compaction-line::after { content: ""; flex: 1; height: 1px; background: var(--fork-hairline); }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"] > svg,
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"] > :is(span, div, strong) { color: inherit !important; font: inherit !important; }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"] svg { display: none; }
+.fork-compaction-line { box-sizing: border-box; max-width: var(--dsh-composer-card-max-width, 780px); margin: 4px auto 6px; padding: 0 14px; }
+.fork-compaction-text { display: inline-flex; align-items: center; gap: 6px; max-width: 70%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.fork-compaction-line[data-phase="failed"] { color: #d9912a; }
+.fork-compaction-dots { --fork-spinner-size: 11px; }
+.fork-compaction-line .fork-compaction-dismiss { order: 3; }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"] > * { flex: none; }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] :is([class*="_compactionLeading"], [class*="_compactionTitle"], [class*="_compactionSep"]) { display: none !important; }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"]:hover { color: var(--fork-ink-2); }
+
+.dsh-fork-inline-actions [data-fork-action="guide"][data-count]::after { content: none; } /* no count badge: the pencil alone */
+
+/* Independent UI tokens; auxiliary reading uses the larger baseline, not multiplied scales. */
+body.dsh-tavern-shell-active {
+  --fork-ui-size: 13px;
+  --fork-ui-small: calc(var(--fork-ui-size) - 1px);
+  --fork-ui-icon: calc(var(--fork-ui-size) + 3px);
+  --fork-ui-control: calc(var(--fork-ui-size) + 19px);
+  --fork-aux-size: max(var(--fork-ui-size), calc(5px + var(--dsh-content-font-size, 16px) * .5));
+}
+.dsh-tavern-mode-switch button { font-size: var(--fork-ui-size); height: auto; min-height: calc(var(--fork-ui-control) - 6px); line-height: 1.4; padding-block: 4px; }
+.dsh-tavern-history-group-toggle, .dsh-tavern-side-row-name { font-size: var(--fork-aux-size); line-height: 1.4; white-space: normal; overflow-wrap: anywhere; }
+.dsh-tavern-side-row-meta { font-size: calc(var(--fork-aux-size) - 2px); line-height: 1.4; }
+.fork-status-now, .fork-status-guides > li, .fork-status .fork-status-guide-input { font-size: var(--fork-aux-size); line-height: 1.6; }
+.fork-metrics-context-label, .fork-metrics-sub, .fork-metrics-tooltip { font-size: var(--fork-ui-small); }
+[data-slot="rightbar"] [data-slot="sidebar.right.pane.tab.title"] { font-size: var(--fork-ui-size) !important; }
+.fork-status-empty, .fork-status-person p { font-size: var(--fork-ui-small); }
+[data-dsh-fork-session="play"] [data-chat-flow-kind="compaction"] [class*="_compactionButton"], .fork-compaction-line { font-size: var(--fork-ui-small) !important; }
+.fork-status-guide-input { min-height: 2.4em; }
+.fork-status-section h3, .fork-status-count, .fork-status-settle,
+.dsh-tavern-side-title, .dsh-tavern-history-action { font-size: var(--fork-ui-small); }
+.dsh-tavern-side-new { font-size: var(--fork-ui-size); }
+.dsh-fork-turn-actions [data-fork-turn] > button,
+.dsh-fork-inline-actions [data-fork-action],
+.dsh-fork-inline-actions .dsh-fork-icon-slot > button { width: var(--fork-ui-control); min-width: var(--fork-ui-control); height: var(--fork-ui-control); min-height: var(--fork-ui-control); }
+.dsh-fork-turn-actions [data-fork-turn] > button::before,
+.dsh-fork-inline-actions [data-fork-action]::before,
+.dsh-fork-inline-actions .dsh-fork-icon-slot > button::before { width: var(--fork-ui-icon); height: var(--fork-ui-icon); }
+[data-dsh-fork-session="play"] [data-turn-tail] [class*="_timeEnd"] { font-size: var(--fork-ui-small); }
+.fork-turn-menu, .fork-dialog, .dsh-fork-theme-menu { font-size: var(--fork-ui-size); }
+.fork-dialog-head strong { font-size: calc(var(--fork-ui-size) + 1px); }
+.dsh-tavern-settings-title, .dsh-tavern-settings-row select { font-size: var(--fork-ui-size); }
+.dsh-tavern-settings-desc { font-size: var(--fork-ui-small); }
+.dsh-tavern-settings-row select { max-width: 45%; min-height: var(--fork-ui-control); }
+.fork-turn-menu > button, .dsh-fork-theme-menu > button { min-height: var(--fork-ui-control); }
+@media (max-width: 600px) {
+  .dsh-tavern-settings-row { flex-wrap: wrap; }
+  .fork-dialog-backdrop { padding: 12px; }
+}
+
+/* Hide scrollbar chrome without disabling scrolling. Card frames receive the same rule in their document builder. */
+html:has(body.dsh-tavern-shell-active), body.dsh-tavern-shell-active, body.dsh-tavern-shell-active * { scrollbar-width: none !important; scrollbar-gutter: auto !important; }
+html:has(body.dsh-tavern-shell-active)::-webkit-scrollbar, body.dsh-tavern-shell-active::-webkit-scrollbar, body.dsh-tavern-shell-active *::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+[data-dsh-fork-session="play"] [data-composer-card] [class*="_tools"] { gap: 0; }
+.dsh-tavern-dock-actions.dsh-fork-inline-actions { gap: 0; margin: 0; }
+[data-dsh-fork-session="play"] [data-composer-card] button[aria-label="添加附件"] { margin: 0; width: var(--fork-ui-control); height: var(--fork-ui-control); }
+[data-dsh-fork-session="play"] [data-composer-card] [class*="_modes"]:not(:has([data-slot="conversation.input.plan"] > *)) { display: none; }
+body.dsh-tavern-shell-active [role="menu"][aria-label="模型与推理等级"] {
+  background: linear-gradient(var(--dsw-specific-menu, var(--fork-surface-2)), var(--dsw-specific-menu, var(--fork-surface-2))), Canvas !important;
+  opacity: 1; backdrop-filter: none;
+}
+[data-dsh-fork-session="play"] [data-slot="conversation.session.header"] [class*="_crumbCurrent"] { font-weight: 700; font-size: var(--fork-ui-size); }
+
+/* Private fork: compact model/effort popover, adapted from local Pi Web. */
+.fork-model-trigger { display: inline-flex; position: relative; align-items: center; gap: 8px; min-width: 0; max-width: min(360px, 45cqw); min-height: 28px; padding: 2px 16px; border: 0; border-radius: 16px; background: transparent; color: var(--fork-ink-2); font: 500 var(--fork-ui-size, 13px)/1.5 var(--fork-font-ui); cursor: pointer; }
+.fork-model-trigger:hover, .fork-model-trigger[aria-expanded="true"] { background: var(--fork-hover); }
+.fork-model-trigger-name { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.fork-model-trigger-effort { flex: none; color: var(--fork-ink-3); }
+.fork-model-trigger-effort[data-max="true"] { color: #aa6ee9; }
+.fork-model-trigger:disabled { filter: var(--fk-current-dim, grayscale(1)); cursor: default; }
+.fork-model-panel { --effort-accent: #528be6; box-sizing: border-box; position: fixed; inset: auto; margin: 0; width: 286px; max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); overflow: auto; padding: 14px 16px 10px; border: 1px solid var(--fork-hairline); border-radius: 24px; color: var(--fork-ink); background: linear-gradient(var(--dsw-specific-menu, var(--fork-surface-2)), var(--dsw-specific-menu, var(--fork-surface-2))), Canvas; box-shadow: 0 12px 38px #0003; font: var(--fork-ui-size, 13px)/1.5 var(--fork-font-ui); }
+.fork-model-panel::backdrop { background: transparent; }
+.fork-model-panel button { font: inherit; cursor: pointer; color: inherit; }
+.fork-model-panel button:disabled { cursor: default; filter: var(--fk-current-dim, grayscale(1)); }
+.fork-model-panel button:focus-visible, .fork-model-trigger:focus-visible { outline: 2px solid var(--fork-accent); outline-offset: 2px; }
+.fork-model-heading { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; align-items: start; gap: 8px; margin-bottom: 8px; }
+.fork-model-heading > div { grid-column: 2; min-width: 0; text-align: center; }
+.fork-model-heading strong { display: block; color: var(--effort-accent); font-size: 19px; font-weight: 600; line-height: 28px; }
+.fork-model-heading strong[data-max="true"] { color: #ad73ef; }
+.fork-model-reset { display: inline-grid; place-items: center; width: 28px; height: 30px; padding: 0; background: transparent; border: 0; border-radius: 8px; }
+.fork-model-reset:hover:not(:disabled), .fork-model-name:hover { background: var(--fork-hover); }
+.fork-model-name { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; margin-top: 2px; padding: 2px 6px; background: transparent; border: 0; border-radius: 8px; color: var(--fork-ink-2) !important; }
+.fork-model-name > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fork-effort-slider { position: relative; height: 44px; }
+.fork-effort-slider input { box-sizing: border-box; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
+.fork-effort-slider input::-webkit-slider-runnable-track { height: 22px; border-radius: 20px; background: linear-gradient(to right, var(--effort-accent) 0%, var(--effort-accent) var(--effort-progress), var(--fork-hover) var(--effort-progress), var(--fork-hover) 100%); }
+.fork-effort-slider input::-moz-range-track { height: 22px; border-radius: 20px; background: linear-gradient(to right, var(--effort-accent) 0%, var(--effort-accent) var(--effort-progress), var(--fork-hover) var(--effort-progress), var(--fork-hover) 100%); }
+.fork-effort-slider input::-webkit-slider-thumb { appearance: none; position: relative; z-index: 1; width: 28px; height: 28px; margin-top: -3px; border: 1px solid #0002; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px #0003; }
+.fork-effort-slider input::-moz-range-thumb { width: 28px; height: 28px; border: 1px solid #0002; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px #0003; }
+.fork-effort-slider input:focus-visible { outline: 2px solid var(--effort-accent); outline-offset: 3px; border-radius: 24px; }
+.fork-effort-slider input:disabled { cursor: default; }
+.fork-effort-ticks { pointer-events: none; position: absolute; inset: 0 14px; }
+.fork-effort-ticks i { position: absolute; top: 20px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: color-mix(in srgb, var(--fork-ink-3) 55%, var(--fk-current-bgSolid, Canvas)); }
+.fork-effort-slider[data-max="true"]::before { content: ""; position: absolute; inset: 11px 0; border-radius: 20px; pointer-events: none; background: linear-gradient(110deg, #793ce3, #ad73ff 20%, #edbaff 35%, #8766ed 50%, #b877ee 65%, #ecd7ff 78%, #793ce3); background-size: 300% 100%; animation: fork-effort-flow 2.4s linear infinite; }
+.fork-effort-slider[data-max="true"] input { position: relative; }
+.fork-effort-slider[data-max="true"] input::-webkit-slider-runnable-track { background: transparent; }
+.fork-effort-slider[data-max="true"] input::-moz-range-track { background: transparent; }
+@keyframes fork-effort-flow { to { background-position: 300% 0; } }
+.fork-model-pending { --fork-spinner-size: 11px; position: absolute; right: 3px; top: calc(50% - 5.5px); color: var(--fork-ink-3); }
+.fork-model-panel[data-view="models"] { padding: 6px; border-radius: 18px; }
+.fork-model-list { max-height: min(320px, 60dvh); overflow-y: auto; overscroll-behavior: contain; }
+.fork-model-list > button { box-sizing: border-box; display: flex; align-items: center; gap: 8px; width: 100%; min-height: 38px; padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; text-align: left; }
+.fork-model-list > button:hover, .fork-model-list > button:focus-visible { background: var(--fork-hover); }
+.fork-model-option-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.fork-model-list small { color: var(--fork-ink-3); font-size: 11px; }
+.fork-model-check { width: 16px; flex: none; }
+.fork-model-back { display: block; padding: 6px 10px; background: transparent; border: 0; color: var(--fork-ink-3) !important; }
+.fork-model-error, .fork-model-warning, .fork-model-empty { margin: 0 0 6px; color: var(--fork-ink-3); font-size: 12px; overflow-wrap: anywhere; }
+.fork-model-error { color: var(--dsh-tavern-accent-error); }
+.fork-model-error > button, .fork-model-warning > button { border: 0; background: transparent; text-decoration: underline; }
+.fork-appearance-modes { padding: 12px 0 18px; }
+.fork-appearance-modes h3 { margin: 0 0 12px; font-size: 14px; font-weight: 600; }
+.fork-appearance-modes > div { display: flex; gap: 8px; flex-wrap: wrap; }
+.fork-appearance-modes button { flex: 1; min-width: 90px; padding: 12px 8px; border: 1px solid var(--fork-hairline); border-radius: 12px; background: transparent; color: var(--fork-ink); font: inherit; cursor: pointer; }
+.fork-appearance-modes button[aria-pressed="true"] { border-color: var(--fork-accent); background: var(--fork-accent-soft); }
+@media (prefers-reduced-motion: reduce) and (update: none) { .fork-effort-slider[data-max="true"]::before { animation-duration: 6s; } }
+@media (forced-colors: active) { .fork-effort-slider input { appearance: auto; } .fork-effort-slider[data-max="true"]::before, .fork-effort-ticks { display: none; } }
+@media (max-width: 600px) { .fork-model-trigger { max-width: min(240px, 48vw); } }
+.fork-reading-font { display: flex; flex-direction: column; gap: 10px; padding: 16px 0; border-bottom: 1px solid var(--dsw-alias-border-l2); }
+.fork-reading-font-title { display: flex; align-items: center; gap: 6px; color: var(--fork-ink); font-size: 14px; line-height: 22px; }

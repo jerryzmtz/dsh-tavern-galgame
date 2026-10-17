@@ -1,0 +1,21 @@
+/* Generic source-widget reading controls. The phone appearance belongs to its pack. */
+.fork-gal-box.is-source-widget-line,.fork-gal-box.is-source-widget-line *{visibility:hidden!important;pointer-events:none}
+.fork-widget-source-controls{position:absolute;z-index:19;bottom:16px;right:24px;display:flex;align-items:center;gap:8px;background:var(--gal-ui-surface-2);border:1px solid var(--gal-ui-line);border-radius:var(--gal-ui-radius);padding:4px 8px;color:var(--gal-ui-ink)}
+.fork-widget-source-controls .fork-gal-control{position:static;min-width:34px;height:34px;border:0;background:transparent;color:var(--gal-ui-accent);font:13px var(--gal-ui-font);cursor:pointer}
+.fork-widget-source-controls button:focus-visible{outline:var(--gal-ui-focus);outline-offset:3px}
+@media(max-width:700px){.fork-widget-source-controls{bottom:12px;right:12px;gap:3px;padding:4px}.fork-widget-source-controls .fork-gal-control{min-width:30px}}
+/* private fork (owner 2026-10): the incoming banner is a real phone's notification card — exactly as wide as the phone's
+   screen, rounded and frosted (the stage blurs through the view's translucent paint), with a soft shadow. It slides down
+   from the top edge with a light spring, stays ~3.5 s and slides back up; CONFIG 「减少动态」 fades it instead. */
+.fork-widget-panel.is-custom.is-banner{overflow:hidden;border-radius:calc(var(--phone-zoom,1) * 18px);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);box-shadow:var(--gal-ui-shadow);animation:fork-phone-banner-in .42s cubic-bezier(.22,1.22,.36,1) both}
+.fork-widget-panel.is-custom.is-banner[data-banner=leaving]{animation:fork-phone-banner-out .3s cubic-bezier(.55,0,.75,.2) both}
+.fork-gal-stage[data-reduced-motion] .fork-widget-panel.is-custom.is-banner{animation:fork-phone-banner-fade .14s linear both}
+.fork-gal-stage[data-reduced-motion] .fork-widget-panel.is-custom.is-banner[data-banner=leaving]{animation:fork-phone-banner-fade .14s linear reverse both}
+@keyframes fork-phone-banner-in{from{transform:translateY(calc(-100% - 24px))}}
+@keyframes fork-phone-banner-out{to{transform:translateY(calc(-100% - 24px))}}
+@keyframes fork-phone-banner-fade{from{opacity:0}}
+/* While the phone is open the figures step back (the Pixi layer fades the same 240 ms); stand-ins follow. */
+.fork-gal-standins{transition:opacity .24s ease}
+.fork-gal-stage[data-phone-open] .fork-gal-standins{opacity:0}
+/* The phone line still types (driving the phone reveal, AUTO and the next cue) in an invisible reader inside the box. */
+.fork-gal-phone-reader{position:absolute;left:0;top:0;width:100%;height:0;overflow:hidden;visibility:hidden;pointer-events:none}

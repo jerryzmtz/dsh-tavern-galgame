@@ -1,0 +1,4 @@
+Edit the referenced full-body sprite. Close both eyelids naturally. Preserve identity, expression, pose, hair, clothing, colours, camera, canvas and transparency exactly. Change only the eyelids and their immediate skin. Do not move the face or redraw other areas. Return one PNG on the identical canvas. No text or borders.
+Reference images: {{referenceRoles}}
+User correction: {{userPrompt}}
+Finish: clean cel-shaded anime character art with large simple colour masses, low visual frequency, restrained edge density, clear edge hierarchy, minimal internal contour lines, broad shadow shapes, suppressed micro-texture and micro-contrast, and no unnecessary specular highlights. Match the source's line weight, shadow shapes, highlights and colouring in the edited eyelids and immediate skin; this finish only reduces noise and texture, never adds detail or restyles the source. Preserve every pixel outside the requested edit.
