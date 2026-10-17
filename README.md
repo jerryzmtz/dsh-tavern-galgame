@@ -22,6 +22,12 @@ r12 新增舞台设置向导 v3、统一生图界面、Live2D / Spine 模型导�
 
 截图来自大肥鱼示例卡的一局游玩。
 
+## 宣传片
+
+边聊天边看 AI 把故事演成 Galgame：[观看宣传片 v4.4（1080p，50.2 秒）](https://github.com/jerryzmtz/dsh-tavern-galgame/releases/download/alpha-r12/dsh-tavern-galgame-promo-v4.4-1080p.mp4)。
+
+音乐、美术及其他素材的完整署名与许可见 [alpha-r12 发行说明](https://github.com/jerryzmtz/dsh-tavern-galgame/releases/tag/alpha-r12)中的「Credits / 署名与许可」。
+
 ## 功能
 
 - **galgame 舞台**：背景、文本框逐页阅读、履历回看、自动阅读（可调速度）、只跳已读的快进。
