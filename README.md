@@ -14,9 +14,7 @@ r12 新增舞台设置向导 v3、统一生图界面、Live2D / Spine 模型导�
 
 本项目是 DSH Tavern 的个人改版，当前同步到上游 2.6.0。每轮自动生图默认关闭，需要自行配置并开启后才会调用生图服务。
 
-[![宣传片动态预览：大肥鱼与 Galgame 舞台](docs/images/readme/promo-v4.4-preview.webp)](https://github.com/jerryzmtz/dsh-tavern-galgame/releases/download/alpha-r12/dsh-tavern-galgame-promo-v4.4-1080p.mp4)
-
-[▶ 观看宣传片（50 秒）](https://github.com/jerryzmtz/dsh-tavern-galgame/releases/download/alpha-r12/dsh-tavern-galgame-promo-v4.4-1080p.mp4)
+https://github.com/user-attachments/assets/528cb8cb-bb44-4122-b8e2-f2470dbd5ffd
 
 | 聊天视图：同一轮回复的正文与台词 | 舞台素材：大肥鱼的服装与差分 |
 | --- | --- |
