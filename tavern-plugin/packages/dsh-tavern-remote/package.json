@@ -38,7 +38,7 @@
     "build": "tsc -b tsconfig.host.json && node scripts/generate-typert.mjs && DSH_BUILD_FACE=host tsdown && tsc -p tsconfig.client.json && DSH_BUILD_FACE=client tsdown && node scripts/normalize-output.mjs",
     "test": "node --test tests/*.test.mjs"
   },
-  "dependencies": { "zod": "^4.4.3" },
+  "dependencies": { "zod": "^4.6.6" },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.2",
     "@deepseek-ai/dsh-api-gateway": "^0.1.2-rc.1",
